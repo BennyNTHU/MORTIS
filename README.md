@@ -44,5 +44,6 @@
 - directed, weighted
 - 都用linked structure來實做，減少工作量
 
-
+### Hash
+- hash
 
