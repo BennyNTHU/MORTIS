@@ -1,10 +1,10 @@
 # MORTIS: Memory Oriented Resource Toolkit for Information Structures
 
-需要實做的資料結構：
+## 1. 需要實做的資料結構：
 
 ### array-type
-- General Array (multi dimentional)
-- polynomial
+- General Array (multi dimentional) O
+- polynomial O
 - sparse matrix
 - string
 
@@ -47,3 +47,11 @@
 ### Hash
 - hash
 
+## 2. 開發日誌
+
+### 2025/02/11
+1. 項目啟動
+
+### 2025/02/12 
+1. 實作GeneralArray
+2. 實做Polynomial
