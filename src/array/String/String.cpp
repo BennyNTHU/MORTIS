@@ -1,7 +1,7 @@
 #include <iostream>
 #include <algorithm>
 #include <cstring>
-#include "String.h"
+#include "String.hpp"
 using namespace std;
 
 String::String(char *init, int m)   // constructor using input string init of length m

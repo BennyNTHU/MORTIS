@@ -13,7 +13,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <vector>
-#include "Polynomial.h"
+#include "Polynomial.hpp"
 using namespace std;
 
 //-----------------------------

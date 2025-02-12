@@ -1,43 +1,9 @@
-//EECS2040 Data Structure Hw #2 (Chapter 3 of textbook)
-//due date 4/17/2021
-//106061218, Cheng-En Lee
-//Part 2, problem 1
-
-#ifndef QUEUE
-#define QUEUE
-
 #include <iostream>
 #include <algorithm>
 #include <math.h>
 #include <cstring>
+#include <Queue.h>
 using namespace std;
-
-template <class T>
-class Queue
-{ 
-    private:
-        T* queue;
-        int front;
-        int rear;
-        int capacity;
-        
-    public:
-        Queue(int c);
-        ~Queue();
-        bool IsEmpty() const;
-        void Push(const T& item);    // add an item into the queue
-        void Pop();    // delete an item 
-        void print_queue();
-        int get_size();
-        int get_capacity();
-        T* get_queue();
-        T& Front() const;   // return top element
-        T& Rear() const;    // return top element
-        Queue<T> operator=(const Queue<T> &);
-} ;
-
-template <class T>
-Queue<T> merge(Queue<T> Q1, Queue<T> Q2);
 
 template <class T>
 Queue<T>::Queue(int c)

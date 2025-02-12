@@ -11,7 +11,7 @@
 #include <cmath>
 #include <vector>
 #include <variant>
-#include "SparseMatrix.h"
+#include "SparseMatrix.hpp"
 using namespace std;
 
 // Helper function: add two variant values. If both are ints, return int; otherwise, return float.
