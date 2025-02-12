@@ -1,62 +1,79 @@
-//EECS2040 Data Structure Hw #1 (Chapter 1, 2 of textbook) 
-//due date 4/8/2021 by SNo, 
-//106061218, Cheng-En Lee
-//Part 2, problem 3
+// String-test.cpp
+// Test program for the String data structure.
+// This program tests construction, concatenation, substring extraction,
+// deletion, character deletion, failure function and KMP-based pattern matching,
+// reverse, equality, empty check, and assignment operator.
+// Compile with C++ (e.g., using g++):
+//   g++ -std=c++11 String.cpp String-test.cpp -o stringTest
 
 #include <iostream>
-#include <algorithm>
-#include <math.h>
 #include "String.h"
-#include <cstring>
-using namespace::std;
+using namespace std;
 
-int main(void)
-{
-    // every string used, sufficies of two run
-    string smix = "tiger fire cyber fiber diver viber jarjar";
-    string smix2 = "tora hi jinzou seni ama shindou kasen";
-    string smix3 = smix;
-    string sF = "fiber";
-    string sempty = "";
-    string spattern = "r";
-
-    // convert every string into array of characters
-    char mix[smix.length() + 1];
-    strcpy(mix, smix.c_str());
-    char mix2[smix2.length() + 1];
-    strcpy(mix2, smix2.c_str());
-    char mix3[smix3.length() + 1];
-    strcpy(mix3, smix3.c_str());
-    char F[sF.length() + 1];
-    strcpy(F, sF.c_str());
-    char empty[sempty.length() + 1];
-    strcpy(empty, sempty.c_str());
-    char pattern[spattern.length() + 1];
-    strcpy(pattern, spattern.c_str());
-
-    String MIX(mix, 41);
-    cout << MIX.getString() << endl;
-    cout << "length of MIX: " << MIX.Length() << endl;
-    String SF(F, 5);
-    cout << "fiber in MIX found in: " << MIX.FastFind(SF) << endl;
-
-    String MIX2(mix2, 37);
-    String MIX3(mix3, 41);
-    cout << "MIX==MIX2? " << (MIX==MIX2) << endl;
-    cout << "MIX==MIX3? " << (MIX==MIX3) << endl;
-
-    String E(empty, 0);
-    cout << "is E empty? " << !(E) << endl;
-    cout << "is MIX empty? " << !(MIX) << endl;
-
-    cout << "concat MIX and MIX2: " << MIX.Concat(MIX2).getString() << endl;
-    String MIX5(MIX.Substr(3,10));
-    cout << "substring of MIX from 3 length 10: " << MIX5.getString() << endl;
-    String MIX6 = MIX.Delete(3,10);
-    cout << "MIX6 = delete MIX from 3 length 10: " << MIX6.getString() << endl;
-    cout << "length of MIX6 = " << MIX6.Length() << endl;
-    String MIX7 = MIX.CharDelete('r');
-    cout << "delete r from MIX: " << MIX7.getString() << endl;
-
+int main() {
+    cout << "=== String Test Program ===" << endl;
+    
+    // Test 1: Constructor, getString(), and Length()
+    char init1[] = "Hello, World!";
+    String s1(init1, sizeof(init1) - 1);
+    cout << "s1: " << s1.getString() << endl;
+    cout << "Length of s1: " << s1.Length() << endl;
+    
+    // Test 2: reverse()
+    String sRev = s1.reverse();
+    cout << "Reversed s1: " << sRev.getString() << endl;
+    
+    // Test 3: Concat
+    char init2[] = " Goodbye!";
+    String s2(init2, sizeof(init2) - 1);
+    String s3 = s1.Concat(s2);
+    cout << "s1 concatenated with s2: " << s3.getString() << endl;
+    
+    // Test 4: Substr
+    try {
+        String sub = s1.Substr(7, 5); // Expect "World"
+        cout << "Substring of s1 (index 7, length 5): " << sub.getString() << endl;
+    } catch (const char* err) {
+        cout << "Substr error: " << err << endl;
+    }
+    
+    // Test 5: Delete
+    try {
+        String del = s1.Delete(5, 3);
+        cout << "s1 after deleting 3 characters from index 5: " << del.getString() << endl;
+    } catch (const char* err) {
+        cout << "Delete error: " << err << endl;
+    }
+    
+    // Test 6: CharDelete
+    String cd = s1.CharDelete('o');
+    cout << "s1 after deleting 'o': " << cd.getString() << endl;
+    
+    // Test 7: FailureFunction and FastFind (KMP)
+    char patInit[] = "World";
+    String pattern(patInit, sizeof(patInit) - 1);
+    int pos = s1.FastFind(pattern);
+    cout << "Position of 'World' in s1: " << pos << endl;
+    
+    // Test 8: Operator==
+    char init3[] = "Hello, World!";
+    String s4(init3, sizeof(init3) - 1);
+    if (s1 == s4)
+        cout << "s1 equals s4." << endl;
+    else
+        cout << "s1 does not equal s4." << endl;
+    
+    // Test 9: Operator! (empty test)
+    char initEmpty[] = "";
+    String emptyStr(initEmpty, 0);
+    if (!emptyStr)
+        cout << "emptyStr is empty." << endl;
+    else
+        cout << "emptyStr is not empty." << endl;
+    
+    // Test 10: Assignment operator (deep copy)
+    String s5 = s1;
+    cout << "s5 (assigned from s1): " << s5.getString() << endl;
+    
     return 0;
 }

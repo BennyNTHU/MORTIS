@@ -1,53 +1,92 @@
-//EECS2040 Data Structure Hw #1 (Chapter 1, 2 of textbook) 
-//due date 4/8/2021 by SNo, 
-//106061218, Cheng-En Lee
-//Part 2, problem 2
-
 #ifndef SPARSEMATRIX
 #define SPARSEMATRIX
 #include <iostream>
 #include <math.h>
+#include <variant>
+#include <algorithm>
+#include <vector>
 using namespace std;
 
+// Forward declaration of SparseMatrix
 class SparseMatrix;
 
-class MatrixTerm    // term of matrix
-{
-    friend SparseMatrix;
-    private:
-        int row, col, value;  // a triple representing a term
-
-    public:
-        int get_row() {return this->row;}
-        int get_col() {return this->col;}
-        int get_value() {return this->value;}
-        void write_term(int r, int c, int v) {row=r; col=c; value=v;}   // overwrite a term
+// MatrixTerm represents a nonzero element in the sparse matrix.
+// It stores the row, column, and value (which can be an int or a float).
+class MatrixTerm {
+    friend class SparseMatrix;
+private:
+    int row, col;                      // Row and column indices
+    std::variant<int, float> value;    // The value at that position
+public:
+    // Getters for row, col, and value.
+    int get_row() const { return row; }
+    int get_col() const { return col; }
+    std::variant<int, float> get_value() const { return value; }
+    
+    // write_term overwrites the current term with new row, column, and value.
+    void write_term(int r, int c, const std::variant<int, float>& v) {
+        row = r;
+        col = c;
+        value = v;
+    }
 };
 
-class SparseMatrix  // the matrix *this
-{
-    private:
-        int rows, cols, terms, capacity;
-        MatrixTerm *smArray;
+// SparseMatrix class representing a sparse matrix.
+class SparseMatrix {
+private:
+    int rows, cols;    // Matrix dimensions
+    int terms;         // Number of nonzero terms
+    int capacity;      // Capacity of the internal array
+    MatrixTerm *smArray; // Array of nonzero terms
+public:
+    // Constructor: r (# rows), c (# columns), t (initial number of nonzero terms)
+    SparseMatrix(int r, int c, int t);
+    
+    // Copy constructor
+    SparseMatrix(const SparseMatrix &b);
+    
+    // Destructor
+    ~SparseMatrix();
+    
+    // StoreSum: If sum is nonzero, add a new term at (r, c) with value sum.
+    void StoreNum(const std::variant<int, float>& num, const int r, const int c);
+    
+    // ChangeSize1D: Change the size of the internal term array.
+    void ChangeSize1D(const int newSize);
+    
+    // printMatrix: (Optional) Print the matrix in dense form.
+    void printMatrix() const;
+    
+    // get_terms: Returns the number of nonzero terms.
+    int get_terms() const;
+    
+    // FastTranspose: Returns the transpose of the matrix.
+    SparseMatrix FastTranspose();
+    
+    // Add: Returns the sum of this matrix and matrix b.
+    SparseMatrix Add(SparseMatrix b);
+    
+    // Multiply: Returns the product of this matrix and matrix b.
+    SparseMatrix Multiply(SparseMatrix b);
+    
+    // Multiply (overloaded): Returns this matrix raised to the power n (placeholder).
+    SparseMatrix Multiply(SparseMatrix b, int n);
 
-    public:
-        SparseMatrix(int r, int c, int t);  // constructor. r is #row, c is #col, t is #non-zero terms
-        SparseMatrix(const SparseMatrix &b);// constructor with another matrix (so we need not overload =)
-        ~SparseMatrix();    // destructor
-
-        void StoreSum(const int sum, const int r, const int c); // add a new term
-        void ChangeSize1D(const int newSize);   // change the array size to newSize
-        int get_terms();    // return the number of terms of *this
-
-        SparseMatrix FastTranspose();       // Transpose of *this
-        SparseMatrix Add(SparseMatrix b);   // return *this+b or throw an exception
-        SparseMatrix Multiply(SparseMatrix b);  // return *this*b or throw an exception
-        
-        friend istream& operator >> (istream& in, const SparseMatrix& b);    // overload >>
-	    friend ostream& operator << (ostream& out, const SparseMatrix& b);   // overload <<
+    // ScalarProduct: Returns a new matrix that is the current matrix multiplied by scalar n.
+    SparseMatrix ScalarProduct(std::variant<int, float> n);
+    
+    // setTerm: Public accessor to set the term at the given index.
+    // This method allows test code to set matrix terms without directly accessing the private array.
+    void setTerm(int index, int r, int c, const std::variant<int, float>& v);
+    
+    // Overloaded input operator: Reads the matrix terms in (row col value) format.
+    friend istream& operator>>(istream& in, const SparseMatrix& b);
+    
+    // Overloaded output operator: Prints the matrix terms in (row, col, value) format.
+    friend ostream& operator<<(ostream& out, const SparseMatrix& b);
 };
 
-istream& operator >> (istream& in, const SparseMatrix& b);    
-ostream& operator << (ostream& out, const SparseMatrix& b);
+istream& operator>>(istream& in, const SparseMatrix& b);
+ostream& operator<<(ostream& out, const SparseMatrix& b);
 
 #endif

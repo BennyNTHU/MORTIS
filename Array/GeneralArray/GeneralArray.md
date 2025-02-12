@@ -1,8 +1,4 @@
-下面是一份詳細的 Markdown 文檔，介紹了 GeneralArray 類中各個函式的用途、參數與使用範例：
-
----
-
-# GeneralArray 類使用文檔
+# GeneralArray
 
 GeneralArray 類是一個支持多維陣列操作的模板類。它允許您創建一個任意維度的陣列，並提供下列操作：
 - **儲存與讀取元素**  

@@ -24,7 +24,6 @@
 - linked polynomial
 - linked sparse matrix
 - doubly linked lists
-- generalized lists
 
 ### trees
 - tree
@@ -35,7 +34,6 @@
 - dictionary
 - binary search tree
 - forest
-- sets
 
 ### graphs
 - undirected, unweighted
@@ -44,8 +42,6 @@
 - directed, weighted
 - 都用linked structure來實做，減少工作量
 
-### Hash
-- hash
 
 ## 2. 開發日誌
 
