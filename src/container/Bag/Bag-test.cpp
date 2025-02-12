@@ -8,7 +8,7 @@
 //   - Pop: removes the last element
 // This test also demonstrates that a Bag can store various data types using std::variant.
 // Compile with C++17:
-//   g++ -std=c++17 Bag.cpp Bag-test.cpp ../../MORTIS.hpp ../../array/GeneralArray/GeneralArray.cpp\
+//   g++ -std=c++17 Bag.cpp Bag-test.cpp ../../array/GeneralArray/GeneralArray.cpp\
  ../../array/Polynomial/Polynomial.cpp ../../array/SparseMatrix/SparseMatrix.cpp ../../array/String/String.cpp -o test
 
 

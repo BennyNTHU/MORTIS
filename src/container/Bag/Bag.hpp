@@ -13,10 +13,8 @@
 #include "../../array/SparseMatrix/SparseMatrix.hpp"
 #include "../../array/String/String.hpp"
 
-// 例如先定義一個簡單的 MIXED_TYPE，用來示範一個 GeneralArray<T> 的 T
 using MIXED_TYPE = std::variant<int, char, float, bool, double, std::string>;
 
-// 接著，我們要在 Bag 中使用一個 variant，能夠容納多種型別資料結構
 using MORTISInvariant = std::variant<int, char, float, bool, double, std::string,
     GeneralArray<MIXED_TYPE>, Polynomial, SparseMatrix, String>;
 
@@ -59,4 +57,4 @@ class Bag
 // 變動陣列大小的函式
 void ChangeSize1D(MORTISInvariant*& a, const int oldSize, const int newSize);
 
-#endif  // BAG_HPP
+#endif

@@ -2,58 +2,61 @@
 
 ## 1. 本專案檔案配置結構
 
-- MORTIS/</br>
-    - README.md             # Project description and overview
-    - .gitignore            # Files and directories to ignore in Git
-    - dev/                  # Development documentation
-        - dev_log.md        # Log of the development process
-        - issue.md          # List of issues and problems to be solved
-        - docs.md           # Current file structure and technical documentation
-    - docs/                 # Usage documentation for each data structure
-        - GeneralArray.md
-        - Polynomial.md
-        - SparseMatrix.md
-        - String.md
-    - src/                  # Source code for the data structures
-        - array/            # Array-type data structures
-            - GeneralArray/
-                - GeneralArray.hpp
-                - GeneralArray.cpp
-                - GeneralArray-test.cpp # test program 
-            - Polynomial/
-                - Polynomial.hpp
-                - Polynomial.cpp
-                - Polynomial-test.cpp # test program 
-            - SparseMatrix/
-                - SparseMatrix.hpp
-                - SparseMatrix.cpp
-                - SparseMatrix-test.cpp # test program 
-            - String/
-                - String.hpp
-                - String.cpp
-                - String-test.cpp
-        - container/        # Container data structures
-            - Bag/
-                - Bag.hpp
-                - Bag.cpp
-                - Bag-test.cpp
-            - CirQue/
-                - CirQue.hpp
-                - CirQue.cpp
-                - CirQue-test.cpp
-            - DeQue/
-                - DeQue.hpp
-                - DeQue.cpp
-                - DeQue-test.cpp
-            - Queue/
-                - Queue.hpp
-                - Queue.cpp
-                - Queue-test.cpp
-            - Stack/
-                - Stack.hpp
-                - Stack.cpp
-                - Stack-test.cpp
-        - chain/            # Chain structures
-        - tree/             # Tree-based data structures
-        - graph/            # Graph data structures
-        - MORTIS.hpp        # Header file
+- `MORTIS/`
+    - `README.md`             # Project description and overview
+    - `.gitignore`            # Files and directories to ignore in Git
+    - `dev/`                  # Development documentation
+        - `dev_log.md`        # Log of the development process
+        - `issue.md`          # List of issues and problems to be solved
+        - `docs.md`           # Current file structure and technical documentation
+    - `docs/`                 # Usage documentation for each data structure
+        - `Bag.md`
+        - `CirQue.md`
+        - `DeQue.md`
+        - `GeneralArray.md`
+        - `Polynomial.md`
+        - `SparseMatrix.md`
+        - `String.md`
+    - `src/`                  # Source code for the data structures
+        - `array/ `           # Array-type data structures
+            - `GeneralArray/`
+                - `GeneralArray.hpp`
+                - `GeneralArray.cpp`
+                - `GeneralArray-test.cpp` # test program 
+            - `Polynomial/`
+                - `Polynomial.hpp`
+                - `Polynomial.cpp`
+                - `Polynomial-test.cpp`   # test program 
+            - `SparseMatrix/`
+                - `SparseMatrix.hpp`
+                - `SparseMatrix.cpp`
+                - `SparseMatrix-test.cpp` # test program 
+            - `String/`
+                - `String.hpp`
+                - `String.cpp`
+                - `String-test.cpp`
+        - `container/`        # Container data structures
+            - `Bag/`
+                - `Bag.hpp`
+                - `Bag.cpp`
+                - `Bag-test.cpp`
+            - `CirQue/`
+                - `CirQue.hpp1`
+                - `CirQue.cpp1`
+                - `CirQue-test.cpp1`
+            - `DeQue/`
+                - `DeQue.hpp`
+                - `DeQue.cpp`
+                - `DeQue-test.cpp`
+            - `Queue/`
+                - `Queue.hpp`
+                - `Queue.cpp`
+                - `Queue-test.cpp`
+            - `Stack/`
+                - `Stack.hpp`
+                - `Stack.cpp`
+                - `Stack-test.cpp`
+        - `chain/`            # Chain structures
+        - `tree/`             # Tree-based data structures
+        - `graph/`            # Graph data structures
+        - `MORTIS.hpp`        # Header file

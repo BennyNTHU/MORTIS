@@ -1,3 +1,7 @@
+// g++ -std=c++17 DeQue.cpp DeQue-test.cpp ../../array/GeneralArray/GeneralArray.cpp\
+     ../../array/Polynomial/Polynomial.cpp ../../array/SparseMatrix/SparseMatrix.cpp\
+     ../../array/String/String.cpp ../Bag/Bag.cpp -o test
+
 #include <iostream>
 #include <sstream>
 #include "DeQue.hpp"
