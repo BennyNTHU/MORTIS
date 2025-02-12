@@ -9,7 +9,11 @@
 #include <type_traits>                   // For type traits (e.g. is_variant)
 #include <memory>                        // For std::unique_ptr
 #include <initializer_list>              // For std::initializer_list
+
 using namespace std;                     // Use the standard namespace
+
+// general array may store mixed C++ data type
+using MIXED_TYPE = std::variant<int, char, float, bool, double, std::string>;
 
 //-----------------------------------------
 // Trait to detect if a type is a specialization of std::variant
@@ -94,43 +98,5 @@ class GeneralArray
         template <class U>
         friend ostream& operator<<(ostream& out, const GeneralArray<U>& arr);
 };
-
-//-----------------------------------------
-// 以下將有問題的函式定義移到 header 檔中
-//-----------------------------------------
-
-// Overloaded assignment operator with initializer_list.
-template <class T>
-GeneralArray<T>& GeneralArray<T>::operator=(std::initializer_list<T> il) 
-{
-    if (il.size() != static_cast<size_t>(totalSize))
-        throw std::invalid_argument("Initializer list size does not match array size");
-    int i = 0;
-    for (const T& elem : il)
-        data[i++] = elem;
-    return *this;
-}
-
-// reverse() function: reverse the order of all elements (flat order)
-template <class T>
-void GeneralArray<T>::reverse() 
-{
-    std::reverse(data, data + totalSize);
-}
-
-// initialize() function: set all elements to default value T{}
-template <class T>
-void GeneralArray<T>::initialize() 
-{
-    for (int i = 0; i < totalSize; i++)
-        data[i] = T{};
-}
-
-// length() function: return total number of elements in the array
-template <class T>
-int GeneralArray<T>::length() const 
-{
-    return totalSize;
-}
 
 #endif  // End of include guard GENERALARRAY_H

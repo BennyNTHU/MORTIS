@@ -3,13 +3,14 @@
 #include <math.h>
 #include <cstring>
 #include "Bag.hpp"
+
 using namespace std;
 
 // Constructor: Initialize the bag with capacity c.
 Bag::Bag(int c) {
     if (c < 1)
         throw "Bag capacity must be > 0";
-    arr = new MORTISVariant[c];  // Allocate memory for c elements.
+    arr = new MORTISInvariant[c];  // Allocate memory for c elements.
     top = -1;                   // Bag is initially empty.
     capacity = c;
 }
@@ -35,7 +36,7 @@ int Bag::Element() const {
 }
 
 // Push: Adds an element x to the bag. If full, resizes the array.
-void Bag::Push(const MORTISVariant& x) {
+void Bag::Push(const MORTISInvariant& x) {
     if (top == capacity - 1) {
         ChangeSize1D(arr, capacity, 2 * capacity);
         capacity *= 2;
@@ -51,10 +52,10 @@ void Bag::Pop() {
 }
 
 // ChangeSize1D: Resizes the array 'a' from oldSize to newSize.
-void ChangeSize1D(MORTISVariant*& a, const int oldSize, const int newSize) {
+void ChangeSize1D(MORTISInvariant*& a, const int oldSize, const int newSize) {
     if (newSize < 0)
         throw "New length must be >= 0";
-    MORTISVariant* temp = new MORTISVariant[newSize]; // Allocate new array.
+    MORTISInvariant* temp = new MORTISInvariant[newSize]; // Allocate new array.
     int number = min(oldSize, newSize);               // Number of elements to copy.
     copy(a, a + number, temp);                        // Copy elements.
     delete [] a;                                      // Delete old array.
@@ -68,14 +69,11 @@ void ChangeSize1D(MORTISVariant*& a, const int oldSize, const int newSize) {
 
 // Helper function: Compares the variant with a value of type U.
 template<typename U>
-bool variantEquals(const MORTISVariant &var, const U &x) {
-    return std::visit([&](auto&& arg) -> bool {
-        using V = decay_t<decltype(arg)>;
-        if constexpr (is_same_v<V, U>)
-            return arg == x;
-        else
-            return false;
-    }, var);
+bool variantEquals(const MORTISInvariant &var, const U &x) {
+    if (std::holds_alternative<U>(var))
+         return std::get<U>(var) == x;
+    else
+         return false;
 }
 
 // Template member function: Returns the multiplicity of element x.

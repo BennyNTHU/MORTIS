@@ -8,14 +8,12 @@
 #include <variant>
 #include <string>
 #include "../../MORTIS.hpp"  // Central header that defines MORTISInvariant
-using namespace std;
 
-// Use the common variant type.
-using MORTISVariant = MORTISInvariant;
+using namespace std;
 
 class Bag {
 protected:
-    MORTISVariant* arr;  // Array to store elements.
+    MORTISInvariant* arr;  // Array to store elements.
     int top;             // Index of the last element (-1 if bag is empty).
     int capacity;        // Current capacity of the bag.
     
@@ -36,7 +34,7 @@ public:
     int Element() const;
     
     // Adds an element x to the bag.
-    void Push(const MORTISVariant& x);
+    void Push(const MORTISInvariant& x);
     
     // Removes the last element from the bag.
     void Pop();
@@ -53,6 +51,6 @@ public:
 
 // Template function to change the size of an array.
 // 'a' is the original array, oldSize is its current size, and newSize is the desired new size.
-void ChangeSize1D(MORTISVariant*& a, const int oldSize, const int newSize);
+void ChangeSize1D(MORTISInvariant*& a, const int oldSize, const int newSize);
 
 #endif

@@ -9,3 +9,5 @@
 2. 實作SparseMatrix
 3. 實作String
 4. 改動檔案配置
+5. 實做Bag
+6. 修改GeneralArray的Bug

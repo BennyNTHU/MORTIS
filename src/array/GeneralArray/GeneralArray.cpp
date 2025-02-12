@@ -1,4 +1,4 @@
-#include "GeneralArray.h"                // Include the header for GeneralArray
+#include "GeneralArray.hpp"                // Include the header for GeneralArray
 #include <sstream>                       // For string stream processing
 using namespace std;
 
@@ -251,6 +251,19 @@ istream& operator>>(istream& in, GeneralArray<T>& arr)
 }
 
 //-----------------------------------------
+// 輔助函式 printVal 用來輸出元素，若元素為 variant，則使用 std::visit
+//-----------------------------------------
+template<typename U>
+void printVal(std::ostream &out, const U &value) {
+    out << value;
+}
+
+template<typename... Ts>
+void printVal(std::ostream &out, const std::variant<Ts...> &value) {
+    std::visit([&](auto &&arg) { out << arg; }, value);
+}
+
+//-----------------------------------------
 // Overloaded output operator << to print array contents to stream.
 //-----------------------------------------
 template <class T>
@@ -261,7 +274,7 @@ ostream& operator<<(ostream& out, const GeneralArray<T>& arr)
         out << "[";
         for (int i = 0; i < arr.totalSize; i++) 
         {
-            out << arr.data[i];
+            printVal(out, arr.data[i]);
             if (i < arr.totalSize - 1)
                 out << ", ";
         }
@@ -275,7 +288,7 @@ ostream& operator<<(ostream& out, const GeneralArray<T>& arr)
             out << "[";
             for (int col = 0; col < arr.dims[1]; col++) 
             {
-                out << arr.data[row * arr.dims[1] + col];
+                printVal(out, arr.data[row * arr.dims[1] + col]);
                 if (col < arr.dims[1] - 1)
                     out << ", ";
             }
@@ -292,15 +305,58 @@ ostream& operator<<(ostream& out, const GeneralArray<T>& arr)
     return out;
 }
 
+// Overloaded assignment operator with initializer_list.
+template <class T>
+GeneralArray<T>& GeneralArray<T>::operator=(std::initializer_list<T> il) 
+{
+    if (il.size() != static_cast<size_t>(totalSize))
+        throw std::invalid_argument("Initializer list size does not match array size");
+    int i = 0;
+    for (const T& elem : il)
+        data[i++] = elem;
+    return *this;
+}
+
+// reverse() function: reverse the order of all elements (flat order)
+template <class T>
+void GeneralArray<T>::reverse() 
+{
+    std::reverse(data, data + totalSize);
+}
+
+// initialize() function: set all elements to default value T{}
+template <class T>
+void GeneralArray<T>::initialize() 
+{
+    for (int i = 0; i < totalSize; i++)
+        data[i] = T{};
+}
+
+// length() function: return total number of elements in the array
+template <class T>
+int GeneralArray<T>::length() const 
+{
+    return totalSize;
+}
+
 // 顯式實例化 GeneralArray 模板，針對 ga-test.cpp 中使用到的型別：
 template class GeneralArray<int>;
 template class GeneralArray<double>;
 template class GeneralArray<char>;
-template class GeneralArray<std::variant<int, char, std::string>>;
+template class GeneralArray<float>;
+template class GeneralArray<bool>;
+template class GeneralArray<std::variant<int, char, float, bool, double, std::string>>;
 
 template std::ostream& operator<<<int>(std::ostream&, const GeneralArray<int>&);
 template std::ostream& operator<<<double>(std::ostream&, const GeneralArray<double>&);
 template std::ostream& operator<<<char>(std::ostream&, const GeneralArray<char>&);
-template std::ostream& operator<< <std::variant<int, char, std::string> >(std::ostream&, const GeneralArray<std::variant<int, char, std::string>>&);
+template std::ostream& operator<<<float>(std::ostream&, const GeneralArray<float>&);
+template std::ostream& operator<<<bool>(std::ostream&, const GeneralArray<bool>&);
+template std::ostream& operator<< <MIXED_TYPE>(std::ostream&, const GeneralArray<MIXED_TYPE>&);
 
 template std::istream& operator>><int>(std::istream&, GeneralArray<int>&);
+template std::istream& operator>><double>(std::istream&, GeneralArray<double>&);
+template std::istream& operator>><char>(std::istream&, GeneralArray<char>&);
+template std::istream& operator>><float>(std::istream&, GeneralArray<float>&);
+template std::istream& operator>><bool>(std::istream&, GeneralArray<bool>&);
+template std::istream& operator>> <MIXED_TYPE>(std::istream&, GeneralArray<MIXED_TYPE>&);
