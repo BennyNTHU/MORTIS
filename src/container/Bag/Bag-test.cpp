@@ -17,7 +17,8 @@
 #include <string>
 using namespace std;
 
-int main() {
+int main() 
+{
     cout << "=== Bag Test Program ===" << endl;
     
     // Create a Bag with an initial capacity of 5.

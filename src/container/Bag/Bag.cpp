@@ -5,7 +5,8 @@
 using namespace std;
 
 // Constructor
-Bag::Bag(int c) {
+Bag::Bag(int c) 
+{
     if (c < 1)
         throw runtime_error("Bag capacity must be > 0");
     arr = new MORTISInvariant[c];
@@ -14,29 +15,35 @@ Bag::Bag(int c) {
 }
 
 // Destructor
-Bag::~Bag() {
+Bag::~Bag() 
+{
     delete[] arr;
 }
 
 // Return capacity
-int Bag::Size() const {
+int Bag::Size() const 
+{
     return capacity;
 }
 
 // Return true if bag is empty
-bool Bag::IsEmpty() const {
+bool Bag::IsEmpty() const 
+{
     return (top == -1);
 }
 
 // Return number of elements in bag
-int Bag::Element() const {
+int Bag::Element() const 
+{
     return top + 1;
 }
 
 // Push element x
-void Bag::Push(const MORTISInvariant& x) {
+void Bag::Push(const MORTISInvariant& x) 
+{
     // If full, resize
-    if (top == capacity - 1) {
+    if (top == capacity - 1) 
+    {
         ChangeSize1D(arr, capacity, capacity * 2);
         capacity *= 2;
     }
@@ -44,15 +51,18 @@ void Bag::Push(const MORTISInvariant& x) {
 }
 
 // Pop last element
-void Bag::Pop() {
-    if (IsEmpty()) {
+void Bag::Pop() 
+{
+    if (IsEmpty()) 
+    {
         throw runtime_error("Bag is empty, cannot pop.");
     }
     top--;
 }
 
 // ChangeSize1D function
-void ChangeSize1D(MORTISInvariant*& a, const int oldSize, const int newSize) {
+void ChangeSize1D(MORTISInvariant*& a, const int oldSize, const int newSize) 
+{
     if (newSize < 0)
         throw runtime_error("New length must be >= 0");
 
@@ -69,9 +79,11 @@ void ChangeSize1D(MORTISInvariant*& a, const int oldSize, const int newSize) {
 
 // A small helper to see if arr[i] and x are the same type & value
 template<typename U>
-bool MORTISInvariantEquals(const MORTISInvariant& var, const U& x) {
+bool MORTISInvariantEquals(const MORTISInvariant& var, const U& x) 
+{
     // 簡易判斷：若 variant 中 holds_alternative<U>()，再比較 std::get<U>() == x
-    if (std::holds_alternative<U>(var)) {
+    if (std::holds_alternative<U>(var)) 
+    {
         return (std::get<U>(var) == x);
     }
     return false;
@@ -79,24 +91,25 @@ bool MORTISInvariantEquals(const MORTISInvariant& var, const U& x) {
 
 // Template member function: Returns multiplicity of x
 template <class U>
-int Bag::Multiplicity(const U& x) const {
+int Bag::Multiplicity(const U& x) const 
+{
     int count = 0;
-    for (int i = 0; i <= top; i++) {
-        if (MORTISInvariantEquals(arr[i], x)) {
+
+    for (int i = 0; i <= top; i++)
+        if (MORTISInvariantEquals(arr[i], x))
             count++;
-        }
-    }
+
     return count;
 }
 
 // Template member function: Check if x is in bag
 template <class U>
-bool Bag::isBelong(const U& x) const {
-    for (int i = 0; i <= top; i++) {
-        if (MORTISInvariantEquals(arr[i], x)) {
+bool Bag::isBelong(const U& x) const 
+{
+    for (int i = 0; i <= top; i++)
+        if (MORTISInvariantEquals(arr[i], x))
             return true;
-        }
-    }
+            
     return false;
 }
 

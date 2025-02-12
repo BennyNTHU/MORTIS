@@ -1,5 +1,5 @@
-#ifndef BAG_HPP
-#define BAG_HPP
+#ifndef BAG
+#define BAG
 
 #include <iostream>
 #include <algorithm>
@@ -33,32 +33,33 @@ using MORTISInvariant = std::variant<
 // ---------------------------
 // Bag Class Declaration
 // ---------------------------
-class Bag {
-protected:
-    MORTISInvariant* arr;  // Array to store elements (MORTISInvariant array)
-    int top;          // Index of the last element (-1 if empty)
-    int capacity;     // Current capacity of the bag
+class Bag 
+{
+    protected:
+        MORTISInvariant* arr;  // Array to store elements (MORTISInvariant array)
+        int top;               // Index of the last element (-1 if empty)
+        int capacity;          // Current capacity of the bag
 
-public:
-    Bag(int c);       // Constructor
-    ~Bag();           // Destructor
+    public:
+        Bag(int c);       // Constructor
+        ~Bag();           // Destructor
 
-    int  Size()     const; // Return capacity
-    bool IsEmpty()  const; // Return true if bag is empty
-    int  Element()  const; // Return number of elements
+        int  Size()     const; // Return capacity
+        bool IsEmpty()  const; // Return true if bag is empty
+        int  Element()  const; // Return number of elements
 
-    // Push: add an element x
-    void Push(const MORTISInvariant& x);
+        // Push: add an element x
+        void Push(const MORTISInvariant& x);
 
-    // Pop: remove the last element
-    void Pop();
+        // Pop: remove the last element
+        void Pop();
 
-    // Template member functions for multiplicity & isBelong
-    template <class U>
-    int  Multiplicity(const U& x) const;
+        // Template member functions for multiplicity & isBelong
+        template <class U>
+        int  Multiplicity(const U& x) const;
 
-    template <class U>
-    bool isBelong(const U& x) const;
+        template <class U>
+        bool isBelong(const U& x) const;
 };
 
 // 變動陣列大小的函式
