@@ -19,17 +19,21 @@ using MORTISInvariant = std::variant<
 >;
 
 class DeQue : public Bag {
-public:
-    DeQue(int capacity) : Bag(capacity) {}  // Constructor
-    ~DeQue();
-
-    void PushFront(const MORTISInvariant& x);   // Insert at front
-    void PopFront();    // Remove from front
-    MORTISInvariant Front() const;  // Get front element
-
-    void PushBack(const MORTISInvariant& x);    // Insert at back (same as Bag::Push)
-    void PopBack(); // Remove from back (same as Bag::Pop)
-    MORTISInvariant Back() const;   // Get BACK element
-};
+    public:
+        // Constructor
+        DeQue(int initial_capacity = 10);
+    
+        // DeQue operations
+        void PushFront(const MORTISInvariant& x);
+        void PushBack(const MORTISInvariant& x);
+        void PopFront();
+        void PopBack();
+        MORTISInvariant Front() const;
+        MORTISInvariant Back() const;
+        bool IsEmpty() const;
+    
+        // Print all elements
+        void PrintBag() const;
+    };
 
 #endif
