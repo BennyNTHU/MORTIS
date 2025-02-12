@@ -1,5 +1,7 @@
 # MORTIS: Memory Oriented Resource Toolkit for Information Structures
 
+![image](mortis.png)
+
 ## 1. Overview
 
 Mortis is a C++17 based data structure library. In this project, several kinds of datastructures are implemented:
@@ -10,7 +12,7 @@ Mortis is a C++17 based data structure library. In this project, several kinds o
 - Graphs
 - Trees
 - Hash
-- 
+
 You may see the documentation for the use.
 
 ## 2. Quick Start
