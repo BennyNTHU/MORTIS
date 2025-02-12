@@ -17,18 +17,8 @@
 using MIXED_TYPE = std::variant<int, char, float, bool, double, std::string>;
 
 // 接著，我們要在 Bag 中使用一個 variant，能夠容納多種型別資料結構
-using MORTISInvariant = std::variant<
-    int,                              // 基本型別
-    char,
-    float,
-    bool,
-    double,
-    std::string,                     // 字串
-    GeneralArray<MIXED_TYPE>,        // 各種已實作的陣列
-    Polynomial,
-    SparseMatrix,
-    String
->;
+using MORTISInvariant = std::variant<int, char, float, bool, double, std::string,
+    GeneralArray<MIXED_TYPE>, Polynomial, SparseMatrix, String>;
 
 // ---------------------------
 // Bag Class Declaration
@@ -39,6 +29,7 @@ class Bag
         MORTISInvariant* arr;  // Array to store elements (MORTISInvariant array)
         int top;               // Index of the last element (-1 if empty)
         int capacity;          // Current capacity of the bag
+        int size = top + 1;    // Number of elements in the Bag
 
     public:
         Bag(int c);       // Constructor
@@ -53,6 +44,9 @@ class Bag
 
         // Pop: remove the last element
         void Pop();
+
+        // PrintBag: Print all the elements in a bag (using output streams of each elements)
+        void PrintBag() const;
 
         // Template member functions for multiplicity & isBelong
         template <class U>

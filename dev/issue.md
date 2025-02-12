@@ -10,11 +10,12 @@
 以上四者與C++各種資料型別和稱MortisInvariant
 
 ### container
-- Bag (multisets) 需要能夠放入MortisInvariant
-- Stack (inherits from a bag) 需要能夠放入MortisInvariant
-- Queue 需要能夠放入MortisInvariant
-- CirQue 需要能夠放入MortisInvariant
-- DeQue 需要能夠放入MortisInvariant
+- Bag: 即multisets
+- DeQue 繼承自Bag
+- Stack 繼承自Bag
+- Queue 繼承自Stack
+- CirQue 繼承自DeQue
+這裡的資料結構都要能夠放入MortisInvariant
 
 ### chain
 - singly linked list
@@ -43,4 +44,5 @@
 - directed, unweighted
 - directed, weighted
 
+## 2. 其他issue
 

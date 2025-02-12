@@ -116,7 +116,7 @@ void String::FailureFunction()  // evaluate the failure function and store in f
     }
 }
 
-char* String::getString()   // get the string
+char* String::getString() const   // get the string
 {
     return str;
 }
@@ -155,6 +155,12 @@ int String::FastFind(String pat)
         return -1;
     else 
         return posS - lengthP;
+}
+
+std::ostream& operator<<(std::ostream& out, const String& s) 
+{
+    out << s.getString();
+    return out;
 }
 
 bool operator==(String t1, String t2)   // equality test

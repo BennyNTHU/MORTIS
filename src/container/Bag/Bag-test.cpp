@@ -42,8 +42,10 @@ int main()
     b.Push('c');                        // char
     b.Push(pi);                         // double
     b.Push("Hello");                    // const char* (converted to std::string)
+    b.PrintBag();
     
     cout << "\nAfter pushing 5 elements:" << endl;
+    b.PrintBag();
     cout << "  IsEmpty? " << (b.IsEmpty() ? "Yes" : "No") << endl;
     cout << "  Number of elements: " << b.Element() << endl;
     cout << "  Capacity: " << b.Size() << endl;

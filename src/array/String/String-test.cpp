@@ -13,9 +13,10 @@ using namespace std;
 int main() {
     cout << "=== String Test Program ===" << endl;
     
-    // Test 1: Constructor, getString(), and Length()
+    // Test 1: Constructor, getString(), overload <<, and Length()
     char init1[] = "Hello, World!";
     String s1(init1, sizeof(init1) - 1);
+    cout << "overload << operator to print s1: " << s1 << endl;
     cout << "s1: " << s1.getString() << endl;
     cout << "Length of s1: " << s1.Length() << endl;
     

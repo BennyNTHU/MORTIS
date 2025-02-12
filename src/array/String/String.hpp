@@ -24,11 +24,12 @@ class String
         String reverse();             // ***NEW*** reverse the string
         
         void FailureFunction();     // evaluate the failure function and store in f
-        char* getString();          // get the string
+        char* getString() const;    // get the string
         int* getf();                // get failure function
         int Length();               // get the number of characters of *this
         int FastFind(String pat);   // Return an index where pat matches the substring
 
+        friend ostream& operator<<(std::ostream& out, const String& s);
         friend bool operator==(String t1, String t2);   // equality test
         friend bool operator!(String t);                // empty test
         String & operator=(const String &);             // overload assignment
@@ -36,5 +37,6 @@ class String
 
 bool operator==(String t1, String t2);    // equality test
 bool operator!(String t);                 // empty test, returns true if string is empty
+ostream& operator<<(std::ostream& out, const String& s);
 
 #endif

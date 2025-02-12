@@ -1,4 +1,5 @@
 #include "Bag.hpp"
+#include <iostream>
 #include <algorithm>  // For std::copy, std::min, etc.
 #include <stdexcept>  // For exceptions
 
@@ -111,6 +112,25 @@ bool Bag::isBelong(const U& x) const
             return true;
             
     return false;
+}
+
+// Function to print all elements in the Bag
+void Bag::PrintBag() const 
+{
+    // 使用 std::visit 來處理 std::variant，確保無論元素的類型為何，都能正確地輸出。
+    // std::visit 會將 arr[i] 的內容傳遞給 lambda 表達式，並根據變數的型別自動選擇對應的 operator<< 來輸出。
+    if (IsEmpty()) 
+    {
+        cout << "The bag is empty." << endl;
+        return;
+    }
+
+    for (int i = 0; i <= top; i++) 
+    {
+        std::visit([](auto&& arg) {
+            cout << arg << endl;
+        }, arr[i]);
+    }
 }
 
 // 顯式實例化 (common types)
