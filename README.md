@@ -20,7 +20,7 @@ You may see the documentation for the use.
 ## 3. Q & A
 
 - Q: Why is this project called MORTIS?
-- A: To praise Mortis, the guitarist of the legendary girls band, Avemujica.
+- A: To praise Mortis, the guitarist of the legendary girls band, Ave Mujica.
 
 - Q: 你是MyGO廚嗎
 - A: 是
