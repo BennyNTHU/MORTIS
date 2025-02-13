@@ -24,3 +24,5 @@ You may see the documentation for the use.
 
 - Q: 你是MyGO廚嗎
 - A: 是
+
+![image](mortis2.png)
