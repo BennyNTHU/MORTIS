@@ -1,6 +1,6 @@
 # MORTIS: Memory Oriented Resource Toolkit for Information Structures
 
-![image](mortis.png)
+![image](mortis.jpg)
 
 ## 1. Overview
 
