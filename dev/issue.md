@@ -10,11 +10,11 @@
 以上四者與C++各種資料型別和稱MortisInvariant
 
 ### container
-- Bag: 即multisets
-- DeQue 繼承自Bag
-- Stack 繼承自Bag
+- (O) Bag: 即multisets
+- (O) DeQue 繼承自Bag
+- (O) Stack 繼承自Bag
 - Queue 繼承自Stack
-- CirQue 繼承自DeQue
+- (O) CirQue 繼承自DeQue
 這裡的資料結構都要能夠放入MortisInvariant
 
 ### chain

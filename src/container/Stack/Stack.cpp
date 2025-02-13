@@ -1,47 +1,44 @@
-#include <iostream>
-#include <algorithm>
-#include <math.h>
-#include <cstring>
-#include <Stack.h>
-using namespace std;
+#include "Stack.hpp"
+#include <stdexcept>
 
-template <class T>
-Stack<T>::Stack(int c):Bag<T>(c)
-{
-    if (c < 1)
-        throw "Stack capacity must be > 0";
-    this->arr = new T[c];
-    this->top = -1; // indicate empty stack
-    this->capacity = c;
+// Constructor: Initializes the stack with a given capacity using Bag's constructor
+Stack::Stack(int initial_capacity) : Bag(initial_capacity) {}
+
+// Push an element onto the stack (calls Bag's Push)
+void Stack::Push(const MORTISInvariant& x) {
+    Bag::Push(x);
 }
 
-template <class T>
-Stack<T>::~Stack()
-{ 
-    delete(this->arr);
+// Pop the top element from the stack
+void Stack::Pop() {
+    if (IsEmpty()) {
+        throw std::out_of_range("Stack is empty. Cannot pop.");
+    }
+    Bag::Pop();
 }
 
-template <class T>
-inline T& Stack<T>:: Top() const
-{
-    if (*this.IsEmpty()) 
-        throw "Stack is empty";
-    return *this.arr[*this.top];
+// Get the top element of the stack without removing it
+MORTISInvariant Stack::Top() const {
+    if (IsEmpty()) {
+        throw std::out_of_range("Stack is empty. Cannot retrieve top element.");
+    }
+    return arr[Element() - 1]; // Last inserted element
 }
 
-template <class T>
-inline T* Stack<T>::get_stack()
-{
-    return this->arr;
-}
+// Print the stack (from top to bottom)
+void Stack::PrintStack() const {
+    if (IsEmpty()) {
+        std::cout << "Stack is empty." << std::endl;
+        return;
+    }
 
-
-template <class T>
-void Stack<T>::print_stack()
-{
-    T* q = this->get_stack();
-    cout << "The stack has: ";
-    for (int i=0; i<=this->top; i++)
-        cout << q[i] << " , ";
-    cout << endl;
+    std::cout << "Stack (Top to Bottom):" << std::endl;
+    for (int i = Element() - 1; i >= 0; --i) {
+        std::cout << i + 1 << ". ";
+        std::visit([](auto&& arg) { std::cout << arg; }, arr[i]);
+        if (i == Element() - 1) {
+            std::cout << " <- top";
+        }
+        std::cout << std::endl;
+    }
 }
