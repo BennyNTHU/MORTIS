@@ -15,6 +15,9 @@
         - `CircularList.md`
         - `CirQue.md`
         - `DeQue.md`
+        - `DLIterator.md`
+        - `DoubleNode.md`
+        - `DoublyLinkedList.md`
         - `GeneralArray.md`
         - `LinkedList.md`
         - `Node.md`
@@ -45,10 +48,20 @@
           - `ChainIterator/`
             - `ChainIterator.cpp`
             - `ChainIterator.hpp`
+          - `CircularDoubleList`
+            - `CircularDoubleList-test.cpp`
+            - `CircularDoubleList.cpp`
+            - `CircularDoubleList.hpp`
           - `CircularList/`
             - `CircularList-test.cpp`
             - `CircularList.cpp`
             - `CircularList.hpp`
+          - `DLIterator/`
+            - `DLIterator.cpp`
+            - `DLIterator.hpp`
+          - `DoubleNode/`
+            - `DoubleNode.cpp`
+            - `DoubleNode.hpp`
           - `DoublyLinkedLists/`
             - `DoublyLinkedLists-test.cpp`
             - `DoublyLinkedLists.cpp`

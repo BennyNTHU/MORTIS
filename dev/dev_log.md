@@ -23,3 +23,4 @@
 ### 2025/02/14
 1. 實做`CircularList`
 2. 為`LinkedList`新增`SetFirst`, `GetFirst`以及`Length`函式
+3. 實做`DoubleNode`, `DLIterator`, `DoublyLinkedList`

@@ -4,14 +4,14 @@
 
 ## 1. Overview
 
-Mortis is a C++17 based data structure library. In this project, several kinds of data structures and abstract data types are implemented:
+`Mortis` is a `C++17` based data structure library. In this project, several kinds of data structures and abstract data types are implemented:
 
-- Array-liked
-- Chain
+- Array-liked structures
+- Chains
 - Containers
 - Graphs
 - Trees
-- Hash
+- Hash functions
 
 You may see the documentation for the use.
 

@@ -10,7 +10,7 @@ using namespace std;
 template <class T> 
 class ChainIterator
 {
-    private:  
+    protected:
         Node<T>* current;
 
     public:
@@ -25,8 +25,8 @@ class ChainIterator
         const T* operator->() const;
 
         //Increment
-        ChainIterator<T>& operator++();    //preincrement
-        ChainIterator<T> operator++(int);  //postincrement
+        virtual ChainIterator<T>& operator++();    //preincrement
+        virtual ChainIterator<T> operator++(int);  //postincrement
 
         //Equality test
         bool operator!=(const ChainIterator<T>& r) const;
