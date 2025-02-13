@@ -1,140 +1,115 @@
+#include "Queue.hpp"
 #include <iostream>
-#include <algorithm>
-#include <math.h>
-#include <cstring>
-#include <Queue.h>
+#include <stdexcept>
+
 using namespace std;
 
-template <class T>
-Queue<T>::Queue(int c)
-{ 
-    capacity = c;
-    if (capacity < 1) 
-        throw "Queue capacity must be > 0";
-    queue= new T[capacity];
-    front = 0; // indicate empty stack
-    rear = 0;
-}
+// Constructor: Initializes the queue with a given capacity
+Queue::Queue(int capacity) : Bag(capacity), front(0), rear(-1), size(0) {}
 
-template <class T>
-Queue<T>::~Queue()
-{ 
-    delete(queue);
-}
+// Destructor
+Queue::~Queue() {}
 
-template <class T>
-inline bool Queue<T>::IsEmpty() const
+// Push: Adds an element to the back of the queue
+void Queue::Push(const MORTISInvariant& x) 
 {
-    return front == rear;
-}
-
-template <class T>
-void Queue<T>::Push(const T& x) // add x to stack
-{
-    if ((rear+1)%capacity == front) 
-    {   
-        T* newQu = new T[2*capacity];
-        int start = (front+1) % capacity;
-
-        if(start<2)
-           copy(queue+start, queue+start+capacity-1, newQu);
-        else
-        {
-           copy(queue+start, queue+capacity, newQu);
-           copy(queue, queue+rear+1,newQu+capacity-start);
-        }
-
-        front = 2*capacity - 1;
-        rear = capacity -2;
-        delete[] queue;
-        queue = newQu;
-    }
-    rear = (rear+1)%capacity;  
-    queue[rear] = x;
-}
-
-template <class T>
-void Queue<T>::Pop( ) 
-{
-    if (IsEmpty()) 
-        throw "Queue is empty, cannot delete";	
-    front = (front + 1) % capacity;
-    queue[front].~T(); // destructor for T
-}
-
-template <class T>
-void Queue<T>::print_queue()
-{
-    cout << "The queue has: ";
-    for (int i=front+1; i<=rear; i++)
-        cout << queue[i] << " , ";
-    cout << endl;
-}
-
-template <class T>
-int Queue<T>::get_size()
-{
-    return rear-front;
-}
-
-template <class T>
-int Queue<T>::get_capacity()
-{
-    return capacity;
-}
-
-template <class T>
-inline T* Queue<T>::get_queue()
-{
-    return queue;
-}
-
-template <class T>
-inline T& Queue<T>::Front() const
-{
-    if (IsEmpty()) 
-        throw "Queue is empty. No front element.";
-    return queue[(front + 1) % capacity];
-}
-
-template <class T>
-inline T& Queue<T>::Rear() const
-{
-    if (IsEmpty()) 
-        throw "Queue is empty. No rear element.";
-    return queue[rear];
-}
-
-template <class T>
-Queue<T> Queue<T>::operator=(const Queue<T> &Q) // overload assignment
-{
-    front = Q.front;    // copy every attributes
-    rear = Q.rear;
-    capacity = Q.capacity;
-    queue = Q.queue;
-
-    return *this;
-}
-
-template <class T>
-Queue<T> merge(Queue<T> Q1, Queue<T> Q2) 
-{
-    Queue<T> M(Q1.get_capacity()+Q2.get_capacity());
-
-    while(!Q1.IsEmpty() || !Q2.IsEmpty())
+    if (size == capacity) 
     {
-        if(!Q1.IsEmpty()) // Q1 is not empty
-        {
-            M.Push(Q1.Front());
-            Q1.Pop();
-        }
-        if(!Q2.IsEmpty()) // Q2 is not empty
-        {
-            M.Push(Q2.Front());
-            Q2.Pop();
-        }
+        // Expand capacity and shift elements correctly
+        ChangeSize1D(arr, capacity, capacity * 2);
+        capacity *= 2;
     }
-    return M;
+
+    // Move rear forward for new insertion
+    rear++;
+    arr[rear] = x;
+    size++;
+
+    // If first element is inserted, reset front
+    if (size == 1) 
+    {
+        front = 0;
+    }
 }
 
-#endif
+// Pop: Removes an element from the front of the queue
+void Queue::Pop() 
+{
+    if (IsEmpty()) 
+    {
+        throw runtime_error("Queue is empty, cannot dequeue.");
+    }
+
+    // Move front forward
+    front++;
+    size--;
+
+    // Reset front and rear when queue becomes empty
+    if (IsEmpty()) 
+    {
+        front = 0;
+        rear = -1;
+    }
+}
+
+// Front: Returns the first element in the queue
+MORTISInvariant Queue::Front() const 
+{
+    if (IsEmpty()) 
+    {
+        throw runtime_error("Queue is empty, no front element.");
+    }
+    return arr[front];
+}
+
+// Rear: Returns the last element in the queue
+MORTISInvariant Queue::Rear() const 
+{
+    if (IsEmpty()) 
+    {
+        throw runtime_error("Queue is empty, no rear element.");
+    }
+    return arr[rear];
+}
+
+// IsEmpty: Checks if the queue is empty
+bool Queue::IsEmpty() const 
+{
+    return size == 0;
+}
+
+// PrintQueue: Prints the queue elements in the specified format
+void Queue::PrintQueue() const 
+{
+    if (IsEmpty()) 
+    {
+        cout << "Queue is empty." << endl;
+        return;
+    }
+
+    cout << "Queue contents:" << endl;
+    for (int i = 0; i < size; i++) 
+    {
+        int index = front + i; // Linear traversal
+        cout << i + 1 << ". ";
+        visit([](auto&& arg) { cout << arg; }, arr[index]);
+
+        if (i == 0)
+            cout << " <- front";
+        else if (i == size - 1)
+            cout << " <- rear";
+        cout << endl;
+    }
+}
+
+// Getters for front index
+int Queue::getFront() const 
+{ 
+    return front; 
+}
+
+// Getters for rear index
+int Queue::getRear() const 
+{ 
+    return rear; 
+}

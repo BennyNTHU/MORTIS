@@ -15,7 +15,9 @@
         - `DeQue.md`
         - `GeneralArray.md`
         - `Polynomial.md`
+        - `Queue.md`
         - `SparseMatrix.md`
+        - `Stack.md`
         - `String.md`
     - `src/`                  # Source code for the data structures
         - `array/ `           # Array-type data structures

@@ -5,7 +5,8 @@
 #include "Stack.hpp"
 #include <iostream>
 
-int main() {
+int main() 
+{
     std::cout << "=== Stack Test Program ===" << std::endl;
 
     // Create a stack with an initial capacity of 5

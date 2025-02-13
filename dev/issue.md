@@ -13,7 +13,7 @@
 - (O) Bag: 即multisets
 - (O) DeQue 繼承自Bag
 - (O) Stack 繼承自Bag
-- Queue 繼承自Stack
+- (O) Queue 繼承自Stack
 - (O) CirQue 繼承自DeQue
 這裡的資料結構都要能夠放入MortisInvariant
 
