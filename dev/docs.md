@@ -3,13 +3,13 @@
 ## 1. 本專案檔案配置結構
 
 - `MORTIS/`
-    - `README.md`             # Project description and overview
-    - `.gitignore`            # Files and directories to ignore in Git
-    - `dev/`                  # Development documentation
-        - `dev_log.md`        # Log of the development process
-        - `issue.md`          # List of issues and problems to be solved
-        - `docs.md`           # Current file structure and technical documentation
-    - `docs/`                 # Usage documentation for each data structure
+    - `README.md`
+    - `.gitignore`
+    - `dev/`: Development documentation
+        - `dev_log.md`: Log of the development process
+        - `issue.md`: List of issues and problems to be solved
+        - `docs.md`: Current file structure and technical documentation
+    - `docs/`: Usage documentation for each data structure
         - `Bag.md`
         - `CirQue.md`
         - `DeQue.md`
@@ -19,25 +19,25 @@
         - `SparseMatrix.md`
         - `Stack.md`
         - `String.md`
-    - `src/`                  # Source code for the data structures
-        - `array/ `           # Array-type data structures
+    - `src/`: Source code for the data structures
+        - `array/`: Array-type data structures
             - `GeneralArray/`
                 - `GeneralArray.hpp`
                 - `GeneralArray.cpp`
-                - `GeneralArray-test.cpp` # test program 
+                - `GeneralArray-test.cpp`: test program 
             - `Polynomial/`
                 - `Polynomial.hpp`
                 - `Polynomial.cpp`
-                - `Polynomial-test.cpp`   # test program 
+                - `Polynomial-test.cpp`
             - `SparseMatrix/`
                 - `SparseMatrix.hpp`
                 - `SparseMatrix.cpp`
-                - `SparseMatrix-test.cpp` # test program 
+                - `SparseMatrix-test.cpp`
             - `String/`
                 - `String.hpp`
                 - `String.cpp`
                 - `String-test.cpp`
-        - `container/`        # Container data structures
+        - `container/`: Container data structures
             - `Bag/`
                 - `Bag.hpp`
                 - `Bag.cpp`
@@ -58,7 +58,48 @@
                 - `Stack.hpp`
                 - `Stack.cpp`
                 - `Stack-test.cpp`
-        - `chain/`            # Chain structures
-        - `tree/`             # Tree-based data structures
-        - `graph/`            # Graph data structures
-        - `MORTIS.hpp`        # Header file
+        - `graph/`: Graph data structures
+        - `hash/`: hash tables
+        - `linkedlist/`: Chain structures\
+          - `Chain/`
+            - `Chain.hpp`
+            - `Chain.cpp`
+            - `Chain-test.cpp`
+          - `ChainIterator/`
+            - `ChainIterator.hpp`
+            - `ChainIterator.cpp`
+            - `ChainIterator-test.cpp`
+          - `CircularList/`
+            - `CircularList.hpp`
+            - `CircularList.cpp`
+            - `CircularList-test.cpp`
+          - `DoublyLinkedLists/`
+            - `DoublyLinkedLists.hpp`
+            - `DoublyLinkedLists.cpp`
+            - `DoublyLinkedLists-test.cpp`
+          - `GeneralizedList/`
+            - `GeneralizedList.hpp`
+            - `GeneralizedList.cpp`
+            - `GeneralizedList-test.cpp`
+          - `LinkedPolynomial/`
+            - `LinkedPolynomial.hpp`
+            - `LinkedPolynomial.cpp`
+            - `LinkedPolynomial-test.cpp`
+          - `LinkedQueue/`
+            - `LinkedQueue/.hpp`
+            - `LinkedQueue/.cpp`
+            - `LinkedQueue/-test.cpp`
+          - `LinkedSparseMatrix/`
+            - `LinkedSparseMatrix/.hpp`
+            - `LinkedSparseMatrix/.cpp`
+            - `LinkedSparseMatrix/-test.cpp`
+          - `LinkedStack/`
+            - `LinkedStack/.hpp`
+            - `LinkedStack/.cpp`
+            - `LinkedStack/-test.cpp`
+          - `Node/`
+            - `Node.hpp`
+            - `Node.cpp`
+            - `Node-test.cpp`
+        - `tree/`: Tree-based data structures
+        - `MORTIS.hpp`: Header file
