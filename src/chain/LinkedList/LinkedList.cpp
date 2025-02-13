@@ -3,6 +3,20 @@
 
 using namespace std;
 
+// set first node
+template <class T>
+void LinkedList<T>::SetFirst(Node<T>* node)
+{
+    first = node;
+}
+
+// get first node
+template <class T>
+Node<T>* LinkedList<T>::GetFirst() const
+{
+    return first;
+}
+
 // Constructor: Initializes an empty linked list
 template <class T>
 LinkedList<T>::LinkedList() : first(nullptr) {}
@@ -172,6 +186,17 @@ void LinkedList<T>::Concatenate(LinkedList<T>& b)
     }
 }
 
+// Function to return the length of the linked list using ChainIterator
+template <class T>
+int LinkedList<T>::Length() 
+{
+    int count = 0;
+    for (ChainIterator<T> it = this->begin(); it != this->end(); ++it) 
+    {
+        count++;
+    }
+    return count;
+}
 
 // Reverse the linked list
 template <class T>

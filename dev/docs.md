@@ -12,6 +12,7 @@
     - `docs/`: Usage documentation for each data structure
         - `Bag.md`
         - `ChainIteraion.md`
+        - `CircularList.md`
         - `CirQue.md`
         - `DeQue.md`
         - `GeneralArray.md`
@@ -25,82 +26,82 @@
     - `src/`: Source code for the data structures
         - `array/`: Array-type data structures
             - `GeneralArray/`
-                - `GeneralArray.hpp`
-                - `GeneralArray.cpp`
                 - `GeneralArray-test.cpp`: test program 
+                - `GeneralArray.cpp`
+                - `GeneralArray.hpp`
             - `Polynomial/`
-                - `Polynomial.hpp`
-                - `Polynomial.cpp`
                 - `Polynomial-test.cpp`
+                - `Polynomial.cpp`
+                - `Polynomial.hpp`
             - `SparseMatrix/`
-                - `SparseMatrix.hpp`
-                - `SparseMatrix.cpp`
                 - `SparseMatrix-test.cpp`
+                - `SparseMatrix.cpp`
+                - `SparseMatrix.hpp`
             - `String/`
-                - `String.hpp`
-                - `String.cpp`
                 - `String-test.cpp`
+                - `String.cpp`
+                - `String.hpp`
         -`chain/`: Chain structures
           - `ChainIterator/`
-            - `ChainIterator.hpp`
             - `ChainIterator.cpp`
+            - `ChainIterator.hpp`
           - `CircularList/`
-            - `CircularList.hpp`
-            - `CircularList.cpp`
             - `CircularList-test.cpp`
+            - `CircularList.cpp`
+            - `CircularList.hpp`
           - `DoublyLinkedLists/`
-            - `DoublyLinkedLists.hpp`
-            - `DoublyLinkedLists.cpp`
             - `DoublyLinkedLists-test.cpp`
+            - `DoublyLinkedLists.cpp`
+            - `DoublyLinkedLists.hpp`
           - `GeneralizedList/`
-            - `GeneralizedList.hpp`
-            - `GeneralizedList.cpp`
             - `GeneralizedList-test.cpp`
+            - `GeneralizedList.cpp`
+            - `GeneralizedList.hpp`
           - `LinkedList/`
-            - `LinkedList.hpp`
-            - `LinkedList.cpp`
             - `LinkedList-test.cpp`
+            - `LinkedList.cpp`
+            - `LinkedList.hpp`
           - `LinkedPolynomial/`
-            - `LinkedPolynomial.hpp`
-            - `LinkedPolynomial.cpp`
             - `LinkedPolynomial-test.cpp`
+            - `LinkedPolynomial.cpp`
+            - `LinkedPolynomial.hpp`
           - `LinkedQueue/`
-            - `LinkedQueue/.hpp`
-            - `LinkedQueue/.cpp`
             - `LinkedQueue/-test.cpp`
+            - `LinkedQueue/.cpp`
+            - `LinkedQueue/.hpp`
           - `LinkedSparseMatrix/`
-            - `LinkedSparseMatrix/.hpp`
-            - `LinkedSparseMatrix/.cpp`
             - `LinkedSparseMatrix/-test.cpp`
+            - `LinkedSparseMatrix/.cpp`
+            - `LinkedSparseMatrix/.hpp`
           - `LinkedStack/`
-            - `LinkedStack/.hpp`
-            - `LinkedStack/.cpp`
             - `LinkedStack/-test.cpp`
+            - `LinkedStack/.cpp`
+            - `LinkedStack/.hpp`
           - `Node/`
-            - `Node.hpp`
             - `Node.cpp`
+            - `Node.hpp`
         - `container/`: Container data structures
             - `Bag/`
-                - `Bag.hpp`
-                - `Bag.cpp`
                 - `Bag-test.cpp`
+                - `Bag.cpp`
+                - `Bag.hpp`
             - `CirQue/`
-                - `CirQue.hpp1`
-                - `CirQue.cpp1`
-                - `CirQue-test.cpp1`
+                - `CirQue-test.cpp`
+                - `CirQue.cpp`
+                - `CirQue.hpp`
             - `DeQue/`
-                - `DeQue.hpp`
-                - `DeQue.cpp`
                 - `DeQue-test.cpp`
+                - `DeQue.cpp`
+                - `DeQue.hpp`
             - `Queue/`
-                - `Queue.hpp`
-                - `Queue.cpp`
                 - `Queue-test.cpp`
+                - `Queue.cpp`
+                - `Queue.hpp`
             - `Stack/`
-                - `Stack.hpp`
-                - `Stack.cpp`
                 - `Stack-test.cpp`
+                - `Stack.cpp`
+                - `Stack.hpp`
         - `graph/`: Graph data structures
         - `hash/`: hash tables
         - `tree/`: Tree-based data structures
-        - `MORTIS.hpp`: Header file
+        - `MORTIS.cpp`: Header file

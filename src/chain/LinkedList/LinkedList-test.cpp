@@ -21,7 +21,8 @@ int main()
         B.InsertBack(i);
     }
     cout << "List A after inserting 1-5 at back: " << A << endl;
-    
+    std::cout << "Length of LinkedList: " << A.Length() << std::endl;
+
     // Test InsertFront
     cout << "\nTesting InsertFront()\n";
     A.InsertFront(0);
