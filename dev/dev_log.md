@@ -17,3 +17,4 @@
 2. 為String多載<<運算子
 3. 實作Stack
 4. 實做Queue
+5. 實做LinkedList, Node, ChainIteration

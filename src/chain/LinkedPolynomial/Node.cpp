@@ -7,7 +7,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cstring>
-#include "node.h"
+#include "Node.h"
 
 Node::Node()
 {

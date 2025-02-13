@@ -1,8 +1,3 @@
-//EECS2040 Data Structure Hw #3 (Chapter 4 of textbook)
-//due date 5/16/2021
-//106061218, Cheng-En Lee
-//Part 2, problem 2
-
 #ifndef NODE
 #define NODE
 
