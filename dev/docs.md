@@ -80,9 +80,9 @@
           - `LinkedSparseMatrix/`
             - `LinkedMatrixTerm.cpp`
             - `LinkedMatrixTerm.hpp`
-            - `LinkedSparseMatrix/-test.cpp`
-            - `LinkedSparseMatrix/.cpp`
-            - `LinkedSparseMatrix/.hpp`
+            - `LinkedSparseMatrix-test.cpp`
+            - `LinkedSparseMatrix.cpp`
+            - `LinkedSparseMatrix.hpp`
           - `Node/`
             - `Node.cpp`
             - `Node.hpp`
