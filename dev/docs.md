@@ -12,7 +12,7 @@
     - `docs/`: Usage documentation for each data structure
         - `Bag.md`
         - `ChainIteraion.md`
-        - `CircularDoubleList`
+        - `CircularDoubleList.md`
         - `CircularList.md`
         - `CirQue.md`
         - `DeQue.md`
@@ -22,6 +22,7 @@
         - `GeneralArray.md`
         - `LinkedList.md`
         - `LinkedPolynomial.md`
+        - `LinkedSparseMatrix.md`
         - `Node.md`
         - `Polynomial.md`
         - `Queue.md`
@@ -46,7 +47,7 @@
                 - `String-test.cpp`
                 - `String.cpp`
                 - `String.hpp`
-        -`chain/`: Chain structures
+        - `chain/`: Chain structures
           - `ChainIterator/`
             - `ChainIterator.cpp`
             - `ChainIterator.hpp`
@@ -77,6 +78,8 @@
             - `LinkedPolynomial.cpp`
             - `LinkedPolynomial.hpp`
           - `LinkedSparseMatrix/`
+            - `LinkedMatrixTerm.cpp`
+            - `LinkedMatrixTerm.hpp`
             - `LinkedSparseMatrix/-test.cpp`
             - `LinkedSparseMatrix/.cpp`
             - `LinkedSparseMatrix/.hpp`
