@@ -51,7 +51,7 @@
           - `ChainIterator/`
             - `ChainIterator.cpp`
             - `ChainIterator.hpp`
-          - `CircularDoubleList`
+          - `CircularDoubleList/`
             - `CircularDoubleList-test.cpp`
             - `CircularDoubleList.cpp`
             - `CircularDoubleList.hpp`
