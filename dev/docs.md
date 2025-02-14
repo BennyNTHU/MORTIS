@@ -21,6 +21,7 @@
         - `DoublyLinkedList.md`
         - `GeneralArray.md`
         - `LinkedList.md`
+        - `LinkedPolynomial.md`
         - `Node.md`
         - `Polynomial.md`
         - `Queue.md`

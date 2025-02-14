@@ -18,11 +18,11 @@ class Term
         int exp;     // 指數
 
     public:
-    Term() : coef(0), exp(0) {}                 // 預設建構子：初始化為 0x^0
-    Term(int e, float c) : coef(c), exp(e) {}   // 建構子：根據指定指數 e 與係數 c 建立項
-    float get_coef() const { return coef; }     // 取得係數（改為 const 成員函式）
-    int get_exp() const { return exp; }         // 取得指數（改為 const 成員函式）
-    void write_term(int e, int c) { exp = e; coef = c; }    // 寫入新項：覆蓋原有項 (此函式可依需求修改)
+        Term() : coef(0), exp(0) {}                 // 預設建構子：初始化為 0x^0
+        Term(int e, float c) : coef(c), exp(e) {}   // 建構子：根據指定指數 e 與係數 c 建立項
+        float get_coef() const { return coef; }     // 取得係數（改為 const 成員函式）
+        int get_exp() const { return exp; }         // 取得指數（改為 const 成員函式）
+        void write_term(int e, int c) { exp = e; coef = c; }    // 寫入新項：覆蓋原有項 (此函式可依需求修改)
 };
 
 // 多項式類別宣告

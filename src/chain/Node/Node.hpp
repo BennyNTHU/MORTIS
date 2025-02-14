@@ -4,9 +4,6 @@
 #include <iostream>
 #include <string>
 
-template <typename T> 
-class ChainIterator; // Forward declaration for ChainIterator
-
 // Node class for singly linked list
 template <typename T>
 class Node 

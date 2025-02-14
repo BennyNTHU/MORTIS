@@ -7,6 +7,9 @@
 template <typename T>
 class DLIterator : public ChainIterator<T> 
 {
+    private:
+        using ChainIterator<T>::current; // Access the inherited member
+
     public:
         // Constructor
         DLIterator(DoubleNode<T>* startNode = nullptr);
@@ -19,9 +22,6 @@ class DLIterator : public ChainIterator<T>
 
         // Get current node
         DoubleNode<T>* getCurrent() const;
-
-    private:
-        using ChainIterator<T>::current; // Access the inherited member
 };
 
 #endif // DLITERATOR
