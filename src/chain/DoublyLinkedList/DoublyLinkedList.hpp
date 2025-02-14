@@ -22,6 +22,12 @@ class DoublyLinkedList
         DoublyLinkedList(const DoublyLinkedList<T>& other);  // Copy Constructor
         virtual ~DoublyLinkedList(); // destructor
 
+        // Getter and Setters
+        DoubleNode<T>* GetFirst() const;
+        DoubleNode<T>* GetLast() const;
+        void SetFirst(DoubleNode<T>* node);
+        void SetLast(DoubleNode<T>* node);
+
         /* return elements */
         DLIterator<T> begin() const;
         DLIterator<T> end() const;
@@ -39,9 +45,9 @@ class DoublyLinkedList
 
         /* Other functions */
         virtual int Length() const;                           // return the length of the list
-        void Concatenate(DoublyLinkedList<T>& b);     // concatenate two list
-        void Reverse();                         // reverse the list
-        bool IsEmpty() const;        // Check if the list is empty
+        virtual void Concatenate(DoublyLinkedList<T>& b);     // concatenate two list
+        virtual void Reverse();                               // reverse the list
+        bool IsEmpty() const;                                 // Check if the list is empty
 
         /* overloading */
         template <typename U>

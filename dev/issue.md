@@ -21,7 +21,7 @@
 - (O) `Node`, `ChainIterator`, `LinkedList`
 - (O) `CircularList`（繼承自`LinkedList`）
 - (O) `DoubleNode`（繼承自`Node`）, `DLIterator`（繼承自`ChainIterator`）, `DoublyLinkedList`
-- `CircularDoubleList`（繼承自`DoublyLinkedList`）
+- (O) `CircularDoubleList`（繼承自`DoublyLinkedList`）
 - `LinkedPolynomial`
 - `LinkedSparseMatrix`
 所有chain的結構，都只能夠放入相同的資料類別，比如要馬全部放`int`，要馬全部放`double`或`char`

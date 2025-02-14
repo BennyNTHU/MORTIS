@@ -62,7 +62,8 @@ int main()
     // Test Iterator functionality
     cout << "\nTesting Iterator\n";
     cout << "Iterating over List A: ";
-    for (auto it = A.begin(); it != A.end(); ++it) {
+    for (auto it = A.begin(); it != A.end(); ++it) 
+    {
         cout << *it << " ";
     }
     cout << endl;

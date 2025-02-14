@@ -61,7 +61,8 @@ int main()
     int j=1;
     cout << "\nTesting Iterator\n";
     cout << "Iterating over Circular List A: ";
-    for (auto it = A.begin(); j <= 3; ++it, j++) {
+    for (auto it = A.begin(); j <= 3; ++it, j++) 
+    {
         cout << *it << " ";
     }
     cout << endl;

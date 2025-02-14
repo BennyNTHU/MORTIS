@@ -12,6 +12,7 @@
     - `docs/`: Usage documentation for each data structure
         - `Bag.md`
         - `ChainIteraion.md`
+        - `CircularDoubleList`
         - `CircularList.md`
         - `CirQue.md`
         - `DeQue.md`
