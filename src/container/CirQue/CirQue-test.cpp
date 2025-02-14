@@ -7,7 +7,8 @@
 
 using namespace std;
 
-int main() {
+int main() 
+{
     CirQue queue(15);
 
     cout << "=== CirQue Test ===" << endl;

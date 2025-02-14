@@ -254,12 +254,14 @@ istream& operator>>(istream& in, GeneralArray<T>& arr)
 // 輔助函式 printVal 用來輸出元素，若元素為 variant，則使用 std::visit
 //-----------------------------------------
 template<typename U>
-void printVal(std::ostream &out, const U &value) {
+void printVal(std::ostream &out, const U &value) 
+{
     out << value;
 }
 
 template<typename... Ts>
-void printVal(std::ostream &out, const std::variant<Ts...> &value) {
+void printVal(std::ostream &out, const std::variant<Ts...> &value) 
+{
     std::visit([&](auto &&arg) { out << arg; }, value);
 }
 

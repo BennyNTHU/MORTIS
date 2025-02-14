@@ -10,7 +10,8 @@
 #include "String.hpp"
 using namespace std;
 
-int main() {
+int main() 
+{
     cout << "=== String Test Program ===" << endl;
     
     // Test 1: Constructor, getString(), overload <<, and Length()
@@ -31,18 +32,24 @@ int main() {
     cout << "s1 concatenated with s2: " << s3.getString() << endl;
     
     // Test 4: Substr
-    try {
+    try 
+    {
         String sub = s1.Substr(7, 5); // Expect "World"
         cout << "Substring of s1 (index 7, length 5): " << sub.getString() << endl;
-    } catch (const char* err) {
+    } 
+    catch (const char* err) 
+    {
         cout << "Substr error: " << err << endl;
     }
     
     // Test 5: Delete
-    try {
+    try 
+    {
         String del = s1.Delete(5, 3);
         cout << "s1 after deleting 3 characters from index 5: " << del.getString() << endl;
-    } catch (const char* err) {
+    } 
+    catch (const char* err) 
+    {
         cout << "Delete error: " << err << endl;
     }
     

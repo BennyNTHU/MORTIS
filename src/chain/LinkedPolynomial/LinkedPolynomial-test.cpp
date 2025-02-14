@@ -9,7 +9,8 @@
 
 using namespace std;
 
-void TestInsertAndPrint() {
+void TestInsertAndPrint() 
+{
     cout << "=== Test InsertLinkedTerm() and operator<< ===" << endl;
     LinkedPolynomial poly;
     poly.InsertLinkedTerm(5, 3);
@@ -20,7 +21,8 @@ void TestInsertAndPrint() {
     cout << "Actual output:   " << poly << endl;
 }
 
-void TestLeadExp() {
+void TestLeadExp() 
+{
     cout << "=== Test LeadExp() ===" << endl;
     LinkedPolynomial poly;
     poly.InsertLinkedTerm(5, 4);
@@ -29,7 +31,8 @@ void TestLeadExp() {
     cout << "LeadExp() passed ✅" << endl;
 }
 
-void TestCoef() {
+void TestCoef() 
+{
     cout << "=== Test Coef() ===" << endl;
     LinkedPolynomial poly;
     poly.InsertLinkedTerm(3.5, 4);
@@ -40,7 +43,8 @@ void TestCoef() {
     cout << "Coef() passed ✅" << endl;
 }
 
-void TestDelete() {
+void TestDelete() 
+{
     cout << "=== Test DeleteLinkedTerm() ===" << endl;
     LinkedPolynomial poly;
     poly.InsertLinkedTerm(5, 3);
@@ -53,7 +57,8 @@ void TestDelete() {
     cout << "Actual output:   " << poly << endl;
 }
 
-void TestEquality() {
+void TestEquality() 
+{
     cout << "=== Test operator==() ===" << endl;
     LinkedPolynomial p1, p2;
     p1.InsertLinkedTerm(3, 2);
@@ -66,7 +71,8 @@ void TestEquality() {
     cout << "Equality test passed ✅" << endl;
 }
 
-void TestAddition() {
+void TestAddition() 
+{
     cout << "=== Test operator+() ===" << endl;
     LinkedPolynomial p1, p2;
     p1.InsertLinkedTerm(3, 2);
@@ -80,7 +86,8 @@ void TestAddition() {
     cout << "Actual output:   " << sum << endl;
 }
 
-void TestMultiplication() {
+void TestMultiplication() 
+{
     cout << "=== Test operator*() ===" << endl;
     LinkedPolynomial p1, p2;
     p1.InsertLinkedTerm(3, 2);
@@ -93,7 +100,8 @@ void TestMultiplication() {
     cout << "Actual output:   " << prod << endl;
 }
 
-void TestEvaluation() {
+void TestEvaluation() 
+{
     cout << "=== Test Evaluate() ===" << endl;
     LinkedPolynomial poly;
     poly.InsertLinkedTerm(2, 2);
@@ -105,7 +113,8 @@ void TestEvaluation() {
     cout << "Evaluate(2) = " << result << " (Expected: 18)" << endl;
 }
 
-void TestLatexInput() {
+void TestLatexInput() 
+{
     cout << "=== Test operator>> (LaTeX Input) ===" << endl;
     LinkedPolynomial poly;
     stringstream input("5x^3 - 2x^2 + 4x + 3");
@@ -114,7 +123,8 @@ void TestLatexInput() {
     cout << "Actual output:   " << poly << endl;
 }
 
-int main() {
+int main() 
+{
     TestInsertAndPrint();
     TestLeadExp();
     TestCoef();
@@ -124,6 +134,6 @@ int main() {
     TestMultiplication();
     TestEvaluation();
     TestLatexInput();
-    cout << "All tests passed successfully! ✅✅✅" << endl;
+    cout << "All tests passed successfully!" << endl;
     return 0;
 }

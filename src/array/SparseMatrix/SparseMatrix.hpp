@@ -22,9 +22,9 @@ class MatrixTerm
 
     public:
         // Getters for row, col, and value.
-        int get_row() const { return row; }
-        int get_col() const { return col; }
-        std::variant<int, float> get_value() const { return value; }
+        int get_row() const {return row;}
+        int get_col() const {return col;}
+        std::variant<int, float> get_value() const {return value;}
         
         // write_term overwrites the current term with new row, column, and value.
         void write_term(int r, int c, const std::variant<int, float>& v) 

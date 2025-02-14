@@ -61,19 +61,6 @@ void Bag::Pop()
     top--;
 }
 
-// ChangeSize1D function
-// void ChangeSize1D(MORTISInvariant*& a, const int oldSize, const int newSize) 
-// {
-//     if (newSize < 0)
-//         throw runtime_error("New length must be >= 0");
-
-//     MORTISInvariant* temp = new MORTISInvariant[newSize];
-//     int number = std::min(oldSize, newSize);
-//     std::copy(a, a + number, temp);
-//     delete[] a;
-//     a = temp;
-// }
-
 void ChangeSize1D(MORTISInvariant*& a, const int oldSize, const int newSize) {
     if (newSize <= 0) {
         throw std::invalid_argument("New size must be positive.");
@@ -91,8 +78,6 @@ void ChangeSize1D(MORTISInvariant*& a, const int oldSize, const int newSize) {
     delete[] a;  // 釋放舊記憶體
     a = temp;    // 更新指標
 }
-
-
 
 // -------------------------------------------------------------------
 // Helpers for Multiplicity / isBelong

@@ -1,5 +1,5 @@
-#ifndef CIRCULAR_DOUBLE_LIST_HPP
-#define CIRCULAR_DOUBLE_LIST_HPP
+#ifndef CIRCULAR_DOUBLE_LIST
+#define CIRCULAR_DOUBLE_LIST
 
 #include "../DoublyLinkedList/DoublyLinkedList.hpp"
 #include "../DoubleNode/DoubleNode.hpp"

@@ -5,21 +5,27 @@
 using namespace std;
 
 // Constructor: 初始化變數
-CirQue::CirQue(int capacity) : DeQue(capacity) {
+CirQue::CirQue(int capacity) : DeQue(capacity) 
+{
     front = -1;
     rear = -1;
     count = 0;
 }
 
 // 在前端插入元素
-void CirQue::PushFront(const MORTISInvariant& x) {
-    if (count == capacity) {
+void CirQue::PushFront(const MORTISInvariant& x) 
+{
+    if (count == capacity) 
+    {
         throw overflow_error("CirQue is full.");
     }
 
-    if (IsEmpty()) {
+    if (IsEmpty()) 
+    {
         front = rear = 0;
-    } else {
+    } 
+    else 
+    {
         front = (front - 1 + capacity) % capacity;  // 環形索引處理
     }
 
@@ -28,14 +34,19 @@ void CirQue::PushFront(const MORTISInvariant& x) {
 }
 
 // 在後端插入元素
-void CirQue::PushBack(const MORTISInvariant& x) {
-    if (count == capacity) {
+void CirQue::PushBack(const MORTISInvariant& x) 
+{
+    if (count == capacity) 
+    {
         throw overflow_error("CirQue is full.");
     }
 
-    if (IsEmpty()) {
+    if (IsEmpty()) 
+    {
         front = rear = 0;
-    } else {
+    } 
+    else 
+    {
         rear = (rear + 1) % capacity;  // 環形索引處理
     }
 
@@ -44,14 +55,19 @@ void CirQue::PushBack(const MORTISInvariant& x) {
 }
 
 // 從前端移除元素
-void CirQue::PopFront() {
-    if (IsEmpty()) {
+void CirQue::PopFront() 
+{
+    if (IsEmpty()) 
+    {
         throw underflow_error("CirQue is empty.");
     }
 
-    if (front == rear) {  // 只有一個元素時
+    if (front == rear)  // 只有一個元素時 
+    {  
         front = rear = -1;
-    } else {
+    } 
+    else 
+    {
         front = (front + 1) % capacity;  // 環形索引處理
     }
 
@@ -59,14 +75,19 @@ void CirQue::PopFront() {
 }
 
 // 從後端移除元素
-void CirQue::PopBack() {
-    if (IsEmpty()) {
+void CirQue::PopBack() 
+{
+    if (IsEmpty()) 
+    {
         throw underflow_error("CirQue is empty.");
     }
 
-    if (front == rear) {  // 只有一個元素時
+    if (front == rear)  // 只有一個元素時 
+    {  
         front = rear = -1;
-    } else {
+    } 
+    else 
+    {
         rear = (rear - 1 + capacity) % capacity;  // 環形索引處理
     }
 
@@ -74,41 +95,54 @@ void CirQue::PopBack() {
 }
 
 // 獲取前端元素
-MORTISInvariant CirQue::Front() const {
-    if (IsEmpty()) {
+MORTISInvariant CirQue::Front() const 
+{
+    if (IsEmpty()) 
+    {
         throw underflow_error("CirQue is empty.");
     }
+
     return arr[front];
 }
 
 // 獲取後端元素
-MORTISInvariant CirQue::Back() const {
-    if (IsEmpty()) {
+MORTISInvariant CirQue::Back() const 
+{
+    if (IsEmpty()) 
+    {
         throw underflow_error("CirQue is empty.");
     }
+
     return arr[rear];
 }
 
 // 判斷是否為空
-bool CirQue::IsEmpty() const {
+bool CirQue::IsEmpty() const 
+{
     return (count == 0);
 }
 
 // 返回當前佇列大小
-int CirQue::Size() const {
+int CirQue::Size() const 
+{
     return count;
 }
 
 // 印出所有元素
-void CirQue::PrintBag() const {
-    if (IsEmpty()) {
+void CirQue::PrintBag() const 
+{
+    if (IsEmpty()) 
+    {
         cout << "CirQue is empty." << endl;
         return;
     }
 
     int index = front;
-    for (int i = 0; i < count; ++i) {
-        std::visit([](auto&& arg) {
+
+    for (int i = 0; i < count; ++i) 
+    {
+        std::visit([](auto&& arg) 
+        {
             cout << arg << endl;
         }, arr[index]);
         index = (index + 1) % capacity;  // 環形索引處理

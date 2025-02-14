@@ -6,8 +6,7 @@ DoubleNode<T>::DoubleNode() : Node<T>(), prev(nullptr) {}
 
 // Parameterized Constructor
 template <typename T>
-DoubleNode<T>::DoubleNode(const T& item, DoubleNode<T>* next, DoubleNode<T>* prev)
-    : Node<T>(item, next), prev(prev) {}
+DoubleNode<T>::DoubleNode(const T& item, DoubleNode<T>* next, DoubleNode<T>* prev): Node<T>(item, next), prev(prev) {}
 
 // Destructor
 template <typename T>

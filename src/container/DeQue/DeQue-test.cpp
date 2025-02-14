@@ -10,7 +10,8 @@
 #include "../../array/SparseMatrix/SparseMatrix.hpp"
 #include "../../array/String/String.hpp"
 
-int main() {
+int main() 
+{
     std::cout << "=== DeQue Test Program ===\n";
     
     // 初始化 DeQue

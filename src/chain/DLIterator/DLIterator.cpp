@@ -1,5 +1,3 @@
-
-
 #include "DLIterator.hpp"
 #include <iostream>
 #include <stdexcept>
@@ -14,12 +12,14 @@ DLIterator<T>& DLIterator<T>::operator++()
 {
     if (this->current) 
         this->current = static_cast<DoubleNode<T>*>(this->current)->getLink();
+    
     return *this;
 }
 
 // Post-increment: Move to the next node, return old state
 template <typename T>
-ChainIterator<T> DLIterator<T>::operator++(int) {
+ChainIterator<T> DLIterator<T>::operator++(int) 
+{
     DLIterator<T> temp = *this;
     if (current) current = current->getLink();
     return temp;
@@ -31,6 +31,7 @@ DLIterator<T>& DLIterator<T>::operator--()
 {
     if (this->current) 
         this->current = static_cast<DoubleNode<T>*>(this->current)->getPrev();
+    
     return *this;
 }
 

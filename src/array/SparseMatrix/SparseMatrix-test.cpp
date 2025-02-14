@@ -18,7 +18,8 @@
 #include "SparseMatrix.hpp"
 using namespace std;
 
-int main() {
+int main() 
+{
     cout << "=== SparseMatrix Test Program ===" << endl;
     
     // Test 1: Constructor and setTerm()

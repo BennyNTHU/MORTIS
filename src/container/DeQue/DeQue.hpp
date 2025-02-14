@@ -13,12 +13,11 @@
 // 定義 DeQue 可容納的變數型別
 using MIXED_TYPE = std::variant<int, char, float, bool, double, std::string>;
 
-using MORTISInvariant = std::variant<
-    int, char, float, bool, double, std::string,
-    GeneralArray<MIXED_TYPE>, Polynomial, SparseMatrix, String
->;
+using MORTISInvariant = std::variant<int, char, float, bool, double, std::string,
+    GeneralArray<MIXED_TYPE>, Polynomial, SparseMatrix, String>;
 
-class DeQue : public Bag {
+class DeQue : public Bag 
+{
     public:
         // Constructor
         DeQue(int initial_capacity = 10);
