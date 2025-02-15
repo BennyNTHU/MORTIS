@@ -25,6 +25,9 @@ You may see the documentation for the use.
 - Q: Do you implement linked stacks or linked queues?
 - A: All of our chain structures may view as linked stacks or linked queues with proper manipulation.
 
+- Q: Why don't you implement generalized list?
+- A: Because I consider it has rare application
+
 - Q: 你是MyGO廚嗎
 - A: 是
 

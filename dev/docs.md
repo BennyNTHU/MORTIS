@@ -11,6 +11,7 @@
         - `docs.md`: Current file structure and technical documentation
     - `docs/`: Usage documentation for each data structure
         - `Bag.md`
+        - `BloomFilter.md`
         - `ChainIteraion.md`
         - `CircularDoubleList.md`
         - `CircularList.md`
