@@ -22,6 +22,9 @@ You may see the documentation for the use.
 - Q: Why is this project called MORTIS?
 - A: To praise Mortis, the guitarist of the legendary girls band, Ave Mujica.
 
+- Q: Do you implement linked stacks or linked queues?
+- A: All of our chain structures may view as linked stacks or linked queues with proper manipulation.
+
 - Q: 你是MyGO廚嗎
 - A: 是
 

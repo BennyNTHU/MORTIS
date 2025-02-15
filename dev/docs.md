@@ -20,6 +20,7 @@
         - `DoubleNode.md`
         - `DoublyLinkedList.md`
         - `GeneralArray.md`
+        - `HashTable.md`
         - `LinkedList.md`
         - `LinkedPolynomial.md`
         - `LinkedSparseMatrix.md`
@@ -109,5 +110,13 @@
                 - `Stack.hpp`
         - `graph/`: Graph data structures
         - `hash/`: hash tables
+          - `BloomFilter/`
+            - `BloomFilter-test.cpp`
+            - `BloomFilter.cpp`
+            - `BloomFilter.hpp`
+          - `HashTable/`
+            - `HashTable-test.cpp`
+            - `HashTable.cpp`
+            - `HashTable.hpp`
         - `tree/`: Tree-based data structures
         - `MORTIS.cpp`: Header file

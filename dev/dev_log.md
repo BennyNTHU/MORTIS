@@ -27,3 +27,10 @@
 4. 實作`CircularDoubleList`
 5. 實作`LinkedPolynomial`。記得常常不只是要引入`.hpp`檔，也要引入`.cpp`檔
 6. 實作`LinkedSparseMatrix`
+
+### 2025/02/15
+1. 參加MyGO!!!!!聲優台北見面會，並以VIP資格參加了手渡會
+
+### 2025/02/16
+1. 實作`HashTable`
+2. 實作`BloomFilter`
