@@ -21,6 +21,7 @@ using MORTISInvariant = std::variant<int, char, float, bool, double, std::string
 // ---------------------------
 // Bag Class Declaration
 // ---------------------------
+
 class Bag 
 {
     protected:
@@ -50,6 +51,7 @@ class Bag
         template <class U>
         int  Multiplicity(const U& x) const;
 
+        // isBelong: Check if an element x is present in the bag
         template <class U>
         bool isBelong(const U& x) const;
 };

@@ -35,3 +35,4 @@
 1. 實作`HashTable`
 2. 實作`BloomFilter`
 3. 樹狀結構的前置作業
+4. 實作`Dictionary`

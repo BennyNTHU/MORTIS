@@ -11,10 +11,11 @@
 
 ### container
 - (O) `Bag`: 即multisets
-- (O) `DeQue` 繼承自`Bag`
-- (O) `Stack` 繼承自`Bag`
-- (O) `Queue` 繼承自`Stack`
-- (O) `CirQue` 繼承自`DeQue`
+- (O) `DeQue`（繼承自`Bag`）
+- (O) `Dictionary`: 為multimap，支援map-reduce功能
+- (O) `Stack`（繼承自`Bag`）
+- (O) `Queue`（繼承自`Stack`）
+- (O) `CirQue`（繼承自`DeQue`）
 這裡的資料結構都要能夠放入`MortisInvariant`
 
 ### chain
@@ -24,22 +25,24 @@
 - (O) `CircularDoubleList`（繼承自`DoublyLinkedList`）
 - (O) `LinkedPolynomial`
 - (O) `LinkedSparseMatrix`
-所有chain的結構，都只能夠放入相同的資料類別，比如要馬全部放`int`，要馬全部放`double`或`char`
+所有chain的結構，都只能夠放入相同的資料類別，比如要馬全部放`int`，`double`, `char`或`string`
 
 ### hash
 - (O) `HashTable`
 - (O) `BloomFilter`
 
 ### tree
-- tree
-- binarytree
-- threaded binary tree
-- max priority queue
-- max heap
-- dictionary
-- binary search tree
-- forest
-所有tree的結構，都只能夠放入相同的資料類別，比如要馬全部放`int`，要馬全部放`double`或`char`
+- `BinarySearchTree`（繼承自`BinaryTree`）
+- `BinaryTree`
+- `BinaryTreeIterator`
+- `BinaryTreeNode`
+- `LCRSTree`
+- `LCRSTreeIterator`
+- `LCRSTreeNode`
+- `MaxHeap`（繼承自`BinaryTree`）
+- `MinHeap`（繼承自`MaxHeap`）
+- `Set`（繼承自`LCRSTree`）
+所有tree的結構，都只能夠放入相同的資料類別，比如要馬全部放`int`，`double`, `char`或`string`
 
 ### graph
 - undirected, unweighted
