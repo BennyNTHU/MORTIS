@@ -11,7 +11,7 @@
 - Containers
 - Graphs
 - Trees
-- Hash functions
+- Hash tables
 
 You may see the documentation for the use.
 

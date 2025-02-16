@@ -4,147 +4,194 @@
 
 using namespace std;
 
-// Constructor: 初始化變數
-CirQue::CirQue(int capacity) : DeQue(capacity) 
-{
-    front = -1;
-    rear = -1;
-    count = 0;
-}
+// Constructor: Properly initialize CirQue by calling the base class constructor
+template <class T>
+CirQue<T>::CirQue(int cap) : DeQue<T>(cap) {}   // Call the DeQue constructor
 
-// 在前端插入元素
-void CirQue::PushFront(const MORTISInvariant& x) 
+// Destructor: The base class handles memory deallocation, no need to delete `arr`
+template <class T>
+CirQue<T>::~CirQue() {}
+
+// Insert at front
+template <class T>
+void CirQue<T>::PushFront(const T& x) 
 {
-    if (count == capacity) 
+    if (this->count == this->capacity) 
     {
-        throw overflow_error("CirQue is full.");
+        throw std::overflow_error("CirQue is full.");
     }
 
-    if (IsEmpty()) 
+    if (this->IsEmpty()) 
     {
-        front = rear = 0;
+        this->front = this->rear = 0;
     } 
     else 
     {
-        front = (front - 1 + capacity) % capacity;  // 環形索引處理
+        this->front = (this->front - 1 + this->capacity) % this->capacity;
     }
 
-    arr[front] = x;
-    count++;
+    this->arr[this->front] = x;
+    this->count++;
 }
 
-// 在後端插入元素
-void CirQue::PushBack(const MORTISInvariant& x) 
+// Insert at rear
+template <class T>
+void CirQue<T>::PushBack(const T& x) 
 {
-    if (count == capacity) 
+    if (this->count == this->capacity) 
     {
-        throw overflow_error("CirQue is full.");
+        throw std::overflow_error("CirQue is full.");
     }
 
-    if (IsEmpty()) 
+    if (this->IsEmpty()) 
     {
-        front = rear = 0;
+        this->front = this->rear = 0;
     } 
     else 
     {
-        rear = (rear + 1) % capacity;  // 環形索引處理
+        this->rear = (this->rear + 1) % this->capacity;
     }
 
-    arr[rear] = x;
-    count++;
+    this->arr[this->rear] = x;
+    this->count++;
 }
 
-// 從前端移除元素
-void CirQue::PopFront() 
+// Remove from front
+template <class T>
+void CirQue<T>::PopFront() 
 {
-    if (IsEmpty()) 
+    if (this->IsEmpty()) 
     {
-        throw underflow_error("CirQue is empty.");
+        throw std::underflow_error("CirQue is empty.");
     }
 
-    if (front == rear)  // 只有一個元素時 
+    if (this->count == 1)  // Only one element
     {  
-        front = rear = -1;
+        this->front = this->rear = -1;
     } 
     else 
     {
-        front = (front + 1) % capacity;  // 環形索引處理
+        this->front = (this->front + 1) % this->capacity;
     }
 
-    count--;
+    this->count--;
 }
 
-// 從後端移除元素
-void CirQue::PopBack() 
+// Remove from rear
+template <class T>
+void CirQue<T>::PopBack() 
 {
-    if (IsEmpty()) 
+    if (this->IsEmpty()) 
     {
-        throw underflow_error("CirQue is empty.");
+        throw std::underflow_error("CirQue is empty.");
     }
 
-    if (front == rear)  // 只有一個元素時 
+    if (this->count == 1)  // Only one element
     {  
-        front = rear = -1;
+        this->front = this->rear = -1;
     } 
     else 
     {
-        rear = (rear - 1 + capacity) % capacity;  // 環形索引處理
+        this->rear = (this->rear - 1 + this->capacity) % this->capacity;
     }
 
-    count--;
+    this->count--;
 }
 
-// 獲取前端元素
-MORTISInvariant CirQue::Front() const 
+
+
+// Get front element
+template <class T>
+T CirQue<T>::Front() const 
 {
-    if (IsEmpty()) 
+    if (this->IsEmpty()) 
     {
         throw underflow_error("CirQue is empty.");
     }
 
-    return arr[front];
+    return this->arr[this->front];
 }
 
-// 獲取後端元素
-MORTISInvariant CirQue::Back() const 
+// Get rear element
+template <class T>
+T CirQue<T>::Back() const 
 {
-    if (IsEmpty()) 
+    if (this->IsEmpty()) 
     {
         throw underflow_error("CirQue is empty.");
     }
 
-    return arr[rear];
+    return this->arr[this->rear];
 }
 
-// 判斷是否為空
-bool CirQue::IsEmpty() const 
+// Check if queue is empty
+template <class T>
+bool CirQue<T>::IsEmpty() const 
 {
-    return (count == 0);
+    return (this->count == 0);
 }
 
-// 返回當前佇列大小
-int CirQue::Size() const 
+// Return current queue size
+template <class T>
+int CirQue<T>::Size() const 
 {
-    return count;
+    return this->count;
 }
 
-// 印出所有元素
-void CirQue::PrintBag() const 
+// Prints the queue elements in the specified format
+template <class T>
+std::ostream& operator<<(std::ostream& os, const CirQue<T>& q) 
 {
-    if (IsEmpty()) 
+    if (q.IsEmpty()) 
     {
-        cout << "CirQue is empty." << endl;
-        return;
+        os << "CirQue is empty." << std::endl;
+        return os;
     }
 
-    int index = front;
-
-    for (int i = 0; i < count; ++i) 
+    os << "CirQue contents:" << std::endl;
+    T* temp = q.getArr();
+    
+    for (int i = 0; i < q.Size(); i++)
     {
-        std::visit([](auto&& arg) 
-        {
-            cout << arg << endl;
-        }, arr[index]);
-        index = (index + 1) % capacity;  // 環形索引處理
+        int index = (q.getFront() + i) % q.getCapacity(); // Handle circular indexing
+        os << i + 1 << ". ";
+
+        // Handle std::variant properly
+        if constexpr (std::is_same_v<T, MORTISInvariant>) 
+            std::visit([&os](const auto& val) { os << val; }, temp[index]);
+        else 
+            os << temp[index];
+
+        if (index == q.getFront())
+            os << " <- front";
+        else if (index == q.getRear())
+            os << " <- rear";
+        
+        os << std::endl;
     }
+
+    return os;
 }
+
+// Explicit instantiations
+template class CirQue<int>;
+template class CirQue<bool>;
+template class CirQue<char>;
+template class CirQue<float>;
+template class CirQue<double>;
+template class CirQue<std::string>;
+template class CirQue<MORTISInvariant>;
+template class CirQue<GeneralArray<MIXED_TYPE>>;
+template class CirQue<Polynomial>;
+template class CirQue<SparseMatrix>;
+template class CirQue<String>;
+template class CirQue<MIXED_TYPE>;
+
+// Explicit instantiation for operator<<
+template std::ostream& operator<<(std::ostream& os, const CirQue<int>&);
+template std::ostream& operator<<(std::ostream& os, const CirQue<bool>&);
+template std::ostream& operator<<(std::ostream& os, const CirQue<char>&);
+template std::ostream& operator<<(std::ostream& os, const CirQue<float>&);
+template std::ostream& operator<<(std::ostream& os, const CirQue<double>&);
+template std::ostream& operator<<(std::ostream& os, const CirQue<std::string>&);
+template std::ostream& operator<<(std::ostream& os, const CirQue<MORTISInvariant>&);

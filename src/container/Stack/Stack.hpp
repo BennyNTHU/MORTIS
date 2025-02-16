@@ -18,23 +18,21 @@ using MORTISInvariant = std::variant<int, char, float, bool, double, std::string
     GeneralArray<MIXED_TYPE>, Polynomial, SparseMatrix, String>;
 
 template <typename T>
-class Stack : public Bag 
+class Stack: public Bag<T>
 {
     public:
-        // Constructor: Initialize the stack with a given capacity
-        explicit Stack(int initial_capacity = 10);
+        // Constructor
+        explicit Stack(int initial_capacity = 10);  // Constructor: Initialize the stack with a given capacity
     
-        // Push an element onto the stack (overrides Bag's Push)
-        void Push(const MORTISInvariant& x);
+        // Manipulation
+        void Push(const T& x);  // Push an element onto the stack (overrides Bag's Push)
+        void Pop(); // Pop an element from the stack
     
-        // Pop an element from the stack
-        void Pop();
+        // Getters
+        T Top() const;  // Get the top element of the stack
     
-        // Get the top element of the stack
-        MORTISInvariant Top() const;
-    
-        // Print the entire stack (from top to bottom)
-        void PrintStack() const;
+        // overloading operator
+        template <typename U> friend std::ostream& operator<<(std::ostream& os, const Stack<U>& s);
 };
 
 #endif

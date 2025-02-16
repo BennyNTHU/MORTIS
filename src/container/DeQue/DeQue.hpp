@@ -16,23 +16,36 @@ using MIXED_TYPE = std::variant<int, char, float, bool, double, std::string>;
 using MORTISInvariant = std::variant<int, char, float, bool, double, std::string,
     GeneralArray<MIXED_TYPE>, Polynomial, SparseMatrix, String>;
 
-class DeQue : public Bag 
+template <typename T>
+class DeQue : public Bag<T>
 {
+    private:
+        int front; // Tracks the front of the queue
+        int rear;  // Tracks the rear of the queue
+        int size;
+
     public:
-        // Constructor
+        // Constructor and Destructor
         DeQue(int initial_capacity = 10);
+        ~DeQue();   // Destructor
     
         // DeQue operations
-        void PushFront(const MORTISInvariant& x);
-        void PushBack(const MORTISInvariant& x);
+        void PushFront(const T& x);
+        void PushBack(const T& x);
         void PopFront();
         void PopBack();
-        MORTISInvariant Front() const;
-        MORTISInvariant Back() const;
+
+        // Getters
+        int getFront() const;   // Getters for front index
+        int getRear() const;    // Getters for rear index
+        T Front() const;
+        T Back() const;
+
+        // properties
         bool IsEmpty() const;
     
-        // Print all elements
-        void PrintBag() const;
-    };
+        // overloading operator
+        template <typename U> friend std::ostream& operator<<(std::ostream& os, const DeQue<U>& s); // Prints the DeQue elements in a readable format
+};
 
 #endif

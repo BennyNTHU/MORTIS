@@ -10,7 +10,7 @@ int main()
     std::cout << "=== Queue Test Program ===" << std::endl;
 
     // Create a queue with an initial capacity of 10
-    Queue q(10);
+    Queue<MORTISInvariant> q(10);
 
     // Check if the queue is initially empty
     std::cout << "IsEmpty? " << (q.IsEmpty() ? "Yes" : "No") << std::endl;
@@ -24,7 +24,7 @@ int main()
 
     // Print queue after enqueuing elements
     std::cout << "\nQueue after enqueuing elements:\n";
-    q.PrintQueue();
+    cout << q << endl;;
 
     // Check front and rear elements
     std::cout << "\nFront element: ";
@@ -36,7 +36,7 @@ int main()
     // Pop an element
     q.Pop();
     std::cout << "\nQueue after dequeuing an element:\n";
-    q.PrintQueue();
+    cout << q << endl;;
 
     // Insert GeneralArray<MIXED_TYPE>
     GeneralArray<MIXED_TYPE> ga(1, {3}, MIXED_TYPE{});
@@ -63,7 +63,7 @@ int main()
     q.Push(str);
 
     std::cout << "\nQueue contents after inserting all types:\n";
-    q.PrintQueue();
+    cout << q << endl;;
 
     // Check front and rear after insertions
     std::cout << "\nFront element: ";
@@ -77,7 +77,7 @@ int main()
     q.Pop();
     
     std::cout << "\nQueue after dequeuing twice:\n";
-    q.PrintQueue();
+    cout << q << endl;;
 
     std::cout << "\nTest completed successfully!\n";
 

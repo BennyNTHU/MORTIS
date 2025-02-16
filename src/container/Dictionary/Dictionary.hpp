@@ -5,7 +5,17 @@
 #include <functional>
 #include <vector>
 
+#include "../../array/GeneralArray/GeneralArray.hpp"
+#include "../../array/Polynomial/Polynomial.hpp"
+#include "../../array/SparseMatrix/SparseMatrix.hpp"
+#include "../../array/String/String.hpp"
+
 using namespace std;
+
+using MIXED_TYPE = std::variant<int, char, float, bool, double, std::string>;
+
+using T = std::variant<int, char, float, bool, double, std::string,
+    GeneralArray<MIXED_TYPE>, Polynomial, SparseMatrix, String>;
 
 template <class K, class V>
 struct KeyValuePair

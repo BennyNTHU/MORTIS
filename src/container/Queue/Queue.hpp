@@ -8,7 +8,15 @@
 #include "../../array/SparseMatrix/SparseMatrix.hpp"
 #include "../../array/String/String.hpp"
 
-class Queue : public Bag 
+using namespace std;
+
+using MIXED_TYPE = std::variant<int, char, float, bool, double, std::string>;
+
+using MORTISInvariant = std::variant<int, char, float, bool, double, std::string,
+    GeneralArray<MIXED_TYPE>, Polynomial, SparseMatrix, String>;
+
+template <typename T>
+class Queue : public Bag<T>
 {
     private:
         int front; // Tracks the front of the queue
@@ -16,35 +24,25 @@ class Queue : public Bag
         int size;
 
     public:
-        // Constructor
+        // Constructor and Destructor
         Queue(int capacity = 10);
+        ~Queue();   // Destructor
 
-        // Destructor
-        ~Queue();
+        // manipulation
+        void Push(const T& x);    // Adds an element to the back of the queue
+        void Pop();               // Removes an element from the front of the queue
 
-        // Adds an element to the back of the queue
-        void Push(const MORTISInvariant& x);
+        // Getters
+        int getFront() const;   // Getters for front index
+        int getRear() const;    // Getters for rear index
+        T Front() const;        // Returns the front element of the queue
+        T Rear() const;         // Returns the rear element of the queue
+        
+        // properties
+        bool IsEmpty() const;   // Checks if the queue is empty
 
-        // Removes an element from the front of the queue
-        void Pop();
-
-        // Returns the front element of the queue
-        MORTISInvariant Front() const;
-
-        // Returns the rear element of the queue
-        MORTISInvariant Rear() const;
-
-        // Checks if the queue is empty
-        bool IsEmpty() const;
-
-        // Prints the queue elements in a readable format
-        void PrintQueue() const;
-
-        // Getters for front index
-        int getFront() const;
-
-        // Getters for rear index
-        int getRear() const;
+        // overloading operator
+        template <typename U> friend std::ostream& operator<<(std::ostream& os, const Queue<U>& s); // Prints the queue elements in a readable format
 };
 
 #endif

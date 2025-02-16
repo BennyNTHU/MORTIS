@@ -5,35 +5,31 @@
 using namespace std;
 
 // Constructor: Initializes the queue with a given capacity
-Queue::Queue(int capacity) : Bag(capacity), front(0), rear(-1), size(0) {}
+template <class T>
+Queue<T>::Queue(int capacity): Bag<T>(capacity), front(0), rear(-1), size(0) {}
 
 // Destructor
-Queue::~Queue() {}
+template <class T>
+Queue<T>::~Queue() {}
 
 // Push: Adds an element to the back of the queue
-void Queue::Push(const MORTISInvariant& x) 
+template <class T>
+void Queue<T>::Push(const T& x) 
 {
-    if (size == capacity) 
+    if (size == this->getCapacity())  // Use getCapacity()
     {
-        // Expand capacity and shift elements correctly
-        ChangeSize1D(arr, capacity, capacity * 2);
-        capacity *= 2;
+        T* tempArr = this->getArr();  // Create a local reference
+        ChangeSize1D(tempArr, this->getCapacity(), this->getCapacity() * 2);
     }
 
-    // Move rear forward for new insertion
-    rear++;
-    arr[rear] = x;
+    rear = (rear + 1) % this->getCapacity();
+    this->getArr()[rear] = x;  // Use getArr() to access array
     size++;
-
-    // If first element is inserted, reset front
-    if (size == 1) 
-    {
-        front = 0;
-    }
 }
 
 // Pop: Removes an element from the front of the queue
-void Queue::Pop() 
+template <class T>
+void Queue<T>::Pop() 
 {
     if (IsEmpty()) 
     {
@@ -53,63 +49,94 @@ void Queue::Pop()
 }
 
 // Front: Returns the first element in the queue
-MORTISInvariant Queue::Front() const 
+template <class T>
+T Queue<T>::Front() const 
 {
-    if (IsEmpty()) 
-    {
-        throw runtime_error("Queue is empty, no front element.");
-    }
-    return arr[front];
+    return this->getArr()[front];  // Use getArr() properly
 }
 
 // Rear: Returns the last element in the queue
-MORTISInvariant Queue::Rear() const 
+template <class T>
+T Queue<T>::Rear() const 
 {
-    if (IsEmpty()) 
-    {
-        throw runtime_error("Queue is empty, no rear element.");
-    }
-    return arr[rear];
+    return this->getArr()[rear];  // Use getArr() properly
 }
 
 // IsEmpty: Checks if the queue is empty
-bool Queue::IsEmpty() const 
+template <class T>
+bool Queue<T>::IsEmpty() const 
 {
     return size == 0;
 }
 
-// PrintQueue: Prints the queue elements in the specified format
-void Queue::PrintQueue() const 
+// Prints the queue elements in the specified format
+template <class T>
+std::ostream& operator<<(std::ostream& os, const Queue<T>& q) 
 {
-    if (IsEmpty()) 
+    if (q.IsEmpty()) 
     {
         cout << "Queue is empty." << endl;
-        return;
+        return os;
     }
 
     cout << "Queue contents:" << endl;
-    for (int i = 0; i < size; i++) 
+    T* temp = q.getArr();
+
+    for (int i = 0; i < q.size; i++)
     {
-        int index = front + i; // Linear traversal
+        int index = q.getFront() + i; // Linear traversal
         cout << i + 1 << ". ";
-        visit([](auto&& arg) { cout << arg; }, arr[index]);
+
+        // Handle std::variant properly
+        if constexpr (std::is_same_v<T, MORTISInvariant>) 
+            std::visit([&os](const auto& val) { os << val; }, temp[i]);
+        else 
+            os << temp[i];
 
         if (i == 0)
             cout << " <- front";
-        else if (i == size - 1)
+        else if (i == q.size - 1)
             cout << " <- rear";
+        
         cout << endl;
     }
+
+    return os;
 }
 
 // Getters for front index
-int Queue::getFront() const 
+template <class T>
+int Queue<T>::getFront() const 
 { 
     return front; 
 }
 
 // Getters for rear index
-int Queue::getRear() const 
+template <class T>
+int Queue<T>::getRear() const 
 { 
     return rear; 
 }
+
+// Explicit instantiations
+template class Queue<int>;
+template class Queue<bool>;
+template class Queue<char>;
+template class Queue<float>;
+template class Queue<double>;
+template class Queue<std::string>;
+template class Queue<MORTISInvariant>;
+template class Queue<GeneralArray<MIXED_TYPE>>;
+template class Queue<Polynomial>;
+template class Queue<SparseMatrix>;
+template class Queue<String>;
+template class Queue<MIXED_TYPE>;
+
+// Explicit instantiation for operator<<
+template std::ostream& operator<<(std::ostream& os, const Queue<int>&);
+template std::ostream& operator<<(std::ostream& os, const Queue<bool>&);
+template std::ostream& operator<<(std::ostream& os, const Queue<char>&);
+template std::ostream& operator<<(std::ostream& os, const Queue<float>&);
+template std::ostream& operator<<(std::ostream& os, const Queue<double>&);
+template std::ostream& operator<<(std::ostream& os, const Queue<std::string>&);
+template std::ostream& operator<<(std::ostream& os, const Queue<MORTISInvariant>&);

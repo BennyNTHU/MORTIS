@@ -14,6 +14,26 @@
 #include "SparseMatrix.hpp"
 using namespace std;
 
+int SparseMatrix::get_rows() const 
+{
+    return rows;
+}
+
+int SparseMatrix::get_cols() const 
+{
+    return cols;
+}
+
+int SparseMatrix::get_capacity() const 
+{
+    return capacity;
+}
+
+MatrixTerm* SparseMatrix::get_smArray() const 
+{
+    return smArray;
+}
+
 // Helper function: add two variant values. If both are ints, return int; otherwise, return float.
 std::variant<int, float> addValues(const std::variant<int, float>& a, const std::variant<int, float>& b) 
 {

@@ -10,7 +10,7 @@ int main()
     std::cout << "=== Stack Test Program ===" << std::endl;
 
     // Create a stack with an initial capacity of 5
-    Stack s(10);
+    Stack<MORTISInvariant> s(10);
 
     // Test if the stack is empty
     std::cout << "IsEmpty? " << (s.IsEmpty() ? "Yes" : "No") << std::endl;
@@ -24,17 +24,12 @@ int main()
 
     // Print stack after pushing elements
     std::cout << "\nStack after pushing elements:\n";
-    s.PrintStack();
-
-    // Check the top element
-    std::cout << "\nTop element: ";
-    std::visit([](auto&& arg) { std::cout << arg; }, s.Top());
-    std::cout << std::endl;
+    cout << s << endl;
 
     // Pop the top element
     s.Pop();
     std::cout << "\nStack after popping top element:\n";
-    s.PrintStack();
+    cout << s << endl;
 
     // Check if the stack is empty
     std::cout << "IsEmpty? " << (s.IsEmpty() ? "Yes" : "No") << std::endl;
@@ -63,19 +58,33 @@ int main()
     String str(init1, 100);
     s.Push(str);
 
-    std::cout << "\nDeQue contents after inserting all types:\n";
-    s.PrintStack();
-
-    // 測試 Top
-    std::cout << "\nTop element: ";
-    std::visit([](auto&& arg) { std::cout << arg << std::endl; }, s.Top());
+    std::cout << "\nStack contents after inserting all types:\n";
+    cout << s << endl;
 
     // 測試 PopFront & PopBack
     s.Pop();
     s.Pop();
     
-    std::cout << "\nDeQue after popping front and back:\n";
-    s.PrintStack();
+    std::cout << "\nStack after popping front and back:\n";
+    cout << s << endl;
+
+     // Create a stack of integers
+     Stack<int> intStack(5);
+
+     // Push elements
+     intStack.Push(10);
+     intStack.Push(20);
+     intStack.Push(30);
+ 
+     // Check the top element
+     if (intStack.Top() == 30) 
+     {
+         std::cout << "Test Passed: Top() correctly returns 30.\n";
+     } 
+     else 
+     {
+         std::cout << "Test Failed: Expected 30, but got " << intStack.Top() << "\n";
+     }
 
     std::cout << "\nTest completed successfully!\n";
 

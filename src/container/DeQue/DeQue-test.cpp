@@ -15,7 +15,7 @@ int main()
     std::cout << "=== DeQue Test Program ===\n";
     
     // 初始化 DeQue
-    DeQue dq(10);
+    DeQue<MORTISInvariant> dq(10);
     
     // 插入基本類型
     dq.PushFront(10);
@@ -25,7 +25,7 @@ int main()
     dq.PushBack(2.718);
     
     std::cout << "After inserting basic types:\n";
-    dq.PrintBag();
+    cout << dq << endl;
     
     // 插入 std::string
     dq.PushBack(std::string("Hello, DeQue!"));
@@ -55,7 +55,7 @@ int main()
     dq.PushBack(str);
 
     std::cout << "\nDeQue contents after inserting all types:\n";
-    dq.PrintBag();
+    cout << dq << endl;
 
     // 測試 Front & Back
     std::cout << "\nFront element: ";
@@ -69,7 +69,7 @@ int main()
     dq.PopBack();
     
     std::cout << "\nDeQue after popping front and back:\n";
-    dq.PrintBag();
+    cout << dq << endl;
 
     std::cout << "\nTest completed successfully!\n";
 }

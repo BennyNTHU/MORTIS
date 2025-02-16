@@ -1,6 +1,7 @@
 #ifndef CIRQUE
 #define CIRQUE
 
+#include "../Bag/Bag.hpp"
 #include "../DeQue/DeQue.hpp"  // 繼承自 DeQue
 #include <iostream>
 
@@ -11,10 +12,11 @@
 
 using MIXED_TYPE = std::variant<int, char, float, bool, double, std::string>;
 
-using MORTISInvariant = std::variant<int, char, float, bool, double, std::string,
+using T = std::variant<int, char, float, bool, double, std::string,
     GeneralArray<MIXED_TYPE>, Polynomial, SparseMatrix, String>;
 
-class CirQue : public DeQue 
+template <typename T>
+class CirQue : public DeQue<T>
 {
     private:
         int front;  // 指向佇列的第一個有效元素
@@ -22,35 +24,26 @@ class CirQue : public DeQue
         int count;  // 當前佇列的大小
 
     public:
-        // Constructor: 初始化循環佇列，預設容量為 10
-        CirQue(int capacity = 10);
+        // Constructor
+        CirQue(int capacity = 10);  // Constructor: 初始化循環佇列，預設容量為 10
+        ~CirQue();  // Destructor: 釋放記憶體
 
-        // Insert element at front
-        void PushFront(const MORTISInvariant& x);
+        // Manipulation
+        void PushFront(const T& x); // Insert element at front
+        void PushBack(const T& x);  // Insert element at back
+        void PopFront();    // Remove element from front
+        void PopBack(); // Remove element from back
 
-        // Insert element at back
-        void PushBack(const MORTISInvariant& x);
+        // Getters
+        T Front() const;    // Get the front element
+        T Back() const; // Get the back element
 
-        // Remove element from front
-        void PopFront();
+        // Properties
+        bool IsEmpty() const;   // Check if queue is empty
+        int Size() const;   // Get the size of the queue
 
-        // Remove element from back
-        void PopBack();
-
-        // Get the front element
-        MORTISInvariant Front() const;
-
-        // Get the back element
-        MORTISInvariant Back() const;
-
-        // Check if queue is empty
-        bool IsEmpty() const;
-
-        // Get the size of the queue
-        int Size() const;
-
-        // Print all elements in the queue
-        void PrintBag() const;
+        // overloading operator
+        template <typename U> friend std::ostream& operator<<(std::ostream& os, const CirQue<U>& s); // Prints the queue elements in a readable format
 };
 
-#endif // CIRQUE
+#endif

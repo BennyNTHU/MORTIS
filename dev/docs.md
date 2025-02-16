@@ -135,39 +135,39 @@
             - `HashTable.cpp`
             - `HashTable.hpp`
         - `tree/`: Tree-based data structures
-          - `BinarySearchTree`
+          - `BinarySearchTree/`
             - `BinarySearchTree-test.hpp`
             - `BinarySearchTree.cpp`
             - `BinarySearchTree.hpp`
-          - `BinaryTree`
+          - `BinaryTree/`
             - `BinaryTree-test.hpp`
             - `BinaryTree.cpp`
             - `BinaryTree.hpp`
-          - `BinaryTreeIterator`
+          - `BinaryTreeIterator/`
             - `BinaryTreeIterator.cpp`
             - `BinaryTreeIterator.hpp`
-          - `BinaryTreeNode`
+          - `BinaryTreeNode/`
             - `BinaryTreeNode.cpp`
             - `BinaryTreeNode.hpp`
-          - `LCRSTree`
+          - `LCRSTree/`
             - `LCRSTree-test.hpp`
             - `LCRSTree.cpp`
             - `LCRSTree.hpp`
-          - `LCRSTreeIterator`
+          - `LCRSTreeIterator/`
             - `LCRSTreeIterator.cpp`
             - `LCRSTreeIterator.hpp`
-          - `LCRSTreeNode`
+          - `LCRSTreeNode/`
             - `LCRSTreeNode.cpp`
             - `LCRSTreeNode.hpp`
-          - `MaxHeap`
+          - `MaxHeap/`
             - `MaxHeap-test.hpp`
             - `MaxHeap.cpp`
             - `MaxHeap.hpp`
-          - `MinHeap`
+          - `MinHeap/`
             - `MinHeap-test.hpp`
             - `MinHeap.cpp`
             - `MinHeap.hpp`
-          - `Set`
+          - `Set/`
             - `Set-test.hpp`
             - `Set.cpp`
             - `Set.hpp`

@@ -16,7 +16,8 @@
 - (O) `Stack`（繼承自`Bag`）
 - (O) `Queue`（繼承自`Stack`）
 - (O) `CirQue`（繼承自`DeQue`）
-這裡的資料結構都要能夠放入`MortisInvariant`
+- (O) `Dictionary`
+這裡的資料結構除了`Dictionary`以外都要能夠放入`MortisInvariant`
 
 ### chain
 - (O) `Node`, `ChainIterator`, `LinkedList`
@@ -27,13 +28,14 @@
 - (O) `LinkedSparseMatrix`
 所有chain的結構，都只能夠放入相同的資料類別，比如要馬全部放`int`，`double`, `char`或`string`
 
-### hash
+### hash table
 - (O) `HashTable`
 - (O) `BloomFilter`
+- 所有hash table的結構，都只能夠放入相同的資料類別，比如要馬全部放`int`，`double`, `char`或`string`
 
 ### tree
 - `BinarySearchTree`（繼承自`BinaryTree`）
-- `BinaryTree`
+- (O) `BinaryTree`
 - (O) `BinaryTreeIterator`
 - (O) `BinaryTreeNode`
 - `LCRSTree`
@@ -52,4 +54,6 @@
 所有graph都用linked structure來實做，減少工作量。node的命名方式一律使用`unsigned int`
 
 ## 2. 其他issue
-
+1. `Dictionary`放入`MortisInvariant`
+2. `MortisInvariant`放入`LinkedPolynomial`與`LinkedSparseMatrix`
+3. 
