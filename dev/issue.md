@@ -56,4 +56,4 @@
 ## 2. 其他issue
 1. `Dictionary`放入`MortisInvariant`
 2. `MortisInvariant`放入`LinkedPolynomial`與`LinkedSparseMatrix`
-3. 
+3. 確保container和array的動態性，可以不斷放入元素而不受初始容量限制

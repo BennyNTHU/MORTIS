@@ -6,7 +6,12 @@ using namespace std;
 
 // Constructor: Properly initialize CirQue by calling the base class constructor
 template <class T>
-CirQue<T>::CirQue(int cap) : DeQue<T>(cap) {}   // Call the DeQue constructor
+CirQue<T>::CirQue(int cap) : DeQue<T>(cap)  // Call the DeQue constructor
+{
+    this->front = -1;
+    this->rear = -1;
+    this->count = 0;
+}   
 
 // Destructor: The base class handles memory deallocation, no need to delete `arr`
 template <class T>
@@ -34,7 +39,7 @@ void CirQue<T>::PushFront(const T& x)
     this->count++;
 }
 
-// Insert at rear
+// Insert at rear (corrected)
 template <class T>
 void CirQue<T>::PushBack(const T& x) 
 {
@@ -45,14 +50,16 @@ void CirQue<T>::PushBack(const T& x)
 
     if (this->IsEmpty()) 
     {
+        // If the queue is empty, properly initialize both pointers
         this->front = this->rear = 0;
     } 
     else 
     {
+        // Correctly move rear using modulo operation
         this->rear = (this->rear + 1) % this->capacity;
     }
 
-    this->arr[this->rear] = x;
+    this->arr[this->rear] = x;  // Insert at the new rear position
     this->count++;
 }
 
@@ -97,8 +104,6 @@ void CirQue<T>::PopBack()
 
     this->count--;
 }
-
-
 
 // Get front element
 template <class T>
