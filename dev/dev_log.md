@@ -36,3 +36,5 @@
 2. 實作`BloomFilter`
 3. 樹狀結構的前置作業
 4. 實作`Dictionary`
+5. 修改container內的各個類別使得其可以放進任意類別。這樣才能實作tree的iterator。
+6. 學到教訓：比起print function，應優先選擇overload `<<`

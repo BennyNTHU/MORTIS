@@ -18,45 +18,40 @@ using MIXED_TYPE = std::variant<int, char, float, bool, double, std::string>;
 using MORTISInvariant = std::variant<int, char, float, bool, double, std::string,
     GeneralArray<MIXED_TYPE>, Polynomial, SparseMatrix, String>;
 
-// ---------------------------
-// Bag Class Declaration
-// ---------------------------
-
+template <typename T>
 class Bag 
 {
     protected:
-        MORTISInvariant* arr;  // Array to store elements (MORTISInvariant array)
+        T* arr;  // Array to store elements (MORTISInvariant array)
         int top;               // Index of the last element (-1 if empty)
         int capacity;          // Current capacity of the bag
         int size = top + 1;    // Number of elements in the Bag
 
     public:
+        //  Consructors and destructors
         Bag(int c);       // Constructor
         ~Bag();           // Destructor
 
-        int  Size()     const; // Return capacity
-        bool IsEmpty()  const; // Return true if bag is empty
-        int  Element()  const; // Return number of elements
+        // Properties
+        int getCapacity() const;  // Return capacity
+        int getTop() const;       // Return top
+        T* getArr() const;        // Return arr
+        bool IsEmpty()  const;    // Return true if bag is empty
+        int  Element()  const;    // Return number of elements
+        template <class U> int Multiplicity(const U& x) const;  // multiplicity & isBelong
+        template <class U> bool isBelong(const U& x) const;     // isBelong: Check if an element x is present in the bag
 
-        // Push: add an element x
-        void Push(const MORTISInvariant& x);
+        // Manioulations
+        void Push(const T& x);  // Push: add an element x
+        void Pop(); // Pop: remove the last element
 
-        // Pop: remove the last element
-        void Pop();
+        // overloading operator
+        template <typename U> friend std::ostream& operator<<(std::ostream& os, const Bag<U>& b);
 
-        // PrintBag: Print all the elements in a bag (using output streams of each elements)
-        void PrintBag() const;
-
-        // Template member functions for multiplicity & isBelong
-        template <class U>
-        int  Multiplicity(const U& x) const;
-
-        // isBelong: Check if an element x is present in the bag
-        template <class U>
-        bool isBelong(const U& x) const;
 };
 
 // 變動陣列大小的函式
-void ChangeSize1D(MORTISInvariant*& a, const int oldSize, const int newSize);
+template <class T>
+void ChangeSize1D(T*& a, const int oldSize, const int newSize);
 
 #endif

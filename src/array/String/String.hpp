@@ -13,6 +13,7 @@ class String
         int* f;     // failure function
 
     public:
+        String() = default;           // default constructor
         String(char *init, int m);    // constructor using input string init of length m
         String(const String &s);      // constructor using another string
         ~String();                    // destructor

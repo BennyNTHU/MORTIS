@@ -1,64 +1,48 @@
+#ifndef BINARY_TREE_NODE
+#define BINARY_TREE_NODE
+
 #include <iostream>
-#include <algorithm>
-#include <cmath>
-#include <cstring>
-#include <stack>
-#include <queue>
+
 using namespace std;
 
-template<class T> class BinaryTree;
-template <class T> class Tree;
+template <class T>
+class BinaryTree; // Forward declaration
 
 template <class T>
-class TreeNode 
+class BinaryTreeNode 
 {
-    friend class BinaryTree<T>;
+    friend class BinaryTree<T>; // Allow BinaryTree to access private members
 
     private:
         T data;
-        TreeNode<T> *leftChild;
-        TreeNode<T> *rightChild;
+        BinaryTreeNode<T>* leftChild;
+        BinaryTreeNode<T>* rightChild;
+        BinaryTreeNode<T>* parent;
+        BinaryTreeNode<T>* leftthread;
+        BinaryTreeNode<T>* rightthread;
+
+        // Private methods to set threaded pointers (Used internally)
+        void setLeftThread(BinaryTreeNode<T>* in);
+        void setRightThread(BinaryTreeNode<T>* in);
 
     public:
-        TreeNode()
-        {
-            leftChild = nullptr;
-            rightChild = nullptr;
-        }
-        TreeNode(const T& e, TreeNode<T>* ptr_left, TreeNode<T>* ptr_right)
-        {
-            data = e; 
-            leftChild = ptr_left;
-            rightChild = ptr_right; 
-        }
-        TreeNode(const T& e)
-        {
-            data = e;
-            leftChild = nullptr;
-            rightChild = nullptr;
-        }
-        T getdata()
-        {
-            return data;
-        }
-        TreeNode<T>* get_left_child()
-        {
-            return this->leftChild;
-        }
-        TreeNode<T>* get_right_child()
-        {
-            return this->rightChild;
-        }
-        TreeNode<T>* setNode(T in)
-        {
-            return this->data = in;
-        }
-        TreeNode<T>* set_left_child(TreeNode *in)
-        {
-            return this->left_child = in;
-        }
-        TreeNode<T>* set_right_child(TreeNode *in)
-        {
-            return this->right_child = in;
-        }
+        // Constructors
+        BinaryTreeNode(const T& e);
+B       BinaryTreeNode(const T& e, BinaryTreeNode<T>* ptr_left, BinaryTreeNode<T>* ptr_right);
+
+        // Getters
+        T getData() const;
+        BinaryTreeNode<T>* getRightChild() const;
+        BinaryTreeNode<T>* getLeftChild() const;
+        BinaryTreeNode<T>* getRightThread() const;
+        BinaryTreeNode<T>* getLeftThread() const;
+        BinaryTreeNode<T>* getParent() const;
+
+        // Setters (Ensure Parent-Child Consistency)
+        void setData(T in);
+        void setParent(BinaryTreeNode<T>* in);
+        void setLeftChild(BinaryTreeNode<T>* in);
+        void setRightChild(BinaryTreeNode<T>* in);
 };
+
+#endif

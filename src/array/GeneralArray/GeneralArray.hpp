@@ -50,53 +50,31 @@ class GeneralArray
         int computeLinearIndex(const Index& idx) const;
 
     public:
-        // Constructor: user must specify dimensions and corresponding sizes; default initial value is T()
-        GeneralArray(int j = 1, const RangeList& list = RangeList(), T initValue = T());
+        // Constructors and Destructor
+        GeneralArray(int j=1, const RangeList& list=RangeList(), T initValue=T());  // default initial dimensions and sizes is T()    
+        GeneralArray(const GeneralArray<T>& other); // Copy constructor: deep copy from another GeneralArray
+        ~GeneralArray();    // Destructor: releases allocated memory
 
-        // Destructor: releases allocated memory
-        ~GeneralArray();
+        // Properties
+        int length() const; // return the total number of elements in the array
 
-        // Copy constructor: deep copy from another GeneralArray
-        GeneralArray(const GeneralArray<T>& other);
+        // Getters
+        T Retrieve(const Index& idx) const;  // Retrieve the element at the given multi-dimensional index
 
-        // Assignment operator: deep copy assignment from another GeneralArray
-        GeneralArray<T>& operator=(const GeneralArray<T>& other);
-
-        // Overloaded assignment operator with initializer_list.
-        // Allows syntax: GeneralArray A = {elem1, elem2, ...};
-        GeneralArray<T>& operator=(std::initializer_list<T> il);
-
-        // Equality operator: returns true if arrays have the same dimensions and all elements equal
-        bool operator==(const GeneralArray<T>& other) const;
-
-        // Store() function: update the element at the given multi-dimensional index with value x
-        void Store(const Index& idx, T x);
-
-        // Retrieve() function: return the element at the given multi-dimensional index
-        T Retrieve(const Index& idx) const;
-
-        // sort() function: sort the array based on parameters.
-        // For 1D, sort entire data; for 2D, sort rows based on the element at column (sortDim-1).
-        // 'reverse' true means ascending order; false means descending order (default false).
-        void sort(bool reverse = false, int sortDim = 1);
-
-        // reverse() function: reverse the order of elements (flat order)
-        void reverse();
-
-        // initialize() function: set all elements to default value T{} (e.g. 0 for numeric types)
-        void initialize();
-
-        // length() function: return the total number of elements in the array
-        int length() const;
-
-        // Friend overloaded >> operator to allow input from stream.
-        // For types that are std::variant, input operator is not supported.
-        template <class U>
-        friend istream& operator>>(istream& in, GeneralArray<U>& arr);
-
+        // Manipulations
+        void initialize();  // set all elements to default value T{} (e.g. 0 for numeric types)
+        void Store(const Index& idx, T x);  // pdate the element at the given multi-dimensional index with value x
+        void sort(bool reverse = false, int sortDim = 1);   // sort the array based on parameters.
+        void reverse(); // 'reverse' true means ascending order; false means descending order (default false).
+        
+        // Operator overloading
+        GeneralArray<T>& operator=(const GeneralArray<T>& other);   // deep copy assignment from another GeneralArray
+        GeneralArray<T>& operator=(std::initializer_list<T> il);    // Allows syntax: GeneralArray A = {elem1, elem2, ...};
+        bool operator==(const GeneralArray<T>& other) const;    // true if same dimensions and all elements equal
+        // Friend overloaded >> operator to allow input from stream. not supported for std::variant
+        template <class U> friend istream& operator>>(istream& in, GeneralArray<U>& arr);
         // Friend overloaded << operator to output the array content to stream.
-        template <class U>
-        friend ostream& operator<<(ostream& out, const GeneralArray<U>& arr);
+        template <class U> friend ostream& operator<<(ostream& out, const GeneralArray<U>& arr);
 };
 
 #endif  // End of include guard GENERALARRAY_H

@@ -17,6 +17,7 @@ using MIXED_TYPE = std::variant<int, char, float, bool, double, std::string>;
 using MORTISInvariant = std::variant<int, char, float, bool, double, std::string,
     GeneralArray<MIXED_TYPE>, Polynomial, SparseMatrix, String>;
 
+template <typename T>
 class Stack : public Bag 
 {
     public:

@@ -1,152 +1,191 @@
+// Bag.cpp
 #include "Bag.hpp"
-#include <iostream>
-#include <algorithm>  // For std::copy, std::min, etc.
-#include <stdexcept>  // For exceptions
+#include <stdexcept>
+#include <utility>   // for std::move
 
-using namespace std;
-
-// Constructor
-Bag::Bag(int c) 
-{
-    if (c < 1)
-        throw runtime_error("Bag capacity must be > 0");
-    arr = new MORTISInvariant[c];
+template <class T>
+Bag<T>::Bag(int c) {
+    if (c < 1) throw std::runtime_error("Bag capacity must be > 0");
+    arr = new T[c];
     top = -1;
     capacity = c;
 }
 
-// Destructor
-Bag::~Bag() 
-{
+template <class T>
+Bag<T>::~Bag() {
     delete[] arr;
 }
 
-// Return capacity
-int Bag::Size() const 
-{
+template <class T>
+int Bag<T>::getCapacity() const {
     return capacity;
 }
 
-// Return true if bag is empty
-bool Bag::IsEmpty() const 
-{
+template <class T>
+int Bag<T>::getTop() const {
+    return top;
+}
+
+template <class T>
+T* Bag<T>::getArr() const {
+    return arr;
+}
+
+template <class T>
+bool Bag<T>::IsEmpty() const {
     return (top == -1);
 }
 
-// Return number of elements in bag
-int Bag::Element() const 
-{
+template <class T>
+int Bag<T>::Element() const {
     return top + 1;
 }
 
-// Push element x
-void Bag::Push(const MORTISInvariant& x) 
-{
-    // If full, resize
-    if (top == capacity - 1) 
-    {
+template <class T>
+void Bag<T>::Push(const T& x) {
+    if (top == capacity - 1) {
         ChangeSize1D(arr, capacity, capacity * 2);
         capacity *= 2;
     }
     arr[++top] = x;
 }
 
-// Pop last element
-void Bag::Pop() 
-{
-    if (IsEmpty()) 
-    {
-        throw runtime_error("Bag is empty, cannot pop.");
-    }
+template <class T>
+void Bag<T>::Pop() {
+    if (IsEmpty())
+        throw std::runtime_error("Bag is empty, cannot pop.");
     top--;
 }
 
-void ChangeSize1D(MORTISInvariant*& a, const int oldSize, const int newSize) {
-    if (newSize <= 0) {
-        throw std::invalid_argument("New size must be positive.");
-    }
+template <typename U, typename = void>
+struct has_equality_operator : std::false_type {};
 
-    MORTISInvariant* temp = new(std::nothrow) MORTISInvariant[newSize];
-    if (!temp) {
-        throw std::runtime_error("Memory allocation failed in ChangeSize1D.");
-    }
+template <typename U>
+struct has_equality_operator<U, std::void_t<decltype(std::declval<U>() == std::declval<U>())>> : std::true_type {};
 
-    for (int i = 0; i < oldSize && i < newSize; ++i) {
-        temp[i] = std::move(a[i]);  // 使用 `std::move()` 提高效能
-    }
-
-    delete[] a;  // 釋放舊記憶體
-    a = temp;    // 更新指標
-}
-
-// -------------------------------------------------------------------
-// Helpers for Multiplicity / isBelong
-// -------------------------------------------------------------------
-
-// A small helper to see if arr[i] and x are the same type & value
-template<typename U>
-bool MORTISInvariantEquals(const MORTISInvariant& var, const U& x) 
-{
-    // 簡易判斷：若 variant 中 holds_alternative<U>()，再比較 std::get<U>() == x
-    if (std::holds_alternative<U>(var)) 
-    {
-        return (std::get<U>(var) == x);
+template<class U>
+bool MORTISInvariantEquals(const MORTISInvariant& var, const U& x) {
+    if constexpr (has_equality_operator<U>::value) {  
+        if (std::holds_alternative<U>(var)) {
+            return std::get<U>(var) == x;
+        }
     }
     return false;
 }
 
-// Template member function: Returns multiplicity of x
+
+// Fix: Ensure `Multiplicity` and `isBelong` use proper equality checks
+template <class T>
 template <class U>
-int Bag::Multiplicity(const U& x) const 
-{
+int Bag<T>::Multiplicity(const U& x) const {
     int count = 0;
-
-    for (int i = 0; i <= top; i++)
-        if (MORTISInvariantEquals(arr[i], x))
-            count++;
-
+    for (int i = 0; i <= top; i++) {
+        if constexpr (std::is_same_v<T, MORTISInvariant>) {
+            if (MORTISInvariantEquals(arr[i], x)) count++;
+        } else {
+            if (arr[i] == x) count++;
+        }
+    }
     return count;
 }
 
-// Template member function: Check if x is in bag
+template <class T>
 template <class U>
-bool Bag::isBelong(const U& x) const 
-{
-    for (int i = 0; i <= top; i++)
-        if (MORTISInvariantEquals(arr[i], x))
-            return true;
-            
+bool Bag<T>::isBelong(const U& x) const {
+    for (int i = 0; i <= top; i++) {
+        if constexpr (std::is_same_v<T, MORTISInvariant>) {
+            if (MORTISInvariantEquals(arr[i], x)) return true;
+        } else {
+            if (arr[i] == x) return true;
+        }
+    }
     return false;
 }
 
-// Function to print all elements in the Bag
-void Bag::PrintBag() const 
-{
-    // 使用 std::visit 來處理 std::variant，確保無論元素的類型為何，都能正確地輸出。
-    // std::visit 會將 arr[i] 的內容傳遞給 lambda 表達式，並根據變數的型別自動選擇對應的 operator<< 來輸出。
-    if (IsEmpty()) 
-    {
-        cout << "The bag is empty." << endl;
-        return;
+// Fix: Properly instantiate `operator<<`
+template <class T>
+std::ostream& operator<<(std::ostream& os, const Bag<T>& b) {
+    if (b.IsEmpty()) {
+        os << "The bag is empty.";
+        return os;
     }
-
-    for (int i = 0; i <= top; i++) 
-    {
-        std::visit([](auto&& arg) {
-            cout << arg << endl;
-        }, arr[i]);
+    
+    os << "Bag contents: ";
+    for (int i = 0; i <= b.getTop(); i++) {
+        T* temp = b.getArr();
+        if constexpr (std::is_same_v<T, MORTISInvariant>) {
+            std::visit([&os](const auto& val) { os << val << " "; }, temp[i]);
+        } else {
+            os << temp[i] << " ";
+        }
     }
+    return os;
 }
 
-// 顯式實例化 (common types)
-template int  Bag::Multiplicity<int>(const int&) const;
-template bool Bag::isBelong<int>(const int&) const;
+// Fix: The resizing function ensures correct construction
+template <class T>
+void ChangeSize1D(T*& a, const int oldSize, const int newSize) {
+    if (newSize <= 0) throw std::invalid_argument("New size must be > 0");
 
-template int  Bag::Multiplicity<char>(const char&) const;
-template bool Bag::isBelong<char>(const char&) const;
+    T* temp = new(std::nothrow) T[newSize];
+    if (!temp) throw std::runtime_error("Memory allocation failed in ChangeSize1D.");
 
-template int  Bag::Multiplicity<double>(const double&) const;
-template bool Bag::isBelong<double>(const double&) const;
+    for (int i = 0; i < oldSize && i < newSize; ++i) {
+        temp[i] = std::move(a[i]);
+    }
 
-template int  Bag::Multiplicity<std::string>(const std::string&) const;
-template bool Bag::isBelong<std::string>(const std::string&) const;
+    for (int i = oldSize; i < newSize; ++i) {
+        if constexpr (std::is_default_constructible<T>::value) {
+            temp[i] = T();  // Ensure default initialization
+        } else {
+            throw std::runtime_error("Cannot resize: No default constructor.");
+        }
+    }
+
+    delete[] a;
+    a = temp;
+}
+
+// Explicit instantiations to prevent linker errors
+template class Bag<int>;
+template class Bag<bool>;
+template class Bag<char>;
+template class Bag<float>;
+template class Bag<double>;
+template class Bag<std::string>;
+template class Bag<GeneralArray<MIXED_TYPE>>;
+template class Bag<Polynomial>;
+template class Bag<SparseMatrix>;
+template class Bag<String>;
+template class Bag<MIXED_TYPE>;
+template class Bag<MORTISInvariant>;
+
+template std::ostream& operator<<(std::ostream& os, const Bag<int>&);
+template std::ostream& operator<<(std::ostream& os, const Bag<bool>&);
+template std::ostream& operator<<(std::ostream& os, const Bag<char>&);
+template std::ostream& operator<<(std::ostream& os, const Bag<float>&);
+template std::ostream& operator<<(std::ostream& os, const Bag<double>&);
+template std::ostream& operator<<(std::ostream& os, const Bag<std::string>&);
+template std::ostream& operator<<(std::ostream& os, const Bag<MORTISInvariant>&);
+
+template int Bag<MORTISInvariant>::Multiplicity<int>(const int&) const;
+template int Bag<MORTISInvariant>::Multiplicity<bool>(const bool&) const;
+template int Bag<MORTISInvariant>::Multiplicity<char>(const char&) const;
+template int Bag<MORTISInvariant>::Multiplicity<float>(const float&) const;
+template int Bag<MORTISInvariant>::Multiplicity<double>(const double&) const;
+template int Bag<MORTISInvariant>::Multiplicity<std::string>(const std::string&) const;
+template int Bag<MORTISInvariant>::Multiplicity<GeneralArray<MIXED_TYPE>>(const GeneralArray<MIXED_TYPE>&) const;
+template int Bag<MORTISInvariant>::Multiplicity<Polynomial>(const Polynomial&) const;
+template int Bag<MORTISInvariant>::Multiplicity<SparseMatrix>(const SparseMatrix&) const;
+template int Bag<MORTISInvariant>::Multiplicity<String>(const String&) const;
+
+template bool Bag<MORTISInvariant>::isBelong<int>(const int&) const;
+template bool Bag<MORTISInvariant>::isBelong<bool>(const bool&) const;
+template bool Bag<MORTISInvariant>::isBelong<char>(const char&) const;
+template bool Bag<MORTISInvariant>::isBelong<float>(const float&) const;
+template bool Bag<MORTISInvariant>::isBelong<double>(const double&) const;
+template bool Bag<MORTISInvariant>::isBelong<std::string>(const std::string&) const;
+template bool Bag<MORTISInvariant>::isBelong<GeneralArray<MIXED_TYPE>>(const GeneralArray<MIXED_TYPE>&) const;
+template bool Bag<MORTISInvariant>::isBelong<Polynomial>(const Polynomial&) const;
+template bool Bag<MORTISInvariant>::isBelong<SparseMatrix>(const SparseMatrix&) const;
+template bool Bag<MORTISInvariant>::isBelong<String>(const String&) const;

@@ -376,3 +376,21 @@ ostream& operator<<(ostream& out, const SparseMatrix& b)
 
     return out;
 }
+
+// Overload the equality operator to compare two SparseMatrix objects.
+bool operator==(const SparseMatrix& a, const SparseMatrix& b)
+{
+    if (a.get_rows() != b.get_rows() || a.get_cols() != b.get_cols() || a.get_terms() != b.get_terms())
+        return false;
+    else 
+    {
+        for (int i = 0; i < a.get_terms(); i++) 
+        {
+            MatrixTerm* A = a.get_smArray();
+            MatrixTerm* B = b.get_smArray();
+            if (A[i].get_row() != B[i].get_row() || A[i].get_col() != B[i].get_col() || A[i].get_value() != B[i].get_value())
+                return false;
+        }
+    }
+    return true;
+}

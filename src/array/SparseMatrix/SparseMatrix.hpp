@@ -7,9 +7,6 @@
 #include <vector>
 using namespace std;
 
-// Forward declaration of SparseMatrix
-class SparseMatrix;
-
 // MatrixTerm represents a nonzero element in the sparse matrix.
 // It stores the row, column, and value (which can be an int or a float).
 class MatrixTerm 
@@ -21,6 +18,8 @@ class MatrixTerm
         std::variant<int, float> value;    // The value at that position
 
     public:
+        // Default constructor
+        MatrixTerm() : row(0), col(0), value(0) {}
         // Getters for row, col, and value.
         int get_row() const {return row;}
         int get_col() const {return col;}
@@ -33,6 +32,10 @@ class MatrixTerm
             col = c;
             value = v;
         }
+        // overload pointer operator
+        MatrixTerm* operator->() { return this; }
+        // overload dereference operator
+        MatrixTerm& operator*() { return *this; }
 };
 
 // SparseMatrix class representing a sparse matrix.
@@ -46,6 +49,7 @@ class SparseMatrix
 
     public:
         // Constructor: r (# rows), c (# columns), t (initial number of nonzero terms)
+        SparseMatrix() = default; // Default constructor
         SparseMatrix(int r, int c, int t);
         
         // Copy constructor
@@ -65,6 +69,10 @@ class SparseMatrix
         
         // get_terms: Returns the number of nonzero terms.
         int get_terms() const;
+        int get_rows() const {return rows;}
+        int get_cols() const {return cols;}
+        int get_capacity() const {return capacity;}
+        MatrixTerm* get_smArray() const {return smArray;}
         
         // FastTranspose: Returns the transpose of the matrix.
         SparseMatrix FastTranspose();
@@ -90,6 +98,9 @@ class SparseMatrix
         
         // Overloaded output operator: Prints the matrix terms in (row, col, value) format.
         friend ostream& operator<<(ostream& out, const SparseMatrix& b);
+
+        // Overloaded equality operator: Compares two sparse matrices for equality.
+        friend bool operator==(const SparseMatrix& a, const SparseMatrix& b);
 };
 
 istream& operator>>(istream& in, const SparseMatrix& b);
