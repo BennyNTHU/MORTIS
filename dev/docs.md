@@ -11,23 +11,36 @@
         - `docs.md`: Current file structure and technical documentation
     - `docs/`: Usage documentation for each data structure
         - `Bag.md`
+        - `BinarySearchTree.md`
+        - `BinaryTree.md`
+        - `BinaryTreeIterator.md`
+        - `BinaryTreeNode.md`
         - `BloomFilter.md`
         - `ChainIteraion.md`
         - `CircularDoubleList.md`
         - `CircularList.md`
         - `CirQue.md`
         - `DeQue.md`
+        - `Dictionary.md`
         - `DLIterator.md`
         - `DoubleNode.md`
         - `DoublyLinkedList.md`
         - `GeneralArray.md`
         - `HashTable.md`
+        - `LCRSTree.md`
+        - `LCRSTreeIterator.md`
+        - `LCRSTreeNode.md`
         - `LinkedList.md`
         - `LinkedPolynomial.md`
         - `LinkedSparseMatrix.md`
+        - `MaxHeap.md`
+        - `MaxPQ.md`
+        - `MinHeap.md`
+        - `MinPQ.md`
         - `Node.md`
         - `Polynomial.md`
         - `Queue.md`
+        - `Set.md`
         - `SparseMatrix.md`
         - `Stack.md`
         - `String.md`
@@ -101,6 +114,18 @@
                 - `DeQue-test.cpp`
                 - `DeQue.cpp`
                 - `DeQue.hpp`
+            - `Dictionary/`
+              - `Dictionary-test.cpp`
+              - `Dictionary.cpp`
+              - `Dictionary.hpp`
+            - `MaxPQ`
+              - `MaxPQ-test.cpp`
+              - `MaxPQ.cpp`
+              - `MaxPQ.hpp` 
+            - `MinPQ`
+              - `MinPQ-test.cpp`
+              - `MinPQ.cpp`
+              - `MinPQ.hpp` 
             - `Queue/`
                 - `Queue-test.cpp`
                 - `Queue.cpp`
@@ -120,4 +145,44 @@
             - `HashTable.cpp`
             - `HashTable.hpp`
         - `tree/`: Tree-based data structures
+          - `BinarySearchTree`
+            - `BinarySearchTree-test.hpp`
+            - `BinarySearchTree.cpp`
+            - `BinarySearchTree.hpp`
+          - `BinaryTree`
+            - `BinaryTree-test.hpp`
+            - `BinaryTree.cpp`
+            - `BinaryTree.hpp`
+          - `BinaryTreeIterator`
+            - `BinaryTreeIterator-test.hpp`
+            - `BinaryTreeIterator.cpp`
+            - `BinaryTreeIterator.hpp`
+          - `BinaryTreeNode`
+            - `BinaryTreeNode-test.hpp`
+            - `BinaryTreeNode.cpp`
+            - `BinaryTreeNode.hpp`
+          - `LCRSTree`
+            - `LCRSTree-test.hpp`
+            - `LCRSTree.cpp`
+            - `LCRSTree.hpp`
+          - `LCRSTreeIterator`
+            - `LCRSTreeIterator-test.hpp`
+            - `LCRSTreeIterator.cpp`
+            - `LCRSTreeIterator.hpp`
+          - `LCRSTreeNode`
+            - `LCRSTreeNode-test.hpp`
+            - `LCRSTreeNode.cpp`
+            - `LCRSTreeNode.hpp`
+          - `MaxHeap`
+            - `MaxHeap-test.hpp`
+            - `MaxHeap.cpp`
+            - `MaxHeap.hpp`
+          - `MinHeap`
+            - `MinHeap-test.hpp`
+            - `MinHeap.cpp`
+            - `MinHeap.hpp`
+          - `Set`
+            - `Set-test.hpp`
+            - `Set.cpp`
+            - `Set.hpp`
         - `MORTIS.cpp`: Header file

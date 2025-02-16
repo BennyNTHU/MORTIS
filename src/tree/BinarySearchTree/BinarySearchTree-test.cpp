@@ -1,8 +1,3 @@
-//EECS2040 Data Structure Hw #4 (Chapter 5 of textbook)
-//due date 5/30/2021
-//106061218, Cheng-En Lee
-//Part 1, problem 1
-
 #include <iostream>
 #include <algorithm>
 #include <math.h>
