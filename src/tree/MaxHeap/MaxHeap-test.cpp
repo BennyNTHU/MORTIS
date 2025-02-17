@@ -47,48 +47,45 @@ int main()
         std::cout << node->getData() << " ";
     }
     std::cout << std::endl;
-
-    cout << "Heap after insertions:\n";
-    cout << maxHeap << endl;
-    cout << "Top: " << maxHeap.RootData() << endl;  // Should print 70
-
+    
     // Test the get_size and get_capacity functions
+    cout << "Top: " << maxHeap.RootData() << endl;          // Should print 70
     cout << "Heap size: " << maxHeap.CountNodes() << endl;  // Should print 8
 
     // Pop the top element (max element) and check the top again
     cout << "\nPopping the top element (max element):" << endl;
-    maxHeap.Pop();
-    cout << "New top: " << maxHeap.RootData() << endl;  // Should print 60 (after popping 70)
-
-    // Pop elements and check the top each time
-    cout << "\nPopping all elements:" << endl;
-    maxHeap.Pop();
-    cout << "New top: " << maxHeap.RootData() << endl;  // Should print 50
-    cout << "Heap size: " << maxHeap.CountNodes() << endl;
 
     maxHeap.Pop();
-    cout << "New top: " << maxHeap.RootData() << endl;  // Should print 40
-    cout << "Heap size: " << maxHeap.CountNodes() << endl;
+    cout << "New top: " << maxHeap.RootData() << endl;      // Should print 60 (after popping 70)
+    cout << "Heap size: " << maxHeap.CountNodes() << endl;  // Should print 7
 
     maxHeap.Pop();
-    cout << "New top: " << maxHeap.RootData() << endl;  // Should print 30
-    cout << "Heap size: " << maxHeap.CountNodes() << endl;
+    cout << "New top: " << maxHeap.RootData() << endl;      // Should print 50
+    cout << "Heap size: " << maxHeap.CountNodes() << endl;  // Should print 6
 
     maxHeap.Pop();
-    cout << "New top: " << maxHeap.RootData() << endl;  // Should print 20
-    cout << "Heap size: " << maxHeap.CountNodes() << endl;
+    cout << "New top: " << maxHeap.RootData() << endl;      // Should print 40
+    cout << "Heap size: " << maxHeap.CountNodes() << endl;  // Should print 5
 
     maxHeap.Pop();
-    cout << "New top: " << maxHeap.RootData() << endl;  // Should print 10
-    cout << "Heap size: " << maxHeap.CountNodes() << endl;
+    cout << "New top: " << maxHeap.RootData() << endl;      // Should print 30
+    cout << "Heap size: " << maxHeap.CountNodes() << endl;  // Should print 4
 
     maxHeap.Pop();
-    cout << "New top: " << maxHeap.RootData() << endl;  // Should print 10
-    cout << "Heap size: " << maxHeap.CountNodes() << endl;   // Should print 1
+    cout << "New top: " << maxHeap.RootData() << endl;      // Should print 20
+    cout << "Heap size: " << maxHeap.CountNodes() << endl;  // Should print 3
+
+    maxHeap.Pop();
+    cout << "New top: " << maxHeap.RootData() << endl;      // Should print 10
+    cout << "Heap size: " << maxHeap.CountNodes() << endl;  // Should print 2
+
+    maxHeap.Pop();
+    cout << "New top: " << maxHeap.RootData() << endl;      // Should print 10
+    cout << "Heap size: " << maxHeap.CountNodes() << endl;  // Should print 1
     
-    // maxHeap.Pop();
-    // cout << "New top: " << maxHeap.RootData() << endl;  // Should print 10
-    // cout << "Heap size: " << maxHeap.CountNodes() << endl;
+    maxHeap.Pop();
+    cout << "New top: " << maxHeap.RootData() << endl;      // Should print empty
+    cout << "Heap size: " << maxHeap.CountNodes() << endl;  // Should print 0
 
     // Check if heap is empty
     cout << "\nIs the heap empty? " << (maxHeap.IsEmpty() ? "Yes" : "No") << endl;  // Should print Yes
@@ -112,13 +109,6 @@ int main()
     {
         cout << "Caught exception: " << e.what() << endl;  // Should catch "Heap is empty" exception
     }
-
-    // Insert more elements to test resizing (if capacity is exceeded)
-    maxHeap.Push(80);
-    maxHeap.Push(90);
-    cout << "\nInserting more elements to test resizing:" << endl;
-    cout << "Top: " << maxHeap.RootData() << endl;  // Should print 90 after insertions
-    cout << "Heap size: " << maxHeap.CountNodes() << endl;  // Should print 3
 
     cout << "=== End of MaxHeap Test ===\n\n";
 

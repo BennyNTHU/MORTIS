@@ -25,43 +25,60 @@ MaxHeap<T>::~MaxHeap() {
 // Push and Pop
 // ============================================
 
-// Push and Pop
 template <class T>
 void MaxHeap<T>::Push(const T& value) {
     BinaryTreeNode<T>* newNode = new BinaryTreeNode<T>(value);
 
     if (this->IsEmpty()) {
+        // If the heap is empty, the new node becomes the root
         this->set_root(newNode);
     } else {
-        BinaryTreeNode<T>* parentNode = FindNextAvailableParent();  
+        // Otherwise, insert the new node as a child of the next available parent
+        BinaryTreeNode<T>* parentNode = FindNextAvailableParent();
         if (parentNode->getLeftChild() == nullptr) {
             parentNode->setLeftChild(newNode);
         } else {
             parentNode->setRightChild(newNode);
         }
+        newNode->setParent(parentNode); // Set parent for the new node
     }
 
     nodes.push_back(newNode);
-    heapify_up(nodes.size() - 1);
+    heapify_up(nodes.size() - 1);  // Bubble up to restore the heap property
 }
 
+// Pop function
 template <class T>
 void MaxHeap<T>::Pop() {
-    if (this->IsEmpty()) return;
+    if (this->IsEmpty()) {
+        std::cout << "Heap is empty!" << std::endl;
+        return;  // Nothing to pop if the heap is empty
+    }
 
-    // Swap the root with the last node
+    // Get the current root node
     BinaryTreeNode<T>* rootNode = this->getRoot();
-    BinaryTreeNode<T>* lastNode = nodes.back();
-    
-    // Set root to last node
-    this->set_root(lastNode);
-    cout << "root: " << this->RootData()<<endl;
 
-    // Remove the last node from the vector
+    // If there is only one element, set the heap to empty
+    if (this->CountNodes() == 1) {
+        this->set_root(nullptr);  // The heap is empty after the pop
+        delete rootNode;  // Clean up the last node
+        return;
+    }
+
+    // Get the last node (the last element in the heap vector)
+    BinaryTreeNode<T>* lastNode = nodes.back();
+
+    // Set the root to the last node
+    this->set_root(lastNode);
+
+    // Remove the last node from the heap vector
     nodes.pop_back();
 
-    // Ensure the heap property is maintained by calling heapify_down
-    heapify_down(0);  // Start from the root (index 0)
+    // Restore the heap property by calling heapify_down starting from the root (index 0)
+    heapify_down(0);
+
+    // Delete the old root node, as it is no longer part of the heap
+    delete rootNode;
 }
 
 
@@ -69,29 +86,32 @@ void MaxHeap<T>::Pop() {
 // Helper methods to maintain heap property
 // ============================================
 
+// Helper function for heapifying up
 template <class T>
 void MaxHeap<T>::heapify_up(int index) {
     BinaryTreeNode<T>* node = nodes[index];
     while (node != nullptr) {
-        BinaryTreeNode<T>* parentNode = getParent(index);
-
+        BinaryTreeNode<T>* parentNode = node->getParent();
+        
+        // Check if the parent's value is smaller than the current node's value
         if (parentNode && node->getData() > parentNode->getData()) {
+            // Swap data between parent and child node
             T temp = node->getData();
             node->setData(parentNode->getData());
             parentNode->setData(temp);
 
-            index = (index - 1) / 2;
+            // Move up the tree to continue the heapify process
             node = parentNode;
         } else {
-            break;
+            break;  // Heap property is restored
         }
     }
 }
 
+// Helper function for heapifying down
 template <class T>
 void MaxHeap<T>::heapify_down(int index) {
     BinaryTreeNode<T>* node = nodes[index];
-
     while (node != nullptr) {
         BinaryTreeNode<T>* leftChild = node->getLeftChild();
         BinaryTreeNode<T>* rightChild = node->getRightChild();
@@ -108,51 +128,14 @@ void MaxHeap<T>::heapify_down(int index) {
 
         // If the larger child is greater than the current node, swap the values
         if (largerChild && node->getData() < largerChild->getData()) {
-            // Swap the data between the node and its larger child
             T temp = node->getData();
             node->setData(largerChild->getData());
             largerChild->setData(temp);
 
-            // Rewire the parent-child links after the swap
-            BinaryTreeNode<T>* parentNode = node->getParent();
-
-            if (parentNode) {
-                // Set the parent pointer to the new child
-                if (parentNode->getLeftChild() == node) {
-                    parentNode->setLeftChild(largerChild);
-                } else {
-                    parentNode->setRightChild(largerChild);
-                }
-            }
-
-            // Update the node's left and right children (to ensure they point to correct nodes after the swap)
-            if (largerChild == leftChild) {
-                node->setLeftChild(leftChild->getLeftChild());
-                node->setRightChild(leftChild->getRightChild());
-                if (leftChild->getLeftChild() != nullptr) {
-                    leftChild->getLeftChild()->setParent(node);
-                }
-                if (leftChild->getRightChild() != nullptr) {
-                    leftChild->getRightChild()->setParent(node);
-                }
-            } else {
-                node->setLeftChild(rightChild->getLeftChild());
-                node->setRightChild(rightChild->getRightChild());
-                if (rightChild->getLeftChild() != nullptr) {
-                    rightChild->getLeftChild()->setParent(node);
-                }
-                if (rightChild->getRightChild() != nullptr) {
-                    rightChild->getRightChild()->setParent(node);
-                }
-            }
-
-            // Set the parent's child pointers (if any) to null, because they have been replaced by the new larger child
-            largerChild->setParent(node);
-
-            // Reassign the current node to the larger child to continue heapifying down
+            // Move down the tree to continue the heapify process
             node = largerChild;
         } else {
-            break;  // Heap property restored, no need to continue
+            break;  // Heap property is restored
         }
     }
 }

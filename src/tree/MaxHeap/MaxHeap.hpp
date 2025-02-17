@@ -13,7 +13,7 @@ using namespace std;
 template <class T>
 class MaxHeap: public BinaryTree<T> 
 {
-    private:
+    protected:
         std::vector<BinaryTreeNode<T>*> nodes; // Vector to store nodes in level-order
 
         // Internal Storage Helper Methods
