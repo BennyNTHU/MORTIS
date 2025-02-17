@@ -1,13 +1,20 @@
+// g++ -std=c++17 BinaryTree.cpp BinaryTree-test.cpp ../BinaryTreeNode/BinaryTreeNode.cpp\
+    ../../container/Bag/Bag.cpp ../../container/DeQue/DeQue.cpp ../../container/Stack/Stack.cpp\
+    ../../array/GeneralArray/GeneralArray.cpp\
+    ../../array/Polynomial/Polynomial.cpp\
+    ../../array/SparseMatrix/SparseMatrix.cpp\
+    ../../array/String/String.cpp -o test -o test
+
 #include <iostream>
 #include "../BinaryTree/BinaryTree.hpp"
-#include "../BinaryTreeIterator/BinaryTreeIterator.hpp"
 #include "../BinaryTreeNode/BinaryTreeNode.hpp"
 
 using namespace std;
 
 
 
-void testBinaryTreeConstruction() {
+void testBinaryTreeConstruction() 
+{
     cout << "=== Binary Tree Construction Test ===\n";
     
     // Construct a simple tree:
@@ -39,7 +46,8 @@ void testBinaryTreeConstruction() {
     cout << "=== End of Construction Test ===\n\n";
 }
 
-void testTraversalMethods() {
+void testIterator() 
+{
     cout << "=== Iterator Traversals (with Increments & Decrements) ===\n\n";
     
     // Build a sample tree:
@@ -59,126 +67,50 @@ void testTraversalMethods() {
     tree.InsertRight(n20, new BinaryTreeNode<int>(30));
     tree.InsertLeft(n60, new BinaryTreeNode<int>(50));
     tree.InsertRight(n60, new BinaryTreeNode<int>(70));
+    cout << tree << endl;
     
-    // ---------------------------
-    // Inorder Traversal using Iterator
-    // ---------------------------
-    cout << "Inorder Iterator Forward: ";
-    BinaryTreeIterator<int> itIn(root, 'I');
-    BinaryTreeIterator<int> lastIn = itIn; // copy initial state
-    while(itIn.hasNext()){
-        lastIn = itIn;  // keep a copy of the last valid state
-        cout << *itIn << " ";
-        ++itIn;
+    // Inorder Traversal
+    cout << "Inorder Traversal: ";
+    vector<int> inorder = tree.InorderIterator();
+    for (int val : inorder) {
+        cout << val << " ";
     }
-    cout << "\nInorder Iterator Reverse: ";
-    // Start with last valid state from forward traversal.
-    cout << *lastIn << " ";
-    while (true) {
-        try {
-            --lastIn;
-            if (lastIn.getCurrent() == nullptr)
-                break;
-            cout << *lastIn << " ";
-        }
-        catch (const exception& e) {
-            break;
-        }
-    }
-    cout << "\n\n";
+    cout << "\n";
+    cout << "Correct Inorder order: 10 20 30 40 50 60 70" << endl;
     
-    // ---------------------------
-    // Postorder Traversal using Iterator
-    // ---------------------------
-    cout << "Postorder Iterator Forward: ";
-    BinaryTreeIterator<int> itPost(root, 'O');
-    BinaryTreeIterator<int> lastPost = itPost;
-    while(itPost.hasNext()){
-        lastPost = itPost;
-        cout << *itPost << " ";
-        ++itPost;
+    // Preorder Traversal
+    cout << "Preorder Traversal: ";
+    vector<int> preorder = tree.PreOrderIterator();
+    for (int val : preorder) {
+        cout << val << " ";
     }
-    cout << "\nPostorder Iterator Reverse: ";
-    cout << *lastPost << " ";
-    while(true) {
-        try {
-            --lastPost;
-            if(lastPost.getCurrent() == nullptr)
-                break;
-            cout << *lastPost << " ";
-        }
-        catch(const exception& e) {
-            break;
-        }
-    }
-    cout << "\n\n";
-    
-    // ---------------------------
-    // Level Order Traversal using Iterator
-    // ---------------------------
-    cout << "Level Order Iterator Forward: ";
-    BinaryTreeIterator<int> itLevel(root, 'L');
-    BinaryTreeIterator<int> lastLevel = itLevel;
-    while(itLevel.hasNext()){
-        lastLevel = itLevel;
-        cout << *itLevel << " ";
-        ++itLevel;
-    }
-    cout << "\nLevel Order Iterator Reverse: ";
-    cout << *lastLevel << " ";
-    while(true) {
-        try {
-            --lastLevel;
-            if(lastLevel.getCurrent() == nullptr)
-                break;
-            cout << *lastLevel << " ";
-        }
-        catch(const exception& e) {
-            break;
-        }
-    }
-    cout << "\n\n";
-    
-    cout << "=== End of Iterator Traversals Test ===\n";
-}
+    cout << "\n";
+    cout << "Correct Preorder order: 40 20 10 30 60 50 70" << endl;
 
-void testIterator() {
-    cout << "=== Binary Tree Iterator Test ===\n";
-    
-    BinaryTree<int> tree;
-    BinaryTreeNode<int>* root = new BinaryTreeNode<int>(20);
-    tree.set_root(root);
-    tree.InsertLeft(root, new BinaryTreeNode<int>(10));
-    tree.InsertRight(root, new BinaryTreeNode<int>(30));
-    
-    cout << "Inorder Iterator: ";
-    for (BinaryTreeIterator<int> it(root, 'I'); it.hasNext(); ++it) {
-        cout << *it << " ";
+    // Postorder Traversal
+    cout << "Postorder Traversal: ";
+    vector<int> postorder = tree.PostOrderIterator();
+    for (int val : postorder) {
+        cout << val << " ";
     }
     cout << "\n";
-    
-    cout << "Preorder Iterator: ";
-    for (BinaryTreeIterator<int> it(root, 'P'); it.hasNext(); ++it) {
-        cout << *it << " ";
+    cout << "Correct Postorder order: 10 30 20 50 70 60 40" << endl;
+
+    // Level Order Traversal
+    cout << "Level Order Traversal: ";
+    vector<int> levelorder = tree.LevelOrderIterator();
+    for (int val : levelorder) {
+        cout << val << " ";
     }
     cout << "\n";
-    
-    cout << "Postorder Iterator: ";
-    for (BinaryTreeIterator<int> it(root, 'O'); it.hasNext(); ++it) {
-        cout << *it << " ";
-    }
-    cout << "\n";
-    
-    cout << "Level Order Iterator: ";
-    for (BinaryTreeIterator<int> it(root, 'L'); it.hasNext(); ++it) {
-        cout << *it << " ";
-    }
-    cout << "\n";
-    
+    cout << "Correct Level Order order: 40 20 60 10 30 50 70" << endl;
+
     cout << "=== End of Iterator Test ===\n\n";
 }
 
-void testCopyAndComparison() {
+
+void testCopyAndComparison() 
+{
     cout << "=== Copy and Comparison Test ===\n";
     
     BinaryTree<int> tree1;
@@ -194,7 +126,8 @@ void testCopyAndComparison() {
     cout << "=== End of Copy and Comparison Test ===\n\n";
 }
 
-void testFindAndClear() {
+void testFindAndClear() 
+{
     cout << "=== Find and Clear Test ===\n";
     
     BinaryTree<int> tree;
@@ -212,7 +145,8 @@ void testFindAndClear() {
     cout << "=== End of Find and Clear Test ===\n\n";
 }
 
-void testDeleteSubtree() {
+void testDeleteSubtree() 
+{
     cout << "=== Delete Subtree Test ===\n";
     
     BinaryTree<int> tree;
@@ -231,7 +165,8 @@ void testDeleteSubtree() {
     cout << "=== End of Delete Subtree Test ===\n\n";
 }
 
-void testNodeCount() {
+void testNodeCount() 
+{
     cout << "=== Node Count Test ===\n";
     
     BinaryTree<int> tree;
@@ -245,9 +180,9 @@ void testNodeCount() {
     cout << "=== End of Node Count Test ===\n\n";
 }
 
-int main() {
+int main() 
+{
     testBinaryTreeConstruction();
-    testTraversalMethods();
     testIterator();
     testCopyAndComparison();
     testFindAndClear();

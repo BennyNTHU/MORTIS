@@ -13,7 +13,6 @@
         - `Bag.md`
         - `BinarySearchTree.md`
         - `BinaryTree.md`
-        - `BinaryTreeIterator.md`
         - `BinaryTreeNode.md`
         - `BloomFilter.md`
         - `ChainIteraion.md`
@@ -28,7 +27,6 @@
         - `GeneralArray.md`
         - `HashTable.md`
         - `LCRSTree.md`
-        - `LCRSTreeIterator.md`
         - `LCRSTreeNode.md`
         - `LinkedList.md`
         - `LinkedPolynomial.md`
@@ -143,9 +141,6 @@
             - `BinaryTree-test.hpp`
             - `BinaryTree.cpp`
             - `BinaryTree.hpp`
-          - `BinaryTreeIterator/`
-            - `BinaryTreeIterator.cpp`
-            - `BinaryTreeIterator.hpp`
           - `BinaryTreeNode/`
             - `BinaryTreeNode.cpp`
             - `BinaryTreeNode.hpp`
@@ -153,9 +148,6 @@
             - `LCRSTree-test.hpp`
             - `LCRSTree.cpp`
             - `LCRSTree.hpp`
-          - `LCRSTreeIterator/`
-            - `LCRSTreeIterator.cpp`
-            - `LCRSTreeIterator.hpp`
           - `LCRSTreeNode/`
             - `LCRSTreeNode.cpp`
             - `LCRSTreeNode.hpp`

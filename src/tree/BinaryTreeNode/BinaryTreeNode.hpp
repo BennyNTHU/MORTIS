@@ -43,6 +43,10 @@ class BinaryTreeNode
         void setParent(BinaryTreeNode<T>* in);
         void setLeftChild(BinaryTreeNode<T>* in);
         void setRightChild(BinaryTreeNode<T>* in);
+
+        // Equality test
+        bool operator==(const BinaryTreeNode<T>& r) const;
+        bool operator!=(const BinaryTreeNode<T>& r) const;
 };
 
 #endif

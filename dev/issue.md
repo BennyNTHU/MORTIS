@@ -36,10 +36,8 @@
 ### tree
 - `BinarySearchTree`（繼承自`BinaryTree`）
 - (O) `BinaryTree`
-- (O) `BinaryTreeIterator`
 - (O) `BinaryTreeNode`
 - `LCRSTree`
-- `LCRSTreeIterator`
 - `LCRSTreeNode`
 - `MaxHeap`（繼承自`BinaryTree`）
 - `MinHeap`（繼承自`MaxHeap`）
