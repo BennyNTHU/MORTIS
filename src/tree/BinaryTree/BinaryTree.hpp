@@ -37,7 +37,7 @@ class BinaryTree
         BinaryTree<T>* RightSubtree();// return the right subtree
 
         // Setters
-        void set_root(BinaryTreeNode<T>* node);
+        void set_root(BinaryTreeNode<T>* node); // only set the threads
         
         // Insertion
         void InsertRight(BinaryTreeNode<T>* node, BinaryTreeNode<T>* right);    // insert a right child

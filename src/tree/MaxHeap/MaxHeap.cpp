@@ -31,23 +31,22 @@ void MaxHeap<T>::Push(const T& value) {
 
     if (this->IsEmpty()) {
         // If the heap is empty, the new node becomes the root
-        this->set_root(newNode);
+        this->set_root(newNode);  // Set the root
     } else {
-        // Otherwise, insert the new node as a child of the next available parent
+        // Insert the new node as a child of the next available parent
         BinaryTreeNode<T>* parentNode = FindNextAvailableParent();
         if (parentNode->getLeftChild() == nullptr) {
             parentNode->setLeftChild(newNode);
         } else {
             parentNode->setRightChild(newNode);
         }
-        newNode->setParent(parentNode); // Set parent for the new node
+        newNode->setParent(parentNode);  // Set parent for the new node
     }
 
-    nodes.push_back(newNode);
-    heapify_up(nodes.size() - 1);  // Bubble up to restore the heap property
+    nodes.push_back(newNode);  // Add the new node to the nodes vector
+    heapify_up(nodes.size() - 1);  // Restore the heap property by bubbling up
 }
 
-// Pop function
 template <class T>
 void MaxHeap<T>::Pop() {
     if (this->IsEmpty()) {
@@ -62,17 +61,46 @@ void MaxHeap<T>::Pop() {
     if (this->CountNodes() == 1) {
         this->set_root(nullptr);  // The heap is empty after the pop
         delete rootNode;  // Clean up the last node
+        nodes.clear();  // Clear the nodes vector as the heap is now empty
         return;
     }
 
     // Get the last node (the last element in the heap vector)
     BinaryTreeNode<T>* lastNode = nodes.back();
 
-    // Set the root to the last node
-    this->set_root(lastNode);
-
     // Remove the last node from the heap vector
     nodes.pop_back();
+
+    // If the last node is the root, we don't need to do anything else
+    if (lastNode == rootNode) {
+        this->set_root(nullptr);
+        delete rootNode;
+        return;
+    }
+
+    // Disconnect the last node from its parent
+    BinaryTreeNode<T>* parentNode = lastNode->getParent();
+    if (parentNode->getLeftChild() == lastNode) {
+        parentNode->setLeftChild(nullptr);
+    } else {
+        parentNode->setRightChild(nullptr);
+    }
+
+    // Move the last node to the root position
+    lastNode->setLeftChild(rootNode->getLeftChild());
+    lastNode->setRightChild(rootNode->getRightChild());
+    lastNode->setParent(nullptr);
+
+    // Update the parent pointers of the children
+    if (lastNode->getLeftChild()) {
+        lastNode->getLeftChild()->setParent(lastNode);
+    }
+    if (lastNode->getRightChild()) {
+        lastNode->getRightChild()->setParent(lastNode);
+    }
+
+    // Set the last node as the new root
+    this->set_root(lastNode);
 
     // Restore the heap property by calling heapify_down starting from the root (index 0)
     heapify_down(0);
@@ -81,18 +109,18 @@ void MaxHeap<T>::Pop() {
     delete rootNode;
 }
 
-
 // ============================================
 // Helper methods to maintain heap property
 // ============================================
 
-// Helper function for heapifying up
+
+// Heapify up function
 template <class T>
 void MaxHeap<T>::heapify_up(int index) {
     BinaryTreeNode<T>* node = nodes[index];
     while (node != nullptr) {
         BinaryTreeNode<T>* parentNode = node->getParent();
-        
+
         // Check if the parent's value is smaller than the current node's value
         if (parentNode && node->getData() > parentNode->getData()) {
             // Swap data between parent and child node
@@ -108,7 +136,6 @@ void MaxHeap<T>::heapify_up(int index) {
     }
 }
 
-// Helper function for heapifying down
 template <class T>
 void MaxHeap<T>::heapify_down(int index) {
     BinaryTreeNode<T>* node = nodes[index];
@@ -128,6 +155,7 @@ void MaxHeap<T>::heapify_down(int index) {
 
         // If the larger child is greater than the current node, swap the values
         if (largerChild && node->getData() < largerChild->getData()) {
+            // Swap the data between node and largerChild
             T temp = node->getData();
             node->setData(largerChild->getData());
             largerChild->setData(temp);
@@ -161,7 +189,6 @@ BinaryTreeNode<T>* MaxHeap<T>::getParent(int index) {
     return nodes[parentIndex];
 }
 
-// Find next available parent
 template <class T>
 BinaryTreeNode<T>* MaxHeap<T>::FindNextAvailableParent() {
     std::vector<BinaryTreeNode<T>*> levelOrderNodes = LevelOrderIterator();
