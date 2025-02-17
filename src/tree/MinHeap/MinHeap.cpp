@@ -1,102 +1,49 @@
+#include <vector>
+#include "MinHeap.hpp"
+
 template <class T>
-MinHeap<T>::MinHeap(int theCapacity) // constructor
+MinHeap<T>::MinHeap(int theCapacity = 10): MaxHeap<T>(theCapacity) {}
+
+template <class T>
+void MinHeap<T>::heapify_up(int index)
 {
-    if (theCapacity < 1)
-        throw "Capacity must be >= 1";
-    capacity = theCapacity;
-    heapSize = 0; 
-    heap = new T [capacity + 1]; // heap[0] unused
-}
-
-template <class T>
-MinHeap<T>::~MinHeap()
-{
-    delete(heap);
-}
-
-template <class T>
-bool MinHeap<T>::IsEmpty() const
-{
-    return heapSize==0;
-}
-
-template <class T>
-const T& MinHeap<T>::Top() const
-{
-    return heap[1];
-}
-
-template <class T>
-T* MinHeap<T>::get_heap()
-{
-    return heap;
-}
-
-template <class T>
-int MinHeap<T>::get_size()
-{
-    return heapSize;
-}
-
-template <class T>
-int MinHeap<T>::get_capacity()
-{
-    return capacity;
-}
-
-template <class T>
-void MinHeap<T>::Push(const T& e)   // add element e to min heap
-{ 
-    if (heapSize == capacity)   // double the capacity
-    { 
-        ChangeSize1D(heap, capacity, 2*capacity);
-        capacity *= 2;
-    }
-    int currentNode = ++heapSize;
-    while (currentNode != 1 && heap[currentNode/2] > e) // bubbling up ***
-    { 
-        heap[currentNode] = heap[currentNode/2];    //move parent down
-        currentNode /= 2;
-    }
-    heap[currentNode] = e;
-}
-
-template <class T>
-void MinHeap<T>::Pop()  // Delete min element
-{ 
-    if (IsEmpty ()) 
-        throw "Heap is empty. Cannot delete.";
-
-    heap[1].~T(); // delete min element
-    T lastE = heap[heapSize--];  // remove last element from heap
-
-    // trickle down to find a position to place the last element
-    int currentNode = 1; // root
-    int child = 2;       //  a child of current node
-    while (child <= heapSize)   // set child to larger child of currentNode
+    while (index > 0 && this->heap[index] < this->heap[(index - 1) / 2]) 
     {
-        if (child < heapSize && heap[child] > heap[child + 1])  // ***
-            child++;
-        if (lastE <= heap[child]) // ***
-            break; 
-        heap[currentNode] = heap[child]; // move child up
-        currentNode = child; 
-        child *= 2; // move down a level
+        swap(this->heap[index], this->heap[(index - 1) / 2]);
+        index = (index - 1) / 2;
     }
-    heap[currentNode] = lastE;
 }
 
 template <class T>
-void ChangeSize1D (T*& a, const int oldSize, const int newSize)
+void MinHeap<T>::heapify_down(int index)
 {
-	if (newSize < 0) 
-        throw "New length must be >=0";
-	
-	T* temp = new T [newSize];    // new array
-	int number = min(oldSize, newSize);     // number to copy
-	copy (a, a+number, temp);
-	delete [] a;      // deallocate old memory
-	a = temp;
+    int left_child = 2 * index + 1;
+    int right_child = 2 * index + 2;
+    int smallest = index;
+
+    if (left_child < this->get_size() && heap[left_child] < heap[smallest]) 
+    {
+        smallest = left_child;
+    }
+
+    if (right_child < this->get_size() && heap[right_child] < heap[smallest]) 
+    {
+        smallest = right_child;
+    }
+
+    if (smallest != index) {
+        swap(heap[index], heap[smallest]);
+        heapify_down(smallest);
+    }
 }
 
-#endif
+// --------------------
+// Explicit Template Instantiation & Friend Operators
+// --------------------
+
+template class MinHeap<int>;
+template class MinHeap<char>;
+template class MinHeap<float>;
+template class MinHeap<bool>;
+template class MinHeap<double>;
+template class MinHeap<std::string>;

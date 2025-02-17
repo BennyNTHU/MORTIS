@@ -1,35 +1,75 @@
+// g++ -std=c++17 MinHeap.cpp MinHeap-test.cpp\
+    ../MaxHeap/MaxHeap.cpp\
+    ../BinaryTree/BinaryTree.cpp\
+    ../BinaryTreeNode/BinaryTreeNode.cpp\
+    ../../container/Bag/Bag.cpp ../../container/DeQue/DeQue.cpp\
+    ../../container/Stack/Stack.cpp\
+    ../../array/GeneralArray/GeneralArray.cpp\
+    ../../array/Polynomial/Polynomial.cpp\
+    ../../array/SparseMatrix/SparseMatrix.cpp\
+    ../../array/String/String.cpp -o test -o test
+
 #include <iostream>
-#include <algorithm>
-#include <cmath>
-#include <cstring>
-#include "minheap.h"
+#include "MinHeap.hpp"
 
 using namespace std;
 
-int main(void)
+int main() 
 {
-    MinHeap<int> H(5);
-
-    for (int i=1; i<=5; i++)    // Push 1~5
-        H.Push(i);
+    cout << "=== MinHeap Test ===\n\n";
     
-    cout << "insert 1,2,3,4,5" << endl;;
-    for (int i=1; i<=H.get_size(); i++)
-        cout << H.get_heap()[i] << " ";
-    cout << endl;
+    // Build a sample tree:
+    //           40
+    //         /    \
+    //       20      60
+    //      /  \    /  \
+    //    10   30  50  70
+    MinHeap<int> minHeap(10);  // Create a MinHeap with an initial capacity of 10
 
-    cout << "Is the heap empty? (No: 0, Yes: 1): " << H.IsEmpty() << endl;
-    cout << "The element with highest priority: " << H.Top() << endl;
-    cout << "There are " << H.get_size() << " elements in this heap now" << endl;
-    cout << "The capacity of this heap: " << H.get_capacity() << endl;
-
-    H.Pop();
-    cout << "Now pop 1 element" << endl;
-    cout << "There are " << H.get_size() << " elements in this heap now" << endl;
-    for (int i=1; i<=H.get_size(); i++)
-        cout << H.get_heap()[i] << " ";
-    cout << endl;
-    cout << "The element with highest priority: " << H.Top() << endl;
+    minHeap.Push(40);
+    minHeap.Push(20);
+    minHeap.Push(60);
+    minHeap.Push(10);
+    minHeap.Push(30);
+    minHeap.Push(50);
+    minHeap.Push(70);
     
+    cout << "MinHeap after pushing elements:\n";
+    cout << "Top: " << minHeap.Top() << endl;  // Should print 10 (minimum value)
+    
+    // Pop the root (minimum) element
+    minHeap.Pop();
+    cout << "After popping the min, Top: " << minHeap.Top() << endl;  // Should print 20
+    
+    // Pop all elements and print the new top each time
+    minHeap.Pop();
+    cout << "After popping, Top: " << minHeap.Top() << endl;  // Should print 30
+    minHeap.Pop();
+    cout << "After popping, Top: " << minHeap.Top() << endl;  // Should print 40
+    minHeap.Pop();
+    cout << "After popping, Top: " << minHeap.Top() << endl;  // Should print 50
+    minHeap.Pop();
+    cout << "After popping, Top: " << minHeap.Top() << endl;  // Should print 60
+    minHeap.Pop();
+    cout << "After popping, Top: " << minHeap.Top() << endl;  // Should print 70
+    minHeap.Pop();
+    cout << "After popping, IsEmpty: " << (minHeap.IsEmpty() ? "Yes" : "No") << endl;  // Should print Yes
+    
+    cout << "=== End of MinHeap Test ===\n\n";
+
     return 0;
 }
+
+/*
+Expected output:
+
+MinHeap after pushing elements:
+Top: 10
+After popping the min, Top: 20
+After popping, Top: 30
+After popping, Top: 40
+After popping, Top: 50
+After popping, Top: 60
+After popping, Top: 70
+After popping, IsEmpty: Yes
+*/

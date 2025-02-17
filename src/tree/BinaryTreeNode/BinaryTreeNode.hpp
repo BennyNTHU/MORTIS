@@ -13,7 +13,7 @@ class BinaryTreeNode
 {
     friend class BinaryTree<T>; // Allow BinaryTree to access private members
 
-    private:
+    protected:
         T data;
         BinaryTreeNode<T>* leftChild;
         BinaryTreeNode<T>* rightChild;

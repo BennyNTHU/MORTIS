@@ -37,11 +37,9 @@
 - `BinarySearchTree`（繼承自`BinaryTree`）
 - (O) `BinaryTree`
 - (O) `BinaryTreeNode`
-- `LCRSTree`
-- `LCRSTreeNode`
-- `MaxHeap`（繼承自`BinaryTree`）
-- `MinHeap`（繼承自`MaxHeap`）
-- `Set`（繼承自`LCRSTree`）
+- (O) `MaxHeap`（繼承自`BinaryTree`）
+- (O) `MinHeap`（繼承自`MaxHeap`）
+- `Set`（繼承自`BinaryTree`）
 所有tree的結構，都只能夠放入相同的資料類別，比如要馬全部放`int`，`double`, `char`或`string`
 
 ### graph

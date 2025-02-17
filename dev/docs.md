@@ -26,8 +26,6 @@
         - `DoublyLinkedList.md`
         - `GeneralArray.md`
         - `HashTable.md`
-        - `LCRSTree.md`
-        - `LCRSTreeNode.md`
         - `LinkedList.md`
         - `LinkedPolynomial.md`
         - `LinkedSparseMatrix.md`

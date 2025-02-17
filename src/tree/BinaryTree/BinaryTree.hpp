@@ -66,7 +66,7 @@ class BinaryTree
         bool operator!=(const BinaryTree& bt); 
         template <typename U> friend ostream& operator<<(ostream& os, const BinaryTree<U>& bt); 
 
-        // traversals: No need! we have BinaryTreeIterator for that. Only need threaded traversals
+        // traversals
         vector<T> PreOrderIterator();   // return an array of the pre-order traversal of the binary tree
         vector<T> PostOrderIterator();  // return an array of the post-order traversal of the binary tree
         vector<T> InorderIterator();    // return an array of the in-order traversal of the binary tree
