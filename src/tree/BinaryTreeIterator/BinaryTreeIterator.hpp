@@ -40,6 +40,7 @@ class BinaryTreeIterator
         BinaryTreeIterator<T> operator++(int);
         BinaryTreeIterator<T>& operator--();    // Pre-decrement
         BinaryTreeIterator<T> operator--(int);  // Post-decrement
+        BinaryTreeNode<T>* next();              // Additional next() function – returns the current node then advances the iterator.
         
         //Equality test
         bool operator!=(const BinaryTreeIterator<T>& r) const;

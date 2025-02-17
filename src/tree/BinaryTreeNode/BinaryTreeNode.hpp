@@ -26,14 +26,14 @@ class BinaryTreeNode
         void setRightThread(BinaryTreeNode<T>* in);
 
     public:
-        // Constructors
+        // Constructors and Destructor
         BinaryTreeNode(const T& e);
-B       BinaryTreeNode(const T& e, BinaryTreeNode<T>* ptr_left, BinaryTreeNode<T>* ptr_right);
+        BinaryTreeNode(const T& e, BinaryTreeNode<T>* ptr_left, BinaryTreeNode<T>* ptr_right);
 
         // Getters
-        T getData() const;
-        BinaryTreeNode<T>* getRightChild() const;
-        BinaryTreeNode<T>* getLeftChild() const;
+        const T& getData() const;
+        BinaryTreeNode<T>* getRightChild();
+        BinaryTreeNode<T>* getLeftChild();
         BinaryTreeNode<T>* getRightThread() const;
         BinaryTreeNode<T>* getLeftThread() const;
         BinaryTreeNode<T>* getParent() const;

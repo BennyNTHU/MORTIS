@@ -1,6 +1,7 @@
 #include "DeQue.hpp"
 #include <iostream>
 #include <stdexcept>
+#include "../../tree/BinaryTreeNode/BinaryTreeNode.hpp"
 
 // Constructor: Initializes the queue with a given capacity
 template <class T>
@@ -168,3 +169,11 @@ template std::ostream& operator<<(std::ostream& os, const DeQue<float>&);
 template std::ostream& operator<<(std::ostream& os, const DeQue<double>&);
 template std::ostream& operator<<(std::ostream& os, const DeQue<std::string>&);
 template std::ostream& operator<<(std::ostream& os, const DeQue<MORTISInvariant>&);
+
+// for trees
+template class DeQue<BinaryTreeNode<int>*>;
+template class DeQue<BinaryTreeNode<char>*>;
+template class DeQue<BinaryTreeNode<float>*>;
+template class DeQue<BinaryTreeNode<bool>*>;
+template class DeQue<BinaryTreeNode<double>*>;
+template class DeQue<BinaryTreeNode<std::string>*>;

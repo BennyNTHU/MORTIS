@@ -2,6 +2,7 @@
 #include "Bag.hpp"
 #include <stdexcept>
 #include <utility>   // for std::move
+#include "../../tree/BinaryTreeNode/BinaryTreeNode.hpp"
 
 template <class T>
 Bag<T>::Bag(int c) 
@@ -233,3 +234,11 @@ template bool Bag<MORTISInvariant>::isBelong<GeneralArray<MIXED_TYPE>>(const Gen
 template bool Bag<MORTISInvariant>::isBelong<Polynomial>(const Polynomial&) const;
 template bool Bag<MORTISInvariant>::isBelong<SparseMatrix>(const SparseMatrix&) const;
 template bool Bag<MORTISInvariant>::isBelong<String>(const String&) const;
+
+// for trees
+template class Bag<BinaryTreeNode<int>*>;
+template class Bag<BinaryTreeNode<char>*>;
+template class Bag<BinaryTreeNode<float>*>;
+template class Bag<BinaryTreeNode<bool>*>;
+template class Bag<BinaryTreeNode<double>*>;
+template class Bag<BinaryTreeNode<std::string>*>;

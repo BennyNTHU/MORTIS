@@ -1,6 +1,7 @@
 #include "Stack.hpp"
 #include <stdexcept>
 #include <iostream>
+#include "../../tree/BinaryTreeNode/BinaryTreeNode.hpp"
 
 // Constructor: Initializes the stack with a given capacity using Bag's constructor
 template <class T>
@@ -97,3 +98,11 @@ template std::ostream& operator<<(std::ostream& os, const Stack<float>&);
 template std::ostream& operator<<(std::ostream& os, const Stack<double>&);
 template std::ostream& operator<<(std::ostream& os, const Stack<std::string>&);
 template std::ostream& operator<<(std::ostream& os, const Stack<MORTISInvariant>&);
+
+// for trees
+template class Stack<BinaryTreeNode<int>*>;
+template class Stack<BinaryTreeNode<char>*>;
+template class Stack<BinaryTreeNode<float>*>;
+template class Stack<BinaryTreeNode<bool>*>;
+template class Stack<BinaryTreeNode<double>*>;
+template class Stack<BinaryTreeNode<std::string>*>;
