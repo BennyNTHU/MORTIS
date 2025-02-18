@@ -209,6 +209,7 @@ std::vector<BinarySearchTree<T>> BinarySearchTree<T>::SplitBST(const BinarySearc
 
 // Explicit instantiation
 template class BinarySearchTree<int>;
+template class BinarySearchTree<bool>;
 template class BinarySearchTree<char>;
 template class BinarySearchTree<float>;
 template class BinarySearchTree<double>;

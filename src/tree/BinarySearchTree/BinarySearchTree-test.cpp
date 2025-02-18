@@ -1,3 +1,13 @@
+// g++ -std=c++17 BinarySearchTree.cpp BinarySearchTree-test.cpp\
+    ../BinaryTree/BinaryTree.cpp ../BinaryTreeNode/BinaryTreeNode.cpp\
+    ../../container/Bag/Bag.cpp\
+    ../../container/DeQue/DeQue.cpp\
+    ../../container/Stack/Stack.cpp\
+    ../../array/GeneralArray/GeneralArray.cpp\
+    ../../array/Polynomial/Polynomial.cpp\
+    ../../array/SparseMatrix/SparseMatrix.cpp\
+    ../../array/String/String.cpp -o test -o test
+
 #include <iostream>
 #include <vector>
 #include "BinarySearchTree.hpp"
