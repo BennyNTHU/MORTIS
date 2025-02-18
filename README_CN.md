@@ -1,5 +1,3 @@
-以下是 `README.md` 文件的中文翻譯：
-
 # **MORTIS：面向記憶的資訊結構資源工具包**
 #### MORTIS: Memory Oriented Resource Toolkit for Information Structures
 

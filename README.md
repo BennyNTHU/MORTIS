@@ -1,7 +1,3 @@
-Below is an example of a revised README in English using Markdown. This document explains the project, lists the available data structures in a table, and provides a brief usage overview.
-
----
-
 # MORTIS: Memory Oriented Resource Toolkit for Information Structures
 
 ![image](./media/mortis.jpg)
