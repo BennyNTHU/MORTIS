@@ -3,9 +3,9 @@
 
 ![image](./media/mortis.jpg)
 
-## **1. 概述**
+## **1. 摘要**
 
-**MORTIS** 是一個基於 C++17 的資料結構庫。本項目實現了各種資料結構和抽象資料類型（ADT），包括：
+**MORTIS** 是一個基於 C++17 的資料結構Library。本專案實作了各種資料結構和抽象資料類型（ADT），包括：
 
 - 類陣列結構  
 - 基於鏈結串列(Linked lists)的結構  
@@ -36,8 +36,8 @@
 |           | **CircularDoubleList**  | 環狀雙向鏈結串列（繼承自 DoublyLinkedList）。                                                             | [中文](./docs_CN/CircularDoubleList.md) | [English](./docs_EN/CircularDoubleList.md) |                         |
 |           | **LinkedPolynomial**  | 使用鏈結結構表示的多項式。                                                                            | [中文](./docs_CN/LinkedPolynomial.md) | [English](./docs_EN/LinkedPolynomial.md) |                         |
 |           | **LinkedSparseMatrix**  | 使用鏈結結構表示的稀疏矩陣。                                                                          | [中文](./docs_CN/LinkedSparseMatrix.md) | [English](./docs_EN/LinkedSparseMatrix.md) |                         |
-| **雜湊表** | **HashTable**    | 通用雜湊表實現。                                                                                       | [中文](./docs_CN/HashTable.md) | [English](./docs_EN/HashTable.md) |                         |
-|           | **BloomFilter**   | BloomFilter實現。                                                                                       | [中文](./docs_CN/BloomFilter.md) | [English](./docs_EN/BloomFilter.md) |                         |
+| **雜湊表** | **HashTable**    | 通用雜湊表實作。                                                                                       | [中文](./docs_CN/HashTable.md) | [English](./docs_EN/HashTable.md) |                         |
+|           | **BloomFilter**   | BloomFilter實作。                                                                                       | [中文](./docs_CN/BloomFilter.md) | [English](./docs_EN/BloomFilter.md) |                         |
 | **樹結構** | **BinaryTree**   | 通用二元樹結構。                                                                                       | [中文](./docs_CN/BinaryTree.md) | [English](./docs_EN/BinaryTree.md) |                         |
 |           | **BinaryTreeNode** | 二元樹節點類型。                                                                                     | [中文](./docs_CN/BinaryTreeNode.md) | [English](./docs_EN/BinaryTreeNode.md) |                         |
 |           | **BinarySearchTree** | 二元搜尋樹（繼承自 BinaryTree）。                                                                  | [中文](./docs_CN/BinarySearchTree.md) | [English](./docs_EN/BinarySearchTree.md) |                         |
@@ -49,21 +49,21 @@
 
 ---
 
-## **2. 快速開始**
+## **2. 快速入門**
 <!--此部分暫時留空-->
 
 ---
 
-## **3. 常見問題（Q & A）**
+## **3. Q & A**
 
-- **Q: 為什麼這個項目叫 MORTIS？**  
-  **A:** 致敬了傳奇女子樂隊 **Ave Mujica** 的吉他手 **Mortis**。
+- **Q: 為什麼這個專案叫 MORTIS？**  
+  **A:** 致敬傳奇少女樂團 **Ave Mujica** 的吉他手 **Mortis**。
 
 - **Q: MORTIS有實作有鏈結堆疊（Linked Stack）或鏈結佇列（Linked Queue）嗎？**  
-  **A:** 我們的鏈結結構可以根據操作方式被用作鏈結堆疊或鏈結佇列。
+  **A:** 鏈結堆疊或鏈結佇列可以當作鏈結結構來操作。
 
 - **Q: 為什麼沒有實作廣義表（Generalized List）？**  
-  **A:** 我們認為泛化列表的實際應用較少。
+  **A:** 我認為廣義表的實際應用很少。
 
 - **Q: 你是 MyGO 廚嗎？**  
   **A:** 是。
