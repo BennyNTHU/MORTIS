@@ -1,132 +1,215 @@
+#include "BinarySearchTree.hpp"
+#include <stdexcept>
+#include <functional>
 
+// ------------------------------
+// Constructor and Destructor
+// ------------------------------
 
-template <class K, class E>
-pair<K, E>* BST<K, E> :: Get(const K& k)
-{// Driver
-    return Get(root, k);
-}
+template <class T>
+BinarySearchTree<T>::BinarySearchTree(const T& rootData): BinaryTree<T>(rootData) {}
 
-template <class K, class E>
-pair<K, E>* BST<K, E> :: Get(TreeNode <pair <K, E> >* p, 
-                              const K& k)
-{// Workhorse
-   if (!p) return 0; //empty
-   if (k < p->data.first) return Get(p->leftChild, k);
-   if (k > p->data.first) return Get(p->rightChild, k);
-   return &p->data;
-}
+template <class T>
+BinarySearchTree<T>::~BinarySearchTree() {}  // Cleanup is handled by the BinaryTree destructor.
 
+// ------------------------------
+// Get: Search for a value in the BST
+// ------------------------------
 
-template <class K, class E> 
-pair<K, E>* BST<K, E>::Get(const K& k)
-{ 
-   Let currentNode be a pointer point to the root node;
-   while (currentNode is not zero) {
-       if (k < the key field pointed by currentNode)
-          Let currentNode point to the left subtree;
-       else if (k > the key field pointed by currentNode)
-          Let currentNode point to the right subtree;
-       else 
-          return the address of the data field pointed by 
-          currentNode;
-   }
-   // no matching pair
-   return 0;
-}
+template <class T>
+T* BinarySearchTree<T>::Get(const T& key) const 
+{
+    BinaryTreeNode<T>* current = this->getRoot();
 
+    while (current != nullptr) 
+    {
+        T curVal = current->getData();
 
-template <class K, class E> 
-pair<K, E>* BST<K, E>::Get(const K& k)
-{ 
-   TreeNode < pair<K, E> > * currentNode = root;
-
-   while (currentNode) {
-       if (k < currentNode->data.first)
-          currentNode = currentNode->leftChild;
-       else if (k > currentNode->data.first)
-          currentNode = currentNode->rightChild;
-       else 
-          return & currentNode->data;
-   } 
-   // no matching pair
-   return 0;
-}
-
-
-template <class K, class E> 
-pair<K, E>* BST<K, E>::RankGet(int r) //search by rank
-{ //search the BST for the rth smallest pair
-   TreeNode < pair<K, E> > * currentNode = root;
-   while (currentNode) {
-       if (r < currentNode -> leftSize)
-          currentNode = currentNode -> leftChild;
-       else if (r > currentNode -> leftSize)
-       {   
-          r -= currentNode -> leftSize;
-          currentNode = currentNode -> rightChild;
-       }
-       else return & currentNode -> data;
-   }
-   return 0;
-}
-
-
-template <class K, class E> 
-void BST<K, E > :: Insert(const pair<K, E >& thePair)
-{  // insert thePair into the BST
-   // search for thePair.first，pp parent of p
-   TreeNode < pair<K, E> > *p = root, *pp = 0;
-   while (p) {
-      pp = p;
-      if (thePair.first < p->data.first) p = p->leftChild;
-      else if(thePair.first > p->data.first)p = p->rightChild;
-      else // duplicate, update associated element
-          { p->data.second = thepair.second; return;}
-   }
-   // perform insertion
-   p = new TreeNode< pair<K, E> > (thePair);
-   if (root) // tree is nonempty
-      if (thePair.first < pp->data.first) pp->leftChild = p;
-      else pp->rightChild = p
-   else root = p;
-}
-
-
-template <class K, class E> 
-void BST<K, E>::Split(const K& k, BST<K, E>& small, pair<K, E>*& mid, BST<K, E>& big)
-{ // Split the BST with respect to key k
-    if (!root) {small.root = big.root = 0; return;} // empty tree
-    // create temporary header nodes for small and big
-    TreeNode<pair<K, E> > *sHead = new TreeNode<pair<K, E> >,
-                          *s = sHead,
-                          *bHead = new TreeNode<pair<K, E> >,
-                          *b = bHead,
-                          *currentNode = root;
-    while (currentNode)
-        if (k < currentNode->data.first){ // case 1
-           b->leftChild = currentNode;
-           b = currentNode; currentNode = currentNode->leftChild;
+        if (key == curVal) 
+        {
+            return new T(curVal);
         }
-        else if (k > currentNode->data.first) { // case 2
-           s->rightChild = currentNode;
-           s = currentNode; currentNode = currentNode->rightChild;
-        }
-        
-        else { // case 3
-           s->rightChild = currentNode->leftChild;
-           b->leftChild = currentNode->rightChild;
-           small.root = sHead->rightChild; delete sHead;
-           big.root = bHead->leftChild; delete bHead;
-           mid = new pair<K, E>(currentNode->data.first, 
-                                currentNode->data.second);
-           delete currentNode;
-           return;
-        }
-    // no pair with key k
-    s->rightChild = b->leftChild = 0;
-    small.root = sHead->rightChild; delete sHead;
-    big.root = bHead->leftChild; delete bHead;
-    mid = 0;
-    return;
+        else if (key < curVal)
+            current = current->getLeftChild();
+        else
+            current = current->getRightChild();
+    }
+    return nullptr;
 }
 
+// ------------------------------
+// RankGet: Return the element at rank r (0-indexed)
+// ------------------------------
+
+template <class T>
+T BinarySearchTree<T>::RankGet(int r) const 
+{
+    // InorderIterator() is non-const; use const_cast to call it.
+    std::vector<T> inorder = const_cast<BinarySearchTree<T>*>(this)->InorderIterator();
+
+    if (r < 0 || r >= inorder.size())
+        throw std::out_of_range("Rank out of range");
+
+    return inorder[r];
+}
+
+// ------------------------------
+// Insert: Insert a value into the BST
+// ------------------------------
+
+template <class T>
+void BinarySearchTree<T>::Insert(const T& value) 
+{
+    if (this->IsEmpty()) 
+    {
+        this->set_root(new BinaryTreeNode<T>(value));
+        return;
+    }
+    
+    BinaryTreeNode<T>* current = this->getRoot();
+    BinaryTreeNode<T>* parent = nullptr;
+    
+    while (current != nullptr) 
+    {
+        parent = current;
+        T curVal = current->getData();
+
+        if (value == curVal) 
+        {
+            current->setData(value);   // Duplicate: update the node.
+            return;
+        } 
+        else if (value < curVal)
+            current = current->getLeftChild();
+        else
+            current = current->getRightChild();
+    }
+    
+    BinaryTreeNode<T>* newNode = new BinaryTreeNode<T>(value);
+
+    if (value < parent->getData())
+        parent->setLeftChild(newNode);
+    else
+        parent->setRightChild(newNode);
+   
+    newNode->setParent(parent);
+   
+}
+
+// ------------------------------
+// Delete: Delete a value from the BST
+// ------------------------------
+
+template <class T>
+void BinarySearchTree<T>::Delete(const T& key) 
+{
+    BinaryTreeNode<T>* current = this->getRoot();
+    BinaryTreeNode<T>* parent = nullptr;
+    
+    while (current != nullptr && current->getData() != key) 
+    {
+        parent = current;
+
+        if (key < current->getData())
+            current = current->getLeftChild();
+        else
+            current = current->getRightChild();
+    }
+
+    if (current == nullptr)
+        throw std::runtime_error("Key not found in BST.");
+    
+    // If node has two children, find its in-order successor.
+    if (current->getLeftChild() != nullptr && current->getRightChild() != nullptr) 
+    {
+        BinaryTreeNode<T>* successor = current->getRightChild();
+        BinaryTreeNode<T>* successorParent = current;
+
+        while (successor->getLeftChild() != nullptr) 
+        {
+            successorParent = successor;
+            successor = successor->getLeftChild();
+        }
+
+        // Copy successor's value.
+        current->setData(successor->getData());
+        current = successor;
+        parent = successorParent;
+    }
+    
+    // Now, current has at most one child.
+    BinaryTreeNode<T>* child = (current->getLeftChild() != nullptr) ? current->getLeftChild() : current->getRightChild();
+
+    if (parent == nullptr) 
+    {
+        // Deleting the root.
+        this->set_root(child);
+        if (child)
+            child->setParent(nullptr);
+    } 
+    else 
+    {
+        if (parent->getLeftChild() == current)
+            parent->setLeftChild(child);
+        else
+            parent->setRightChild(child);
+
+        if (child)
+            child->setParent(parent);
+    }
+    
+    delete current;
+}
+
+// ------------------------------
+// JoinBST: Naively join two BSTs by inserting all elements from bst2 into bst1.
+// ------------------------------
+
+template <class T>
+BinarySearchTree<T> BinarySearchTree<T>::JoinBST(const BinarySearchTree<T>& bst1, const BinarySearchTree<T>& bst2) 
+{
+    BinarySearchTree<T> result = bst1;  // Copy bst1.
+    std::vector<T> inorder2 = const_cast<BinarySearchTree<T>&>(bst2).InorderIterator();
+
+    for (const T& value : inorder2) 
+    {
+        result.Insert(value);
+    }
+
+    return result;
+}
+
+// ------------------------------
+// SplitBST: Naively split a BST into two by key.
+// Split a BST into two BSTs by a key.
+// Returns a vector of two BSTs:
+//   - the first BST contains all elements less than key.
+//   - the second BST contains all elements greater than or equal to key.
+// ------------------------------
+
+template <class T>
+std::vector<BinarySearchTree<T>> BinarySearchTree<T>::SplitBST(const BinarySearchTree<T>& bst, const T& key) 
+{
+    // Create two BSTs. We initialize them with a dummy value then clear them.
+    BinarySearchTree<T> leftTree(key);  // dummy initialization
+    leftTree.Clear();
+    BinarySearchTree<T> rightTree(key); // dummy initialization
+    rightTree.Clear();
+    
+    std::vector<T> inorder = const_cast<BinarySearchTree<T>&>(bst).InorderIterator();
+    for (const T& value : inorder) 
+    {
+        if (value < key)
+            leftTree.Insert(value);
+        else
+            rightTree.Insert(value);
+    }
+    return { leftTree, rightTree };
+}
+
+// Explicit instantiation
+template class BinarySearchTree<int>;
+template class BinarySearchTree<char>;
+template class BinarySearchTree<float>;
+template class BinarySearchTree<double>;
+template class BinarySearchTree<std::string>;

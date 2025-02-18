@@ -2,7 +2,7 @@
 
 ### 2025/02/11
 1. 項目啟動
-2. 實作GeneralArray
+2. 實作`GeneralArray`
 
 ### 2025/02/12
 1. 實作`Polynomial`
@@ -48,3 +48,4 @@
 ### 2025/02/18
 1. 實作`MaxHeap`
 2. 實作`MinHeap`
+3. 實作`BinarySearchTree`

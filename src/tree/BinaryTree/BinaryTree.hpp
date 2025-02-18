@@ -16,7 +16,7 @@ class BinaryTree
         // Helper functions
         BinaryTreeNode<T>* copy_node(BinaryTreeNode<T>* in);
         BinaryTreeNode<T>* findHelper(BinaryTreeNode<T>* node, const T& value) const;
-        void clear(BinaryTreeNode<T>* node); // delete a subtree
+        void clear(BinaryTreeNode<T>* node);                 // delete a subtree
         void updateThreads(BinaryTreeNode<T>* node);         // Function to update threading after modification
         int countNodesHelper(BinaryTreeNode<T>* node) const; // Helper function to recursively count nodes
 
