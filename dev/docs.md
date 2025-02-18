@@ -3,8 +3,6 @@
 ## 1. 本專案檔案配置結構
 
 - `MORTIS/`
-    - `README.md`
-    - `.gitignore`
     - `dev/`: Development documentation
         - `dev_log.md`: Log of the development process
         - `issue.md`: List of issues and problems to be solved
@@ -25,6 +23,8 @@
         - `DoubleNode.md`
         - `DoublyLinkedList.md`
         - `GeneralArray.md`
+        - `GeneralGraph.md`
+        - `Graph.md`
         - `HashTable.md`
         - `LinkedList.md`
         - `LinkedPolynomial.md`
@@ -57,44 +57,44 @@
                 - `String.cpp`
                 - `String.hpp`
         - `chain/`: Chain structures
-          - `ChainIterator/`
-            - `ChainIterator.cpp`
-            - `ChainIterator.hpp`
-          - `CircularDoubleList/`
-            - `CircularDoubleList-test.cpp`
-            - `CircularDoubleList.cpp`
-            - `CircularDoubleList.hpp`
-          - `CircularList/`
-            - `CircularList-test.cpp`
-            - `CircularList.cpp`
-            - `CircularList.hpp`
-          - `DLIterator/`
-            - `DLIterator.cpp`
-            - `DLIterator.hpp`
-          - `DoubleNode/`
-            - `DoubleNode.cpp`
-            - `DoubleNode.hpp`
-          - `DoublyLinkedLists/`
-            - `DoublyLinkedLists-test.cpp`
-            - `DoublyLinkedLists.cpp`
-            - `DoublyLinkedLists.hpp`
-          - `LinkedList/`
-            - `LinkedList-test.cpp`
-            - `LinkedList.cpp`
-            - `LinkedList.hpp`
-          - `LinkedPolynomial/`
-            - `LinkedPolynomial-test.cpp`
-            - `LinkedPolynomial.cpp`
-            - `LinkedPolynomial.hpp`
-          - `LinkedSparseMatrix/`
-            - `LinkedMatrixTerm.cpp`
-            - `LinkedMatrixTerm.hpp`
-            - `LinkedSparseMatrix-test.cpp`
-            - `LinkedSparseMatrix.cpp`
-            - `LinkedSparseMatrix.hpp`
-          - `Node/`
-            - `Node.cpp`
-            - `Node.hpp`
+            - `ChainIterator/`
+                - `ChainIterator.cpp`
+                - `ChainIterator.hpp`
+            - `CircularDoubleList/`
+                - `CircularDoubleList-test.cpp`
+                - `CircularDoubleList.cpp`
+                - `CircularDoubleList.hpp`
+            - `CircularList/`
+                - `CircularList-test.cpp`
+                - `CircularList.cpp`
+                - `CircularList.hpp`
+            - `DLIterator/`
+                - `DLIterator.cpp`
+                - `DLIterator.hpp`
+            - `DoubleNode/`
+                - `DoubleNode.cpp`
+                - `DoubleNode.hpp`
+            - `DoublyLinkedLists/`
+                - `DoublyLinkedLists-test.cpp`
+                - `DoublyLinkedLists.cpp`
+                - `DoublyLinkedLists.hpp`
+            - `LinkedList/`
+                - `LinkedList-test.cpp`
+                - `LinkedList.cpp`
+                - `LinkedList.hpp`
+            - `LinkedPolynomial/`
+                - `LinkedPolynomial-test.cpp`
+                - `LinkedPolynomial.cpp`
+                - `LinkedPolynomial.hpp`
+            - `LinkedSparseMatrix/`
+                - `LinkedMatrixTerm.cpp`
+                - `LinkedMatrixTerm.hpp`
+                - `LinkedSparseMatrix-test.cpp`
+                - `LinkedSparseMatrix.cpp`
+                - `LinkedSparseMatrix.hpp`
+            - `Node/`
+                - `Node.cpp`
+                - `Node.hpp`
         - `container/`: Container data structures
             - `Bag/`
                 - `Bag-test.cpp`
@@ -109,9 +109,9 @@
                 - `DeQue.cpp`
                 - `DeQue.hpp`
             - `Dictionary/`
-              - `Dictionary-test.cpp`
-              - `Dictionary.cpp`
-              - `Dictionary.hpp`
+                - `Dictionary-test.cpp`
+                - `Dictionary.cpp`
+                - `Dictionary.hpp`
             - `Queue/`
                 - `Queue-test.cpp`
                 - `Queue.cpp`
@@ -121,44 +121,56 @@
                 - `Stack.cpp`
                 - `Stack.hpp`
         - `graph/`: Graph data structures
+            - `Graph/`
+              - `Graph-test`
+              - `Graph.cpp`
+              - `Graph.hpp`
+            - `GeneralGraph/`
+              - `GeneralGraph-test`
+              - `GeneralGraph.cpp`
+              - `GeneralGraph.hpp`
         - `hash/`: hash tables
-          - `BloomFilter/`
-            - `BloomFilter-test.cpp`
-            - `BloomFilter.cpp`
-            - `BloomFilter.hpp`
-          - `HashTable/`
-            - `HashTable-test.cpp`
-            - `HashTable.cpp`
-            - `HashTable.hpp`
+            - `BloomFilter/`
+                - `BloomFilter-test.cpp`
+                - `BloomFilter.cpp`
+                - `BloomFilter.hpp`
+            - `HashTable/`
+                - `HashTable-test.cpp`
+                - `HashTable.cpp`
+                - `HashTable.hpp`
         - `tree/`: Tree-based data structures
-          - `BinarySearchTree/`
-            - `BinarySearchTree-test.hpp`
-            - `BinarySearchTree.cpp`
-            - `BinarySearchTree.hpp`
-          - `BinaryTree/`
-            - `BinaryTree-test.hpp`
-            - `BinaryTree.cpp`
-            - `BinaryTree.hpp`
-          - `BinaryTreeNode/`
-            - `BinaryTreeNode.cpp`
-            - `BinaryTreeNode.hpp`
-          - `LCRSTree/`
-            - `LCRSTree-test.hpp`
-            - `LCRSTree.cpp`
-            - `LCRSTree.hpp`
-          - `LCRSTreeNode/`
-            - `LCRSTreeNode.cpp`
-            - `LCRSTreeNode.hpp`
-          - `MaxHeap/`
-            - `MaxHeap-test.hpp`
-            - `MaxHeap.cpp`
-            - `MaxHeap.hpp`
-          - `MinHeap/`
-            - `MinHeap-test.hpp`
-            - `MinHeap.cpp`
-            - `MinHeap.hpp`
-          - `Set/`
-            - `Set-test.hpp`
-            - `Set.cpp`
-            - `Set.hpp`
-        - `MORTIS.cpp`: Header file
+            - `BinarySearchTree/`
+                - `BinarySearchTree-test.hpp`
+                - `BinarySearchTree.cpp`
+                - `BinarySearchTree.hpp`
+            - `BinaryTree/`
+                - `BinaryTree-test.hpp`
+                - `BinaryTree.cpp`
+                - `BinaryTree.hpp`
+            - `BinaryTreeNode/`
+                - `BinaryTreeNode.cpp`
+                - `BinaryTreeNode.hpp`
+            - `LCRSTree/`
+                - `LCRSTree-test.hpp`
+                - `LCRSTree.cpp`
+                - `LCRSTree.hpp`
+            - `LCRSTreeNode/`
+                - `LCRSTreeNode.cpp`
+                - `LCRSTreeNode.hpp`
+            - `MaxHeap/`
+                - `MaxHeap-test.hpp`
+                - `MaxHeap.cpp`
+                - `MaxHeap.hpp`
+            - `MinHeap/`
+                - `MinHeap-test.hpp`
+                - `MinHeap.cpp`
+                - `MinHeap.hpp`
+            - `Set/`
+                - `Set-test.hpp`
+                - `Set.cpp`
+                - `Set.hpp`
+        - `MORTIS.hpp`: Header file
+    - `.gitignore`
+    - `mortis.jpg`
+    - `mortis2.png`
+    - `README.md`

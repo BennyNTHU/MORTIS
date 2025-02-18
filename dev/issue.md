@@ -39,15 +39,13 @@
 - (O) `BinaryTreeNode`
 - (O) `MaxHeap`（繼承自`BinaryTree`）
 - (O) `MinHeap`（繼承自`MaxHeap`）
-- `Set`
+- (O) `Set`
 所有tree的結構，都只能夠放入相同的資料類別，比如要馬全部放`int`，`double`, `char`或`string`
 
 ### graph
-- undirected, unweighted
-- undirected, weighted
-- directed, unweighted
-- directed, weighted
-所有graph都用linked structure來實做，減少工作量。node的命名方式一律使用`unsigned int`
+- `Graph`: 不支援multiple edge
+- `GeneralGraph`: 支援multiple edge
+由支援multiple edge的存在與否來分類。directed/undirected, weighted/unweighted視為屬性。資料使用adjacency list儲存並提供轉換為`SparseMatrix`類別的函式
 
 ## 2. 其他issue
 1. `Dictionary`放入`MortisInvariant`
