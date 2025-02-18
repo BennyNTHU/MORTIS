@@ -69,6 +69,9 @@
         - `SparseMatrix.md`
         - `Stack.md`
         - `String.md`
+    - `media/`: save pictures
+        - `mortis.jpg`
+        - `mortis2.png`
     - `src/`: Source code for the data structures
         - `array/`: Array-type data structures
             - `GeneralArray/`
@@ -202,6 +205,5 @@
                 - `Set.hpp`
         - `MORTIS.hpp`: Header file
     - `.gitignore`
-    - `mortis.jpg`
-    - `mortis2.png`
+    - `README_CN.md`
     - `README.md`

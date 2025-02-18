@@ -14,7 +14,7 @@
 
 ### 2025/02/13
 1. 實作`CirQue`
-2. 為`String`多載<<運算子
+2. 為`String`多載`<<`運算子
 3. 實作`Stack`
 4. 實作`Queue`
 5. 實作`LinkedList`, `Node`, `ChainIteration`
