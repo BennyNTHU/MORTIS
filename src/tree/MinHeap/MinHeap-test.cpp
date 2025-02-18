@@ -1,75 +1,125 @@
 // g++ -std=c++17 MinHeap.cpp MinHeap-test.cpp\
-    ../MaxHeap/MaxHeap.cpp\
     ../BinaryTree/BinaryTree.cpp\
     ../BinaryTreeNode/BinaryTreeNode.cpp\
-    ../../container/Bag/Bag.cpp ../../container/DeQue/DeQue.cpp\
+    ../MaxHeap/MaxHeap.cpp\
+    ../../container/Bag/Bag.cpp\
+    ../../container/DeQue/DeQue.cpp\
     ../../container/Stack/Stack.cpp\
     ../../array/GeneralArray/GeneralArray.cpp\
     ../../array/Polynomial/Polynomial.cpp\
     ../../array/SparseMatrix/SparseMatrix.cpp\
     ../../array/String/String.cpp -o test -o test
 
-#include <iostream>
-#include "MinHeap.hpp"
-
-using namespace std;
-
-int main() 
-{
-    cout << "=== MinHeap Test ===\n\n";
+    #include <iostream>
+    #include "MinHeap.hpp"
     
-    // Build a sample tree:
-    //           40
-    //         /    \
-    //       20      60
-    //      /  \    /  \
-    //    10   30  50  70
-    MinHeap<int> minHeap(10);  // Create a MinHeap with an initial capacity of 10
-
-    minHeap.Push(40);
-    minHeap.Push(20);
-    minHeap.Push(60);
-    minHeap.Push(10);
-    minHeap.Push(30);
-    minHeap.Push(50);
-    minHeap.Push(70);
+    using namespace std;
     
-    cout << "MinHeap after pushing elements:\n";
-    cout << "Top: " << minHeap.Top() << endl;  // Should print 10 (minimum value)
+    int main() 
+    {
+        cout << "=== MinHeap Test ===\n\n";
+        
+        // Build a sample heap:
+        //           10
+        //         /    \
+        //       10      20
+        //      /  \    /  \
+        //    60   40  30  50
+        //   /
+        //  70
+        
+        // Tesst the builder and <<
+        MinHeap<int> minHeap(10);  // Create a MinHeap with an root node 10
+        
+        cout << "Inserting elements into the MinHeap:" << endl;
+        minHeap.Push(40);   // Push elements into the heap
+        minHeap.Push(20);
+        minHeap.Push(60);
+        minHeap.Push(10);
+        minHeap.Push(30);
+        minHeap.Push(50);
+        minHeap.Push(70);
     
-    // Pop the root (minimum) element
-    minHeap.Pop();
-    cout << "After popping the min, Top: " << minHeap.Top() << endl;  // Should print 20
+        // Test LevelOrderIterator
+        std::vector<BinaryTreeNode<int>*> levelOrderNodes = minHeap.LevelOrderIterator();   // Call LevelOrderIterator
+        std::cout << "Level-order traversal of the heap:" << std::endl; // Print the values in level-order
+        for (BinaryTreeNode<int>* node : levelOrderNodes) {
+            std::cout << node->getData() << " ";
+        }
+        cout << endl;
+        
+        // Test the get_size and get_capacity functions
+        cout << minHeap << endl;    // Print the MinHeap it self and level order traversal
+        cout << "Top: " << minHeap.RootData() << endl;          // Should print 70
+        cout << "Heap size: " << minHeap.CountNodes() << endl;  // Should print 8
     
-    // Pop all elements and print the new top each time
-    minHeap.Pop();
-    cout << "After popping, Top: " << minHeap.Top() << endl;  // Should print 30
-    minHeap.Pop();
-    cout << "After popping, Top: " << minHeap.Top() << endl;  // Should print 40
-    minHeap.Pop();
-    cout << "After popping, Top: " << minHeap.Top() << endl;  // Should print 50
-    minHeap.Pop();
-    cout << "After popping, Top: " << minHeap.Top() << endl;  // Should print 60
-    minHeap.Pop();
-    cout << "After popping, Top: " << minHeap.Top() << endl;  // Should print 70
-    minHeap.Pop();
-    cout << "After popping, IsEmpty: " << (minHeap.IsEmpty() ? "Yes" : "No") << endl;  // Should print Yes
+        // Pop the top element (max element) and check the top again
+        cout << "\nPopping the top element (max element):" << endl;
     
-    cout << "=== End of MinHeap Test ===\n\n";
-
-    return 0;
-}
-
-/*
-Expected output:
-
-MinHeap after pushing elements:
-Top: 10
-After popping the min, Top: 20
-After popping, Top: 30
-After popping, Top: 40
-After popping, Top: 50
-After popping, Top: 60
-After popping, Top: 70
-After popping, IsEmpty: Yes
-*/
+        minHeap.Pop();
+        cout << minHeap << endl;    // Print the MinHeap it self and level order traversal
+        cout << "New top: " << minHeap.RootData() << endl;      // Should print 60 (after popping 70)
+        cout << "Heap size: " << minHeap.CountNodes() << endl;  // Should print 7
+    
+        minHeap.Pop();
+        cout << minHeap << endl;    // Print the MinHeap it self and level order traversal
+        cout << "New top: " << minHeap.RootData() << endl;      // Should print 50
+        cout << "Heap size: " << minHeap.CountNodes() << endl;  // Should print 6
+    
+        minHeap.Pop();
+        cout << minHeap << endl;    // Print the MinHeap it self and level order traversal
+        cout << "New top: " << minHeap.RootData() << endl;      // Should print 40
+        cout << "Heap size: " << minHeap.CountNodes() << endl;  // Should print 5
+    
+        minHeap.Pop();
+        cout << minHeap << endl;    // Print the MinHeap it self and level order traversal
+        cout << "New top: " << minHeap.RootData() << endl;      // Should print 30
+        cout << "Heap size: " << minHeap.CountNodes() << endl;  // Should print 4
+    
+        minHeap.Pop();
+        cout << minHeap << endl;    // Print the MinHeap it self and level order traversal
+        cout << "New top: " << minHeap.RootData() << endl;      // Should print 20
+        cout << "Heap size: " << minHeap.CountNodes() << endl;  // Should print 3
+    
+        minHeap.Pop();
+        cout << minHeap << endl;    // Print the MinHeap it self and level order traversal
+        cout << "New top: " << minHeap.RootData() << endl;      // Should print 10
+        cout << "Heap size: " << minHeap.CountNodes() << endl;  // Should print 2
+    
+        minHeap.Pop();
+        cout << minHeap << endl;    // Print the MinHeap it self and level order traversal
+        cout << "New top: " << minHeap.RootData() << endl;      // Should print 10
+        cout << "Heap size: " << minHeap.CountNodes() << endl;  // Should print 1
+        
+        minHeap.Pop();
+        cout << minHeap << endl;    // Print the MinHeap it self and level order traversal
+    
+        // Check if heap is empty
+        cout << "\nIs the heap empty? " << (minHeap.IsEmpty() ? "Yes" : "No") << endl;  // Should print Yes
+    
+        // Try popping from an empty heap (this should throw an exception)
+        try 
+        {
+            minHeap.Pop();  // Heap is empty now
+        } 
+        catch (const runtime_error& e) 
+        {
+            cout << "Caught exception: " << e.what() << endl;  // Should catch "Heap is empty" exception
+        }
+    
+        // Check top on an empty heap (should throw an exception)
+        try 
+        {
+            cout << "Top on empty heap: " << minHeap.RootData() << endl;
+        } 
+        catch (const runtime_error& e) 
+        {
+            cout << "Caught exception: " << e.what() << endl;  // Should catch "Heap is empty" exception
+        }
+    
+        cout << "=== End of MinHeap Test ===\n\n";
+    
+        return 0;
+    }    
+    
+    

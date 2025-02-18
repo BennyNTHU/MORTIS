@@ -230,7 +230,9 @@ BinaryTreeNode<T>* MaxHeap<T>::GetNodeAtIndex(int index)
 template <class T>
 BinaryTreeNode<T>* MaxHeap<T>::getParent(int index) 
 {
-    if (index == 0) return nullptr;
+    if (index == 0) 
+        return nullptr;
+    
     int parentIndex = (index - 1) / 2;
     return nodes[parentIndex];
 }

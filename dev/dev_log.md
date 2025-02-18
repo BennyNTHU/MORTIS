@@ -46,4 +46,5 @@
 6. 又學到一件事情：把tree實際建起來之前造iterator是沒有意義的
    
 ### 2025/02/18
-實作`MaxHeap`
+1. 實作`MaxHeap`
+2. 實作`MinHeap`

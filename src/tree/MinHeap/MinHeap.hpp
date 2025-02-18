@@ -1,12 +1,20 @@
-# include "../MaxHeap/MaxHeap.hpp"
+#ifndef MINHEAP
+#define MINHEAP
+
+#include "../MaxHeap/MaxHeap.hpp"
 
 template <class T>
-class MinHeap: public MaxHeap<T> 
+class MinHeap : public MaxHeap<T> 
 {
-    public:
-        MinHeap(int theCapacity = 10);
+public:
+    // Constructor and destructor.
+    MinHeap(const T& rootData);
+    ~MinHeap();
 
-    protected:
-        void heapify_up(int index) override;    // Override heapify methods for Min-Heap
-        void heapify_down(int index) override;
+protected:
+    // Override heapify methods for a min-heap.
+    void heapify_up(int index) override;
+    void heapify_down(int index) override;
 };
+
+#endif
