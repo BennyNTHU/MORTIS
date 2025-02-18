@@ -3,7 +3,7 @@
 # **MORTIS：面向記憶的資訊結構資源工具包**
 #### MORTIS: Memory Oriented Resource Toolkit for Information Structures
 
-![./media/image](mortis.jpg)
+![image](./media/mortis.jpg)
 
 ## **1. 概述**
 
@@ -70,4 +70,4 @@
 - **Q: 你是 MyGO 廚嗎？**  
   **A:** 是。
 
-![./media/image](mortis2.png)
+![image](./media/mortis2.png)

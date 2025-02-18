@@ -4,7 +4,7 @@ Below is an example of a revised README in English using Markdown. This document
 
 # MORTIS: Memory Oriented Resource Toolkit for Information Structures
 
-![./media/image](mortis.jpg)
+![image](./media/mortis.jpg)
 
 ## 1. Overview
 
@@ -70,4 +70,4 @@ Below is a summary of the data structures provided by MORTIS:
 - Q: 你是MyGO廚嗎
 - A: 是
 
-![./media/image](mortis2.png)
+![image](./media/mortis2.png)
