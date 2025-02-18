@@ -33,7 +33,8 @@ class MaxHeap: public BinaryTree<T>
         // Helper methods to maintain heap property
         void heapify_up(int index);     // Modify the tree structure
         void heapify_down(int index);   // Modify the tree structure
-        std::vector<BinaryTreeNode<T>*> LevelOrderIterator(); // Iterate in level order
+        void rebuildTreeLinks();    // Rebuilds parent-child links in the tree from the array representation.
+        std::vector<BinaryTreeNode<T>*> LevelOrderIterator(); // Iterate in level order. The API provide in BinryTree returns data only
 };
         
 #endif

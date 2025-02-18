@@ -1,7 +1,8 @@
 // g++ -std=c++17 MaxHeap.cpp MaxHeap-test.cpp\
     ../BinaryTree/BinaryTree.cpp\
     ../BinaryTreeNode/BinaryTreeNode.cpp\
-    ../../container/Bag/Bag.cpp ../../container/DeQue/DeQue.cpp\
+    ../../container/Bag/Bag.cpp\
+    ../../container/DeQue/DeQue.cpp\
     ../../container/Stack/Stack.cpp\
     ../../array/GeneralArray/GeneralArray.cpp\
     ../../array/Polynomial/Polynomial.cpp\
@@ -38,17 +39,16 @@ int main()
     maxHeap.Push(50);
     maxHeap.Push(70);
 
-    cout << maxHeap << endl;    // Print the MaxHeap it self and level order traversal
-
     // Test LevelOrderIterator
     std::vector<BinaryTreeNode<int>*> levelOrderNodes = maxHeap.LevelOrderIterator();   // Call LevelOrderIterator
     std::cout << "Level-order traversal of the heap:" << std::endl; // Print the values in level-order
     for (BinaryTreeNode<int>* node : levelOrderNodes) {
         std::cout << node->getData() << " ";
     }
-    std::cout << std::endl;
+    cout << endl;
     
     // Test the get_size and get_capacity functions
+    cout << maxHeap << endl;    // Print the MaxHeap it self and level order traversal
     cout << "Top: " << maxHeap.RootData() << endl;          // Should print 70
     cout << "Heap size: " << maxHeap.CountNodes() << endl;  // Should print 8
 
@@ -56,36 +56,42 @@ int main()
     cout << "\nPopping the top element (max element):" << endl;
 
     maxHeap.Pop();
+    cout << maxHeap << endl;    // Print the MaxHeap it self and level order traversal
     cout << "New top: " << maxHeap.RootData() << endl;      // Should print 60 (after popping 70)
     cout << "Heap size: " << maxHeap.CountNodes() << endl;  // Should print 7
 
     maxHeap.Pop();
+    cout << maxHeap << endl;    // Print the MaxHeap it self and level order traversal
     cout << "New top: " << maxHeap.RootData() << endl;      // Should print 50
     cout << "Heap size: " << maxHeap.CountNodes() << endl;  // Should print 6
 
     maxHeap.Pop();
+    cout << maxHeap << endl;    // Print the MaxHeap it self and level order traversal
     cout << "New top: " << maxHeap.RootData() << endl;      // Should print 40
     cout << "Heap size: " << maxHeap.CountNodes() << endl;  // Should print 5
 
     maxHeap.Pop();
+    cout << maxHeap << endl;    // Print the MaxHeap it self and level order traversal
     cout << "New top: " << maxHeap.RootData() << endl;      // Should print 30
     cout << "Heap size: " << maxHeap.CountNodes() << endl;  // Should print 4
 
     maxHeap.Pop();
+    cout << maxHeap << endl;    // Print the MaxHeap it self and level order traversal
     cout << "New top: " << maxHeap.RootData() << endl;      // Should print 20
     cout << "Heap size: " << maxHeap.CountNodes() << endl;  // Should print 3
 
     maxHeap.Pop();
+    cout << maxHeap << endl;    // Print the MaxHeap it self and level order traversal
     cout << "New top: " << maxHeap.RootData() << endl;      // Should print 10
     cout << "Heap size: " << maxHeap.CountNodes() << endl;  // Should print 2
 
     maxHeap.Pop();
+    cout << maxHeap << endl;    // Print the MaxHeap it self and level order traversal
     cout << "New top: " << maxHeap.RootData() << endl;      // Should print 10
     cout << "Heap size: " << maxHeap.CountNodes() << endl;  // Should print 1
     
     maxHeap.Pop();
-    cout << "New top: " << maxHeap.RootData() << endl;      // Should print empty
-    cout << "Heap size: " << maxHeap.CountNodes() << endl;  // Should print 0
+    cout << maxHeap << endl;    // Print the MaxHeap it self and level order traversal
 
     // Check if heap is empty
     cout << "\nIs the heap empty? " << (maxHeap.IsEmpty() ? "Yes" : "No") << endl;  // Should print Yes
@@ -115,36 +121,3 @@ int main()
     return 0;
 }    
 
-/*
-Expected output:
-
-=== MaxHeap Test ===
-
-Inserting elements into the MaxHeap:
-Heap after insertions:
-Top: 70
-Heap size: 7
-Heap capacity: 10
-
-Popping the top element (max element):
-New top: 60
-
-Popping all elements:
-New top: 50
-New top: 40
-New top: 30
-New top: 20
-New top: 10
-
-Is the heap empty? Yes
-Caught exception: Heap is empty
-Caught exception: Heap is empty
-
-Inserting more elements to test resizing:
-Top: 90
-Heap size: 3
-Heap capacity: 20
-
-=== End of MaxHeap Test ===
-
-*/ 
