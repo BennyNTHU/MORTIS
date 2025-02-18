@@ -7,7 +7,38 @@
         - `dev_log.md`: Log of the development process
         - `issue.md`: List of issues and problems to be solved
         - `docs.md`: Current file structure and technical documentation
-    - `docs/`: Usage documentation for each data structure
+    - `docs_CN/`: Usage documentation for each data structure
+        - `Bag.md`
+        - `BinarySearchTree.md`
+        - `BinaryTree.md`
+        - `BinaryTreeNode.md`
+        - `BloomFilter.md`
+        - `ChainIteraion.md`
+        - `CircularDoubleList.md`
+        - `CircularList.md`
+        - `CirQue.md`
+        - `DeQue.md`
+        - `Dictionary.md`
+        - `DLIterator.md`
+        - `DoubleNode.md`
+        - `DoublyLinkedList.md`
+        - `GeneralArray.md`
+        - `GeneralGraph.md`
+        - `Graph.md`
+        - `HashTable.md`
+        - `LinkedList.md`
+        - `LinkedPolynomial.md`
+        - `LinkedSparseMatrix.md`
+        - `MaxHeap.md`
+        - `MinHeap.md`
+        - `Node.md`
+        - `Polynomial.md`
+        - `Queue.md`
+        - `Set.md`
+        - `SparseMatrix.md`
+        - `Stack.md`
+        - `String.md`
+    - `docs_EN/`: Chinese documentation
         - `Bag.md`
         - `BinarySearchTree.md`
         - `BinaryTree.md`
