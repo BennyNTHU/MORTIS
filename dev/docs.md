@@ -184,13 +184,6 @@
             - `BinaryTreeNode/`
                 - `BinaryTreeNode.cpp`
                 - `BinaryTreeNode.hpp`
-            - `LCRSTree/`
-                - `LCRSTree-test.hpp`
-                - `LCRSTree.cpp`
-                - `LCRSTree.hpp`
-            - `LCRSTreeNode/`
-                - `LCRSTreeNode.cpp`
-                - `LCRSTreeNode.hpp`
             - `MaxHeap/`
                 - `MaxHeap-test.hpp`
                 - `MaxHeap.cpp`
@@ -203,7 +196,7 @@
                 - `Set-test.hpp`
                 - `Set.cpp`
                 - `Set.hpp`
-        - `MORTIS.hpp`: Header file
+        - `MORTIS.hpp`: umbrella header
     - `.gitignore`
     - `README_CN.md`
     - `README.md`
