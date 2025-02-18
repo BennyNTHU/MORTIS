@@ -1,4 +1,4 @@
-# **MORTIS：面向記憶的資訊結構資源工具包**
+# **MORTIS：C++資料結構工具包專案**
 #### MORTIS: Memory Oriented Resource Toolkit for Information Structures
 
 ![image](./media/mortis.jpg)
