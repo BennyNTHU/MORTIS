@@ -158,12 +158,6 @@ void GeneralArray<T>::reverse()
 template <class T>
 void GeneralArray<T>::push_back(const T& value) 
 {
-    // // Only support push_back for 1-dimensional arrays.
-    // if (dimension != 1) 
-    // {
-    //     throw std::runtime_error("push_back is only supported for 1D GeneralArray");
-    // }
-
     // Allocate a new array of size totalSize + 1.
     T* newData = new T[totalSize + 1];
 

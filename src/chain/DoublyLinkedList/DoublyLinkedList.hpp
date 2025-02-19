@@ -5,6 +5,7 @@
 #include <cstring>
 #include "../DoubleNode/DoubleNode.hpp"
 #include "../DLIterator/DLIterator.hpp"
+
 using namespace std;
 
 template <class T>
@@ -50,9 +51,9 @@ class DoublyLinkedList
         bool IsEmpty() const;                                 // Check if the list is empty
 
         /* overloading */
-        template <typename U>
-        friend std::ostream& operator<<(std::ostream& out, const DoublyLinkedList<U>& list);
         DoublyLinkedList<T>& operator=(const DoublyLinkedList<T>& other);     // Deep copy of lists
+        template <typename U> friend std::ostream& operator<<(std::ostream& out, const DoublyLinkedList<U>& list);
+        // bool operator==(const DoublyLinkedList<T>& lhs, const DoublyLinkedList<T>& rhs);
 };
 
 template <typename T>

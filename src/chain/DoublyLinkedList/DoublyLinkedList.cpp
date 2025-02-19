@@ -4,6 +4,10 @@
 
 using namespace std;
 
+// ==================================================
+// constructor and destructors
+// ==================================================
+
 // Constructor: Initializes an empty list
 template <typename T>
 DoublyLinkedList<T>::DoublyLinkedList() : first(nullptr), last(nullptr) {}
@@ -27,6 +31,10 @@ DoublyLinkedList<T>::~DoublyLinkedList()
         DeleteFront();
     }
 }
+
+// ==================================================
+// Getter and Setters
+// ==================================================
 
 template <typename T>
 DoubleNode<T>* DoublyLinkedList<T>::GetFirst() const 
@@ -52,6 +60,10 @@ void DoublyLinkedList<T>::SetLast(DoubleNode<T>* node)
     last = node; 
 }
 
+// ==================================================
+// return elements
+// ==================================================
+
 // Get an iterator pointing to the first element
 template <typename T>
 DLIterator<T> DoublyLinkedList<T>::begin() const 
@@ -65,6 +77,10 @@ DLIterator<T> DoublyLinkedList<T>::end() const
 {
     return DLIterator<T>(nullptr);
 }
+
+// ==================================================
+// insertion
+// ==================================================
 
 // Insert an element at the front
 template <typename T>
@@ -147,6 +163,10 @@ void DoublyLinkedList<T>::Insert(int pos, T e)
 
     current->setLink(newNode);
 }
+
+// ==================================================
+// deletion
+// ==================================================
 
 // Delete the front element
 template <typename T>
@@ -245,6 +265,10 @@ void DoublyLinkedList<T>::Delete(int pos)
     delete current;
 }
 
+// ==================================================
+// Other functions
+// ==================================================
+
 // Get the length of the list
 template <typename T>
 int DoublyLinkedList<T>::Length() const 
@@ -325,6 +349,10 @@ ostream& operator<<(ostream& out, const DoublyLinkedList<T>& list)
     return out;
 }
 
+// ==================================================
+// overloading
+// ==================================================
+
 // Assignment Operator Overload: Deep copy another list
 template <typename T>
 DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(const DoublyLinkedList<T>& other) 
@@ -343,6 +371,38 @@ DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(const DoublyLinkedList<T>& o
 
     return *this;
 }
+
+// // Overload the equality operator to compare two DoublyLinkedList objects.
+// template <class T>
+// bool operator==(const DoublyLinkedList<T>& lhs, const DoublyLinkedList<T>& rhs) 
+// {
+//     // Get iterators for both lists.
+//     DLIterator<T> it1 = lhs.begin();
+//     DLIterator<T> it2 = rhs.begin();
+    
+//     // Traverse both lists simultaneously.
+//     while (it1 != lhs.end() && it2 != rhs.end()) 
+//     {
+//         if (*it1 != *it2) 
+//         {
+//             return false;   // If any pair of corresponding elements differ, the lists are not equal.
+//         }
+//         ++it1;
+//         ++it2;
+//     }
+    
+//     // Both iterators should reach the end if the lists have the same length.
+//     return (it1 == lhs.end() && it2 == rhs.end());
+// }
+
+// // Explicit template instantiation for commonly used types.
+// template bool operator==(const DoublyLinkedList<int>&, const DoublyLinkedList<int>&);
+// template bool operator==(const DoublyLinkedList<bool>&, const DoublyLinkedList<bool>&);
+// template bool operator==(const DoublyLinkedList<char>&, const DoublyLinkedList<char>&);
+// template bool operator==(const DoublyLinkedList<float>&, const DoublyLinkedList<float>&);
+// template bool operator==(const DoublyLinkedList<double>&, const DoublyLinkedList<double>&);
+// template bool operator==(const DoublyLinkedList<std::string>&, const DoublyLinkedList<std::string>&);
+// template bool operator==(const DoublyLinkedList<DoublyLinkedList<int>>&, const DoublyLinkedList<DoublyLinkedList<int>>&);
 
 // Explicit instantiation
 template std::ostream& operator<<(std::ostream&, const DoublyLinkedList<int>&);

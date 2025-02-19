@@ -58,3 +58,6 @@
 3. 編寫`README.md`與`README_CN.md`
 4. 開始實作`Graph`
 5. 為`GeneralArray`新增`push_back`以及新增多載`[], !=`算子，新增`delete()`函式
+
+### 2025/02/20
+1. 完成`Graph`的實作

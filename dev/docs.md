@@ -23,7 +23,6 @@
         - `DoubleNode.md`
         - `DoublyLinkedList.md`
         - `GeneralArray.md`
-        - `MultiGraph.md`
         - `Graph.md`
         - `HashTable.md`
         - `LinkedList.md`
@@ -31,6 +30,7 @@
         - `LinkedSparseMatrix.md`
         - `MaxHeap.md`
         - `MinHeap.md`
+        - `MultiGraph.md`
         - `Node.md`
         - `Polynomial.md`
         - `Queue.md`
