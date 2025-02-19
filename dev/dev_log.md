@@ -56,3 +56,4 @@
 1. 統整現有issue
 2. 翻譯中文文檔
 3. 編寫`README.md`與`README_CN.md`
+4. 開始實作`Graph`
