@@ -67,3 +67,9 @@ Below is a summary of the data structures provided by MORTIS:
 - A: 是
 
 ![image](./media/mortis2.png)
+
+## References
+
+> [1] E. Horowitz, S. Sahni, and D. Mehta, *Fundamentals of Data Structures in C++*, 2nd ed. New Jersey: Silicon Press, 2006.
+
+> [2] T.-L. Chung, "Data Structures," EECS204002, Department of Electrical Engineering and Computer Science, National Tsing Hua University, Hsinchu, Taiwan, Spring 2021.

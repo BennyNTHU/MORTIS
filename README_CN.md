@@ -69,3 +69,9 @@
   **A:** 是。
 
 ![image](./media/mortis2.png)
+
+## 參考資料
+
+> [1] E. Horowitz, S. Sahni, and D. Mehta, *Fundamentals of Data Structures in C++*, 2nd ed. New Jersey: Silicon Press, 2006.
+
+> [2] 清大電機系鐘太郎教授於109學年度下學期開設的「資料結構」課程（開課單位：國立清華大學電資院學士班）
