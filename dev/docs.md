@@ -156,11 +156,12 @@
                 - `Stack.hpp`
         - `graph/`: Graph data structures
             - `Graph/`
-              - `Graph-test`
+              - `Graph-test.cpp`
+              - `Graph-test2.cpp`
               - `Graph.cpp`
               - `Graph.hpp`
             - `MultiGraph/`
-              - `MultiGraph-test`
+              - `MultiGraph-test.cpp`
               - `MultiGraph.cpp`
               - `MultiGraph.hpp`
         - `hash/`: hash tables

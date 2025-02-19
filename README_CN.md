@@ -1,13 +1,13 @@
-# **MORTIS：C++資料結構工具包專案**
+# **MORTIS：C++資料結構函式庫專案**
 #### MORTIS: Memory Oriented Resource Toolkit for Information Structures
 
 ![image](./media/mortis.jpg)
 
 ## **1. 摘要**
 
-**MORTIS** 是一個基於 C++17 的資料結構Library。本專案實作了各種資料結構和抽象資料類型（ADT），包括：
+**MORTIS** 是一個基於 C++17 的資料結構函式庫。本專案實作了各種資料結構和抽象資料型別（ADT），包括：
 
-- 類陣列結構  
+- 陣列結構  
 - 基於鏈結串列(Linked lists)的結構  
 - 容器
 - 圖
@@ -18,9 +18,9 @@
 
 以下是 MORTIS 提供的資料結構總覽：
 
-| **類別**  | **資料結構**       | **描述**                                                                                                                                         | **文檔（中文）**                      | **文檔（英文）**                      | **支持的資料類型** |
+| **類別**  | **資料結構**       | **描述**                                                                                                                                         | **文檔（中文）**                      | **文檔（英文）**                      | **支持的資料型別** |
 |-----------|------------------|-------------------------------------------------------------------------------------------------------------|---------------------------------|---------------------------------|-------------------------|
-| **陣列**  | **GeneralArray**  | 一個動態陣列，可存儲 C++ 內建類型。                                                                        | [中文](./docs_CN/GeneralArray.md) | [English](./docs_EN/GeneralArray.md) |                         |
+| **陣列**  | **GeneralArray**  | 一個動態陣列，可存儲 C++ 內建型別。                                                                        | [中文](./docs_CN/GeneralArray.md) | [English](./docs_EN/GeneralArray.md) |                         |
 |           | **Polynomial**    | 表示多項式，係數限制為浮點數或整數，次數為整數。                                                            | [中文](./docs_CN/Polynomial.md) | [English](./docs_EN/Polynomial.md) |                         |
 |           | **SparseMatrix**  | 稀疏矩陣，元素限制為浮點數或整數。                                                                          | [中文](./docs_CN/SparseMatrix.md) | [English](./docs_EN/SparseMatrix.md) |                         |
 |           | **String**        | 增強版 C 字符串，提供額外的字符串操作函數。                                                                | [中文](./docs_CN/String.md) | [English](./docs_EN/String.md) |                         |
@@ -39,7 +39,7 @@
 | **雜湊表** | **HashTable**    | 通用雜湊表實作。                                                                                       | [中文](./docs_CN/HashTable.md) | [English](./docs_EN/HashTable.md) |                         |
 |           | **BloomFilter**   | BloomFilter實作。                                                                                       | [中文](./docs_CN/BloomFilter.md) | [English](./docs_EN/BloomFilter.md) |                         |
 | **樹結構** | **BinaryTree**   | 通用二元樹結構。                                                                                       | [中文](./docs_CN/BinaryTree.md) | [English](./docs_EN/BinaryTree.md) |                         |
-|           | **BinaryTreeNode** | 二元樹節點類型。                                                                                     | [中文](./docs_CN/BinaryTreeNode.md) | [English](./docs_EN/BinaryTreeNode.md) |                         |
+|           | **BinaryTreeNode** | 二元樹節點型別。                                                                                     | [中文](./docs_CN/BinaryTreeNode.md) | [English](./docs_EN/BinaryTreeNode.md) |                         |
 |           | **BinarySearchTree** | 二元搜尋樹（繼承自 BinaryTree）。                                                                  | [中文](./docs_CN/BinarySearchTree.md) | [English](./docs_EN/BinarySearchTree.md) |                         |
 |           | **MaxHeap**       | 最大堆積（繼承自 BinaryTree）。                                                                          | [中文](./docs_CN/MaxHeap.md) | [English](./docs_EN/MaxHeap.md) |                         |
 |           | **MinHeap**       | 最小堆積（繼承自 MaxHeap）。                                                                           | [中文](./docs_CN/MinHeap.md) | [English](./docs_EN/MinHeap.md) |                         |

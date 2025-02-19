@@ -65,3 +65,5 @@
     - 新增`Unify()`用來消除重複元素
 12. `Dictionary`
     - 放入`MortisInvariant`
+13. `Graph`
+    - 新增`IsEulerian()`函式

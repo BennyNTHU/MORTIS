@@ -29,8 +29,6 @@ using MIXED_TYPE = std::variant<int, char, float, bool, double, std::string>;
  * while also maintaining a vector of node IDs and a vector of edges (for convenience).
  */
 
-using MIXED_TYPE = std::variant<int, char, float, bool, double, std::string>;
-
 class Graph 
 {
     private:
