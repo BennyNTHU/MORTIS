@@ -55,7 +55,7 @@ mkdir build
 cd build      
 cmake .. 
 make 
-```sh
+```
 To install the library, use the command
 ```sh
 cmake --install .
