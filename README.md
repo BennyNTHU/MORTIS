@@ -50,23 +50,23 @@ Below is a summary of the data structures provided by MORTIS (**The documentatio
 ## 2. Quick Start 
 
 Cloning this project by `git clone` and move into this project as working directory. Then use the following command
-```
+```sh
 mkdir build 
 cd build      
 cmake .. 
 make 
-```
+```sh
 To install the library, use the command
-```
+```sh
 cmake --install .
 ```
 or
-```
+```sh
 sudo cmake --install .
 ```
 Then you may include my project in your program by
 ```cpp
-include <MORTIS>
+#include <MORTIS>
 ```
 
 ---
