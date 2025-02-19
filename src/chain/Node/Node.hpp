@@ -1,5 +1,5 @@
-#ifndef NODE_HPP
-#define NODE_HPP
+#ifndef NODE
+#define NODE
 
 #include <iostream>
 #include <string>

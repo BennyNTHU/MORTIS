@@ -25,8 +25,12 @@ int GeneralArray<T>::computeLinearIndex(const Index& idx) const
 //-----------------------------------------
 // Constructor: allocate memory and initialize array with initValue
 //-----------------------------------------
+
 template <class T>
-GeneralArray<T>::GeneralArray(int j, const RangeList& list, T initValue) 
+GeneralArray<T>::GeneralArray(): dimension(0), totalSize(0), data(nullptr) {}
+
+template <class T>
+GeneralArray<T>::GeneralArray(int j, const RangeList& list, T initValue)
 {
     if (list.size() != static_cast<size_t>(j))
         throw std::invalid_argument("Dimension count does not match size list");
@@ -44,20 +48,8 @@ GeneralArray<T>::GeneralArray(int j, const RangeList& list, T initValue)
         data[i] = initValue;
 }
 
-//-----------------------------------------
-// Destructor: free allocated memory
-//-----------------------------------------
 template <class T>
-GeneralArray<T>::~GeneralArray() 
-{
-    delete[] data;
-}
-
-//-----------------------------------------
-// Copy constructor: deep copy from other GeneralArray
-//-----------------------------------------
-template <class T>
-GeneralArray<T>::GeneralArray(const GeneralArray<T>& other) 
+GeneralArray<T>::GeneralArray(const GeneralArray<T>& other) // Copy constructor: deep copy from other GeneralArray
 {
     dimension = other.dimension;
     dims = other.dims;
@@ -68,67 +60,56 @@ GeneralArray<T>::GeneralArray(const GeneralArray<T>& other)
         data[i] = other.data[i];
 }
 
-//-----------------------------------------
-// Assignment operator: deep copy assignment
-//-----------------------------------------
 template <class T>
-GeneralArray<T>& GeneralArray<T>::operator=(const GeneralArray<T>& other) 
+GeneralArray<T>::~GeneralArray()    // Destructor: free allocated memory 
 {
-    if (this != &other) 
-    {
-        delete[] data;
-        dimension = other.dimension;
-        dims = other.dims;
-        totalSize = other.totalSize;
-        data = new T[totalSize];
-
-        for (int i = 0; i < totalSize; i++)
-            data[i] = other.data[i];
-    }
-    return *this;
+    delete[] data;
 }
 
 //-----------------------------------------
-// Equality operator: compare two arrays elementwise and dimensions
+// Properties
 //-----------------------------------------
+
+// length() function: return total number of elements in the array
 template <class T>
-bool GeneralArray<T>::operator==(const GeneralArray<T>& other) const 
+int GeneralArray<T>::length() const 
 {
-    if (dimension != other.dimension || dims != other.dims || totalSize != other.totalSize)
-        return false;
-
-    for (int i = 0; i < totalSize; i++) 
-        if (!(data[i] == other.data[i]))
-            return false;
-
-    return true;
+    return totalSize;
 }
 
 //-----------------------------------------
-// Store() function: update element at the given multi-dimensional index with value x
+// Getters
 //-----------------------------------------
-template <class T>
-void GeneralArray<T>::Store(const Index& idx, T x) 
-{
-    int linearIndex = computeLinearIndex(idx);
-    data[linearIndex] = x;
-}
 
-//-----------------------------------------
-// Retrieve() function: return the element at the given multi-dimensional index
-//-----------------------------------------
 template <class T>
-T GeneralArray<T>::Retrieve(const Index& idx) const 
+T GeneralArray<T>::Retrieve(const Index& idx) const // Retrieve() function: return the element at the given multi-dimensional index 
 {
     int linearIndex = computeLinearIndex(idx);
     return data[linearIndex];
 }
 
 //-----------------------------------------
+// Manipulations
+//-----------------------------------------
+
+// initialize() function: set all elements to default value T{}
+template <class T>
+void GeneralArray<T>::initialize() 
+{
+    for (int i = 0; i < totalSize; i++)
+        data[i] = T{};
+}
+
+template <class T>
+void GeneralArray<T>::Store(const Index& idx, T x)  // Store() function: update element at the given multi-dimensional index with value x 
+{
+    int linearIndex = computeLinearIndex(idx);
+    data[linearIndex] = x;
+}
+
 // sort() function: sort the array based on given parameters.
 // For 1D, sort entire data array; for 2D, sort rows based on element at column (sortDim-1).
 // 'reverse' true means ascending order; false means descending order.
-//-----------------------------------------
 template <class T>
 void GeneralArray<T>::sort(bool reverse, int sortDim) 
 {
@@ -167,10 +148,114 @@ void GeneralArray<T>::sort(bool reverse, int sortDim)
         throw std::runtime_error("sort() not implemented for arrays with dimension > 2");
 }
 
+// reverse() function: reverse the order of all elements (flat order)
+template <class T>
+void GeneralArray<T>::reverse() 
+{
+    std::reverse(data, data + totalSize);
+}
+
+template <class T>
+void GeneralArray<T>::push_back(const T& value) 
+{
+    // // Only support push_back for 1-dimensional arrays.
+    // if (dimension != 1) 
+    // {
+    //     throw std::runtime_error("push_back is only supported for 1D GeneralArray");
+    // }
+
+    // Allocate a new array of size totalSize + 1.
+    T* newData = new T[totalSize + 1];
+
+    // Copy existing elements.
+    for (int i = 0; i < totalSize; i++) 
+    {
+        newData[i] = data[i];
+    }
+
+    // Append the new value.
+    newData[totalSize] = value;
+
+    // Free the old memory.
+    delete[] data;
+    data = newData;
+    totalSize++;
+
+    // Also update dims[0] if dims is not empty.
+    if (!dims.empty())
+        dims[0] = totalSize;
+}
+
 //-----------------------------------------
+// Operator overloading
+//-----------------------------------------
+
+template <class T>
+GeneralArray<T>& GeneralArray<T>::operator=(const GeneralArray<T>& other)   // Assignment operator: deep copy assignment 
+{
+    if (this != &other) 
+    {
+        delete[] data;
+        dimension = other.dimension;
+        dims = other.dims;
+        totalSize = other.totalSize;
+        data = new T[totalSize];
+
+        for (int i = 0; i < totalSize; i++)
+            data[i] = other.data[i];
+    }
+    return *this;
+}
+
+// Overloaded assignment operator with initializer_list.
+template <class T>
+GeneralArray<T>& GeneralArray<T>::operator=(std::initializer_list<T> il) 
+{
+    if (il.size() != static_cast<size_t>(totalSize))
+        throw std::invalid_argument("Initializer list size does not match array size");
+    int i = 0;
+    for (const T& elem : il)
+        data[i++] = elem;
+    return *this;
+}
+
+template <class T>
+T& GeneralArray<T>::operator[](int index) 
+{
+    if (index < 0 || index >= totalSize)
+        throw std::out_of_range("Index out of range");
+    return data[index];
+}
+
+template <class T>
+const T& GeneralArray<T>::operator[](int index) const 
+{
+    if (index < 0 || index >= totalSize)
+        throw std::out_of_range("Index out of range");
+    return data[index];
+}
+
+template <class T>
+bool GeneralArray<T>::operator==(const GeneralArray<T>& other) const    // Equality operator: compare two arrays elementwise and dimensions
+{
+    if (dimension != other.dimension || dims != other.dims || totalSize != other.totalSize)
+        return false;
+
+    for (int i = 0; i < totalSize; i++) 
+        if (!(data[i] == other.data[i]))
+            return false;
+
+    return true;
+}
+
+template <class T>
+bool GeneralArray<T>::operator!=(const GeneralArray<T>& other) const 
+{
+    return !(*this==other);
+}
+
 // Overloaded input operator >> to allow input from stream.
 // For types that are std::variant, input operator is not supported.
-//-----------------------------------------
 template <class T>
 istream& operator>>(istream& in, GeneralArray<T>& arr) 
 {
@@ -265,11 +350,8 @@ void printVal(std::ostream &out, const std::variant<Ts...> &value)
     std::visit([&](auto &&arg) { out << arg; }, value);
 }
 
-//-----------------------------------------
-// Overloaded output operator << to print array contents to stream.
-//-----------------------------------------
 template <class T>
-ostream& operator<<(ostream& out, const GeneralArray<T>& arr) 
+ostream& operator<<(ostream& out, const GeneralArray<T>& arr)   // Overloaded output operator << to print array contents to stream.
 {
     if (arr.dimension == 1) 
     {
@@ -307,47 +389,14 @@ ostream& operator<<(ostream& out, const GeneralArray<T>& arr)
     return out;
 }
 
-// Overloaded assignment operator with initializer_list.
-template <class T>
-GeneralArray<T>& GeneralArray<T>::operator=(std::initializer_list<T> il) 
-{
-    if (il.size() != static_cast<size_t>(totalSize))
-        throw std::invalid_argument("Initializer list size does not match array size");
-    int i = 0;
-    for (const T& elem : il)
-        data[i++] = elem;
-    return *this;
-}
-
-// reverse() function: reverse the order of all elements (flat order)
-template <class T>
-void GeneralArray<T>::reverse() 
-{
-    std::reverse(data, data + totalSize);
-}
-
-// initialize() function: set all elements to default value T{}
-template <class T>
-void GeneralArray<T>::initialize() 
-{
-    for (int i = 0; i < totalSize; i++)
-        data[i] = T{};
-}
-
-// length() function: return total number of elements in the array
-template <class T>
-int GeneralArray<T>::length() const 
-{
-    return totalSize;
-}
-
 // 顯式實例化 GeneralArray 模板，針對 ga-test.cpp 中使用到的型別：
 template class GeneralArray<int>;
 template class GeneralArray<double>;
 template class GeneralArray<char>;
 template class GeneralArray<float>;
 template class GeneralArray<bool>;
-template class GeneralArray<std::variant<int, char, float, bool, double, std::string>>;
+template class GeneralArray<MIXED_TYPE>;
+template class GeneralArray<std::vector<MIXED_TYPE>>;
 
 template std::ostream& operator<<<int>(std::ostream&, const GeneralArray<int>&);
 template std::ostream& operator<<<double>(std::ostream&, const GeneralArray<double>&);

@@ -23,7 +23,7 @@
         - `DoubleNode.md`
         - `DoublyLinkedList.md`
         - `GeneralArray.md`
-        - `GeneralGraph.md`
+        - `MultiGraph.md`
         - `Graph.md`
         - `HashTable.md`
         - `LinkedList.md`
@@ -54,7 +54,7 @@
         - `DoubleNode.md`
         - `DoublyLinkedList.md`
         - `GeneralArray.md`
-        - `GeneralGraph.md`
+        - `MultiGraph.md`
         - `Graph.md`
         - `HashTable.md`
         - `LinkedList.md`
@@ -159,10 +159,10 @@
               - `Graph-test`
               - `Graph.cpp`
               - `Graph.hpp`
-            - `GeneralGraph/`
-              - `GeneralGraph-test`
-              - `GeneralGraph.cpp`
-              - `GeneralGraph.hpp`
+            - `MultiGraph/`
+              - `MultiGraph-test`
+              - `MultiGraph.cpp`
+              - `MultiGraph.hpp`
         - `hash/`: hash tables
             - `BloomFilter/`
                 - `BloomFilter-test.cpp`

@@ -1,6 +1,9 @@
 #include <iostream>
 #include <cstring>
+
 #include "ChainIterator.hpp"
+#include "../DoublyLinkedList/DoublyLinkedList.hpp"
+
 using namespace std;
 
 template <typename T>
@@ -67,3 +70,10 @@ template class ChainIterator<char>;
 template class ChainIterator<float>;
 template class ChainIterator<double>;
 template class ChainIterator<std::string>;
+
+template class ChainIterator<DoublyLinkedList<int>>;
+template class ChainIterator<DoublyLinkedList<bool>>;
+template class ChainIterator<DoublyLinkedList<char>>;
+template class ChainIterator<DoublyLinkedList<float>>;
+template class ChainIterator<DoublyLinkedList<double>>;
+template class ChainIterator<DoublyLinkedList<std::string>>;

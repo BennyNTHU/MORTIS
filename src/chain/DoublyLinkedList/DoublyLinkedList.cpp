@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include "DoublyLinkedList.hpp"
 
 using namespace std;
@@ -351,6 +352,13 @@ template std::ostream& operator<<(std::ostream&, const DoublyLinkedList<float>&)
 template std::ostream& operator<<(std::ostream&, const DoublyLinkedList<double>&);
 template std::ostream& operator<<(std::ostream&, const DoublyLinkedList<std::string>&);
 
+template std::ostream& operator<<(std::ostream&, const DoublyLinkedList<DoublyLinkedList<int>>&); 
+template std::ostream& operator<<(std::ostream&, const DoublyLinkedList<DoublyLinkedList<bool>>&); 
+template std::ostream& operator<<(std::ostream&, const DoublyLinkedList<DoublyLinkedList<char>>&); 
+template std::ostream& operator<<(std::ostream&, const DoublyLinkedList<DoublyLinkedList<float>>&); 
+template std::ostream& operator<<(std::ostream&, const DoublyLinkedList<DoublyLinkedList<double>>&); 
+template std::ostream& operator<<(std::ostream&, const DoublyLinkedList<DoublyLinkedList<std::string>>&);
+
 // Explicit template instantiation
 template class DoublyLinkedList<int>;
 template class DoublyLinkedList<bool>;
@@ -358,3 +366,10 @@ template class DoublyLinkedList<char>;
 template class DoublyLinkedList<float>;
 template class DoublyLinkedList<double>;
 template class DoublyLinkedList<std::string>;
+
+template class DoublyLinkedList<DoublyLinkedList<int>>;
+template class DoublyLinkedList<DoublyLinkedList<bool>>;
+template class DoublyLinkedList<DoublyLinkedList<char>>;
+template class DoublyLinkedList<DoublyLinkedList<float>>;
+template class DoublyLinkedList<DoublyLinkedList<double>>;
+template class DoublyLinkedList<DoublyLinkedList<std::string>>;

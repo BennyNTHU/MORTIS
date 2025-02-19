@@ -1,6 +1,8 @@
-#include "DLIterator.hpp"
 #include <iostream>
 #include <stdexcept>
+
+#include "DLIterator.hpp"
+#include "../DoublyLinkedList/DoublyLinkedList.hpp"
 
 // Constructor
 template <typename T>
@@ -58,3 +60,10 @@ template class DLIterator<char>;
 template class DLIterator<float>;
 template class DLIterator<double>;
 template class DLIterator<std::string>;
+
+template class DLIterator<DoublyLinkedList<int>>;
+template class DLIterator<DoublyLinkedList<bool>>;
+template class DLIterator<DoublyLinkedList<char>>;
+template class DLIterator<DoublyLinkedList<float>>;
+template class DLIterator<DoublyLinkedList<double>>;
+template class DLIterator<DoublyLinkedList<std::string>>;

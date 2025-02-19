@@ -1,5 +1,7 @@
 #include <iostream>
+
 #include "Node.hpp"
+#include "../DoublyLinkedList/DoublyLinkedList.hpp"
 
 // Implementation of Constructors
 template <typename T>
@@ -47,3 +49,10 @@ template class Node<char>;
 template class Node<float>;
 template class Node<double>;
 template class Node<std::string>;
+
+template class Node<DoublyLinkedList<int>>;
+template class Node<DoublyLinkedList<bool>>;
+template class Node<DoublyLinkedList<char>>;
+template class Node<DoublyLinkedList<float>>;
+template class Node<DoublyLinkedList<double>>;
+template class Node<DoublyLinkedList<std::string>>;

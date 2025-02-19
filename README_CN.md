@@ -45,7 +45,7 @@
 |           | **MinHeap**       | 最小堆積（繼承自 MaxHeap）。                                                                           | [中文](./docs_CN/MinHeap.md) | [English](./docs_EN/MinHeap.md) |                         |
 |           | **Set**           | 集合資料結構（繼承自 BinarySearchTree），支持交集、聯集、差集等操作。                                 | [中文](./docs_CN/Set.md) | [English](./docs_EN/Set.md) |                         |
 | **圖結構** | **Graph**        | 不支持多重邊的圖。                                                                                | [中文](./docs_CN/Graph.md) | [English](./docs_EN/Graph.md) |                         |
-|           | **GeneralGraph**  | 支持多重邊的圖，可設置為有向/無向、加權/無加權圖。                                               | [中文](./docs_CN/GeneralGraph.md) | [English](./docs_EN/GeneralGraph.md) |                         |
+|           | **MultiGraph**  | 支持多重邊的圖，可設置為有向/無向、加權/無加權圖。                                               | [中文](./docs_CN/MultiGraph.md) | [English](./docs_EN/MultiGraph.md) |                         |
 
 ---
 

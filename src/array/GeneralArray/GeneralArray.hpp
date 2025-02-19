@@ -51,7 +51,8 @@ class GeneralArray
 
     public:
         // Constructors and Destructor
-        GeneralArray(int j=1, const RangeList& list=RangeList(), T initValue=T());  // default initial dimensions and sizes is T()    
+        GeneralArray();
+        GeneralArray(int j, const RangeList& list, T initValue);   // default initial dimensions and sizes is T()    
         GeneralArray(const GeneralArray<T>& other); // Copy constructor: deep copy from another GeneralArray
         ~GeneralArray();    // Destructor: releases allocated memory
 
@@ -66,15 +67,17 @@ class GeneralArray
         void Store(const Index& idx, T x);  // pdate the element at the given multi-dimensional index with value x
         void sort(bool reverse = false, int sortDim = 1);   // sort the array based on parameters.
         void reverse(); // 'reverse' true means ascending order; false means descending order (default false).
+        void push_back(const T& value); // For 1D arrays only.
         
         // Operator overloading
         GeneralArray<T>& operator=(const GeneralArray<T>& other);   // deep copy assignment from another GeneralArray
         GeneralArray<T>& operator=(std::initializer_list<T> il);    // Allows syntax: GeneralArray A = {elem1, elem2, ...};
-        bool operator==(const GeneralArray<T>& other) const;    // true if same dimensions and all elements equal
-        // Friend overloaded >> operator to allow input from stream. not supported for std::variant
-        template <class U> friend istream& operator>>(istream& in, GeneralArray<U>& arr);
-        // Friend overloaded << operator to output the array content to stream.
-        template <class U> friend ostream& operator<<(ostream& out, const GeneralArray<U>& arr);
+        T& operator[](int index);                                   // Overloaded subscript operator for non-const access.
+        const T& operator[](int index) const;                       // Overloaded subscript operator for const access.
+        bool operator==(const GeneralArray<T>& other) const;        // true if same dimensions and all elements equal
+        bool operator!=(const GeneralArray<T>& other) const;        // false if same dimensions and all elements equal
+        template <class U> friend istream& operator>>(istream& in, GeneralArray<U>& arr);           // input from stream. not supported for std::variant
+        template <class U> friend ostream& operator<<(ostream& out, const GeneralArray<U>& arr);    // output the array content to stream.
 };
 
 #endif  // End of include guard GENERALARRAY_H

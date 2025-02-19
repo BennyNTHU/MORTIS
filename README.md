@@ -44,7 +44,7 @@ Below is a summary of the data structures provided by MORTIS:
 |               | **MinHeap**              | A minimum heap (derived from MaxHeap).                                                                                                                  | [中文](./docs_CN/MinHeap.md)                | [English](./docs_EN/MinHeap.md)                |                         |
 |               | **Set**                  | A set data structure (derived from BinarySearchTree) that supports typical set operations (union, intersection, difference, etc.).                      | [中文](./docs_CN/Set.md)                    | [English](./docs_EN/Set.md)                    |                         |
 | **Graph**     | **Graph**                | A graph data structure that does not support multiple edges.                                                                                          | [中文](./docs_CN/Graph.md)                  | [English](./docs_EN/Graph.md)                  |                         |
-|               | **GeneralGraph**         | A graph data structure that supports multiple edges. Directed/undirected and weighted/unweighted graphs are treated as attributes.                     | [中文](./docs_CN/GeneralGraph.md)           | [English](./docs_EN/GeneralGraph.md)           |                         |
+|               | **MultiGraph**         | A graph data structure that supports multiple edges. Directed/undirected and weighted/unweighted graphs are treated as attributes.                     | [中文](./docs_CN/MultiGraph.md)           | [English](./docs_EN/MultiGraph.md)           |                         |
 
 
 ## 2. Quick Start 

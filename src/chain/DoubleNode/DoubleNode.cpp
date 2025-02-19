@@ -1,4 +1,5 @@
 #include "DoubleNode.hpp"
+#include "../DoublyLinkedList/DoublyLinkedList.hpp"
 
 // Default Constructor
 template <typename T>
@@ -36,3 +37,10 @@ template class DoubleNode<char>;
 template class DoubleNode<float>;
 template class DoubleNode<double>;
 template class DoubleNode<std::string>;
+
+template class DoubleNode<DoublyLinkedList<int>>;
+template class DoubleNode<DoublyLinkedList<bool>>;
+template class DoubleNode<DoublyLinkedList<char>>;
+template class DoubleNode<DoublyLinkedList<float>>;
+template class DoubleNode<DoublyLinkedList<double>>;
+template class DoubleNode<DoublyLinkedList<std::string>>;
