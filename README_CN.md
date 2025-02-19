@@ -52,26 +52,24 @@
 ## **2. 快速入門**
 
 使用`git clone`指令將本專案複製到您的電腦上後，在終端機進到本專案的資料夾內，使用以下指令
-
 ```
 mkdir build    # 建立一個叫做`build`的資料夾
 cd build       # 進入`build`資料夾
 cmake ..       # 這步驟會讀取頂層 CMakeLists.txt 並配置專案
 make           # 編譯整個專案
 ```
-
 接著使用命令
-
 ```
 cmake --install .
 ```
-
+或
+```
+sudo cmake --install .
+```
 安裝函式庫。在寫`C++`時就可以使用
-
-```C++
+```cpp
 include <MORTIS>
 ```
-
 來寫程式了。
 
 ---
