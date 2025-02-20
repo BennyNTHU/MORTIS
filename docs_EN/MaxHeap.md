@@ -1,4 +1,4 @@
-# `MaxHeap.hpp` Documentation
+# `MaxHeap` Documentation
 
 ## Overview
 

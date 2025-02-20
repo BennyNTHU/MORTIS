@@ -1,4 +1,4 @@
-# MultiGraph.hpp 文件
+# `MultiGraph` 技術文件
 
 ## 概述
 

@@ -1,4 +1,4 @@
-# `Stack.hpp` Documentation
+# `Stack` Documentation
 
 ## Overview
 

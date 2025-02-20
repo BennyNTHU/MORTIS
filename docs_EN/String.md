@@ -1,4 +1,4 @@
-# `String.hpp` Documentation
+# `String` Documentation
 
 ## Overview
 

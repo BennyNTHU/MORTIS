@@ -1,4 +1,4 @@
-# `Graph.hpp` Documentation
+# `Graph` Documentation
 
 ## Overview
 

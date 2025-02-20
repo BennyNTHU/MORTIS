@@ -1,4 +1,4 @@
-# `Bag.hpp` Documentation
+# `Bag` Documentation
 
 ## Overview
 

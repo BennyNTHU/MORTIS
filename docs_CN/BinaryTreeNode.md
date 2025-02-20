@@ -1,4 +1,4 @@
-# `BinaryTreeNode.hpp` 文件說明
+# `BinaryTreeNode` 技術文件
 
 ## 概觀
 

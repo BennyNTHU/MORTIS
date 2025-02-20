@@ -1,4 +1,4 @@
-# `SparseMatrix.hpp` 文件說明
+# `SparseMatrix` 技術文件
 
 ## 概觀
 

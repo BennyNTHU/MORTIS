@@ -1,4 +1,4 @@
-# `MinHeap.hpp` 文件說明
+# `MinHeap` 技術文件
 
 ## 概觀
 

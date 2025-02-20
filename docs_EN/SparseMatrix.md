@@ -1,4 +1,4 @@
-# `SparseMatrix.hpp` Documentation
+# `SparseMatrix` Documentation
 
 ## Overview
 

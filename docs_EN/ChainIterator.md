@@ -1,4 +1,4 @@
-# `ChainIterator.hpp` Documentation
+# `ChainIterator` Documentation
 
 ## Overview
 

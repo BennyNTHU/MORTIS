@@ -1,4 +1,4 @@
-# `Dictionary.hpp` Documentation
+# `Dictionary` Documentation
 
 ## Overview
 

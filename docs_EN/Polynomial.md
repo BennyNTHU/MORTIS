@@ -1,4 +1,4 @@
-# `Polynomial.hpp` Documentation
+# `Polynomial` Documentation
 
 ## Overview
 

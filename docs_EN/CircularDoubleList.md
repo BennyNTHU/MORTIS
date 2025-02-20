@@ -1,4 +1,4 @@
-# CircularDoubleList.hpp Documentation
+# `CircularDoubleList` Documentation
 
 ## Overview
 

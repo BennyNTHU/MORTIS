@@ -1,4 +1,4 @@
-# `CirQue.hpp` Documentation
+# `CirQue` Documentation
 
 ## Overview
 

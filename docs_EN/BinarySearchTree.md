@@ -1,4 +1,4 @@
-# `BinarySearchTree.hpp` Documentation
+# `BinarySearchTree` Documentation
 
 ## Overview
 

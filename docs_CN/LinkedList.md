@@ -1,4 +1,4 @@
-# `LinkedList.hpp` 文件
+# `LinkedList` 技術文件
 
 ## 概述
 

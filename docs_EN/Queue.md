@@ -1,4 +1,4 @@
-# Queue Class Documentation
+# `Queue` Documentation
 
 ## Overview
 The `Queue` class implements a First-In-First-Out (FIFO) data structure that inherits from the `Bag` class. It provides standard queue operations with a templated design for type flexibility.

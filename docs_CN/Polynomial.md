@@ -1,4 +1,4 @@
-# `Polynomial.hpp` 文件說明
+# `Polynomial` 技術文件
 
 ## 概觀
 

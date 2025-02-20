@@ -1,4 +1,4 @@
-# Node.hpp Documentation
+# `Node` Documentation
 
 ## Overview
 

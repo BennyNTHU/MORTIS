@@ -1,4 +1,4 @@
-# `Set.hpp` Documentation
+# `Set` Documentation
 
 ## Overview
 

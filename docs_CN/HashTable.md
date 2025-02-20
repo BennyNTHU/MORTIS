@@ -1,4 +1,4 @@
-# `HashTable.hpp` 文件說明
+# `HashTable` 技術文件
 
 ## 概觀
 

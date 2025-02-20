@@ -1,4 +1,4 @@
-# LinkedPolynomial.hpp Documentation
+# `LinkedPolynomial` Documentation
 
 ## Overview
 

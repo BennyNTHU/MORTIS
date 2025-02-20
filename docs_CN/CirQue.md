@@ -1,4 +1,4 @@
-# `CirQue.hpp` 文件說明
+# `CirQue` 技術文件
 
 ## 概觀
 

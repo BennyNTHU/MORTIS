@@ -1,4 +1,4 @@
-# `ChainIterator.hpp` 文件說明
+# `ChainIterator` 技術文件
 
 ## 概觀
 

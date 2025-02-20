@@ -1,4 +1,4 @@
-# `MinHeap.hpp` Documentation
+# `MinHeap` Documentation
 
 ## Overview
 

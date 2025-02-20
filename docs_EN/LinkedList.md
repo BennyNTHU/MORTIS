@@ -1,4 +1,4 @@
-# `LinkedList.hpp` Documentation
+# `LinkedList` Documentation
 
 ## Overview
 

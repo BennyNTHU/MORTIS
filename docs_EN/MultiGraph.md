@@ -1,4 +1,4 @@
-# MultiGraph.hpp Documentation
+# `MultiGraph` Documentation
 
 ## Overview
 

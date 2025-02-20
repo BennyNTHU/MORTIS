@@ -1,4 +1,4 @@
-# `LinkedSparseMatrix.hpp` 文件
+# `LinkedSparseMatrix` 技術文件
 
 ## 概述
 

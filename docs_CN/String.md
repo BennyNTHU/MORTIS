@@ -1,4 +1,4 @@
-# `String.hpp` 文件說明
+# `String` 技術文件
 
 ## 概觀
 

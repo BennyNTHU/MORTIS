@@ -1,4 +1,4 @@
-# `DeQue.hpp` Documentation
+# `DeQue` Documentation
 
 ## Overview
 

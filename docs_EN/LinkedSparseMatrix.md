@@ -1,4 +1,4 @@
-# `LinkedSparseMatrix.hpp` Documentation
+# `LinkedSparseMatrix` Documentation
 
 ## Overview
 

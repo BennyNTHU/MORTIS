@@ -1,4 +1,4 @@
-# HashTable.hpp Documentation
+# `HashTable` Documentation
 
 ## Overview
 

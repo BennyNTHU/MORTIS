@@ -1,4 +1,4 @@
-# `DLIterator.hpp` 文件說明
+# `DLIterator` 技術文件
 
 ## 概觀
 

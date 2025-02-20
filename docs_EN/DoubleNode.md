@@ -1,4 +1,4 @@
-# `DoubleNode.hpp` Documentation
+# `DoubleNode` Documentation
 
 ## Overview
 

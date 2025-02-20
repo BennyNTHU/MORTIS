@@ -1,4 +1,4 @@
-# `BloomFilter.hpp` Documentation
+# `BloomFilter` Documentation
 
 ## Overview
 

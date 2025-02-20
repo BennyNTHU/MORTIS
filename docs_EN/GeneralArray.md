@@ -1,4 +1,4 @@
-# `GeneralArray.hpp` Documentation
+# `GeneralArray` Documentation
 
 ## Overview
 

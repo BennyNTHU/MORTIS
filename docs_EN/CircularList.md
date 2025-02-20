@@ -1,4 +1,4 @@
-# `CircularList.hpp` Documentation
+# `CircularList` Documentation
 
 ## Overview
 

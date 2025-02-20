@@ -1,4 +1,4 @@
-# `BloomFilter.hpp` 文件說明
+# `BloomFilter` 技術文件
 
 ## 概觀
 

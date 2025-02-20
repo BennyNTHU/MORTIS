@@ -1,4 +1,4 @@
-# `BinarySearchTree.hpp` 文件說明
+# `BinarySearchTree` 技術文件
 
 ## 概觀
 

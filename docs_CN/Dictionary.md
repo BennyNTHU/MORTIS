@@ -1,4 +1,4 @@
-# `Dictionary.hpp` 技術文件
+# `Dictionary` 技術文件
 
 ## 概述
 

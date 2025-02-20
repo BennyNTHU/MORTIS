@@ -1,4 +1,4 @@
-# BinaryTree.hpp Documentation
+# `BinaryTree` Documentation
 
 ## Overview
 

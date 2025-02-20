@@ -1,4 +1,4 @@
-# `GeneralArray.hpp` 文件
+# `GeneralArray` 技術文件
 
 ## 概述
 
