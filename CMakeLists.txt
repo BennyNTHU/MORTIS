@@ -12,6 +12,11 @@ install(DIRECTORY src/
         DESTINATION include/MORTIS
         FILES_MATCHING PATTERN "*.hpp")
 
+# 安裝所有 .cpp 檔案到 include/MORTIS
+install(DIRECTORY src/
+        DESTINATION include/MORTIS
+        FILES_MATCHING PATTERN "*.cpp")
+
 # 限定只搜尋 src/ 下的 cpp 檔案
 file(GLOB_RECURSE MORTIS_SOURCES 
     RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
@@ -20,7 +25,7 @@ file(GLOB_RECURSE MORTIS_SOURCES
 
 # 排除測試程式
 foreach(file ${MORTIS_SOURCES})
-    if(file MATCHES ".*[-_]test.*")
+    if(file MATCHES ".*[-_]test.cpp")
         list(REMOVE_ITEM MORTIS_SOURCES ${file})
     endif()
 endforeach()

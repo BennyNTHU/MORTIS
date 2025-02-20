@@ -4,6 +4,7 @@
 #include "ChainIterator.hpp"
 #include "../DoublyLinkedList/DoublyLinkedList.hpp"
 #include "../LinkedPolynomial/LinkedPolynomial.hpp"
+#include "../LinkedSparseMatrix/LinkedMatrixTerm.hpp"
 
 using namespace std;
 
@@ -104,3 +105,4 @@ template class ChainIterator<DoublyLinkedList<double>>;
 template class ChainIterator<DoublyLinkedList<std::string>>;
 
 template class ChainIterator<LinkedTerm>;
+template class ChainIterator<LinkedMatrixTerm>;

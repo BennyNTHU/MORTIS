@@ -4,6 +4,7 @@
 #include "DLIterator.hpp"
 #include "../DoublyLinkedList/DoublyLinkedList.hpp"
 #include "../LinkedPolynomial/LinkedPolynomial.hpp"
+#include "../LinkedSparseMatrix/LinkedMatrixTerm.hpp"
 
 // =============================================
 // Constructors
@@ -85,3 +86,4 @@ template class DLIterator<DoublyLinkedList<double>>;
 template class DLIterator<DoublyLinkedList<std::string>>;
 
 template class DLIterator<LinkedTerm>;
+template class DLIterator<LinkedMatrixTerm>;

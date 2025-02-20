@@ -3,6 +3,7 @@
 #include "Node.hpp"
 #include "../DoublyLinkedList/DoublyLinkedList.hpp"
 #include "../LinkedPolynomial/LinkedPolynomial.hpp"
+#include "../LinkedSparseMatrix/LinkedMatrixTerm.hpp"
 
 // =============================================
 // Constructors and destructors
@@ -75,3 +76,4 @@ template class Node<DoublyLinkedList<double>>;
 template class Node<DoublyLinkedList<std::string>>;
 
 template class Node<LinkedTerm>;
+template class Node<LinkedMatrixTerm>;
