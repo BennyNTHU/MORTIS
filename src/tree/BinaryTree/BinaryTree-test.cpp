@@ -14,8 +14,6 @@
 
 using namespace std;
 
-
-
 void testBinaryTreeConstruction() 
 {
     cout << "=== Binary Tree Construction Test ===\n";
