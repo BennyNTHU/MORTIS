@@ -7,7 +7,7 @@
 using namespace std;
 
 /* iterator */
-template <typename T> 
+template <class T> 
 class ChainIterator
 {
     protected:

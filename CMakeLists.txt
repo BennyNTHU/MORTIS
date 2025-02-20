@@ -4,8 +4,10 @@ project(MORTIS VERSION 1.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# 安裝 umbrella header 與公開 header
+# 安裝 umbrella header
 install(FILES src/MORTIS.hpp DESTINATION include)
+
+# 安裝所有 .hpp 檔案到 include/MORTIS
 install(DIRECTORY src/
         DESTINATION include/MORTIS
         FILES_MATCHING PATTERN "*.hpp")

@@ -27,4 +27,4 @@ class Node
         void setLink(Node<T>* next);         // Set next node
 };
 
-#endif // NODE_HPP
+#endif

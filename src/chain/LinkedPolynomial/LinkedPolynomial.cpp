@@ -6,6 +6,10 @@
 #include <regex> // For regular expression parsing
 
 #include "LinkedPolynomial.hpp"
+#include "../Node/Node.hpp"
+#include "../DoubleNode/DoubleNode.hpp"
+#include "../ChainIterator/ChainIterator.hpp"
+#include "../DLIterator/DLIterator.hpp"
 
 // ====================================================
 // Constructor and destructors

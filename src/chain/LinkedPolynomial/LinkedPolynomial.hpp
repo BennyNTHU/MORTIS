@@ -3,14 +3,11 @@
 
 #include <iostream>
 #include <math.h>
+
 #include "../Node/Node.hpp"
-#include "../Node/Node.cpp"
 #include "../DoubleNode/DoubleNode.hpp"
-#include "../DoubleNode/DoubleNode.cpp"
 #include "../ChainIterator/ChainIterator.hpp"
-#include "../ChainIterator/ChainIterator.cpp"
 #include "../DLIterator/DLIterator.hpp"
-#include "../DLIterator/DLIterator.cpp"
 
 using namespace std;
 

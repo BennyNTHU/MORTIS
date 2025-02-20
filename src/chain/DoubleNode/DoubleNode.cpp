@@ -1,5 +1,6 @@
 #include "DoubleNode.hpp"
 #include "../DoublyLinkedList/DoublyLinkedList.hpp"
+#include "../LinkedPolynomial/LinkedPolynomial.hpp"
 
 // =============================================
 // Constructors and destructors
@@ -55,3 +56,5 @@ template class DoubleNode<DoublyLinkedList<char>>;
 template class DoubleNode<DoublyLinkedList<float>>;
 template class DoubleNode<DoublyLinkedList<double>>;
 template class DoubleNode<DoublyLinkedList<std::string>>;
+
+template class DoubleNode<LinkedTerm>;

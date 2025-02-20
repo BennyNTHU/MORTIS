@@ -3,13 +3,14 @@
 
 #include "DLIterator.hpp"
 #include "../DoublyLinkedList/DoublyLinkedList.hpp"
+#include "../LinkedPolynomial/LinkedPolynomial.hpp"
 
 // =============================================
 // Constructors
 // =============================================
 
 // Constructor
-template <typename T>
+template <class T>
 DLIterator<T>::DLIterator(DoubleNode<T>* startNode) : ChainIterator<T>(startNode) {}
 
 // =============================================
@@ -17,7 +18,7 @@ DLIterator<T>::DLIterator(DoubleNode<T>* startNode) : ChainIterator<T>(startNode
 // =============================================
 
 // Pre-increment: Move to the next node
-template <typename T>
+template <class T>
 DLIterator<T>& DLIterator<T>::operator++() 
 {
     if (this->current) 
@@ -27,7 +28,7 @@ DLIterator<T>& DLIterator<T>::operator++()
 }
 
 // Post-increment: Move to the next node, return old state
-template <typename T>
+template <class T>
 ChainIterator<T> DLIterator<T>::operator++(int) 
 {
     DLIterator<T> temp = *this;
@@ -36,7 +37,7 @@ ChainIterator<T> DLIterator<T>::operator++(int)
 }
 
 // Pre-decrement: Move to the previous node
-template <typename T>
+template <class T>
 DLIterator<T>& DLIterator<T>::operator--() 
 {
     if (this->current) 
@@ -46,7 +47,7 @@ DLIterator<T>& DLIterator<T>::operator--()
 }
 
 // Post-decrement: Move to the previous node, return old state
-template <typename T>
+template <class T>
 DLIterator<T> DLIterator<T>::operator--(int) 
 {
     DLIterator<T> temp(*this);
@@ -59,7 +60,7 @@ DLIterator<T> DLIterator<T>::operator--(int)
 // =============================================
 
 // Get current node
-template <typename T>
+template <class T>
 DoubleNode<T>* DLIterator<T>::getCurrent() const 
 {
     return static_cast<DoubleNode<T>*>(this->current);
@@ -82,3 +83,5 @@ template class DLIterator<DoublyLinkedList<char>>;
 template class DLIterator<DoublyLinkedList<float>>;
 template class DLIterator<DoublyLinkedList<double>>;
 template class DLIterator<DoublyLinkedList<std::string>>;
+
+template class DLIterator<LinkedTerm>;

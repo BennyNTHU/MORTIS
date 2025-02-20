@@ -2,20 +2,21 @@
 
 #include "Node.hpp"
 #include "../DoublyLinkedList/DoublyLinkedList.hpp"
+#include "../LinkedPolynomial/LinkedPolynomial.hpp"
 
 // =============================================
 // Constructors and destructors
 // =============================================
 
 // Implementation of Constructors
-template <typename T>
+template <class T>
 Node<T>::Node() : data(T()), link(nullptr) {}  // Default initialization
 
-template <typename T>
+template <class T>
 Node<T>::Node(const T& item, Node<T>* next) : data(item), link(next) {}
 
 // Destructor
-template <typename T>
+template <class T>
 Node<T>::~Node() 
 {
     // The destructor does not delete 'link' to prevent recursive deletion.
@@ -26,13 +27,13 @@ Node<T>::~Node()
 // Getters
 // =============================================
 
-template <typename T>
+template <class T>
 const T& Node<T>::getData() const 
 {
     return data;
 }
 
-template <typename T>
+template <class T>
 Node<T>* Node<T>::getLink() const 
 {
     return link;
@@ -43,13 +44,13 @@ Node<T>* Node<T>::getLink() const
 // =============================================
 
 // Setter Implementations
-template <typename T>
+template <class T>
 void Node<T>::setData(const T& item) 
 {
     data = item;
 }
 
-template <typename T>
+template <class T>
 void Node<T>::setLink(Node<T>* next) 
 {
     link = next;
@@ -72,3 +73,5 @@ template class Node<DoublyLinkedList<char>>;
 template class Node<DoublyLinkedList<float>>;
 template class Node<DoublyLinkedList<double>>;
 template class Node<DoublyLinkedList<std::string>>;
+
+template class Node<LinkedTerm>;

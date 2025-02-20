@@ -6,55 +6,61 @@
 // ================================================================
 // Array
 // ================================================================
-#include "./array/GeneralArray/GeneralArray.hpp"
-#include "./array/Polynomial/Polynomial.hpp"
-#include "./array/SparseMatrix/SparseMatrix.hpp"
-#include "./array/String/String.hpp"
+
+#include "./MORTIS/array/GeneralArray/GeneralArray.hpp"
+#include "./MORTIS/array/Polynomial/Polynomial.hpp"
+#include "./MORTIS/array/SparseMatrix/SparseMatrix.hpp"
+#include "./MORTIS/array/String/String.hpp"
 
 // ================================================================
 // Chain
 // ================================================================
-#include "./chain/ChainIterator/ChainIterator.hpp"
-#include "./chain/CircularDoubleList/CircularDoubleList.hpp"
-#include "./chain/CircularList/CircularList.hpp"
-#include "./chain/DLIterator/DLIterator.hpp"
-#include "./chain/DoubleNode/DoubleNode.hpp"
-#include "./chain/DoublyLinkedList/DoublyLinkedList.hpp"
-#include "./chain/LinkedList/LinkedList.hpp"
-#include "./chain/LinkedPolynomial/LinkedPolynomial.hpp"
-#include "./chain/LinkedSparseMatrix/LinkedSparseMatrix.hpp"
-#include "./chain/Node/Node.hpp"
+
+#include "./MORTIS/chain/ChainIterator/ChainIterator.hpp"
+#include "./MORTIS/chain/CircularDoubleList/CircularDoubleList.hpp"
+#include "./MORTIS/chain/CircularList/CircularList.hpp"
+#include "./MORTIS/chain/DLIterator/DLIterator.hpp"
+#include "./MORTIS/chain/DoubleNode/DoubleNode.hpp"
+#include "./MORTIS/chain/DoublyLinkedList/DoublyLinkedList.hpp"
+#include "./MORTIS/chain/LinkedList/LinkedList.hpp"
+#include "./MORTIS/chain/LinkedPolynomial/LinkedPolynomial.hpp"
+#include "./MORTIS/chain/LinkedSparseMatrix/LinkedSparseMatrix.hpp"
+#include "./MORTIS/chain/Node/Node.hpp"
 
 // ================================================================
 // Container
 // ================================================================
-#include "./container/Bag/Bag.hpp"
-#include "./container/CirQue/CirQue.hpp"
-#include "./container/DeQue/DeQue.hpp"
-#include "./container/Dictionary/Dictionary.hpp"
-#include "./container/Queue/Queue.hpp"
-#include "./container/Stack/Stack.hpp"
+
+#include "./MORTIS/container/Bag/Bag.hpp"
+#include "./MORTIS/container/CirQue/CirQue.hpp"
+#include "./MORTIS/container/DeQue/DeQue.hpp"
+#include "./MORTIS/container/Dictionary/Dictionary.hpp"
+#include "./MORTIS/container/Queue/Queue.hpp"
+#include "./MORTIS/container/Stack/Stack.hpp"
 
 // ================================================================
 // Graph
 // ================================================================
-#include "./graph/Graph/Graph.hpp"
-#include "./graph/MultiGraph/MultiGraph.hpp"
+
+#include "./MORTIS/graph/Graph/Graph.hpp"
+#include "./MORTIS/graph/MultiGraph/MultiGraph.hpp"
 
 // ================================================================
 // Hash
 // ================================================================
-#include "./hash/BloomFilter/BloomFilter.hpp"
-#include "./hash/HashTable/HashTable.hpp"
+
+#include "./MORTIS/hash/BloomFilter/BloomFilter.hpp"
+#include "./MORTIS/hash/HashTable/HashTable.hpp"
 
 // ================================================================
 // Tree
 // ================================================================
-#include "./tree/BinarySearchTree/BinarySearchTree.hpp"
-#include "./tree/BinaryTree/BinaryTree.hpp"
-#include "./tree/BinaryTreeNode/BinaryTreeNode.hpp"
-#include "./tree/MaxHeap/MaxHeap.hpp"
-#include "./tree/MinHeap/MinHeap.hpp"
-#include "./tree/Set/Set.hpp"
+
+#include "./MORTIS/tree/BinarySearchTree/BinarySearchTree.hpp"
+#include "./MORTIS/tree/BinaryTree/BinaryTree.hpp"
+#include "./MORTIS/tree/BinaryTreeNode/BinaryTreeNode.hpp"
+#include "./MORTIS/tree/MaxHeap/MaxHeap.hpp"
+#include "./MORTIS/tree/MinHeap/MinHeap.hpp"
+#include "./MORTIS/tree/Set/Set.hpp"
 
 #endif

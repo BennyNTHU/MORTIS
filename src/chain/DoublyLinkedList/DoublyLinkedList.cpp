@@ -9,11 +9,11 @@ using namespace std;
 // ==================================================
 
 // Constructor: Initializes an empty list
-template <typename T>
+template <class T>
 DoublyLinkedList<T>::DoublyLinkedList() : first(nullptr), last(nullptr) {}
 
 // Copy Constructor: Deep copy another list
-template <typename T>
+template <class T>
 DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList<T>& other) : first(nullptr), last(nullptr) 
 {
     for (DLIterator<T> it = other.begin(); it != other.end(); ++it) 
@@ -23,7 +23,7 @@ DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList<T>& other) : first(
 }
 
 // Destructor: Deletes all nodes in the list
-template <typename T>
+template <class T>
 DoublyLinkedList<T>::~DoublyLinkedList() 
 {
     while (!IsEmpty()) 
@@ -36,25 +36,25 @@ DoublyLinkedList<T>::~DoublyLinkedList()
 // Getter and Setters
 // ==================================================
 
-template <typename T>
+template <class T>
 DoubleNode<T>* DoublyLinkedList<T>::GetFirst() const 
 { 
     return first; 
 }
 
-template <typename T>
+template <class T>
 DoubleNode<T>* DoublyLinkedList<T>::GetLast() const 
 { 
     return last; 
 }
 
-template <typename T>
+template <class T>
 void DoublyLinkedList<T>::SetFirst(DoubleNode<T>* node) 
 { 
     first = node; 
 }
 
-template <typename T>
+template <class T>
 void DoublyLinkedList<T>::SetLast(DoubleNode<T>* node) 
 { 
     last = node; 
@@ -65,14 +65,14 @@ void DoublyLinkedList<T>::SetLast(DoubleNode<T>* node)
 // ==================================================
 
 // Get an iterator pointing to the first element
-template <typename T>
+template <class T>
 DLIterator<T> DoublyLinkedList<T>::begin() const 
 {
     return DLIterator<T>(first);
 }
 
 // Get an iterator pointing to the end (nullptr)
-template <typename T>
+template <class T>
 DLIterator<T> DoublyLinkedList<T>::end() const 
 {
     return DLIterator<T>(nullptr);
@@ -83,7 +83,7 @@ DLIterator<T> DoublyLinkedList<T>::end() const
 // ==================================================
 
 // Insert an element at the front
-template <typename T>
+template <class T>
 void DoublyLinkedList<T>::InsertFront(const T& e) 
 {
     DoubleNode<T>* newNode = new DoubleNode<T>(e, first, nullptr); // 設定新節點的 next 為 first
@@ -99,7 +99,7 @@ void DoublyLinkedList<T>::InsertFront(const T& e)
 }
 
 // Insert an element at the back
-template <typename T>
+template <class T>
 void DoublyLinkedList<T>::InsertBack(const T& e) 
 {
     DoubleNode<T>* newNode = new DoubleNode<T>(e, nullptr, last); // 設定新節點的 prev 為 last
@@ -115,7 +115,7 @@ void DoublyLinkedList<T>::InsertBack(const T& e)
 }
 
 // Insert an element at a given position
-template <typename T>
+template <class T>
 void DoublyLinkedList<T>::Insert(int pos, T e) 
 {
     if (pos < 0) 
@@ -169,7 +169,7 @@ void DoublyLinkedList<T>::Insert(int pos, T e)
 // ==================================================
 
 // Delete the front element
-template <typename T>
+template <class T>
 void DoublyLinkedList<T>::DeleteFront() 
 {
     if (IsEmpty()) 
@@ -193,7 +193,7 @@ void DoublyLinkedList<T>::DeleteFront()
 }
 
 // Delete the back element
-template <typename T>
+template <class T>
 void DoublyLinkedList<T>::DeleteBack() 
 {
     if (IsEmpty()) 
@@ -216,7 +216,7 @@ void DoublyLinkedList<T>::DeleteBack()
 }
 
 // Delete an element at a given position
-template <typename T>
+template <class T>
 void DoublyLinkedList<T>::Delete(int pos) 
 {
     if (pos < 0 || IsEmpty()) 
@@ -270,7 +270,7 @@ void DoublyLinkedList<T>::Delete(int pos)
 // ==================================================
 
 // Get the length of the list
-template <typename T>
+template <class T>
 int DoublyLinkedList<T>::Length() const 
 {
     int count = 0;
@@ -283,7 +283,7 @@ int DoublyLinkedList<T>::Length() const
 }
 
 // Concatenate another doubly linked list to this list
-template <typename T>
+template <class T>
 void DoublyLinkedList<T>::Concatenate(DoublyLinkedList<T>& other) 
 {
     if (other.IsEmpty()) return;
@@ -304,7 +304,7 @@ void DoublyLinkedList<T>::Concatenate(DoublyLinkedList<T>& other)
 }
 
 // Reverse the doubly linked list
-template <typename T>
+template <class T>
 void DoublyLinkedList<T>::Reverse() 
 {
     DoubleNode<T>* current = first;
@@ -325,14 +325,14 @@ void DoublyLinkedList<T>::Reverse()
 }
 
 // Check if the list is empty
-template <typename T>
+template <class T>
 bool DoublyLinkedList<T>::IsEmpty() const 
 {
     return first == nullptr;
 }
 
 // Overload the << operator to print the list
-template <typename T>
+template <class T>
 ostream& operator<<(ostream& out, const DoublyLinkedList<T>& list) 
 {
     if (list.IsEmpty()) 
@@ -354,7 +354,7 @@ ostream& operator<<(ostream& out, const DoublyLinkedList<T>& list)
 // ==================================================
 
 // Assignment Operator Overload: Deep copy another list
-template <typename T>
+template <class T>
 DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(const DoublyLinkedList<T>& other) 
 {
     if (this == &other) return *this;

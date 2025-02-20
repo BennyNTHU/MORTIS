@@ -4,7 +4,7 @@
 #include "../DoubleNode/DoubleNode.hpp"
 #include "../ChainIterator/ChainIterator.hpp"
 
-template <typename T>
+template <class T>
 class DLIterator : public ChainIterator<T> 
 {
     private:
@@ -24,4 +24,4 @@ class DLIterator : public ChainIterator<T>
         DoubleNode<T>* getCurrent() const;
 };
 
-#endif // DLITERATOR
+#endif

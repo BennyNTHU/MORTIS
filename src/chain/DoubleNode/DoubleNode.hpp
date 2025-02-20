@@ -3,7 +3,7 @@
 
 #include "../Node/Node.hpp"
 
-template <typename T>
+template <class T>
 class DoubleNode : public Node<T> 
 {
     private:
