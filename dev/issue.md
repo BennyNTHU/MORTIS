@@ -36,7 +36,6 @@
     - 新增`<<`的一個多載：可接受類似`GeneralArray`的輸入
     - 新增矩陣範數函式
     - 刪除`printMatrix()`函式
-8.  `Dictionary`
-    - 放入`MortisInvariant`
+8.  `Dictionary`可放入`MortisInvariant`
 9.  `Graph`
     - 新增`IsEulerian()`函式

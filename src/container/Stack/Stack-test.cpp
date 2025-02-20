@@ -1,6 +1,9 @@
-// g++ -std=c++17 Stack.cpp Stack-test.cpp ../../array/GeneralArray/GeneralArray.cpp\
-     ../../array/Polynomial/Polynomial.cpp ../../array/SparseMatrix/SparseMatrix.cpp\
-     ../../array/String/String.cpp ../Bag/Bag.cpp -o test
+// g++ -std=c++17 Stack.cpp Stack-test.cpp\
+    ../../array/GeneralArray/GeneralArray.cpp\
+    ../../array/Polynomial/Polynomial.cpp\
+    ../../array/SparseMatrix/SparseMatrix.cpp\
+    ../../array/String/String.cpp\
+    ../Bag/Bag.cpp -o test
 
 #include "Stack.hpp"
 #include <iostream>
@@ -19,7 +22,7 @@ int main()
     s.Push(25);              // int
     s.Push(3.14159);         // double
     s.Push('A');             // char
-    s.Push("Hello");         // String
+    s.Push(std::string("Hello"));         // string
     s.Push(true);            // Polynomial
 
     // Print stack after pushing elements
@@ -54,8 +57,7 @@ int main()
     s.Push(sm);
     
     // 插入 String
-    char init1[] = "Yeah Tiger";
-    String str(init1, 100);
+    String str = "Yeah Tiger";
     s.Push(str);
 
     std::cout << "\nStack contents after inserting all types:\n";

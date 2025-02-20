@@ -1,6 +1,9 @@
-// g++ -std=c++17 DeQue.cpp DeQue-test.cpp ../../array/GeneralArray/GeneralArray.cpp\
-     ../../array/Polynomial/Polynomial.cpp ../../array/SparseMatrix/SparseMatrix.cpp\
-     ../../array/String/String.cpp ../Bag/Bag.cpp -o test
+// g++ -std=c++17 DeQue.cpp DeQue-test.cpp\
+    ../../array/GeneralArray/GeneralArray.cpp\
+    ../../array/Polynomial/Polynomial.cpp\
+    ../../array/SparseMatrix/SparseMatrix.cpp\
+    ../../array/String/String.cpp\
+    ../Bag/Bag.cpp -o test
 
 #include <iostream>
 #include <sstream>
@@ -49,9 +52,8 @@ int main()
     sm.StoreNum(1, 1, -2);
     dq.PushBack(sm);
     
-    // 插入 String
-    char init1[] = "Custom String Object";
-    String str(init1, 100);
+    // 插入 String=
+    String str = "Custom String Object";
     dq.PushBack(str);
 
     std::cout << "\nDeQue contents after inserting all types:\n";

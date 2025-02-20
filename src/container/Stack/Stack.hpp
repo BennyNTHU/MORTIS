@@ -21,7 +21,8 @@ template <typename T>
 class Stack: public Bag<T>
 {
     public:
-        // Constructor
+        // Constructors
+        Stack();
         explicit Stack(int initial_capacity = 10);  // Constructor: Initialize the stack with a given capacity
     
         // Manipulation

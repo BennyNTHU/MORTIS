@@ -4,6 +4,10 @@
 
 using namespace std;
 
+// ==========================================
+// Constructor and Destructor
+// ==========================================
+
 // Constructor: Initializes the queue with a given capacity
 template <class T>
 Queue<T>::Queue(int capacity): Bag<T>(capacity), front(0), rear(-1), size(0) {}
@@ -11,6 +15,10 @@ Queue<T>::Queue(int capacity): Bag<T>(capacity), front(0), rear(-1), size(0) {}
 // Destructor
 template <class T>
 Queue<T>::~Queue() {}
+
+// ==========================================
+// Manipulation
+// ==========================================
 
 // Push: Adds an element to the back of the queue
 template <class T>
@@ -48,6 +56,24 @@ void Queue<T>::Pop()
     }
 }
 
+// ==========================================
+// Getters
+// ==========================================
+
+// Getters for front index
+template <class T>
+int Queue<T>::getFront() const 
+{ 
+    return front; 
+}
+
+// Getters for rear index
+template <class T>
+int Queue<T>::getRear() const 
+{ 
+    return rear; 
+}
+
 // Front: Returns the first element in the queue
 template <class T>
 T Queue<T>::Front() const 
@@ -62,12 +88,20 @@ T Queue<T>::Rear() const
     return this->getArr()[rear];  // Use getArr() properly
 }
 
+// ==========================================
+// Properties
+// ==========================================
+
 // IsEmpty: Checks if the queue is empty
 template <class T>
 bool Queue<T>::IsEmpty() const 
 {
     return size == 0;
 }
+
+// ==========================================
+// Overloading operator
+// ==========================================
 
 // Prints the queue elements in the specified format
 template <class T>
@@ -104,21 +138,10 @@ std::ostream& operator<<(std::ostream& os, const Queue<T>& q)
     return os;
 }
 
-// Getters for front index
-template <class T>
-int Queue<T>::getFront() const 
-{ 
-    return front; 
-}
-
-// Getters for rear index
-template <class T>
-int Queue<T>::getRear() const 
-{ 
-    return rear; 
-}
-
+// ==========================================
 // Explicit instantiations
+// ==========================================
+
 template class Queue<int>;
 template class Queue<bool>;
 template class Queue<char>;

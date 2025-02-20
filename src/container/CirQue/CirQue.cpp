@@ -4,6 +4,10 @@
 
 using namespace std;
 
+// ==========================================
+// Constructor
+// ==========================================
+
 // Constructor: Properly initialize CirQue by calling the base class constructor
 template <class T>
 CirQue<T>::CirQue(int cap) : DeQue<T>(cap)  // Call the DeQue constructor
@@ -16,6 +20,10 @@ CirQue<T>::CirQue(int cap) : DeQue<T>(cap)  // Call the DeQue constructor
 // Destructor: The base class handles memory deallocation, no need to delete `arr`
 template <class T>
 CirQue<T>::~CirQue() {}
+
+// ==========================================
+// Manipulation
+// ==========================================
 
 // Insert at front
 template <class T>
@@ -105,6 +113,10 @@ void CirQue<T>::PopBack()
     this->count--;
 }
 
+// ==========================================
+// Getters
+// ==========================================
+
 // Get front element
 template <class T>
 T CirQue<T>::Front() const 
@@ -129,6 +141,10 @@ T CirQue<T>::Back() const
     return this->arr[this->rear];
 }
 
+// ==========================================
+// Properties
+// ==========================================
+
 // Check if queue is empty
 template <class T>
 bool CirQue<T>::IsEmpty() const 
@@ -142,6 +158,10 @@ int CirQue<T>::Size() const
 {
     return this->count;
 }
+
+// ==========================================
+// Overloading operator
+// ==========================================
 
 // Prints the queue elements in the specified format
 template <class T>
@@ -178,7 +198,10 @@ std::ostream& operator<<(std::ostream& os, const CirQue<T>& q)
     return os;
 }
 
+// ==========================================
 // Explicit instantiations
+// ==========================================
+
 template class CirQue<int>;
 template class CirQue<bool>;
 template class CirQue<char>;

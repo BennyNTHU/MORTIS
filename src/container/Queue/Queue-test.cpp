@@ -1,9 +1,12 @@
-// g++ -std=c++17 Queue.cpp Queue-test.cpp ../../array/GeneralArray/GeneralArray.cpp\
-     ../../array/Polynomial/Polynomial.cpp ../../array/SparseMatrix/SparseMatrix.cpp\
-     ../../array/String/String.cpp ../Bag/Bag.cpp -o test
+// g++ -std=c++17 Queue.cpp Queue-test.cpp\
+    ../../array/GeneralArray/GeneralArray.cpp\
+    ../../array/Polynomial/Polynomial.cpp\
+    ../../array/SparseMatrix/SparseMatrix.cpp\
+    ../../array/String/String.cpp\
+    ../Bag/Bag.cpp -o test
 
-#include "Queue.hpp"
 #include <iostream>
+#include "Queue.hpp"
 
 int main() 
 {
@@ -19,7 +22,7 @@ int main()
     q.Push(25);              // int
     q.Push(3.14159);         // double
     q.Push('A');             // char
-    q.Push("Hello");         // std::string
+    q.Push(std::string("Hello"));         // std::string
     q.Push(true);            // bool
 
     // Print queue after enqueuing elements
@@ -58,8 +61,7 @@ int main()
     q.Push(sm);
     
     // Insert String
-    char init1[] = "Yeah Tiger";
-    String str(init1, 100);
+    String str = "Yeah Tiger";
     q.Push(str);
 
     std::cout << "\nQueue contents after inserting all types:\n";

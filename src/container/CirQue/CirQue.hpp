@@ -24,7 +24,7 @@ class CirQue : public DeQue<T>
         int count;  // 當前佇列的大小
 
     public:
-        // Constructor
+        // Constructors and desructors
         CirQue(int capacity = 10);  // Constructor: 初始化循環佇列，預設容量為 10
         ~CirQue();  // Destructor: 釋放記憶體
 
@@ -42,7 +42,7 @@ class CirQue : public DeQue<T>
         bool IsEmpty() const;   // Check if queue is empty
         int Size() const;   // Get the size of the queue
 
-        // overloading operator
+        // Overloading operator
         template <typename U> friend std::ostream& operator<<(std::ostream& os, const CirQue<U>& s); // Prints the queue elements in a readable format
 };
 

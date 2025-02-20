@@ -5,12 +5,12 @@
 #include <variant>
 #include <string>
 #include "../Bag/Bag.hpp"
+
 #include "../../array/GeneralArray/GeneralArray.hpp"
 #include "../../array/Polynomial/Polynomial.hpp"
 #include "../../array/SparseMatrix/SparseMatrix.hpp"
 #include "../../array/String/String.hpp"
 
-// 定義 DeQue 可容納的變數型別
 using MIXED_TYPE = std::variant<int, char, float, bool, double, std::string>;
 
 using MORTISInvariant = std::variant<int, char, float, bool, double, std::string,
@@ -41,10 +41,10 @@ class DeQue : public Bag<T>
         T Front() const;
         T Back() const;
 
-        // properties
+        // Properties
         bool IsEmpty() const;
     
-        // overloading operator
+        // Overloading operator
         template <typename U> friend std::ostream& operator<<(std::ostream& os, const DeQue<U>& s); // Prints the DeQue elements in a readable format
 };
 

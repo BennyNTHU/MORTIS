@@ -3,9 +3,20 @@
 #include <iostream>
 #include "../../tree/BinaryTreeNode/BinaryTreeNode.hpp"
 
+// =======================================
+// Constructors
+// =======================================
+
+template <class T>
+Stack<T>::Stack() : Bag<T>() {}  // Default constructor calling Bag's default constructor
+
 // Constructor: Initializes the stack with a given capacity using Bag's constructor
 template <class T>
 Stack<T>::Stack(int initial_capacity) : Bag<T>(initial_capacity) {}
+
+// =======================================
+// Manipulation
+// =======================================
 
 // Push an element onto the stack (calls Bag's Push)
 template <class T>
@@ -25,6 +36,10 @@ void Stack<T>::Pop()
     this->Bag<T>::Pop();
 }
 
+// =======================================
+// Getters
+// =======================================
+
 // Get the top element of the stack without removing it
 template <class T>
 T Stack<T>::Top() const 
@@ -35,6 +50,10 @@ T Stack<T>::Top() const
     }
     return this->getArr()[this->Element() - 1]; // Last inserted element
 }
+
+// =======================================
+// overloading operator
+// =======================================
 
 // Overload << operator to print the stack
 template <class T>
@@ -75,8 +94,10 @@ std::ostream& operator<<(std::ostream& os, const Stack<T>& s)
     return os;
 }
 
-
+// =======================================
 // Explicit instantiations
+// =======================================
+
 template class Stack<int>;
 template class Stack<bool>;
 template class Stack<char>;

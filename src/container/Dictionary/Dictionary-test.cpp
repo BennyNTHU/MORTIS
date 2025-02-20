@@ -1,5 +1,8 @@
-// g++ -std=c++17 Dictionary.cpp Dictionary-test.cpp ../../array/GeneralArray/GeneralArray.cpp\
- ../../array/Polynomial/Polynomial.cpp ../../array/SparseMatrix/SparseMatrix.cpp ../../array/String/String.cpp -o test
+// g++ -std=c++17 Dictionary.cpp Dictionary-test.cpp\
+    ../../array/GeneralArray/GeneralArray.cpp\
+    ../../array/Polynomial/Polynomial.cpp\
+    ../../array/SparseMatrix/SparseMatrix.cpp\
+    ../../array/String/String.cpp -o test
 
 #include "Dictionary.hpp"
 #include <iostream>

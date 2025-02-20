@@ -28,7 +28,7 @@ class Queue : public Bag<T>
         Queue(int capacity = 10);
         ~Queue();   // Destructor
 
-        // manipulation
+        // Manipulation
         void Push(const T& x);    // Adds an element to the back of the queue
         void Pop();               // Removes an element from the front of the queue
 
@@ -38,10 +38,10 @@ class Queue : public Bag<T>
         T Front() const;        // Returns the front element of the queue
         T Rear() const;         // Returns the rear element of the queue
         
-        // properties
+        // Properties
         bool IsEmpty() const;   // Checks if the queue is empty
 
-        // overloading operator
+        // Overloading operator
         template <typename U> friend std::ostream& operator<<(std::ostream& os, const Queue<U>& s); // Prints the queue elements in a readable format
 };
 

@@ -2,6 +2,10 @@
 #include <stdexcept>
 #include <algorithm>
 
+// ===============================================
+// Constructors
+// ===============================================
+
 // Constructor: Initialize with a given capacity
 template <typename K, typename V>
 Dictionary<K, V>::Dictionary(int c) : capacity(c), size(0) 
@@ -26,6 +30,10 @@ Dictionary<K, V>::~Dictionary()
 {
     delete[] arr;
 }
+
+// ===============================================
+// Properties
+// ===============================================
 
 // Get capacity
 template <typename K, typename V>
@@ -58,6 +66,10 @@ bool Dictionary<K, V>::isBelong(const K& key) const
 
     return false;
 }
+
+// ===============================================
+// Manipulations
+// ===============================================
 
 // Insert a key-value pair
 template <typename K, typename V>
@@ -130,6 +142,10 @@ void Dictionary<K, V>::reduce(std::function<V(const V&, const V&)> reducer)
     }
 }
 
+// ===============================================
+// Overloaded operators
+// ===============================================
+
 // Assignment operator
 template <typename K, typename V>
 Dictionary<K, V>& Dictionary<K, V>::operator=(const Dictionary<K, V>& dict) 
@@ -191,7 +207,9 @@ ostream& operator<<(ostream& os, const Dictionary<U, W>& dict)
     return os;
 }
 
-// The following codes are explicitly instantiated for the supported types
+// ===============================================
+// Explicitly instantiated
+// ===============================================
 
 template class Dictionary<int, int>;
 template class Dictionary<int, char>;

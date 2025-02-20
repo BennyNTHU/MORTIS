@@ -1,6 +1,10 @@
-// g++ -std=c++17 CirQue.cpp CirQue-test.cpp ../../array/GeneralArray/GeneralArray.cpp\
-     ../../array/Polynomial/Polynomial.cpp ../../array/SparseMatrix/SparseMatrix.cpp\
-     ../../array/String/String.cpp ../DeQue/DeQue.cpp ../Bag/Bag.cpp -o test
+// g++ -std=c++17 CirQue.cpp CirQue-test.cpp\
+    ../../array/GeneralArray/GeneralArray.cpp\
+    ../../array/Polynomial/Polynomial.cpp\
+    ../../array/SparseMatrix/SparseMatrix.cpp\
+    ../../array/String/String.cpp\
+    ../DeQue/DeQue.cpp\
+    ../Bag/Bag.cpp -o test
 
 #include "CirQue.hpp"
 #include <iostream>
@@ -18,7 +22,7 @@ int main()
     queue.PushBack('A');
     queue.PushBack(3.14);
     queue.PushBack(true);
-    queue.PushBack("Hello");
+    queue.PushBack(std::string("Hello"));
 
     cout << queue.Size() << endl;
 
@@ -55,8 +59,7 @@ int main()
     queue.PushBack(sm);
     
     // 插入 String
-    char init1[] = "Yeah Tiger";
-    String str(init1, 100);
+    String str = "Yeah Tiger";
     queue.PushBack(str);
 
     std::cout << "\nDeQue contents after inserting all types:\n";

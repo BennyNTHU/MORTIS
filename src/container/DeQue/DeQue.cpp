@@ -3,6 +3,10 @@
 #include <stdexcept>
 #include "../../tree/BinaryTreeNode/BinaryTreeNode.hpp"
 
+// ==========================================
+// Constructor and Destructor
+// ==========================================
+
 // Constructor: Initializes the queue with a given capacity
 template <class T>
 DeQue<T>::DeQue(int capacity): Bag<T>(capacity), front(0), rear(-1), size(0) {}
@@ -10,6 +14,10 @@ DeQue<T>::DeQue(int capacity): Bag<T>(capacity), front(0), rear(-1), size(0) {}
 // Destructor
 template <class T>
 DeQue<T>::~DeQue() {}
+
+// ==========================================
+// DeQue operations
+// ==========================================
 
 // Push element to the front
 template <class T>
@@ -63,6 +71,10 @@ void DeQue<T>::PopBack()
     this->Pop();  // Explicitly call the inherited `Pop()` method
 }
 
+// ==========================================
+// Getters
+// ==========================================
+
 // Getters for front index
 template <class T>
 int DeQue<T>::getFront() const 
@@ -101,12 +113,20 @@ T DeQue<T>::Back() const
     return this->arr[this->top];
 }
 
+// ==========================================
+// Properties
+// ==========================================
+
 // Check if deque is empty
 template <class T>
 bool DeQue<T>::IsEmpty() const
 {
     return this->Bag<T>::IsEmpty();  // Explicitly call `Bag<T>::IsEmpty()`
 }
+
+// ==========================================
+// Overloading operator
+// ==========================================
 
 // Prints the queue elements in the specified format
 template <class T>
@@ -147,7 +167,10 @@ std::ostream& operator<<(std::ostream& os, const DeQue<T>& dq)
     return os;
 }
 
+// ==========================================
 // Explicit instantiations
+// ==========================================
+
 template class DeQue<int>;
 template class DeQue<bool>;
 template class DeQue<char>;
