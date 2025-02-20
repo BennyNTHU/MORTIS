@@ -350,7 +350,7 @@ ostream& operator<<(ostream& out, const DoublyLinkedList<T>& list)
 }
 
 // ==================================================
-// overloading
+// Overloading
 // ==================================================
 
 // Assignment Operator Overload: Deep copy another list
@@ -372,39 +372,37 @@ DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(const DoublyLinkedList<T>& o
     return *this;
 }
 
-// // Overload the equality operator to compare two DoublyLinkedList objects.
-// template <class T>
-// bool operator==(const DoublyLinkedList<T>& lhs, const DoublyLinkedList<T>& rhs) 
-// {
-//     // Get iterators for both lists.
-//     DLIterator<T> it1 = lhs.begin();
-//     DLIterator<T> it2 = rhs.begin();
-    
-//     // Traverse both lists simultaneously.
-//     while (it1 != lhs.end() && it2 != rhs.end()) 
-//     {
-//         if (*it1 != *it2) 
-//         {
-//             return false;   // If any pair of corresponding elements differ, the lists are not equal.
-//         }
-//         ++it1;
-//         ++it2;
-//     }
-    
-//     // Both iterators should reach the end if the lists have the same length.
-//     return (it1 == lhs.end() && it2 == rhs.end());
-// }
+template <class T>
+bool DoublyLinkedList<T>::operator==(const DoublyLinkedList<T>& other) const 
+{
+    if (this->Length() != other.Length()) 
+        return false;  // If lengths differ, they are not equal.
 
-// // Explicit template instantiation for commonly used types.
-// template bool operator==(const DoublyLinkedList<int>&, const DoublyLinkedList<int>&);
-// template bool operator==(const DoublyLinkedList<bool>&, const DoublyLinkedList<bool>&);
-// template bool operator==(const DoublyLinkedList<char>&, const DoublyLinkedList<char>&);
-// template bool operator==(const DoublyLinkedList<float>&, const DoublyLinkedList<float>&);
-// template bool operator==(const DoublyLinkedList<double>&, const DoublyLinkedList<double>&);
-// template bool operator==(const DoublyLinkedList<std::string>&, const DoublyLinkedList<std::string>&);
-// template bool operator==(const DoublyLinkedList<DoublyLinkedList<int>>&, const DoublyLinkedList<DoublyLinkedList<int>>&);
+    auto it1 = this->begin();
+    auto it2 = other.begin();
 
+    while (it1 != this->end() && it2 != other.end()) 
+    {
+        if (*it1 != *it2)  // If any element is different, return false.
+            return false;
+        
+        ++it1;
+        ++it2;
+    }
+
+    return true;  // Lists are equal if no differences were found.
+}
+
+template <class T>
+bool DoublyLinkedList<T>::operator!=(const DoublyLinkedList<T>& other) const 
+{
+    return !(*this == other);  // If lists are not equal, they are unequal.
+}
+
+// ==================================================
 // Explicit instantiation
+// ==================================================
+
 template std::ostream& operator<<(std::ostream&, const DoublyLinkedList<int>&);
 template std::ostream& operator<<(std::ostream&, const DoublyLinkedList<bool>&);
 template std::ostream& operator<<(std::ostream&, const DoublyLinkedList<char>&);
@@ -419,7 +417,6 @@ template std::ostream& operator<<(std::ostream&, const DoublyLinkedList<DoublyLi
 template std::ostream& operator<<(std::ostream&, const DoublyLinkedList<DoublyLinkedList<double>>&); 
 template std::ostream& operator<<(std::ostream&, const DoublyLinkedList<DoublyLinkedList<std::string>>&);
 
-// Explicit template instantiation
 template class DoublyLinkedList<int>;
 template class DoublyLinkedList<bool>;
 template class DoublyLinkedList<char>;

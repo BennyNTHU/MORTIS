@@ -4,9 +4,17 @@
 #include "DLIterator.hpp"
 #include "../DoublyLinkedList/DoublyLinkedList.hpp"
 
+// =============================================
+// Constructors
+// =============================================
+
 // Constructor
 template <typename T>
 DLIterator<T>::DLIterator(DoubleNode<T>* startNode) : ChainIterator<T>(startNode) {}
+
+// =============================================
+// Move operators
+// =============================================
 
 // Pre-increment: Move to the next node
 template <typename T>
@@ -46,6 +54,10 @@ DLIterator<T> DLIterator<T>::operator--(int)
     return temp;
 }
 
+// =============================================
+// Get current node
+// =============================================
+
 // Get current node
 template <typename T>
 DoubleNode<T>* DLIterator<T>::getCurrent() const 
@@ -53,7 +65,10 @@ DoubleNode<T>* DLIterator<T>::getCurrent() const
     return static_cast<DoubleNode<T>*>(this->current);
 }
 
+// =============================================
 // Explicit instantiation
+// =============================================
+
 template class DLIterator<int>;
 template class DLIterator<bool>;
 template class DLIterator<char>;

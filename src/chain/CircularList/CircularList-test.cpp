@@ -1,4 +1,10 @@
-// g++ -std=c++17 CircularList.cpp CircularList-test.cpp ../ChainIterator/ChainIterator.cpp ../Node/Node.cpp ../LinkedList/LinkedList.cpp -o test
+// g++ -std=c++17 CircularList.cpp CircularList-test.cpp\
+    ../ChainIterator/ChainIterator.cpp\
+    ../DLIterator/DLIterator.cpp\
+    ../Node/Node.cpp\
+    ../DoubleNode/DoubleNode.cpp\
+    ../LinkedList/LinkedList.cpp\
+    ../DoublyLinkedList/DoublyLinkedList.cpp -o test
 
 #include <iostream>
 #include "CircularList.hpp"
@@ -77,7 +83,10 @@ int main()
     CircularList<int> D;
     D = C;
     cout << "Circular List D (assigned from C): " << D << endl;
-    
+    cout << "Is C == D: " << (C == D) << endl;
+    cout << "Is A != B: " << (A != B) << endl;
+    cout << "is A empty: " << A.IsEmpty() << endl;
+
     cout << "\nTest completed successfully!\n";
     return 0;
 }

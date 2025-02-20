@@ -14,21 +14,21 @@ class ChainIterator
         Node<T>* current;
 
     public:
-        //Constructor
+        // Constructor
         explicit ChainIterator(Node<T>* startNode = nullptr);
 
         // Getters
         Node<T>* getCurrent() const;          // Return next node pointer
 
-        //Dereferencing operators
+        // Dereferencing operators
         const T& operator*() const;
         const T* operator->() const;
 
-        //Increment
+        // Increment
         virtual ChainIterator<T>& operator++();    //preincrement
         virtual ChainIterator<T> operator++(int);  //postincrement
 
-        //Equality test
+        // Equality test
         bool operator!=(const ChainIterator<T>& r) const;
         bool operator==(const ChainIterator<T>& r) const;
 };

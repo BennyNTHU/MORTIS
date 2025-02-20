@@ -1,6 +1,10 @@
 #include "DoubleNode.hpp"
 #include "../DoublyLinkedList/DoublyLinkedList.hpp"
 
+// =============================================
+// Constructors and destructors
+// =============================================
+
 // Default Constructor
 template <typename T>
 DoubleNode<T>::DoubleNode() : Node<T>(), prev(nullptr) {}
@@ -16,6 +20,10 @@ DoubleNode<T>::~DoubleNode()
     prev = nullptr; // Ensure no dangling pointer
 }
 
+// =============================================
+// Getters and setters
+// =============================================
+
 // Getter for previous node
 template <typename T>
 DoubleNode<T>* DoubleNode<T>::getPrev() const 
@@ -30,7 +38,10 @@ void DoubleNode<T>::setPrev(DoubleNode<T>* prev)
     this->prev = prev;
 }
 
-// Explicit instantiation for common types
+// =============================================
+// Explicit instantiation
+// =============================================
+
 template class DoubleNode<int>;
 template class DoubleNode<bool>;
 template class DoubleNode<char>;

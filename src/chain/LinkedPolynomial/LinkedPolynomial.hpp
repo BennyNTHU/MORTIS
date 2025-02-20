@@ -18,8 +18,8 @@ using namespace std;
 class LinkedTerm 
 {
     private:
-        double coef;    // 係數
-        int exp;        // 指數
+        double coef;    // coefficient
+        int exp;        // exponents
 
     public:
         LinkedTerm() : coef(0), exp(0) {}                  // Default constructor
@@ -44,38 +44,42 @@ class LinkedPolynomial
     private:
         DoubleNode<LinkedTerm>* first;  // Pointer to the first term
         DoubleNode<LinkedTerm>* last;   // Pointer to the last term
-        int capacity;                   // termArray 的容量
-        int terms;                      // 實際的項數（非零項）
+        int capacity;                   // capacity of termArray
+        int terms;                      // numbers of nonzero terms
     
     public:
-        // 建構子與解構子
-        LinkedPolynomial();                              // 建構 p(x)=0
-        LinkedPolynomial(const LinkedPolynomial& other); // 複製建構子（深拷貝）
-        ~LinkedPolynomial();                             // 解構子，釋放記憶體
+        // Constructor and destructors
+        LinkedPolynomial();                              // p(x)=0
+        LinkedPolynomial(const LinkedPolynomial& other); // deep copy constructors
+        ~LinkedPolynomial();                             // destructors
 
-        // 屬性存取函式
+        // Properties
         int LeadExp();                          // Returns the highest exponent in the polynomial
         double Coef(int e);                     // Returns the coefficient of the term with exponent e
         DLIterator<LinkedTerm> begin() const;   // Return iterator to the beginning
         DLIterator<LinkedTerm> end() const;     // Return iterator to the end
 
-        // 多項式運算
-        LinkedPolynomial operator+(const LinkedPolynomial& other) const;    // 多項式加法
-        LinkedPolynomial operator*(const LinkedPolynomial& other) const;    // 多項式減法
+        // Operations
+        LinkedPolynomial operator+(const LinkedPolynomial& other) const;    // polynomial addition
+        LinkedPolynomial operator-(const LinkedPolynomial& other) const;
+        LinkedPolynomial operator*(float constant) const; 
+        LinkedPolynomial operator*(const LinkedPolynomial& other) const;    // polynomial multiplication
         LinkedPolynomial Differentiate() const;                             // Differentiates the polynomial
         double Evaluate(double x) const;                                    // Evaluates the polynomial at a given x
 
-        // 其他函式
+        // Other functions
         void Clear();                                   // Clear the polynomial
         void CopyFrom(const LinkedPolynomial& other);   // Copy polynomial from another
-        void InsertLinkedTerm(double coef, int exp);    // 新增一項至多項式
-        void DeleteLinkedTerm(int exp);                 // 刪除一項
+        void InsertLinkedTerm(double coef, int exp);    // Add a new term
+        void InsertLinkedTerm(const std::string& term); // Add a new term in LaTeX style input
+        void DeleteLinkedTerm(int exp);                 // Delete a term 
 
-        // 運算子重載
-        bool operator==(const LinkedPolynomial& other) const;                             // 相等運算子，檢查兩多項式是否相等 X
-        friend std::ostream& operator<<(std::ostream& out, const LinkedPolynomial& poly); // 輸出運算子，以 LaTeX 語法輸出多項式
-        friend std::istream& operator>>(std::istream &in, LinkedPolynomial &poly);        // 輸入運算子，從 LaTeX 格式字串建立多項式 X
-        LinkedPolynomial& operator=(const LinkedPolynomial &);                            // 賦值運算子 (深拷貝)
+        // Operands overload
+        LinkedPolynomial& operator=(const LinkedPolynomial &);                            // deep copy assignment
+        bool operator==(const LinkedPolynomial& other) const;                             // equality check
+        bool operator!=(const LinkedPolynomial& other) const;
+        friend std::ostream& operator<<(std::ostream& out, const LinkedPolynomial& poly); // output in LaTeX style
+        friend std::istream& operator>>(std::istream &in, LinkedPolynomial &poly);        // input in LaTeX style
 };
 
 #endif

@@ -1,5 +1,9 @@
 #include "CircularDoubleList.hpp"
 
+// ==============================================
+// Utility function
+// ==============================================
+
 // Utility function to copy elements from another CircularDoubleList
 template <typename T>
 void CircularDoubleList<T>::CopyFrom(const CircularDoubleList<T>& other) 
@@ -22,6 +26,10 @@ void CircularDoubleList<T>::CopyFrom(const CircularDoubleList<T>& other)
     this->GetLast()->setLink(this->GetFirst());
     this->GetFirst()->setPrev(this->GetLast());
 }
+
+// ==============================================
+// Constructors and destructors
+// ==============================================
 
 // Constructor: Initialize circular doubly linked list
 template <typename T>
@@ -62,6 +70,10 @@ CircularDoubleList<T>::~CircularDoubleList()
     this->SetFirst(nullptr);
     this->SetLast(nullptr);
 }
+
+// ==============================================
+// Operations
+// ==============================================
 
 // Insert at the back of the list
 template <typename T>
@@ -184,25 +196,6 @@ void CircularDoubleList<T>::Concatenate(CircularDoubleList<T>& b)
     b.SetLast(nullptr);
 }
 
-// Return the length of the circular doubly linked list using DLIterator
-template <typename T>
-int CircularDoubleList<T>::Length() const 
-{
-    if (!this->GetFirst())  // If the list is empty, return 0 
-        return 0;  
-
-    int count = 0;
-    DLIterator<T> it = this->begin();
-
-    do 
-    {
-        count++;
-        ++it;
-    } while (it != this->begin());
-
-    return count;
-}
-
 template <typename T>
 void CircularDoubleList<T>::Reverse() 
 {
@@ -226,6 +219,33 @@ void CircularDoubleList<T>::Reverse()
     this->SetFirst(static_cast<DoubleNode<T>*>(temp->getPrev()));  // Last processed node becomes new first
 }
 
+// ==============================================
+// Properties
+// ==============================================
+
+template <typename T>
+int CircularDoubleList<T>::Length() const 
+{
+    if (!this->GetFirst())  // If the list is empty, return 0 
+        return 0;
+
+    int count = 1;  // Starting from the first node (which is already counted)
+    DoubleNode<T>* current = static_cast<DoubleNode<T>*>(this->GetFirst()->getLink());
+
+    while (current != this->GetFirst())  // Traverse the list until we come back to the first node
+    {
+        count++;
+        current = static_cast<DoubleNode<T>*>(current->getLink());
+    }
+
+    return count;
+}
+
+
+// ==============================================
+// OVerloading
+// ==============================================
+
 // Assignment Operator: Assign contents of one list to another
 template <typename T>
 CircularDoubleList<T>& CircularDoubleList<T>::operator=(const CircularDoubleList<T>& other) 
@@ -236,6 +256,45 @@ CircularDoubleList<T>& CircularDoubleList<T>::operator=(const CircularDoubleList
         CopyFrom(other);
     }
     return *this;
+}
+
+template <typename T>
+bool CircularDoubleList<T>::operator==(const CircularDoubleList<T>& other) const 
+{
+    // If both lists are the same object
+    if (this == &other) 
+        return true;
+
+    // Compare elements of both lists using a loop
+    DoubleNode<T>* current1 = this->GetFirst(); // Start at the first node of the first list
+    DoubleNode<T>* current2 = other.GetFirst(); // Start at the first node of the second list
+
+    if (!current1 && !current2) // Both lists are empty
+        return true;
+
+    if (!current1 || !current2) // One list is empty, the other is not
+        return false;
+
+    do 
+    {
+        if (current1->getData() != current2->getData())  // If any element is different, return false
+            return false;
+
+        // Move to the next node in both lists (circular movement)
+        current1 = static_cast<DoubleNode<T>*>(current1->getLink());
+        current2 = static_cast<DoubleNode<T>*>(current2->getLink());
+
+    } while (current1 != this->GetFirst() && current2 != other.GetFirst()); // Stop when a full cycle is completed
+
+    // If we have compared all nodes and no differences were found, the lists are equal
+    return true;  
+}
+
+template <typename T>
+bool CircularDoubleList<T>::operator!=(const CircularDoubleList<T>& other) const 
+{
+    // Use the == operator to check if lists are not equal
+    return !(*this == other);
 }
 
 // Overload the << operator to print CircularDoubleList
@@ -259,7 +318,10 @@ std::ostream& operator<<(std::ostream& out, const CircularDoubleList<T>& list)
     return out;
 }
 
+// ==============================================
 // Explicit instantiation
+// ==============================================
+
 template std::ostream& operator<<(std::ostream&, const CircularDoubleList<int>&);
 template std::ostream& operator<<(std::ostream&, const CircularDoubleList<bool>&);
 template std::ostream& operator<<(std::ostream&, const CircularDoubleList<char>&);
@@ -267,8 +329,6 @@ template std::ostream& operator<<(std::ostream&, const CircularDoubleList<float>
 template std::ostream& operator<<(std::ostream&, const CircularDoubleList<double>&);
 template std::ostream& operator<<(std::ostream&, const CircularDoubleList<std::string>&);
 
-
-// Explicit template instantiation
 template class CircularDoubleList<int>;
 template class CircularDoubleList<bool>;
 template class CircularDoubleList<char>;

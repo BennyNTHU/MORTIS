@@ -3,6 +3,10 @@
 #include "Node.hpp"
 #include "../DoublyLinkedList/DoublyLinkedList.hpp"
 
+// =============================================
+// Constructors and destructors
+// =============================================
+
 // Implementation of Constructors
 template <typename T>
 Node<T>::Node() : data(T()), link(nullptr) {}  // Default initialization
@@ -18,6 +22,10 @@ Node<T>::~Node()
     link = nullptr;  // Prevent accidental access after deletion
 }
 
+// =============================================
+// Getters
+// =============================================
+
 template <typename T>
 const T& Node<T>::getData() const 
 {
@@ -29,6 +37,10 @@ Node<T>* Node<T>::getLink() const
 {
     return link;
 }
+
+// =============================================
+// Setters
+// =============================================
 
 // Setter Implementations
 template <typename T>
@@ -42,6 +54,10 @@ void Node<T>::setLink(Node<T>* next)
 {
     link = next;
 }
+
+// =============================================
+// Explicit instantiation
+// =============================================
 
 template class Node<int>;
 template class Node<bool>;

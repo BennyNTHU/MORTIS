@@ -6,8 +6,16 @@
 
 using namespace std;
 
+// =============================================
+// Constructors
+// =============================================
+
 template <typename T>
 ChainIterator<T>::ChainIterator(Node<T>* startNode) : current(startNode) {}
+
+// =============================================
+// Getters
+// =============================================
 
 // Getters
 template <typename T>
@@ -15,6 +23,10 @@ Node<T>* ChainIterator<T>::getCurrent() const
 {
     return current;
 }
+
+// =============================================
+// Dereferencing operators
+// =============================================
 
 //Dereferencing operators
 template <typename T>
@@ -35,6 +47,10 @@ const T* ChainIterator<T>::operator->() const
     return &(current->getData()); // Ensure getData() returns const T&
 }
 
+// =============================================
+// Increment
+// =============================================
+
 template <typename T>
 ChainIterator<T>& ChainIterator<T>::operator++()    // Pre-increment
 { 
@@ -51,6 +67,10 @@ ChainIterator<T> ChainIterator<T>::operator++(int)  // Post-increment
     return temp;
 }
 
+// =============================================
+// Equality test
+// =============================================
+
 // Equality test
 template <typename T>
 bool ChainIterator<T>::operator!=(const ChainIterator<T>& r) const 
@@ -63,6 +83,10 @@ bool ChainIterator<T>::operator==(const ChainIterator<T>& r) const
 {
     return current == r.current;
 }
+
+// =============================================
+// Explicit instantiation
+// =============================================
 
 template class ChainIterator<int>;
 template class ChainIterator<bool>;

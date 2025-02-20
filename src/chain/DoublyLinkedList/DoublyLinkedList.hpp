@@ -18,7 +18,7 @@ class DoublyLinkedList
         DoubleNode<T>* last;  // Ensure this is declared
 
     public:
-        /* constructor and destructors */
+        // constructor and destructors
         DoublyLinkedList();          // constructor
         DoublyLinkedList(const DoublyLinkedList<T>& other);  // Copy Constructor
         virtual ~DoublyLinkedList(); // destructor
@@ -29,31 +29,32 @@ class DoublyLinkedList
         void SetFirst(DoubleNode<T>* node);
         void SetLast(DoubleNode<T>* node);
 
-        /* return elements */
+        // return elements 
         DLIterator<T> begin() const;
         DLIterator<T> end() const;
         Node<T>* Get(int i);                    // returns the ith element in the list
 
-        /* insertion */
+        // insertion 
         virtual void InsertFront(const T& e);   // insert at the front of the list
         virtual void InsertBack(const T& e);    // insert at the end of the list
         void Insert(int i, T e);                // insert as the ith element
 
-        /* deletion */
+        // deletion 
         virtual void DeleteFront();             // delete at the front
         virtual void DeleteBack();              // delete at the end
         void Delete(int i);                     // delete the ith element
 
-        /* Other functions */
+        // Other functions
         virtual int Length() const;                           // return the length of the list
         virtual void Concatenate(DoublyLinkedList<T>& b);     // concatenate two list
         virtual void Reverse();                               // reverse the list
         bool IsEmpty() const;                                 // Check if the list is empty
 
-        /* overloading */
+        // overloading
         DoublyLinkedList<T>& operator=(const DoublyLinkedList<T>& other);     // Deep copy of lists
+        bool operator==(const DoublyLinkedList<T>& other) const;
+        bool operator!=(const DoublyLinkedList<T>& other) const;
         template <typename U> friend std::ostream& operator<<(std::ostream& out, const DoublyLinkedList<U>& list);
-        // bool operator==(const DoublyLinkedList<T>& lhs, const DoublyLinkedList<T>& rhs);
 };
 
 template <typename T>

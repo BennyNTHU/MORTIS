@@ -1,6 +1,8 @@
 // g++ -std=c++17 CircularDoubleList.cpp CircularDoubleList-test.cpp\
-    ../DLIterator/DLIterator.cpp ../DoubleNode/DoubleNode.cpp\
-    ../Node/Node.cpp ../ChainIterator/ChainIterator.cpp\
+    ../DLIterator/DLIterator.cpp\
+    ../DoubleNode/DoubleNode.cpp\
+    ../Node/Node.cpp\
+    ../ChainIterator/ChainIterator.cpp\
     ../DoublyLinkedList/DoublyLinkedList.cpp -o test
 
 #include <iostream>
@@ -64,7 +66,8 @@ int main()
     int j=1;
     cout << "\nTesting Iterator\n";
     cout << "Iterating over Circular List A: ";
-    for (auto it = A.begin(); j <= 3; ++it, j++) {
+    for (auto it = A.begin(); j <= 3; ++it, j++) 
+    {
         cout << *it << " ";
     }
     cout << endl;
@@ -79,6 +82,11 @@ int main()
     CircularDoubleList<int> D;
     D = C;
     cout << "Circular List D (assigned from C): " << D << endl;
+    cout << "The length of Circular List D: " << D.Length() << endl;
+    bool x = (D == C) ? true : false;
+    cout << "Is D == C: " << x << endl;
+    cout << "is A != B: " << (A != B) << endl;
+    cout << "is A empty: " << A.IsEmpty() << endl;
     
     cout << "\nTest completed successfully!\n";
     return 0;

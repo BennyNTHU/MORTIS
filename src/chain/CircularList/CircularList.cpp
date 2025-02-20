@@ -1,11 +1,47 @@
 #include "CircularList.hpp"
 
+// =========================================
+// Utility function
+// =========================================
+
+// Utility function to copy elements from another CircularList
+template <typename T>
+void CircularList<T>::CopyFrom(const CircularList<T>& other) 
+{
+    if (!other.GetFirst()) 
+        return;  // If `other` is empty, do nothing
+
+    // Create a copy of the first node
+    this->SetFirst(new Node<T>(other.GetFirst()->getData(), nullptr));
+    Node<T>* currentNew = this->GetFirst();
+    Node<T>* currentOther = other.GetFirst()->getLink();
+
+    // Copy remaining nodes
+    while (currentOther != other.GetFirst()) 
+    {
+        Node<T>* newNode = new Node<T>(currentOther->getData(), nullptr);
+        currentNew->setLink(newNode);
+        currentNew = newNode;
+        currentOther = currentOther->getLink();
+    }
+
+    // Ensure circular linkage
+    currentNew->setLink(this->GetFirst());
+}
+
+// =========================================
+// Setter
+// =========================================
+
 template <typename T>
 void CircularList<T>::SetFirst(Node<T>* node) 
 {
     LinkedList<T>::SetFirst(node); // Use the protected function from LinkedList
 }
 
+// =========================================
+// Constructors and destructors
+// =========================================
 
 // Constructor
 template <typename T>
@@ -21,6 +57,70 @@ CircularList<T>::CircularList() : LinkedList<T>()
         lastNode->setLink(this->GetFirst());  // Complete circular linkage
     }
 }
+
+// Copy constructor
+template <typename T>
+CircularList<T>::CircularList(const CircularList<T>& other) 
+{
+    this->SetFirst(nullptr); // Start with an empty list
+    CopyFrom(other);
+}
+
+// Destructor
+template <typename T>
+CircularList<T>::~CircularList() 
+{
+    if (!this->GetFirst()) return; // If list is empty, no need to delete
+
+    Node<T>* current = this->GetFirst();
+    Node<T>* nextNode = nullptr;
+
+    // Traverse the circular list and delete each node
+    while (current->getLink() != this->GetFirst()) 
+    {
+        nextNode = current->getLink();
+        delete current;
+        current = nextNode;
+    }
+
+    delete current;          // Delete the last node
+    this->SetFirst(nullptr); // Prevent dangling pointer issues
+}
+
+// =========================================
+// Properties
+// =========================================
+
+// Function to return the length of the circular linked list using ChainIterator
+// Override Length function for CircularList
+template <typename T>
+int CircularList<T>::Length() const
+{
+    if (!this->GetFirst())  // If the list is empty, return 0
+        return 0; 
+
+    int count = 0;
+    ChainIterator<T> it = this->begin();
+
+    do 
+    {
+        count++;
+        ++it;
+    } while (it != this->begin()); // Ensure we stop when we return to the start
+
+    return count;
+}
+
+// Function to check if the list is empty
+template <typename T>
+bool CircularList<T>::IsEmpty() const 
+{
+    return this->GetFirst() == nullptr;  // The list is empty if the first node is nullptr
+}
+
+// =========================================
+// Operations
+// =========================================
 
 // Insert at back
 template <typename T>
@@ -168,25 +268,50 @@ void CircularList<T>::Concatenate(CircularList<T>& b)
     b.SetFirst(nullptr);
 }
 
-// Destructor
+// =========================================
+// Operator Overloads
+// =========================================
+
+// Assignment operator
 template <typename T>
-CircularList<T>::~CircularList() 
+CircularList<T>& CircularList<T>::operator=(const CircularList<T>& other) 
 {
-    if (!this->GetFirst()) return; // If list is empty, no need to delete
-
-    Node<T>* current = this->GetFirst();
-    Node<T>* nextNode = nullptr;
-
-    // Traverse the circular list and delete each node
-    while (current->getLink() != this->GetFirst()) 
-    {
-        nextNode = current->getLink();
-        delete current;
-        current = nextNode;
+    if (this != &other) // Avoid self-assignment
+    {  
+        this->Clear();      // Clear current list before copying
+        CopyFrom(other);
     }
+    return *this;
+}
 
-    delete current;          // Delete the last node
-    this->SetFirst(nullptr); // Prevent dangling pointer issues
+// Overload the '==' operator to check equality of two CircularLists
+template <typename T>
+bool CircularList<T>::operator==(const CircularList<T>& other) const 
+{
+    if (this->Length() != other.Length())  // Now you can call Length() on const objects
+        return false;
+
+    Node<T>* currentThis = this->GetFirst();
+    Node<T>* currentOther = other.GetFirst();
+
+    do 
+    {
+        if (currentThis->getData() != currentOther->getData()) 
+        {
+            return false;
+        }
+        currentThis = currentThis->getLink();
+        currentOther = currentOther->getLink();
+    } while (currentThis != this->GetFirst() && currentOther != other.GetFirst());
+
+    return true;
+}
+
+// Overload the '!=' operator to check inequality of two CircularLists
+template <typename T>
+bool CircularList<T>::operator!=(const CircularList<T>& other) const 
+{
+    return !(*this == other);  // Simply use the '==' operator and return its negation
 }
 
 // Overload the << operator to print CircularList
@@ -210,73 +335,10 @@ std::ostream& operator<<(std::ostream& out, const CircularList<T>& list)
     return out;
 }
 
-// Copy constructor
-template <typename T>
-CircularList<T>::CircularList(const CircularList<T>& other) 
-{
-    this->SetFirst(nullptr); // Start with an empty list
-    CopyFrom(other);
-}
-
-// Assignment operator
-template <typename T>
-CircularList<T>& CircularList<T>::operator=(const CircularList<T>& other) 
-{
-    if (this != &other) // Avoid self-assignment
-    {  
-        this->Clear();      // Clear current list before copying
-        CopyFrom(other);
-    }
-    return *this;
-}
-
-// Function to return the length of the circular linked list using ChainIterator
-// Override Length function for CircularList
-template <typename T>
-int CircularList<T>::Length() 
-{
-    if (!this->GetFirst())  // If the list is empty, return 0
-        return 0; 
-
-    int count = 0;
-    ChainIterator<T> it = this->begin();
-
-    do 
-    {
-        count++;
-        ++it;
-    } while (it != this->begin()); // Ensure we stop when we return to the start
-
-    return count;
-}
-
-
-// Utility function to copy elements from another CircularList
-template <typename T>
-void CircularList<T>::CopyFrom(const CircularList<T>& other) 
-{
-    if (!other.GetFirst()) 
-        return;  // If `other` is empty, do nothing
-
-    // Create a copy of the first node
-    this->SetFirst(new Node<T>(other.GetFirst()->getData(), nullptr));
-    Node<T>* currentNew = this->GetFirst();
-    Node<T>* currentOther = other.GetFirst()->getLink();
-
-    // Copy remaining nodes
-    while (currentOther != other.GetFirst()) 
-    {
-        Node<T>* newNode = new Node<T>(currentOther->getData(), nullptr);
-        currentNew->setLink(newNode);
-        currentNew = newNode;
-        currentOther = currentOther->getLink();
-    }
-
-    // Ensure circular linkage
-    currentNew->setLink(this->GetFirst());
-}
-
+// =========================================
 // Explicit instantiation
+// =========================================
+
 template std::ostream& operator<<(std::ostream&, const CircularList<int>&);
 template std::ostream& operator<<(std::ostream&, const CircularList<bool>&);
 template std::ostream& operator<<(std::ostream&, const CircularList<char>&);
@@ -284,7 +346,6 @@ template std::ostream& operator<<(std::ostream&, const CircularList<float>&);
 template std::ostream& operator<<(std::ostream&, const CircularList<double>&);
 template std::ostream& operator<<(std::ostream&, const CircularList<std::string>&);
 
-// Explicit template instantiation
 template class CircularList<int>;
 template class CircularList<bool>;
 template class CircularList<char>;

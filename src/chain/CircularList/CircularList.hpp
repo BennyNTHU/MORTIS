@@ -7,47 +7,39 @@ template <typename T>
 class CircularList : public LinkedList<T> 
 {
     private:
-        // Utility function to copy another circular list
-        void CopyFrom(const CircularList<T>& other);
+        // Utility function
+        void CopyFrom(const CircularList<T>& other);    // to copy another circular list
 
     protected:
-        // Set the first node
-        void SetFirst(Node<T>* node);
+        // Setter
+        void SetFirst(Node<T>* node);   // Set the first node
 
     public:
-        // Constructor
+        // Constructors and destructors
         CircularList();
+        CircularList(const CircularList<T>& other); // Copy constructor
+        ~CircularList();    // Destructor to properly clean up circular linked list
 
-        // Copy constructor
-        CircularList(const CircularList<T>& other);
+        // Properties
+        int Length() const;   // Return the length of the list
+        bool IsEmpty() const;
 
-        // Destructor to properly clean up circular linked list
-        ~CircularList();
-
-        // Return the length of the list
-        int Length();
-
-        // Override insert functions to maintain circular structure
-        void InsertBack(const T& e) override;
+        // Operations
+        void InsertBack(const T& e) override;   // Override insert  functions to maintain circular structure
         void InsertFront(const T& e) override;
-
-        // Override deletion functions to maintain circular structure
-        void DeleteBack() override;
+        void DeleteBack() override; // Override delete functions to maintain circular structure
         void DeleteFront() override;
+        void Concatenate(CircularList<T>& b);   // Concatenation of two circular lists
 
-        // Concatenation of two circular lists
-        void Concatenate(CircularList<T>& b);
-
-        // Assignment operator
-        CircularList<T>& operator=(const CircularList<T>& other);
-
-        // Custom print function
-        template <typename U>
-        friend std::ostream& operator<<(std::ostream& out, const CircularList<U>& list);
+        // Operator overloads
+        CircularList<T>& operator=(const CircularList<T>& other);   // Assignment operator
+        bool operator==(const CircularList<T>& other) const;
+        bool operator!=(const CircularList<T>& other) const;
+        template <typename U> friend std::ostream& operator<<(std::ostream& out, const CircularList<U>& list);    // Custom print function
 };
 
 // Declare the overloaded << operator function
 template <typename T>
 std::ostream& operator<<(std::ostream& out, const CircularList<T>& list);
 
-#endif // CIRCULARLIST_HPP
+#endif

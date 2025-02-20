@@ -1,5 +1,8 @@
-// g++ -std=c++17 DoublyLinkedList.cpp DoublyLinkedList-test.cpp ../DLIterator/DLIterator.cpp\
-    ../DoubleNode/DoubleNode.cpp ../Node/Node.cpp ../ChainIterator/ChainIterator.cpp -o test
+// g++ -std=c++17 DoublyLinkedList.cpp DoublyLinkedList-test.cpp\
+    ../DLIterator/DLIterator.cpp\
+    ../DoubleNode/DoubleNode.cpp\
+    ../Node/Node.cpp\
+    ../ChainIterator/ChainIterator.cpp -o test
 
 #include <iostream>
 #include "DoublyLinkedList.hpp"
@@ -78,6 +81,8 @@ int main()
     DoublyLinkedList<int> D;
     D = C;
     cout << "List D (assigned from C): " << D << endl;
+    cout << "Is D == C: " << (D == C) << endl;
+    cout << "is A != B: " << (A != B) << endl;
     
     cout << "\nTest completed successfully!\n";
     

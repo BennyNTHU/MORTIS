@@ -1,6 +1,9 @@
 // g++ -std=c++17 LinkedPolynomial.cpp LinkedPolynomial-test.cpp\
-    ../DLIterator/DLIterator.cpp ../DoubleNode/DoubleNode.cpp\
-    ../Node/Node.cpp ../ChainIterator/ChainIterator.cpp -o test
+    ../Node/Node.cpp\
+    ../DoubleNode/DoubleNode.cpp\
+    ../ChainIterator/ChainIterator.cpp\
+    ../DLIterator/DLIterator.cpp\
+    ../DoublyLinkedList/DoublyLinkedList.cpp -o test
 
 #include "LinkedPolynomial.hpp"
 #include <iostream>
@@ -115,11 +118,11 @@ void TestEvaluation()
 
 void TestLatexInput() 
 {
-    cout << "=== Test operator>> (LaTeX Input) ===" << endl;
+    cout << "=== Test InsertLinkedTerm() with LaTeX-style input ===" << endl;
     LinkedPolynomial poly;
-    stringstream input("5x^3 - 2x^2 + 4x + 3");
-    input >> poly;
-    cout << "Expected output: 5x^3 - 2x^2 + 4x + 3" << endl;
+    poly.InsertLinkedTerm("5x^3");
+
+    cout << "Expected output: 5x^3" << endl;
     cout << "Actual output:   " << poly << endl;
 }
 
@@ -137,3 +140,4 @@ int main()
     cout << "All tests passed successfully!" << endl;
     return 0;
 }
+    

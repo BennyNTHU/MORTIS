@@ -3,6 +3,10 @@
 
 using namespace std;
 
+// ================================================
+// Helper functions
+// ================================================
+
 // set first node
 template <class T>
 void LinkedList<T>::SetFirst(Node<T>* node)
@@ -15,17 +19,6 @@ template <class T>
 Node<T>* LinkedList<T>::GetFirst() const
 {
     return first;
-}
-
-// Constructor: Initializes an empty linked list
-template <class T>
-LinkedList<T>::LinkedList() : first(nullptr) {}
-
-// Destructor: Deletes all nodes in the linked list
-template <class T>
-LinkedList<T>::~LinkedList() 
-{
-    Clear(); // Ensures proper memory cleanup
 }
 
 // Clear all nodes from the list
@@ -42,6 +35,25 @@ void LinkedList<T>::Clear()
     }
     first = nullptr;
 }
+
+// ================================================
+// Constructor and destructors 
+// ================================================
+
+// Constructor: Initializes an empty linked list
+template <class T>
+LinkedList<T>::LinkedList() : first(nullptr) {}
+
+// Destructor: Deletes all nodes in the linked list
+template <class T>
+LinkedList<T>::~LinkedList() 
+{
+    Clear(); // Ensures proper memory cleanup
+}
+
+// ================================================
+// Insertion
+// ================================================
 
 // Insert an element at the front of the list
 template <class T>
@@ -70,7 +82,6 @@ void LinkedList<T>::InsertBack(const T& e)
     }
 }
 
-
 // Insert an element at a specific index
 template <class T>
 void LinkedList<T>::Insert(int i, T e) 
@@ -92,6 +103,10 @@ void LinkedList<T>::Insert(int i, T e)
 
     current->setLink(new Node<T>(e, current->getLink()));  // FIXED
 }
+
+// ================================================
+// Deletion
+// ================================================
 
 // Delete the front element
 template <class T>
@@ -157,6 +172,23 @@ void LinkedList<T>::Delete(int i)
     delete deleteNode;
 }
 
+// ================================================
+// Return elements 
+// ================================================
+
+// Iterator support
+template <typename T>
+ChainIterator<T> LinkedList<T>::begin() const 
+{
+    return ChainIterator<T>(first);
+}
+
+template <typename T>
+ChainIterator<T> LinkedList<T>::end() const 
+{
+    return ChainIterator<T>(nullptr);
+}
+
 // Get the node at a specific index
 template <class T>
 Node<T>* LinkedList<T>::Get(int i) 
@@ -172,18 +204,35 @@ Node<T>* LinkedList<T>::Get(int i)
     return current;
 }
 
-// Concatenate another linked list to this one
 template <class T>
-void LinkedList<T>::Concatenate(LinkedList<T>& b) 
+LinkedList<T> LinkedList<T>::GetSublist(int i, int j) 
 {
-    if (!b.first) return; // Nothing to concatenate
-
-    ChainIterator<T> itB = b.begin();
-    while (itB != b.end()) 
+    if (i < 0 || j < 0 || i > j || j >= this->Length()) 
     {
-        InsertBack(*itB); // Copy each node
-        ++itB;
+        throw std::out_of_range("Invalid indices for sublist");
     }
+
+    LinkedList<T> sublist;
+
+    // Use Get() to insert the elements from i to j
+    for (int index = i; index <= j; ++index) 
+    {
+        Node<T>* currentNode = this->Get(index);  // Get the node at index
+        sublist.InsertBack(currentNode->getData()); // Insert the data from the node
+    }
+
+    return sublist;
+}
+
+// ================================================
+// Other functions
+// ================================================
+
+// IsEmpty function to check if the list is empty
+template <class T>
+bool LinkedList<T>::IsEmpty() const 
+{
+    return first == nullptr;
 }
 
 // Function to return the length of the linked list using ChainIterator
@@ -196,6 +245,20 @@ int LinkedList<T>::Length()
         count++;
     }
     return count;
+}
+
+// Concatenate another linked list to this one
+template <class T>
+void LinkedList<T>::Concatenate(LinkedList<T>& b) 
+{
+    if (!b.first) return; // Nothing to concatenate
+
+    ChainIterator<T> itB = b.begin();
+    while (itB != b.end()) 
+    {
+        InsertBack(*itB); // Copy each node
+        ++itB;
+    }
 }
 
 // Reverse the linked list
@@ -214,18 +277,9 @@ void LinkedList<T>::Reverse()
     first = prev;
 }
 
-// Iterator support
-template <typename T>
-ChainIterator<T> LinkedList<T>::begin() const 
-{
-    return ChainIterator<T>(first);
-}
-
-template <typename T>
-ChainIterator<T> LinkedList<T>::end() const 
-{
-    return ChainIterator<T>(nullptr);
-}
+// ================================================
+// Overloading
+// ================================================
 
 // Copy assignment operator (deep copy)
 template <typename T>
@@ -245,6 +299,34 @@ LinkedList<T>& LinkedList<T>::operator=(const LinkedList<T>& other)
     return *this;
 }
 
+// Overload == operator to compare two LinkedLists
+template <class T>
+bool LinkedList<T>::operator==(const LinkedList<T>& other) const 
+{
+    Node<T>* currentA = first;
+    Node<T>* currentB = other.first;
+
+    while (currentA != nullptr && currentB != nullptr) 
+    {
+        if (currentA->getData() != currentB->getData()) 
+        {
+            return false;  // Data doesn't match
+        }
+
+        currentA = currentA->getLink();
+        currentB = currentB->getLink();
+    }
+
+    return currentA == nullptr && currentB == nullptr;  // Both should be at the end
+}
+
+// Overload != operator to compare two LinkedLists
+template <class T>
+bool LinkedList<T>::operator!=(const LinkedList<T>& other) const 
+{
+    return !(*this == other);  // Not equal if == is false
+}
+
 // Overloaded output operator for LinkedList
 template <typename T>
 std::ostream& operator<<(std::ostream& out, const LinkedList<T>& list) 
@@ -257,7 +339,10 @@ std::ostream& operator<<(std::ostream& out, const LinkedList<T>& list)
     return out;
 }
 
+// ================================================
 // Explicit instantiation
+// ================================================
+
 template std::ostream& operator<<(std::ostream&, const LinkedList<int>&);
 template std::ostream& operator<<(std::ostream&, const LinkedList<bool>&);
 template std::ostream& operator<<(std::ostream&, const LinkedList<char>&);
@@ -265,7 +350,6 @@ template std::ostream& operator<<(std::ostream&, const LinkedList<float>&);
 template std::ostream& operator<<(std::ostream&, const LinkedList<double>&);
 template std::ostream& operator<<(std::ostream&, const LinkedList<std::string>&);
 
-// Explicit template instantiation
 template class LinkedList<int>;
 template class LinkedList<bool>;
 template class LinkedList<char>;

@@ -10,18 +10,14 @@ class DoubleNode : public Node<T>
         DoubleNode<T>* prev; // Pointer to the previous node
 
     public:
-        // Constructors
+        // Constructors and destructors
         DoubleNode();
         DoubleNode(const T& item, DoubleNode<T>* next = nullptr, DoubleNode<T>* prev = nullptr);
+        ~DoubleNode();  // Destructor
 
-        // Destructor
-        ~DoubleNode();
-
-        // Getters
-        DoubleNode<T>* getPrev() const;
-
-        // Setters
-        void setPrev(DoubleNode<T>* prev);
+        // Getters and setters
+        DoubleNode<T>* getPrev() const;     // Getters
+        void setPrev(DoubleNode<T>* prev);  // Setters
 };
 
 #endif // DOUBLENODE
