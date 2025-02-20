@@ -1,7 +1,9 @@
 // g++ -std=c++17 HashTable.cpp HashTable-test.cpp\
-../../chain/DoublyLinkedList/DoublyLinkedList.cpp\
-../../chain/ChainIterator/ChainIterator.cpp ../../chain/DLIterator/DLIterator.cpp\
-../../chain/Node/Node.cpp ../../chain/DoubleNode/DoubleNode.cpp -o test
+    ../../chain/DoublyLinkedList/DoublyLinkedList.cpp\
+    ../../chain/ChainIterator/ChainIterator.cpp\
+    ../../chain/DLIterator/DLIterator.cpp\
+    ../../chain/Node/Node.cpp\
+    ../../chain/DoubleNode/DoubleNode.cpp -o test
 
 #include "HashTable.hpp"
 #include <iostream>

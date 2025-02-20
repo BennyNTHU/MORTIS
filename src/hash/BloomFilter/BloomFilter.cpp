@@ -1,5 +1,34 @@
 #include "BloomFilter.hpp"
 
+// =======================================
+// The hash function
+// =======================================
+
+// Hash function 1
+template <typename T>
+size_t BloomFilter<T>::hash1(const T& key) const 
+{
+    return std::hash<T>{}(key);
+}
+
+// Hash function 2
+template <typename T>
+size_t BloomFilter<T>::hash2(const T& key) const 
+{
+    return std::hash<T>{}(key) * 2654435761 % size;  // Knuth's Multiplicative Hash
+}
+
+// Hash function 3
+template <typename T>
+size_t BloomFilter<T>::hash3(const T& key) const 
+{
+    return (std::hash<T>{}(key) * 97 + 13) % size;  // Simple polynomial hash
+}
+
+// =======================================
+// Constructors and destructors
+// =======================================
+
 // Constructor
 template <typename T>
 BloomFilter<T>::BloomFilter(size_t size, size_t hashFunctions): size(size), hashFunctions(hashFunctions), bitArray(size, false) 
@@ -18,6 +47,10 @@ BloomFilter<T>::BloomFilter(size_t size, size_t hashFunctions): size(size), hash
         return hash3(key); 
     });
 }
+
+// =======================================
+// Other functions
+// =======================================
 
 // Insert element into Bloom filter
 template <typename T>
@@ -55,27 +88,6 @@ void BloomFilter<T>::display() const
         std::cout << bit;
     }
     std::cout << std::endl;
-}
-
-// Hash function 1
-template <typename T>
-size_t BloomFilter<T>::hash1(const T& key) const 
-{
-    return std::hash<T>{}(key);
-}
-
-// Hash function 2
-template <typename T>
-size_t BloomFilter<T>::hash2(const T& key) const 
-{
-    return std::hash<T>{}(key) * 2654435761 % size;  // Knuth's Multiplicative Hash
-}
-
-// Hash function 3
-template <typename T>
-size_t BloomFilter<T>::hash3(const T& key) const 
-{
-    return (std::hash<T>{}(key) * 97 + 13) % size;  // Simple polynomial hash
 }
 
 // Explicit template instantiations

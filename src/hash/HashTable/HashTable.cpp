@@ -1,6 +1,21 @@
 #include "HashTable.hpp"
 #include <iostream>
 
+// =======================================
+// The hash function
+// =======================================
+
+// Hash function
+template <typename T>
+size_t HashTable<T>::hashFunction(const T& key) const 
+{
+    return std::hash<T>{}(key) % capacity;
+}
+
+// =======================================
+// Constructors and destructors
+// =======================================
+
 // Constructor
 template <typename T>
 HashTable<T>::HashTable(size_t size) : capacity(size), table(size) {}
@@ -9,12 +24,9 @@ HashTable<T>::HashTable(size_t size) : capacity(size), table(size) {}
 template <typename T>
 HashTable<T>::~HashTable() {}
 
-// Hash function
-template <typename T>
-size_t HashTable<T>::hashFunction(const T& key) const 
-{
-    return std::hash<T>{}(key) % capacity;
-}
+// =======================================
+// Other functions
+// =======================================
 
 // Insert function
 template <typename T>
