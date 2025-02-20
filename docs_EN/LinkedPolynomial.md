@@ -1,178 +1,402 @@
-# LinkedPolynomial Documentation
+# LinkedPolynomial.hpp Documentation
 
 ## Overview
-The `LinkedPolynomial` class implements a polynomial data structure using a **doubly linked list**. It supports basic polynomial operations, including addition, multiplication, differentiation, evaluation, and input/output operations.
 
-This document provides a detailed guide on how to use the APIs with example programs.
+The `LinkedPolynomial.hpp` header file defines two classes: `LinkedTerm` and `LinkedPolynomial`. The `LinkedTerm` class represents a single term in a polynomial, while the `LinkedPolynomial` class represents a polynomial as a doubly linked list of `LinkedTerm` nodes. This implementation allows for efficient manipulation of polynomials, including addition, subtraction, multiplication, differentiation, and evaluation.
 
----
+## Class: `LinkedTerm`
 
-## Class API
+### Description
+The `LinkedTerm` class represents a single term in a polynomial, consisting of a coefficient and an exponent.
 
-### 1. **Constructors & Destructor**
-```cpp
-LinkedPolynomial();  // Default constructor
-LinkedPolynomial(const LinkedPolynomial& other);  // Copy constructor
-LinkedPolynomial& operator=(const LinkedPolynomial& other);  // Copy assignment
-~LinkedPolynomial();  // Destructor
-```
-#### Example:
-```cpp
-LinkedPolynomial poly1;
-LinkedPolynomial poly2(poly1); // Copy constructor
-LinkedPolynomial poly3 = poly1; // Copy assignment
-```
+### Constructors
 
-### 2. **Basic Polynomial Operations**
-#### a) Insert a term
-```cpp
-void InsertLinkedTerm(double coef, int exp);
-```
-**Example:**
-```cpp
-LinkedPolynomial poly;
-poly.InsertLinkedTerm(3, 4); // 3x^4
-poly.InsertLinkedTerm(5, 2); // 5x^2
-```
+#### `LinkedTerm()`
+- **Description**: Default constructor. Initializes a term with a coefficient of 0 and an exponent of 0.
+- **Usage**:
+  ```cpp
+  LinkedTerm term;
+  ```
 
-#### b) Delete a term
-```cpp
-void DeleteLinkedTerm(int exp);
-```
-**Example:**
-```cpp
-poly.DeleteLinkedTerm(4); // Remove term with exponent 4
-```
+#### `LinkedTerm(double c, int e)`
+- **Description**: Constructor. Initializes a term with a given coefficient and exponent.
+- **Parameters**:
+  - `c`: The coefficient of the term.
+  - `e`: The exponent of the term.
+- **Usage**:
+  ```cpp
+  LinkedTerm term(3.5, 2);  // Represents the term 3.5x^2
+  ```
 
-#### c) Get coefficient of a term
-```cpp
-double Coef(int exp) const;
-```
-**Example:**
-```cpp
-double coefficient = poly.Coef(2); // Returns coefficient of x^2
-```
+### Getter and Setter Methods
 
-#### d) Get leading exponent (degree of the polynomial)
-```cpp
-int LeadExp() const;
-```
-**Example:**
-```cpp
-int degree = poly.LeadExp(); // Returns highest exponent in the polynomial
-```
+#### `double get_coef() const`
+- **Description**: Returns the coefficient of the term.
+- **Return Value**: The coefficient as a `double`.
+- **Usage**:
+  ```cpp
+  LinkedTerm term(3.5, 2);
+  double coef = term.get_coef();  // coef is 3.5
+  ```
 
-#### e) Evaluate the polynomial
-```cpp
-double Evaluate(double x) const;
-```
-**Example:**
-```cpp
-double value = poly.Evaluate(2.0); // Evaluates polynomial at x=2
-```
+#### `int get_exp() const`
+- **Description**: Returns the exponent of the term.
+- **Return Value**: The exponent as an `int`.
+- **Usage**:
+  ```cpp
+  LinkedTerm term(3.5, 2);
+  int exp = term.get_exp();  // exp is 2
+  ```
 
-### 3. **Polynomial Arithmetic Operations**
-#### a) Addition
-```cpp
-LinkedPolynomial operator+(const LinkedPolynomial& other) const;
-```
-**Example:**
-```cpp
-LinkedPolynomial poly1, poly2, sum;
-poly1.InsertLinkedTerm(3, 2);
-poly2.InsertLinkedTerm(4, 2);
-sum = poly1 + poly2; // (3x^2 + 4x^2) = 7x^2
-```
+#### `double& get_coef_ref()`
+- **Description**: Returns a reference to the coefficient of the term, allowing modification.
+- **Return Value**: A reference to the coefficient.
+- **Usage**:
+  ```cpp
+  LinkedTerm term(3.5, 2);
+  term.get_coef_ref() = 4.0;  // The term is now 4.0x^2
+  ```
 
-#### b) Multiplication
-```cpp
-LinkedPolynomial operator*(const LinkedPolynomial& other) const;
-```
-**Example:**
-```cpp
-LinkedPolynomial poly1, poly2, product;
-poly1.InsertLinkedTerm(2, 1);
-poly2.InsertLinkedTerm(3, 2);
-product = poly1 * poly2; // (2x^1 * 3x^2) = 6x^3
-```
+#### `void set_coef(double new_coef)`
+- **Description**: Sets the coefficient of the term.
+- **Parameters**:
+  - `new_coef`: The new coefficient value.
+- **Usage**:
+  ```cpp
+  LinkedTerm term(3.5, 2);
+  term.set_coef(4.0);  // The term is now 4.0x^2
+  ```
 
-#### c) Differentiation
-```cpp
-LinkedPolynomial Differentiate() const;
-```
-**Example:**
-```cpp
-LinkedPolynomial poly;
-poly.InsertLinkedTerm(5, 3); // 5x^3
-LinkedPolynomial derivative = poly.Differentiate(); // Result: 15x^2
-```
+### Overloaded Operators
 
-### 4. **Iterator Support**
-```cpp
-DLIterator<LinkedTerm> begin() const;
-DLIterator<LinkedTerm> end() const;
-```
-**Example:**
-```cpp
-for (auto it = poly.begin(); it != poly.end(); ++it) {
-    std::cout << it->getData().get_coef() << "x^" << it->getData().get_exp() << " ";
-}
-```
+#### `bool operator==(const LinkedTerm& other) const`
+- **Description**: Equality operator. Checks if two terms are equal.
+- **Parameters**:
+  - `other`: The `LinkedTerm` to compare with.
+- **Return Value**: `true` if the terms are equal, `false` otherwise.
+- **Usage**:
+  ```cpp
+  LinkedTerm term1(3.5, 2);
+  LinkedTerm term2(3.5, 2);
+  bool equal = (term1 == term2);  // equal is true
+  ```
 
-### 5. **I/O Operations**
-#### a) Input (from LaTeX format)
-```cpp
-friend std::istream& operator>>(std::istream& in, LinkedPolynomial& poly);
-```
-**Example:**
-```cpp
-LinkedPolynomial poly;
-std::cin >> poly; // Example input: "5x^3 + 2x^2 - 7"
-```
+## Class: `LinkedPolynomial`
 
-#### b) Output (formatted polynomial display)
-```cpp
-friend std::ostream& operator<<(std::ostream& out, const LinkedPolynomial& poly);
-```
-**Example:**
-```cpp
-std::cout << poly; // Output: "5x^3 + 2x^2 - 7"
-```
+### Description
+The `LinkedPolynomial` class represents a polynomial as a doubly linked list of `LinkedTerm` nodes. It provides methods for polynomial manipulation, including addition, subtraction, multiplication, differentiation, and evaluation.
 
----
+### Constructors and Destructors
 
-## Full Example Program
+#### `LinkedPolynomial()`
+- **Description**: Default constructor. Initializes an empty polynomial.
+- **Usage**:
+  ```cpp
+  LinkedPolynomial poly;
+  ```
+
+#### `LinkedPolynomial(const LinkedPolynomial& other)`
+- **Description**: Copy constructor. Initializes a new polynomial by copying elements from another polynomial.
+- **Parameters**:
+  - `other`: The `LinkedPolynomial` object to copy from.
+- **Usage**:
+  ```cpp
+  LinkedPolynomial poly1;
+  poly1.InsertLinkedTerm(3.5, 2);
+  LinkedPolynomial poly2(poly1);
+  ```
+
+#### `~LinkedPolynomial()`
+- **Description**: Destructor. Cleans up the polynomial by deleting all nodes.
+- **Usage**: Automatically called when the object goes out of scope.
+
+### Properties
+
+#### `int LeadExp()`
+- **Description**: Returns the highest exponent in the polynomial.
+- **Return Value**: The highest exponent as an `int`.
+- **Usage**:
+  ```cpp
+  LinkedPolynomial poly;
+  poly.InsertLinkedTerm(3.5, 2);
+  poly.InsertLinkedTerm(2.0, 3);
+  int leadExp = poly.LeadExp();  // leadExp is 3
+  ```
+
+#### `double Coef(int e)`
+- **Description**: Returns the coefficient of the term with the given exponent.
+- **Parameters**:
+  - `e`: The exponent of the term.
+- **Return Value**: The coefficient as a `double`.
+- **Usage**:
+  ```cpp
+  LinkedPolynomial poly;
+  poly.InsertLinkedTerm(3.5, 2);
+  double coef = poly.Coef(2);  // coef is 3.5
+  ```
+
+#### `DLIterator<LinkedTerm> begin() const`
+- **Description**: Returns an iterator pointing to the first term in the polynomial.
+- **Return Value**: A `DLIterator<LinkedTerm>` object.
+- **Usage**:
+  ```cpp
+  LinkedPolynomial poly;
+  poly.InsertLinkedTerm(3.5, 2);
+  DLIterator<LinkedTerm> it = poly.begin();
+  ```
+
+#### `DLIterator<LinkedTerm> end() const`
+- **Description**: Returns an iterator pointing to the end of the polynomial (nullptr).
+- **Return Value**: A `DLIterator<LinkedTerm>` object.
+- **Usage**:
+  ```cpp
+  LinkedPolynomial poly;
+  DLIterator<LinkedTerm> it = poly.end();
+  ```
+
+### Operations
+
+#### `LinkedPolynomial operator+(const LinkedPolynomial& other) const`
+- **Description**: Adds two polynomials.
+- **Parameters**:
+  - `other`: The `LinkedPolynomial` to add.
+- **Return Value**: A new `LinkedPolynomial` representing the sum.
+- **Usage**:
+  ```cpp
+  LinkedPolynomial poly1;
+  poly1.InsertLinkedTerm(3.5, 2);
+  LinkedPolynomial poly2;
+  poly2.InsertLinkedTerm(2.0, 3);
+  LinkedPolynomial sum = poly1 + poly2;
+  ```
+
+#### `LinkedPolynomial operator-(const LinkedPolynomial& other) const`
+- **Description**: Subtracts another polynomial from this polynomial.
+- **Parameters**:
+  - `other`: The `LinkedPolynomial` to subtract.
+- **Return Value**: A new `LinkedPolynomial` representing the difference.
+- **Usage**:
+  ```cpp
+  LinkedPolynomial poly1;
+  poly1.InsertLinkedTerm(3.5, 2);
+  LinkedPolynomial poly2;
+  poly2.InsertLinkedTerm(2.0, 3);
+  LinkedPolynomial diff = poly1 - poly2;
+  ```
+
+#### `LinkedPolynomial operator*(float constant) const`
+- **Description**: Multiplies the polynomial by a constant.
+- **Parameters**:
+  - `constant`: The constant to multiply by.
+- **Return Value**: A new `LinkedPolynomial` representing the product.
+- **Usage**:
+  ```cpp
+  LinkedPolynomial poly;
+  poly.InsertLinkedTerm(3.5, 2);
+  LinkedPolynomial product = poly * 2.0;
+  ```
+
+#### `LinkedPolynomial operator*(const LinkedPolynomial& other) const`
+- **Description**: Multiplies two polynomials.
+- **Parameters**:
+  - `other`: The `LinkedPolynomial` to multiply by.
+- **Return Value**: A new `LinkedPolynomial` representing the product.
+- **Usage**:
+  ```cpp
+  LinkedPolynomial poly1;
+  poly1.InsertLinkedTerm(3.5, 2);
+  LinkedPolynomial poly2;
+  poly2.InsertLinkedTerm(2.0, 3);
+  LinkedPolynomial product = poly1 * poly2;
+  ```
+
+#### `LinkedPolynomial Differentiate() const`
+- **Description**: Differentiates the polynomial.
+- **Return Value**: A new `LinkedPolynomial` representing the derivative.
+- **Usage**:
+  ```cpp
+  LinkedPolynomial poly;
+  poly.InsertLinkedTerm(3.5, 2);
+  LinkedPolynomial derivative = poly.Differentiate();
+  ```
+
+#### `double Evaluate(double x) const`
+- **Description**: Evaluates the polynomial at a given value of `x`.
+- **Parameters**:
+  - `x`: The value at which to evaluate the polynomial.
+- **Return Value**: The result of the evaluation as a `double`.
+- **Usage**:
+  ```cpp
+  LinkedPolynomial poly;
+  poly.InsertLinkedTerm(3.5, 2);
+  double result = poly.Evaluate(2.0);  // Evaluates 3.5 * (2.0)^2
+  ```
+
+### Other Functions
+
+#### `void Clear()`
+- **Description**: Clears the polynomial, removing all terms.
+- **Usage**:
+  ```cpp
+  LinkedPolynomial poly;
+  poly.InsertLinkedTerm(3.5, 2);
+  poly.Clear();  // The polynomial is now empty
+  ```
+
+#### `void CopyFrom(const LinkedPolynomial& other)`
+- **Description**: Copies the contents of another polynomial into this polynomial.
+- **Parameters**:
+  - `other`: The `LinkedPolynomial` to copy from.
+- **Usage**:
+  ```cpp
+  LinkedPolynomial poly1;
+  poly1.InsertLinkedTerm(3.5, 2);
+  LinkedPolynomial poly2;
+  poly2.CopyFrom(poly1);
+  ```
+
+#### `void InsertLinkedTerm(double coef, int exp)`
+- **Description**: Inserts a new term into the polynomial.
+- **Parameters**:
+  - `coef`: The coefficient of the term.
+  - `exp`: The exponent of the term.
+- **Usage**:
+  ```cpp
+  LinkedPolynomial poly;
+  poly.InsertLinkedTerm(3.5, 2);  // Inserts the term 3.5x^2
+  ```
+
+#### `void InsertLinkedTerm(const std::string& term)`
+- **Description**: Inserts a new term into the polynomial using a LaTeX-style input string.
+- **Parameters**:
+  - `term`: A string representing the term in LaTeX format (e.g., "3.5x^2").
+- **Usage**:
+  ```cpp
+  LinkedPolynomial poly;
+  poly.InsertLinkedTerm("3.5x^2");  // Inserts the term 3.5x^2
+  ```
+
+#### `void DeleteLinkedTerm(int exp)`
+- **Description**: Deletes the term with the given exponent from the polynomial.
+- **Parameters**:
+  - `exp`: The exponent of the term to delete.
+- **Usage**:
+  ```cpp
+  LinkedPolynomial poly;
+  poly.InsertLinkedTerm(3.5, 2);
+  poly.DeleteLinkedTerm(2);  // Deletes the term 3.5x^2
+  ```
+
+### Overloaded Operators
+
+#### `LinkedPolynomial& operator=(const LinkedPolynomial& other)`
+- **Description**: Assignment operator. Assigns the contents of another polynomial to this polynomial.
+- **Parameters**:
+  - `other`: The `LinkedPolynomial` to assign from.
+- **Return Value**: A reference to the current polynomial.
+- **Usage**:
+  ```cpp
+  LinkedPolynomial poly1;
+  poly1.InsertLinkedTerm(3.5, 2);
+  LinkedPolynomial poly2;
+  poly2 = poly1;  // poly2 now contains the term 3.5x^2
+  ```
+
+#### `bool operator==(const LinkedPolynomial& other) const`
+- **Description**: Equality operator. Checks if two polynomials are equal.
+- **Parameters**:
+  - `other`: The `LinkedPolynomial` to compare with.
+- **Return Value**: `true` if the polynomials are equal, `false` otherwise.
+- **Usage**:
+  ```cpp
+  LinkedPolynomial poly1;
+  poly1.InsertLinkedTerm(3.5, 2);
+  LinkedPolynomial poly2;
+  poly2.InsertLinkedTerm(3.5, 2);
+  bool equal = (poly1 == poly2);  // equal is true
+  ```
+
+#### `bool operator!=(const LinkedPolynomial& other) const`
+- **Description**: Inequality operator. Checks if two polynomials are not equal.
+- **Parameters**:
+  - `other`: The `LinkedPolynomial` to compare with.
+- **Return Value**: `true` if the polynomials are not equal, `false` otherwise.
+- **Usage**:
+  ```cpp
+  LinkedPolynomial poly1;
+  poly1.InsertLinkedTerm(3.5, 2);
+  LinkedPolynomial poly2;
+  poly2.InsertLinkedTerm(2.0, 3);
+  bool notEqual = (poly1 != poly2);  // notEqual is true
+  ```
+
+#### `friend std::ostream& operator<<(std::ostream& out, const LinkedPolynomial& poly)`
+- **Description**: Overloaded `<<` operator for printing the polynomial in LaTeX style.
+- **Parameters**:
+  - `out`: The output stream.
+  - `poly`: The `LinkedPolynomial` to print.
+- **Return Value**: The output stream.
+- **Usage**:
+  ```cpp
+  LinkedPolynomial poly;
+  poly.InsertLinkedTerm(3.5, 2);
+  std::cout << poly;  // Prints the polynomial in LaTeX style
+  ```
+
+#### `friend std::istream& operator>>(std::istream &in, LinkedPolynomial &poly)`
+- **Description**: Overloaded `>>` operator for reading the polynomial in LaTeX style.
+- **Parameters**:
+  - `in`: The input stream.
+  - `poly`: The `LinkedPolynomial` to read into.
+- **Return Value**: The input stream.
+- **Usage**:
+  ```cpp
+  LinkedPolynomial poly;
+  std::cin >> poly;  // Reads the polynomial in LaTeX style
+  ```
+
+## Example Usage
 
 ```cpp
-#include <iostream>
 #include "LinkedPolynomial.hpp"
+#include <iostream>
 
 int main() {
-    LinkedPolynomial poly1, poly2, result;
-    poly1.InsertLinkedTerm(3, 4);
-    poly1.InsertLinkedTerm(2, 2);
-    
-    poly2.InsertLinkedTerm(5, 3);
-    poly2.InsertLinkedTerm(-1, 2);
-    
-    result = poly1 + poly2;
-    std::cout << "Sum: " << result << std::endl;
-    
-    result = poly1 * poly2;
-    std::cout << "Product: " << result << std::endl;
-    
-    LinkedPolynomial derivative = result.Differentiate();
-    std::cout << "Derivative: " << derivative << std::endl;
-    
-    double value = result.Evaluate(2.0);
-    std::cout << "Evaluation at x=2: " << value << std::endl;
-    
+    LinkedPolynomial poly1;
+    poly1.InsertLinkedTerm(3.5, 2);
+    poly1.InsertLinkedTerm(2.0, 3);
+
+    LinkedPolynomial poly2;
+    poly2.InsertLinkedTerm(1.5, 2);
+    poly2.InsertLinkedTerm(4.0, 1);
+
+    LinkedPolynomial sum = poly1 + poly2;
+    std::cout << "Sum: " << sum << std::endl;
+
+    LinkedPolynomial product = poly1 * poly2;
+    std::cout << "Product: " << product << std::endl;
+
+    LinkedPolynomial derivative = poly1.Differentiate();
+    std::cout << "Derivative of poly1: " << derivative << std::endl;
+
+    double result = poly1.Evaluate(2.0);
+    std::cout << "Evaluation of poly1 at x=2.0: " << result << std::endl;
+
     return 0;
 }
 ```
 
----
+## Potential Errors and Edge Cases
 
-## Conclusion
-This documentation provides a comprehensive guide to using `LinkedPolynomial`, including its API methods, example programs, and expected outputs. The class is designed for efficient manipulation of polynomials using a doubly linked list structure.
+1. **Empty Polynomial**: Operations like `LeadExp()` or `Coef(int e)` on an empty polynomial may result in undefined behavior. Ensure the polynomial is not empty before performing these operations.
+2. **Invalid Exponents**: When inserting or deleting terms, ensure the exponent is valid (non-negative) to avoid unexpected behavior.
+3. **Memory Management**: Ensure proper memory management when dealing with large polynomials to avoid memory leaks.
 
+## Dependencies
+
+- `Node.hpp`: Defines the basic node structure.
+- `DoubleNode.hpp`: Defines the doubly linked node structure.
+- `ChainIterator.hpp`: Provides iterator functionality for the list.
+- `DLIterator.hpp`: Provides iterator functionality for the doubly linked list.
+
+Ensure these files are included and properly configured in your project to use `LinkedPolynomial.hpp`.

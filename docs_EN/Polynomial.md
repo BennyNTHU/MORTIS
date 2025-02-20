@@ -1,214 +1,190 @@
-# Polynomial Data Structure Documentation
-
-This document provides a detailed guide on how to use the Polynomial data structure, including a complete API description, usage examples, and compilation instructions. The Polynomial class is used to represent polynomials, where each term consists of a coefficient (which can be an integer or a floating-point number) and an integer exponent. Both input and output use LaTeX syntax, and the output automatically determines whether to display coefficients as integers (e.g., if the coefficient is effectively an integer, it will not display a decimal point).
-
----
-
-## Table of Contents
-
-- [Polynomial Data Structure Documentation](#polynomial-data-structure-documentation)
-  - [Table of Contents](#table-of-contents)
-  - [Overview](#overview)
-  - [Key Features](#key-features)
-  - [API Description](#api-description)
-    - [Constructors and Destructors](#constructors-and-destructors)
-    - [Member Functions](#member-functions)
-    - [Operator Overloading](#operator-overloading)
-  - [Usage Examples](#usage-examples)
-  - [Compilation and Execution](#compilation-and-execution)
-  - [Notes](#notes)
-
----
+# `Polynomial.hpp` Documentation
 
 ## Overview
 
-The Polynomial class provides a flexible data structure for polynomials, allowing users to:
-- Input polynomials in LaTeX syntax format (e.g., `3x^{3}+2x^{2}+0.5x+1`).
-- Output polynomials in LaTeX syntax format, automatically determining the coefficient display format:
-  - If the coefficient is effectively an integer (within a tolerance), it is displayed as an integer;
-  - Otherwise, the original floating-point precision is retained (no trailing zeros).
-- Perform addition, subtraction, multiplication, and evaluation of polynomials.
-- Support deep copying, assignment, and equality comparison.
+`Polynomial.hpp` defines a `Polynomial` class for representing polynomials with integer exponents and floating-point coefficients. The class supports common polynomial operations like addition, subtraction, multiplication, and differentiation. It also provides functions to evaluate polynomials, retrieve coefficients, and handle terms.
 
 ---
 
-## Key Features
+## Key Components
 
-- **Flexible Coefficient Format:** Coefficients can be either integers or floating-point numbers. During output, integer coefficients are displayed as integers, while floating-point coefficients retain their input precision.
-- **LaTeX Syntax Input and Output:** Input format is like `3x^{3}+2x^{2}+0.5x+1`, and the output format is similar, making it easy for users to read and format.
-- **Basic Operations:** Supports addition, subtraction, multiplication, and polynomial evaluation. Division is currently commented out and not handled.
-- **Dynamic Storage:** Internally uses a dynamic array to store terms, automatically expanding when the number of terms exceeds the current capacity.
+### `Term` Structure
 
----
+A `Term` represents a single term in the polynomial, consisting of:
+- **`coef`**: The coefficient of the term (of type `float`).
+- **`exp`**: The exponent of the term (of type `int`).
 
-## API Description
-
-### Constructors and Destructors
-
-- **`Polynomial()`**  
-  Constructs a zero polynomial *p(x) = 0*.  
-  _Usage:_
-  ```cpp
-  Polynomial P; // P(x) = 0
-  ```
-
-- **`Polynomial(Term* t, int degree)`**  
-  Constructs a polynomial from a given array of Term objects and the number of terms. The input array is copied and then released.  
-  _Note:_ This constructor is typically used internally and is rarely called directly.
-
-- **`Polynomial(const Polynomial &poly)`**  
-  Copy constructor, performs a deep copy of the polynomial.
-
-- **`~Polynomial()`**  
-  Destructor, releases internally allocated memory.
-
-### Member Functions
-
-- **`float Coef(int e)`**  
-  Returns the coefficient of the term with exponent `e`; returns 0 if the term does not exist.  
-  _Usage:_
-  ```cpp
-  float c = P.Coef(2);  // Get the coefficient of the x^2 term
-  ```
-
-- **`int LeadExp()`**  
-  Returns the highest exponent in the polynomial (i.e., the degree of the polynomial).  
-  _Usage:_
-  ```cpp
-  int degree = P.LeadExp();
-  ```
-
-- **`float Eval(float x)`**  
-  Evaluates the polynomial at the specified value of `x`.  
-  _Usage:_
-  ```cpp
-  float result = P.Eval(2.0f);
-  ```
-
-- **`void NewTerm(const float theCoeff, const int theExp)`**  
-  Adds a new term with coefficient `theCoeff` and exponent `theExp`. Automatically expands the internal array if capacity is insufficient.  
-  _Usage:_
-  ```cpp
-  P.NewTerm(4, 4);  // Add the term 4x^4
-  ```
-
-- **`Polynomial Add(Polynomial poly)`**  
-  Returns a new polynomial that is the sum of this polynomial and `poly`.  
-  _Usage:_
-  ```cpp
-  Polynomial Sum = P.Add(Q);
-  ```
-
-- **`Polynomial Sub(Polynomial poly)`**  
-  Returns a new polynomial that is the result of subtracting `poly` from this polynomial.  
-  _Usage:_
-  ```cpp
-  Polynomial Diff = P.Sub(Q);
-  ```
-
-- **`Polynomial Mult(Polynomial poly)`**  
-  Returns a new polynomial that is the product of this polynomial and `poly`.  
-  _Usage:_
-  ```cpp
-  Polynomial Prod = P.Mult(Q);
-  ```
-
-- **Division**  
-  Currently, the `Quotient` and `Remainder` functions are commented out because the results of division may be affected by computer arithmetic. If needed, please be aware of numerical issues.
-
-### Operator Overloading
-
-- **`istream& operator>>(istream& in, Polynomial& poly)`**  
-  Reads a polynomial in LaTeX syntax format from the input stream. The input string should not contain spaces, e.g.,  
-  `3x^{3}+2x^{2}+0.5x+1`  
-  _Usage:_
-  ```cpp
-  cin >> P;
-  ```
-
-- **`ostream& operator<<(ostream& out, const Polynomial& poly)`**  
-  Outputs the polynomial in LaTeX syntax format, with coefficients automatically formatted as integers or floating-point numbers (retaining original precision).  
-  _Usage:_
-  ```cpp
-  cout << P;
-  ```
-
-- **`Polynomial& operator=(const Polynomial &)`**  
-  Assignment operator, performs a deep copy.
-  
-- **`bool operator==(const Polynomial &) const`**  
-  Checks if two polynomials are equal.
-
----
-
-## Usage Examples
-
-Below is a complete example demonstrating how to use the Polynomial class for various operations:
+The `Term` structure includes the following methods:
+- **`get_coef()`**: Returns the coefficient of the term.
+- **`get_exp()`**: Returns the exponent of the term.
 
 ```cpp
-#include <iostream>
-#include "Polynomial.h"
-using namespace std;
+struct Term
+{
+    float coef;
+    int exp;
+
+    float get_coef() const { return coef; }
+    int get_exp() const { return exp; }
+};
+```
+
+### `Polynomial` Class
+
+The `Polynomial` class represents a polynomial as a collection of `Term` objects. It supports several constructors, member functions, and operator overloads to perform polynomial operations.
+
+#### Member Variables
+- **`terms`**: The number of non-zero terms in the polynomial.
+- **`capacity`**: The capacity of the term array.
+- **`termArray`**: A dynamic array of `Term` objects representing the terms of the polynomial.
+
+#### Constructors & Destructor
+- **`Polynomial()`**: Default constructor, initializes an empty polynomial.
+- **`Polynomial(Term* t, int degree)`**: Constructor that initializes a polynomial from a given array of terms and a degree.
+- **`Polynomial(const Polynomial& poly)`**: Copy constructor, creates a deep copy of another polynomial.
+- **`~Polynomial()`**: Destructor, releases allocated memory for terms.
+
+#### Member Functions
+
+- **`Coef(int e)`**: Returns the coefficient of the term with exponent `e`. If no term with that exponent exists, it returns `0.0f`.
+  
+  Example:
+  ```cpp
+  float coef = poly.Coef(2);  // Get coefficient of x^2 term
+  ```
+
+- **`LeadExp()`**: Returns the exponent of the leading term (highest exponent).
+  
+  Example:
+  ```cpp
+  int leadExp = poly.LeadExp();  // Get leading exponent
+  ```
+
+- **`Eval(float x)`**: Evaluates the polynomial at a given value `x` using the polynomial's terms.
+  
+  Example:
+  ```cpp
+  float result = poly.Eval(2.0f);  // Evaluate polynomial at x = 2.0
+  ```
+
+- **`NewTerm(const float theCoeff, const int theExp)`**: Adds a new term with the given coefficient `theCoeff` and exponent `theExp` to the polynomial.
+  
+  Example:
+  ```cpp
+  poly.NewTerm(3.0f, 2);  // Add 3x^2 to the polynomial
+  ```
+
+- **`NewTerm(const std::string& latexTerm)`**: Adds a new term from a LaTeX-style string representation of the term.
+
+  Example:
+  ```cpp
+  poly.NewTerm("3x^2");  // Add 3x^2 using LaTeX notation
+  ```
+
+- **`Differentiate()`**: Returns a new polynomial that is the derivative of the current polynomial.
+
+  Example:
+  ```cpp
+  Polynomial derivative = poly.Differentiate();  // Differentiate the polynomial
+  ```
+
+#### Operator Overloads
+
+- **`operator+(const Polynomial& poly)`**: Adds two polynomials and returns the result.
+  
+  Example:
+  ```cpp
+  Polynomial sum = poly1 + poly2;  // Add two polynomials
+  ```
+
+- **`operator-(const Polynomial& poly)`**: Subtracts one polynomial from another and returns the result.
+  
+  Example:
+  ```cpp
+  Polynomial difference = poly1 - poly2;  // Subtract two polynomials
+  ```
+
+- **`operator*(const Polynomial& poly)`**: Multiplies two polynomials and returns the result.
+  
+  Example:
+  ```cpp
+  Polynomial product = poly1 * poly2;  // Multiply two polynomials
+  ```
+
+- **`operator*(float constant)`**: Multiplies the polynomial by a constant and returns the result.
+  
+  Example:
+  ```cpp
+  Polynomial scaled = poly * 3.0f;  // Multiply polynomial by 3
+  ```
+
+- **`operator==(const Polynomial &poly)`**: Checks if two polynomials are equal (same terms and exponents).
+  
+  Example:
+  ```cpp
+  bool isEqual = (poly1 == poly2);  // Check if polynomials are equal
+  ```
+
+- **`operator!=(const Polynomial &poly)`**: Checks if two polynomials are not equal.
+  
+  Example:
+  ```cpp
+  bool isNotEqual = (poly1 != poly2);  // Check if polynomials are not equal
+  ```
+
+- **`operator=(const Polynomial &poly)`**: Assignment operator to copy the contents of another polynomial.
+  
+  Example:
+  ```cpp
+  poly1 = poly2;  // Copy contents of poly2 to poly1
+  ```
+
+#### Input/Output Operators
+
+- **`operator<<(std::ostream& out, const Polynomial& poly)`**: Outputs the polynomial in LaTeX form.
+  
+  Example:
+  ```cpp
+  std::cout << poly;  // Print the polynomial in LaTeX format
+  ```
+
+- **`operator>>(std::istream& in, Polynomial& poly)`**: Reads a polynomial from an input stream in LaTeX form.
+  
+  Example:
+  ```cpp
+  std::cin >> poly;  // Read polynomial in LaTeX format
+  ```
+
+---
+
+## Example Usage
+
+```cpp
+#include "Polynomial.hpp"
 
 int main() {
-    // Create polynomial P, defaulting to 0
-    Polynomial P;
-    cout << "Default polynomial P: " << P << endl;
+    // Create a polynomial using terms
+    Term terms[] = {{3.0f, 2}, {2.0f, 1}, {1.0f, 0}};
+    Polynomial poly(terms, 2);  // Polynomial 3x^2 + 2x + 1
 
-    // Read polynomial P from input (enter in LaTeX format, e.g., 3x^{3}+2x^{2}+0.5x+1)
-    cout << "\nEnter polynomial P in LaTeX format (e.g., 3x^{3}+2x^{2}+0.5x+1):" << endl;
-    cin >> P;
-    cout << "Polynomial P: " << P << endl;
+    // Add a new term
+    poly.NewTerm(4.0f, 3);  // Add 4x^3
 
-    // Get the coefficient of the x^2 term in P
-    cout << "\nCoefficient of x^2 in P: " << P.Coef(2) << endl;
-    // Get the highest exponent in P
-    cout << "Highest exponent in P: " << P.LeadExp() << endl;
-    // Evaluate P at x = 2
-    cout << "P evaluated at x = 2: " << P.Eval(2.0f) << endl;
+    // Evaluate the polynomial at x = 2
+    float result = poly.Eval(2.0f);
+    std::cout << "Evaluation at x=2: " << result << std::endl;
 
-    // Add a new term 4x^4 to P
-    cout << "\nAdding new term: 4x^4" << endl;
-    P.NewTerm(4, 4);
-    cout << "Updated polynomial P: " << P << endl;
+    // Differentiate the polynomial
+    Polynomial derivative = poly.Differentiate();
+    std::cout << "Derivative: " << derivative << std::endl;
 
-    // Test copy constructor and assignment operator
-    Polynomial Q = P;  // Use copy constructor
-    cout << "\nCopied polynomial Q (via copy constructor): " << Q << endl;
-    Polynomial R;
-    R = P;           // Use assignment operator
-    cout << "Assigned polynomial R (via operator=): " << R << endl;
+    // Print the polynomial
+    std::cout << "Polynomial: " << poly << std::endl;
 
-    // Test equality operator
-    if (P == Q)
-        cout << "P equals Q" << endl;
-    else
-        cout << "P does not equal Q" << endl;
-
-    // Input another polynomial Q (e.g., 2x^{2}+1)
-    cout << "\nEnter another polynomial Q in LaTeX format (e.g., 2x^{2}+1):" << endl;
-    cin >> Q;
-    cout << "Polynomial Q: " << Q << endl;
-
-    // Test polynomial addition and subtraction
-    Polynomial Sum = P.Add(Q);
-    cout << "P + Q: " << Sum << endl;
-    Polynomial Diff = P.Sub(Q);
-    cout << "P - Q: " << Diff << endl;
-
-    // Test polynomial multiplication
-    Polynomial Prod = P.Mult(Q);
-    cout << "P * Q: " << Prod << endl;
-
-    // Division is currently commented out
-    // if (Q.LeadExp() > 0 || Q.Coef(0) != 0) {
-    //     Polynomial Quot = P.Quotient(Q);
-    //     Polynomial Rem = P.Remainder(Q);
-    //     cout << "P / Q: " << Quot << endl;
-    //     cout << "P % Q: " << Rem << endl;
-    // } else {
-    //     cout << "Cannot perform division: Q is the zero polynomial." << endl;
-    // }
+    // Add two polynomials
+    Polynomial poly2(terms, 2);
+    Polynomial sum = poly + poly2;
+    std::cout << "Sum of polynomials: " << sum << std::endl;
 
     return 0;
 }
@@ -216,46 +192,14 @@ int main() {
 
 ---
 
-## Compilation and Execution
+## Potential Errors & Edge Cases
 
-Assuming the following files are in the same directory:
-- `Polynomial.h`
-- `Polynomial.cpp`
-- `Polynomial-test.cpp`
-
-Use the following command to compile and generate the executable (using g++ as an example):
-
-```bash
-g++ -std=c++11 Polynomial.cpp Polynomial-test.cpp -o polyTest
-```
-
-Then run the generated executable:
-
-- **Linux/macOS:**
-  ```bash
-  ./polyTest
-  ```
-- **Windows:**
-  ```bash
-  polyTest.exe
-  ```
-
-During execution, follow the prompts to enter a polynomial in LaTeX syntax, for example:
-```
-Enter polynomial P in LaTeX format (e.g., 3x^{3}+2x^{2}+0.5x+1):
-3x^{3}+2x^{2}+0.5x+1
-```
-
-The program will display the results of various polynomial operations, formatting the output appropriately based on the numerical properties of the coefficients.
+1. **Empty Polynomial**: Ensure that polynomial operations handle cases where the polynomial has no terms.
+2. **Incorrect LaTeX Format**: When using `NewTerm` with a LaTeX string, ensure that the string format is correct and valid for parsing.
+3. **Exponent Conflicts**: When adding or subtracting polynomials, ensure that terms with the same exponent are combined correctly.
 
 ---
 
-## Notes
+## Dependencies
 
-- **Division:** Due to potential issues with computer arithmetic precision, the division functions (`Quotient` and `Remainder`) are currently commented out and not handled.
-- **Coefficient Format:** When the input coefficient is an integer, it is displayed as an integer; if it has a decimal, the original precision is retained without trailing zeros. This ensures consistency between input and output.
-- **Input Format:** Ensure that the input polynomial string follows LaTeX syntax, e.g., `3x^{3}+2x^{2}+0.5x+1`. The system will automatically remove whitespace and parse the string.
-
----
-
-This concludes the detailed documentation for the Polynomial data structure. If you have any questions or suggestions, please feel free to contact us!
+- **C++ Standard Library**: The class uses standard C++ libraries such as `<iostream>`.

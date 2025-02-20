@@ -1,129 +1,171 @@
-# CircularList API Documentation
+# `CircularList.hpp` Documentation
 
 ## Overview
-The `CircularList<T>` class is a **circular linked list** implementation that inherits from `LinkedList<T>`. Unlike a regular linked list, in a circular list, the last node always points back to the first node, forming a closed loop. This structure is useful for buffering, scheduling, and cyclic traversal.
 
-## Features
-- Insert elements at the front and back.
-- Delete elements from the front and back.
-- Concatenate two circular lists.
-- Compute the length of the list.
-- Iterate over elements using `ChainIterator<T>`.
-- Supports deep copying with a copy constructor and assignment operator.
+The `CircularList.hpp` header file defines a templated `CircularList` class that extends from a basic `LinkedList`. This class provides methods for managing a circular linked list, where the last node links back to the first. It includes common linked list operations like insertion, deletion, and concatenation, while maintaining the circular structure.
 
-## Header File
-```cpp
-#include "CircularList.hpp"
-```
+---
 
-## Public Methods
-### 1. Constructor & Destructor
-```cpp
-CircularList();  // Default constructor
-CircularList(const CircularList<T>& other);  // Copy constructor
-~CircularList(); // Destructor
-```
-**Example:**
-```cpp
-CircularList<int> list;
-CircularList<int> copyList(list);  // Uses the copy constructor
-```
+## Key Components
 
-### 2. Insert Elements
-```cpp
-void InsertBack(const T& e);   // Insert an element at the end
-void InsertFront(const T& e);  // Insert an element at the beginning
-```
-**Example:**
-```cpp
-CircularList<int> list;
-list.InsertBack(10);
-list.InsertBack(20);
-list.InsertFront(5);
-// List: 5 -> 10 -> 20 -> (loops back to 5)
-```
+### `CircularList` Class
 
-### 3. Delete Elements
-```cpp
-void DeleteBack();  // Remove the last element
-void DeleteFront(); // Remove the first element
-```
-**Example:**
-```cpp
-list.DeleteFront();
-list.DeleteBack();
-```
+The `CircularList` class extends from the `LinkedList` class, inheriting basic linked list functionality while adding features specific to circular linked lists, such as maintaining the circular structure when nodes are inserted or deleted.
 
-### 4. Get List Length
-```cpp
-int Length(); // Returns the number of elements in the list
-```
-**Example:**
-```cpp
-int size = list.Length();  // size = 1
-```
+#### Member Variables:
+- Inherits from `LinkedList<T>`, which likely contains the basic structure and data members of a linked list such as a pointer to the first node.
 
-### 5. Concatenate Two Circular Lists
-```cpp
-void Concatenate(CircularList<T>& other); // Appends another list to this list
-```
-**Example:**
-```cpp
-CircularList<int> list1;
-list1.InsertBack(1);
-list1.InsertBack(2);
+#### Constructors & Destructor:
+- **`CircularList()`**: Default constructor that initializes an empty circular list.
+- **`CircularList(const CircularList<T>& other)`**: Copy constructor that initializes a new `CircularList` from an existing one.
+- **`~CircularList()`**: Destructor to properly clean up the resources used by the circular linked list.
 
-CircularList<int> list2;
-list2.InsertBack(3);
-list2.InsertBack(4);
+#### Member Functions:
+- **`Length() const`**: Returns the number of elements in the circular list.
 
-list1.Concatenate(list2);
-// List1: 1 -> 2 -> 3 -> 4 -> (loops back to 1)
-```
+  Example:
+  ```cpp
+  int len = list.Length();  // Get the length of the circular list
+  ```
 
-### 6. Iterating Over Elements
-You can use a `ChainIterator<T>` to traverse the elements.
-```cpp
-ChainIterator<T> begin(); // Returns an iterator to the first element
-ChainIterator<T> end();   // Returns an iterator past the last element
-```
-**Example:**
-```cpp
-ChainIterator<int> it = list.begin();
-do {
-    std::cout << *it << " ";
-    ++it;
-} while (it != list.begin());
-// Output: 1 2 3 4
-```
+- **`IsEmpty() const`**: Returns `true` if the circular list is empty, otherwise `false`.
 
-## Full Example
+  Example:
+  ```cpp
+  bool isEmpty = list.IsEmpty();  // Check if the list is empty
+  ```
+
+- **`InsertBack(const T& e)`**: Inserts an element at the back of the circular list, ensuring the list maintains its circular structure.
+
+  Example:
+  ```cpp
+  list.InsertBack(10);  // Insert 10 at the end of the circular list
+  ```
+
+- **`InsertFront(const T& e)`**: Inserts an element at the front of the circular list, ensuring the list maintains its circular structure.
+
+  Example:
+  ```cpp
+  list.InsertFront(5);  // Insert 5 at the front of the circular list
+  ```
+
+- **`DeleteBack()`**: Deletes the last element in the circular list while maintaining the circular structure.
+
+  Example:
+  ```cpp
+  list.DeleteBack();  // Delete the last element from the circular list
+  ```
+
+- **`DeleteFront()`**: Deletes the first element in the circular list while maintaining the circular structure.
+
+  Example:
+  ```cpp
+  list.DeleteFront();  // Delete the first element from the circular list
+  ```
+
+- **`Concatenate(CircularList<T>& b)`**: Concatenates two circular lists into a single list, maintaining the circular structure.
+
+  Example:
+  ```cpp
+  list.Concatenate(otherList);  // Concatenate two circular lists
+  ```
+
+#### Operator Overloads:
+- **`operator=(const CircularList<T>& other)`**: Assignment operator to copy data from another `CircularList` to the current one.
+
+  Example:
+  ```cpp
+  list = otherList;  // Copy the contents of otherList to list
+  ```
+
+- **`operator==(const CircularList<T>& other) const`**: Checks if two circular lists are equal (i.e., have the same elements and circular structure).
+
+  Example:
+  ```cpp
+  if (list == otherList) {
+      // Do something
+  }
+  ```
+
+- **`operator!=(const CircularList<T>& other) const`**: Checks if two circular lists are not equal.
+
+  Example:
+  ```cpp
+  if (list != otherList) {
+      // Do something
+  }
+  ```
+
+- **`operator<<(std::ostream& out, const CircularList<T>& list)`**: Overloads the `<<` operator to print the circular list. This function is a friend function, allowing access to private members of `CircularList`.
+
+  Example:
+  ```cpp
+  std::cout << list;  // Print the circular list using the overloaded << operator
+  ```
+
+---
+
+## Example Usage
+
 ```cpp
-#include <iostream>
 #include "CircularList.hpp"
 
 int main() {
+    // Create a CircularList of integers
     CircularList<int> list;
-    list.InsertBack(10);
-    list.InsertBack(20);
-    list.InsertFront(5);
 
-    std::cout << "List Length: " << list.Length() << std::endl;
+    // Insert elements at the front and back
+    list.InsertBack(10);   // List: 10
+    list.InsertFront(5);   // List: 5, 10
 
-    ChainIterator<int> it = list.begin();
-    do {
-        std::cout << *it << " ";
-        ++it;
-    } while (it != list.begin());
-    std::cout << std::endl;
+    // Print the list
+    std::cout << "List after insertions: " << list << std::endl;
+
+    // Delete elements from the front and back
+    list.DeleteBack();     // List: 5
+    list.DeleteFront();    // List: (empty)
+
+    // Check if the list is empty
+    std::cout << "Is the list empty? " << (list.IsEmpty() ? "Yes" : "No") << std::endl;
+
+    // Concatenate two circular lists
+    CircularList<int> list2;
+    list2.InsertBack(20);
+    list2.InsertBack(30);
+    list.Concatenate(list2);  // List: (previous elements) 20, 30
+
+    // Print concatenated list
+    std::cout << "Concatenated List: " << list << std::endl;
 
     return 0;
 }
 ```
 
-## Output
-```
-List Length: 3
-5 10 20
-```
+### Explanation:
+- A circular list is created, and elements are inserted both at the front and back.
+- Elements are then deleted from both ends, demonstrating the circular nature of the list.
+- The `IsEmpty()` method is used to check if the list is empty after deletions.
+- Two circular lists are concatenated and printed.
 
+---
+
+## Potential Errors & Edge Cases
+
+1. **Empty List Operations**: Calling `DeleteFront()` or `DeleteBack()` on an empty list could lead to undefined behavior. Ensure that the list is not empty before performing delete operations.
+   Example check before deletion:
+   ```cpp
+   if (!list.IsEmpty()) {
+       list.DeleteBack();
+   }
+   ```
+
+2. **Circular Structure Corruption**: It is crucial that all insertions and deletions maintain the circular structure. Make sure that the last node always points back to the first node after performing insertions or deletions.
+
+3. **Concatenation**: The `Concatenate()` method assumes that both lists being concatenated are valid circular lists. Ensure that the lists are properly initialized and contain elements before concatenation.
+
+---
+
+## Dependencies
+
+- **`LinkedList.hpp`**: The `CircularList` class extends the `LinkedList` class, so ensure that the `LinkedList` class is correctly defined and implemented.
+- **C++ Standard Library**: The class relies on the standard C++ libraries such as `<iostream>` for input/output operations.

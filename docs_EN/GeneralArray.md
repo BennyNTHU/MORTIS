@@ -1,309 +1,185 @@
-# GeneralArray
+# `GeneralArray.hpp` Documentation
 
-The `GeneralArray` class is a template class that supports multi-dimensional array operations. It allows you to create arrays of arbitrary dimensions and provides the following functionalities:
-- **Storing and retrieving elements**  
-- **Initialization, reversal, and sorting**  
-- **Assignment via `initializer_list`**  
-- **Input/output operations**
+## Overview
 
-This documentation will detail the purpose and usage of each member function, along with corresponding examples.
+`GeneralArray.hpp` defines a `GeneralArray` class that supports multi-dimensional arrays with mixed data types. The class leverages `std::variant` to handle a variety of types, including `int`, `char`, `float`, `bool`, `double`, and `std::string`. It provides a range of features for initializing, storing, retrieving, sorting, and manipulating elements in a multi-dimensional array.
 
 ---
 
-## Table of Contents
+## Key Components
 
-1. [Constructors and Basic Operations](#constructors-and-basic-operations)
-2. [Element Access](#element-access)
-3. [Array Operations](#array-operations)
-    - [Sorting](#sorting)
-    - [Reversal](#reversal)
-    - [Initialization](#initialization)
-4. [Assignment and Copying](#assignment-and-copying)
-5. [Input and Output](#input-and-output)
-6. [Usage Examples](#usage-examples)
+### 1. `MIXED_TYPE`
+A type alias for `std::variant`, which supports multiple data types:
+```cpp
+using MIXED_TYPE = std::variant<int, char, float, bool, double, std::string>;
+```
+This allows the array to hold mixed types in a single instance.
+
+### 2. `RangeList`
+A type alias for `std::vector<int>`, representing the sizes of the array's dimensions:
+```cpp
+typedef std::vector<int> RangeList;
+```
+
+### 3. `Index`
+A type alias for `std::vector<int>`, used to represent multi-dimensional indices:
+```cpp
+typedef std::vector<int> Index;
+```
+
+### 4. `is_variant`
+A trait to detect whether a type is a specialization of `std::variant`:
+```cpp
+template<typename T>
+struct is_variant : std::false_type {}; // Primary template
+
+template<typename... Ts>
+struct is_variant<std::variant<Ts...>> : std::true_type {}; // Specialization for std::variant
+```
 
 ---
 
-## Constructors and Basic Operations
+## `GeneralArray<T>` Class
 
-### Constructor
+The `GeneralArray` class is a templated class for creating multi-dimensional arrays. It supports various operations, such as initialization, element storage/retrieval, sorting, and more.
 
-```cpp
-// GeneralArray(int j, const RangeList& list, T initValue = T());
-```
+### Constructor & Destructor
+- **Constructor**: Initializes a `GeneralArray` with the specified dimensions.
+- **Destructor**: Frees any allocated memory.
 
-- **Purpose**: Used to create a multi-dimensional array.
-- **Parameters**:
-  - `j`: The number of dimensions. For example, pass `1` for a 1D array, `2` for a 2D array.
-  - `list`: A `vector<int>` where each element represents the size of the corresponding dimension. For example, for a 1D array, pass `{5}` for 5 elements; for a 2D array, pass `{3, 3}` for a 3x3 matrix.
-  - `initValue`: The initial value for all elements, defaulting to `T()`.
+### Member Functions
 
-### Destructor
-
-- **Purpose**: Releases dynamically allocated memory.
-
----
-
-## Element Access
-
-### Store() Function
-
-```cpp
-// void Store(const Index& idx, T x);
-```
-
-- **Purpose**: Updates the element at the specified index with a new value.
-- **Parameters**:
-  - `idx`: A `vector<int>` representing the multi-dimensional index. For example, pass `{2}` for a 1D array; pass `{1, 0}` for the second row and first column in a 2D array.
-  - `x`: The new value to store.
-
-### Retrieve() Function
-
-```cpp
-// T Retrieve(const Index& idx) const;
-```
-
-- **Purpose**: Retrieves the element at the specified index.
-- **Parameters**:
-  - `idx`: Same as in `Store()`, a multi-dimensional index.
-
----
-
-## Array Operations
-
-### Sorting
-
-```cpp
-// void sort(bool reverse = false, int sortDim = 1);
-```
-
-- **Purpose**:
-  - For 1D arrays: Sorts the entire array. If `reverse` is `true`, sorts in ascending order; if `false`, sorts in descending order.
-  - For 2D arrays: Sorts the rows based on the specified column (`sortDim` indicates the column number, starting from 1).
-- **Parameters**:
-  - `reverse`: The sorting order. Default is `false` (descending), set to `true` for ascending.
-  - `sortDim`: Only valid for 2D arrays, specifies which column to sort by.
-
-### Reversal
-
-```cpp
-// void reverse();
-```
-
-- **Purpose**: Reverses all elements of the array in a linear (flattened) order.
-
-### Initialization
-
-```cpp
-// void initialize();
-```
-
-- **Purpose**: Resets all elements of the array to the default value `T{}` (e.g., `0` for numeric types).
-
-### Length
-
-```cpp
-// int length() const;
-```
-
-- **Purpose**: Returns the total number of elements in the array.
-
----
-
-## Assignment and Copying
-
-### Copy Constructor
-
-- **Purpose**: Performs a deep copy of another `GeneralArray`.
-
-### Deep Copy Assignment
-
-```cpp
-// GeneralArray<T>& operator=(const GeneralArray<T>& other);
-```
-
-- **Purpose**: Copies all data from another `GeneralArray` to the current object.
-
-### `initializer_list` Assignment
-
-```cpp
-// GeneralArray<T>& operator=(std::initializer_list<T> il);
-```
-
-- **Purpose**: Allows assignment via a brace-enclosed list. For example:
+- **`Initialize()`**: Initializes all elements in the array to the default value of type `T`.
+  
+  Example:
   ```cpp
-  arr = {1, 2, 3, 4, 5};
+  arr.Initialize();
   ```
-- **Note**: The size of the initializer list must match the number of elements in the array, otherwise an exception is thrown.
 
-### Equality Operator
+- **`Store(const Index& idx, T x)`**: Stores the value `x` at the given multi-dimensional index `idx`.
 
+  Example:
+  ```cpp
+  Index idx = {0, 1, 2};
+  arr.Store(idx, 10);
+  ```
+
+- **`Retrieve(const Index& idx) const`**: Retrieves the element at the given multi-dimensional index `idx`.
+  
+  Example:
+  ```cpp
+  int value = arr.Retrieve(idx);
+  ```
+
+- **`Length() const`**: Returns the total number of elements in the array.
+
+  Example:
+  ```cpp
+  int len = arr.Length();
+  ```
+
+- **`Sort(bool reverse = false, int sortDim = 1)`**: Sorts the array along a specified dimension. Optionally, the sorting order can be reversed.
+
+  Example:
+  ```cpp
+  arr.Sort(true, 1); // Sort in reverse order along the first dimension
+  ```
+
+- **`Reverse()`**: Reverses the order of elements in the array.
+
+  Example:
+  ```cpp
+  arr.Reverse();
+  ```
+
+- **`Push_back(const T& value)`**: Adds an element to a 1D array (works only for 1D arrays).
+
+  Example:
+  ```cpp
+  arr.Push_back(5);
+  ```
+
+### Operator Overloading
+
+- **`operator=`**: Copies the content from another `GeneralArray` or initializer list.
+
+  Example:
+  ```cpp
+  arr = otherArray;  // Copy constructor
+  arr = {1, 2, 3};   // Using initializer list
+  ```
+
+- **`operator[]`**: Accesses elements by index (non-const and const versions).
+
+  Example:
+  ```cpp
+  int& element = arr[0];  // Non-const access
+  const int& element = arr[0];  // Const access
+  ```
+
+- **`operator==`**: Checks for equality between two `GeneralArray` instances.
+- **`operator!=`**: Checks for inequality between two `GeneralArray` instances.
+
+### Input/Output Stream Operators
+
+- **`operator>>`**: Reads data from an input stream into the array.
+- **`operator<<`**: Outputs the array contents to an output stream.
+
+Example:
 ```cpp
-// bool operator==(const GeneralArray<T>& other) const;
+std::cin >> arr;
+std::cout << arr;
 ```
 
-- **Purpose**: Compares two `GeneralArray` objects for equality in both dimensions and elements.
-
 ---
 
-## Input and Output
-
-### Output Operator (`operator<<`)
-
-- **Purpose**: Outputs the contents of the array in a readable format to an output stream (e.g., `std::cout`).
-- **Format**:
-  - For 1D arrays: Outputs as `[elem1, elem2, ...]`.
-  - For 2D arrays: Outputs as `[[row1], [row2], ...]`.
-
-### Input Operator (`operator>>`)
-
-- **Purpose**: Reads data from an input stream and fills the array.  
-- **Note**: For types using `std::variant`, the input operator is not supported; you must use `Store()` to populate the array.
-
----
-
-## Usage Examples
-
-Below are some examples demonstrating how to use the `GeneralArray` class:
-
-### Example 1: 1D Integer Array
+## Example Usage
 
 ```cpp
-#include <iostream>
-#include <vector>
-#include "GeneralArray.h"
-using namespace std;
+#include "GeneralArray.hpp"
 
 int main() {
-    // Create a 1D array with 5 elements, all initialized to 0
-    vector<int> dims = {5};
-    GeneralArray<int> arrInt(1, dims, 0);
-
-    // Use Store() to set values at specific indices
-    arrInt.Store({0}, 10);
-    arrInt.Store({1}, 20);
-    arrInt.Store({2}, 30);
-    arrInt.Store({3}, 40);
-    arrInt.Store({4}, 50);
-
-    // Output the array contents
-    cout << "Initial int array: " << arrInt << endl;
-    cout << "Element at index [2]: " << arrInt.Retrieve({2}) << endl;
-    cout << "Length of int array: " << arrInt.length() << endl;
-
+    // Create a GeneralArray for integer data type
+    GeneralArray<int> arr(3); // 3-dimensional array
+    
+    // Initialize the array with default values
+    arr.Initialize();
+    
+    // Define the index for storing/retrieving elements
+    Index idx = {0, 1, 2}; // Access element at [0][1][2]
+    
+    // Store a value in the array
+    arr.Store(idx, 10);
+    
+    // Retrieve and print the value
+    int val = arr.Retrieve(idx);
+    std::cout << "Value at index [0][1][2]: " << val << std::endl;
+    
+    // Sort array (optional dimension)
+    arr.Sort(false, 1); // Sort along the first dimension
+    
     // Reverse the array
-    arrInt.reverse();
-    cout << "After reverse: " << arrInt << endl;
-
-    // Initialize the array (reset all elements to 0)
-    arrInt.initialize();
-    cout << "After initialize: " << arrInt << endl;
-
-    // Assign using initializer_list
-    arrInt = {1, 2, 3, 4, 5};
-    cout << "After initializer_list assignment: " << arrInt << endl;
-
-    return 0;
-}
-```
-
-### Example 2: 1D Floating-Point Array with Sorting
-
-```cpp
-#include <iostream>
-#include <vector>
-#include "GeneralArray.h"
-using namespace std;
-
-int main() {
-    vector<int> dims = {5};
-    GeneralArray<double> arrDouble(1, dims, 0.0);
-
-    // Set values
-    arrDouble.Store({0}, 3.14);
-    arrDouble.Store({1}, 2.71);
-    arrDouble.Store({2}, 1.41);
-    arrDouble.Store({3}, 0.577);
-    arrDouble.Store({4}, 1.618);
-
-    cout << "Initial double array: " << arrDouble << endl;
-
-    // Sort in ascending order
-    arrDouble.sort(true);
-    cout << "Sorted ascending: " << arrDouble << endl;
-
-    // Sort in descending order
-    arrDouble.sort(false);
-    cout << "Sorted descending: " << arrDouble << endl;
-
-    return 0;
-}
-```
-
-### Example 3: 2D Integer Array with Input Operation
-
-```cpp
-#include <iostream>
-#include <sstream>
-#include <vector>
-#include "GeneralArray.h"
-using namespace std;
-
-int main() {
-    vector<int> dims2D = {3, 3};  // 3 rows, 3 columns
-    GeneralArray<int> arr2D(2, dims2D, 0);
-
-    // Simulate input: must match the format [[9,8,7],[6,5,4],[3,2,1]]
-    istringstream iss("[[9,8,7],[6,5,4],[3,2,1]]");
-    iss >> arr2D;
-
-    cout << "Input 2D array: " << arr2D << endl;
-
-    // Sort by the first column (ascending and descending examples)
-    arr2D.sort(true, 1);
-    cout << "2D array sorted ascending by first column: " << arr2D << endl;
-
-    arr2D.sort(false, 1);
-    cout << "2D array sorted descending by first column: " << arr2D << endl;
-
-    return 0;
-}
-```
-
-### Example 4: Heterogeneous Array (using `std::variant`)
-
-```cpp
-#include <iostream>
-#include <vector>
-#include <variant>
-#include <string>
-#include "GeneralArray.h"
-using namespace std;
-
-int main() {
-    // Define a variant type supporting int, char, and string
-    using VarType = std::variant<int, char, std::string>;
-
-    vector<int> dimsVar = {3};
-    GeneralArray<VarType> arrVariant(1, dimsVar, VarType{});
-
-    // Store different types of values using Store()
-    arrVariant.Store({0}, 100);                // int
-    arrVariant.Store({1}, 'Z');                // char
-    arrVariant.Store({2}, std::string("Test"));  // string
-
-    cout << "Heterogeneous array: " << arrVariant << endl;
-
+    arr.Reverse();
+    
+    // Print the entire array using the stream operator
+    std::cout << arr << std::endl;
+    
     return 0;
 }
 ```
 
 ---
 
-## Summary
+## Potential Errors & Edge Cases
 
-The `GeneralArray` class provides flexible multi-dimensional array operations, supporting basic element access, sorting, reversal, and quick assignment via `initializer_list`. Through the examples above, you can intuitively understand how to use this class for array operations in different scenarios. For special types (e.g., `std::variant`), note that some operations (like the input operator) are not supported, and you must use functions like `Store()` to set data.
-
-This concludes the detailed usage guide and examples for the `GeneralArray` class. We hope this documentation helps you quickly get started and make the most of its features.
+1. **Index Out of Bounds**: Ensure the indices are within the valid range for the array dimensions.
+2. **Unsupported Data Types**: The array is limited to the types specified in `MIXED_TYPE`. Using other types will result in compilation errors.
+3. **Sorting on Non-1D Arrays**: Sorting a non-1D array may require a valid dimension to avoid incorrect results.
+4. **Memory Issues**: Ensure the array dimensions and element types are compatible with the available system memory.
 
 ---
+
+## Dependencies
+
+- **C++17 or higher**: Required for `std::variant`.
+- **Standard C++ Libraries**: `<vector>`, `<iostream>`, `<algorithm>`, and others.

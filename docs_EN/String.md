@@ -1,252 +1,183 @@
-# String Data Structure Documentation
-
-This document provides a detailed guide on how to use the custom **String** class. The class supports a variety of operations such as concatenation, substring extraction, deletion, character deletion, pattern matching using the Knuth-Morris-Pratt (KMP) algorithm, and string reversal. Additionally, it overloads some operators for equality, emptiness checking, and assignment. Note that the copy constructor and assignment operator have been modified to perform deep copies in order to prevent memory errors.
-
----
-
-## Table of Contents
-
-- [String Data Structure Documentation](#string-data-structure-documentation)
-  - [Table of Contents](#table-of-contents)
-  - [Overview](#overview)
-  - [Supported Operations](#supported-operations)
-  - [API Documentation](#api-documentation)
-    - [Constructors and Destructor](#constructors-and-destructor)
-    - [Member Functions](#member-functions)
-    - [Operator Overloads](#operator-overloads)
-  - [Usage Examples](#usage-examples)
-  - [Compilation Instructions](#compilation-instructions)
-  - [Summary](#summary)
-
----
+# `String.hpp` Documentation
 
 ## Overview
 
-The **String** class is a custom implementation for string manipulation that internally stores a C-style string and computes a failure function used for pattern matching (KMP algorithm). In addition to common operations like concatenation and substring extraction, the class now supports a `reverse()` function that returns a new string with its characters in reverse order.
+`String.hpp` defines a `String` class designed to manage and manipulate strings in C++. The class provides a range of string manipulation methods such as concatenation, substring extraction, character deletion, and string reversal. Additionally, the class supports various operator overloads and includes a failure function used for pattern matching.
 
 ---
 
-## Supported Operations
+## Key Components
 
-- **Construction:**  
-  Create a new String from a C-style array or by copying another String. The failure function is computed upon construction.
+### `String` Class
 
-- **Concatenation (`Concat`):**  
-  Join two String objects to form a new String.
+The `String` class models a dynamic string and supports various operations like string concatenation, substring extraction, character deletion, and string reversal. The class utilizes a failure function (`f`) for pattern matching and provides basic string operations like equality checks and indexing.
 
-- **Substring Extraction (`Substr`):**  
-  Extract a substring starting at a specified index with a given length.
+#### Member Variables:
+- **`length`**: The length of the string.
+- **`str`**: A pointer to the string stored as a dynamic character array.
+- **`f`**: A pointer to an integer array used for the failure function (used for string pattern matching).
 
-- **Deletion (`Delete`):**  
-  Delete a block of characters from the string.
+#### Constructors & Destructor:
+- **`String()`**: Default constructor that initializes an empty string.
+- **`String(const char* init)`**: Constructor that initializes the string with a C-style string.
+- **`String(const String &s)`**: Copy constructor that initializes the string from another `String` object.
+- **`~String()`**: Destructor that frees the dynamically allocated memory used for the string and failure function.
 
-- **Character Deletion (`CharDelete`):**  
-  Remove all occurrences of a specified character from the string.
+#### String Manipulation Methods:
+- **`Concat(String t)`**: Concatenates the current string with another string `t` and returns the result.
+  
+  Example:
+  ```cpp
+  String result = str1.Concat(str2);  // Concatenate str1 and str2
+  ```
 
-- **Pattern Matching (`FastFind`):**  
-  Use the KMP algorithm to search for a pattern within the string.
+- **`Substr(int i, int j)`**: Returns a substring starting from index `i` with length `j`.
+  
+  Example:
+  ```cpp
+  String sub = str.Substr(2, 5);  // Get substring starting at index 2 with length 5
+  ```
 
-- **String Reversal (`reverse`):**  
-  Return a new String with the characters in reverse order.
+- **`Delete(int start, int len)`**: Deletes `len` characters starting from index `start` in the string.
+  
+  Example:
+  ```cpp
+  String result = str.Delete(2, 3);  // Delete 3 characters starting from index 2
+  ```
 
-- **Accessors:**  
-  - `getString()`: Returns the underlying C-string.  
-  - `Length()`: Returns the length of the string.  
-  - `getf()`: Returns the computed failure function array.
+- **`CharDelete(char c)`**: Deletes all occurrences of character `c` in the string.
+  
+  Example:
+  ```cpp
+  String result = str.CharDelete('a');  // Remove all 'a' characters
+  ```
 
-- **Operator Overloads:**  
-  - `operator==`: Tests for equality between two String objects.  
-  - `operator!`: Checks if a String is empty.  
-  - `operator=`: Assignment operator that performs a deep copy.
+- **`Reverse()`**: Reverses the current string and returns the result.
+  
+  Example:
+  ```cpp
+  String reversed = str.Reverse();  // Reverse the string
+  ```
+
+#### Getters:
+- **`FailureFunction()`**: Calculates and stores the failure function for the string.
+  
+- **`getString()`**: Returns a pointer to the underlying C-style string.
+  
+- **`getFailure()`**: Returns a pointer to the failure function array.
+
+- **`Length()`**: Returns the length of the string.
+  
+  Example:
+  ```cpp
+  int len = str.Length();  // Get the length of the string
+  ```
+
+- **`FastFind(String pat)`**: Finds the index of the first occurrence of the pattern `pat` in the string using the failure function. Returns `-1` if the pattern is not found.
+  
+  Example:
+  ```cpp
+  int index = str.FastFind("pattern");  // Find the index of "pattern"
+  ```
+
+#### Operator Overloads:
+- **`operator!()`**: Returns `true` if the string is empty, `false` otherwise.
+  
+  Example:
+  ```cpp
+  bool isEmpty = !str;  // Check if the string is empty
+  ```
+
+- **`operator[](int index)`**: Returns the character at the specified index of the string.
+  
+  Example:
+  ```cpp
+  char ch = str[2];  // Get the character at index 2
+  ```
+
+- **`operator=(const String&)`**: Assignment operator to copy another `String` object into the current object.
+  
+  Example:
+  ```cpp
+  str1 = str2;  // Assign the value of str2 to str1
+  ```
+
+- **`operator==(String t1, String t2)`**: Compares two strings for equality and returns `true` if they are equal.
+  
+  Example:
+  ```cpp
+  bool isEqual = (str1 == str2);  // Check if str1 and str2 are equal
+  ```
+
+- **`operator!=(String t1, String t2)`**: Compares two strings for inequality and returns `true` if they are not equal.
+  
+  Example:
+  ```cpp
+  bool isNotEqual = (str1 != str2);  // Check if str1 and str2 are not equal
+  ```
+
+#### Input/Output Operators:
+- **`operator<<(std::ostream& out, const String& mat)`**: Outputs the string to an output stream.
+  
+  Example:
+  ```cpp
+  std::cout << str;  // Print the string to the console
+  ```
+
+- **`operator>>(std::istream& in, String& mat)`**: Reads a string from an input stream.
+  
+  Example:
+  ```cpp
+  std::cin >> str;  // Read a string from user input
+  ```
 
 ---
 
-## API Documentation
-
-### Constructors and Destructor
-
-- **`String(char *init, int m)`**  
-  Constructs a new String object from the C-style string `init` with length `m`. The failure function is computed immediately.
-
-  **Usage Example:**
-  ```cpp
-  char init[] = "Hello, World!";
-  String s1(init, sizeof(init) - 1);
-  ```
-
-- **`String(const String &s)`**  
-  Copy constructor. Creates a new String object as a deep copy of the existing String `s`.
-
-- **`~String()`**  
-  Destructor. Frees the allocated memory for both the string and the failure function.
-
-### Member Functions
-
-- **`String Concat(String t)`**  
-  Concatenates the current string with string `t` and returns the resulting String.
-
-  **Usage Example:**
-  ```cpp
-  String s3 = s1.Concat(s2);
-  ```
-
-- **`String Substr(int i, int j)`**  
-  Returns a substring starting at index `i` with length `j`. Throws an exception if the requested range is out of bounds.
-
-  **Usage Example:**
-  ```cpp
-  String sub = s1.Substr(7, 5);  // Should return "World" if s1 is "Hello, World!"
-  ```
-
-- **`String Delete(int start, int len)`**  
-  Deletes `len` characters from the string starting at index `start` and returns the new String.
-
-- **`String CharDelete(char c)`**  
-  Deletes all occurrences of the character `c` from the string and returns the new String.
-
-- **`String reverse()`**  
-  Returns a new String with the characters in reverse order.
-
-  **Usage Example:**
-  ```cpp
-  String sRev = s1.reverse();
-  // If s1 is "Hello, World!", sRev will be "!dlroW ,olleH"
-  ```
-
-- **`void FailureFunction()`**  
-  Computes the failure function for the string (used by the KMP algorithm) and stores it in the internal array `f`.
-
-- **`char* getString()`**  
-  Returns the underlying C-style string.
-
-- **`int* getf()`**  
-  Returns the pointer to the failure function array.
-
-- **`int Length()`**  
-  Returns the number of characters in the string.
-
-- **`int FastFind(String pat)`**  
-  Uses the KMP algorithm to find the substring `pat` within the string. Returns the starting index if found, or -1 if not found.
-
-### Operator Overloads
-
-- **`bool operator==(String t1, String t2)`**  
-  Returns `true` if the two Strings are identical, `false` otherwise.
-
-- **`bool operator!(String t)`**  
-  Returns `true` if the String is empty; otherwise, returns `false`.
-
-- **`String & operator=(const String &t)`**  
-  Assignment operator that performs a deep copy of the string and its failure function.
-
----
-
-## Usage Examples
-
-Below is an example program that demonstrates how to use the String class:
+## Example Usage
 
 ```cpp
-#include <iostream>
-#include "String.h"
-using namespace std;
+#include "String.hpp"
 
 int main() {
-    // Create a String from a C-style string.
-    char init1[] = "Hello, World!";
-    String s1(init1, sizeof(init1) - 1);
-    cout << "s1: " << s1.getString() << endl;
-    cout << "Length of s1: " << s1.Length() << endl;
-    
-    // Reverse the string.
-    String sRev = s1.reverse();
-    cout << "Reversed s1: " << sRev.getString() << endl;
-    
-    // Concatenate s1 with another string.
-    char init2[] = " Goodbye!";
-    String s2(init2, sizeof(init2) - 1);
-    String s3 = s1.Concat(s2);
-    cout << "s1 concatenated with s2: " << s3.getString() << endl;
-    
-    // Extract a substring from s1.
-    try {
-        String sub = s1.Substr(7, 5);
-        cout << "Substring of s1 (index 7, length 5): " << sub.getString() << endl;
-    } catch (const char* err) {
-        cout << "Substr error: " << err << endl;
-    }
-    
-    // Delete a block of characters from s1.
-    try {
-        String del = s1.Delete(5, 3);
-        cout << "s1 after deleting 3 characters from index 5: " << del.getString() << endl;
-    } catch (const char* err) {
-        cout << "Delete error: " << err << endl;
-    }
-    
-    // Delete all occurrences of a character.
-    String cd = s1.CharDelete('o');
-    cout << "s1 after deleting 'o': " << cd.getString() << endl;
-    
-    // Pattern matching using KMP.
-    char patInit[] = "World";
-    String pattern(patInit, sizeof(patInit) - 1);
-    int pos = s1.FastFind(pattern);
-    cout << "Position of 'World' in s1: " << pos << endl;
-    
-    // Test equality operator.
-    char init3[] = "Hello, World!";
-    String s4(init3, sizeof(init3) - 1);
-    if (s1 == s4)
-        cout << "s1 equals s4." << endl;
-    else
-        cout << "s1 does not equal s4." << endl;
-    
-    // Test empty operator.
-    String emptyStr("");
-    if (!emptyStr)
-        cout << "emptyStr is empty." << endl;
-    else
-        cout << "emptyStr is not empty." << endl;
-    
-    // Test assignment operator (deep copy).
-    String s5;
-    s5 = s1;
-    cout << "s5 (assigned from s1): " << s5.getString() << endl;
-    
+    // Create a String from a C-style string
+    String str1("Hello");
+
+    // Create a String using the copy constructor
+    String str2(str1);
+
+    // Concatenate two strings
+    String str3 = str1.Concat(str2);  // Result: "HelloHello"
+
+    // Substring example
+    String sub = str3.Substr(0, 5);  // Result: "Hello"
+
+    // Delete characters from the string
+    String newStr = str3.Delete(5, 5);  // Result: "Hello"
+
+    // Reverse the string
+    String reversed = str1.Reverse();  // Result: "olleH"
+
+    // Use the FastFind function to find a pattern
+    int index = str3.FastFind("Hello");  // Result: 0 (index of the first "Hello")
+
+    // Output the string
+    std::cout << "String: " << str1 << std::endl;
+
     return 0;
 }
 ```
 
 ---
 
-## Compilation Instructions
+## Potential Errors & Edge Cases
 
-To compile and run the test program, ensure you have the following files in the same directory:
-- `String.h`
-- `String.cpp`
-- `String-test.cpp`
-
-Use a C++ compiler (such as g++) with support for C++ standards. For example, using g++:
-
-```bash
-g++ -std=c++11 String.cpp String-test.cpp -o stringTest
-```
-
-Then run the executable:
-
-- On Linux/macOS:
-  ```bash
-  ./stringTest
-  ```
-- On Windows:
-  ```bash
-  stringTest.exe
-  ```
+1. **Out-of-Bounds Access**: Be cautious when using the subscript operator `operator[]` and `Substr()` to ensure that the index is within the valid range of the string length.
+2. **Empty String**: The `operator!()` method can be used to check if a string is empty. Be sure to handle empty strings appropriately in your code.
+3. **Memory Management**: The class uses dynamic memory allocation for the string and failure function, so ensure that the string is properly managed to avoid memory leaks.
+4. **Pattern Not Found**: The `FastFind()` function will return `-1` if the pattern is not found. Ensure to handle this case properly in your code.
 
 ---
 
-## Summary
+## Dependencies
 
-The **String** class provides a variety of operations for string manipulation, including concatenation, substring extraction, deletion, character deletion, pattern matching (via KMP), and reversal. The class also correctly handles deep copies to avoid memory errors. Use the provided sample code to integrate and test the functionality in your projects.
-
-If you have any questions or need further modifications, please feel free to ask!
+- **C++ Standard Library**: The class uses the standard C++ libraries `<iostream>`, `<cstring>`, and `<math.h>`.
