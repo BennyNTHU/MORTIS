@@ -10,7 +10,8 @@ using namespace std;
 // =====================================
 
 // Default constructor: creates an empty string.
-String::String() {
+String::String() 
+{
     // An empty string has length 0.
     length = 0;
     // Allocate a buffer for at least the null terminator.
@@ -23,14 +24,18 @@ String::String() {
 
 // Constructor from a C-style string.
 // This allows you to write: String s = "hello";
-String::String(const char *init) {
-    if (init == nullptr) {
+String::String(const char *init) 
+{
+    if (init == nullptr) 
+    {
         // If passed a null pointer, create an empty string.
         length = 0;
         str = (char *)calloc(1, sizeof(char));
         f = (int *)calloc(1, sizeof(int));
         str[0] = '\0';
-    } else {
+    } 
+    else 
+    {
         // Determine the length (excluding the null terminator).
         length = strlen(init);
         // Allocate memory for the string (include room for the null terminator).
@@ -45,20 +50,23 @@ String::String(const char *init) {
 }
 
 // Copy constructor: deep copy.
-String::String(const String &s) {
+String::String(const String &s) 
+{
     length = s.length;
     // Allocate a new buffer (include null terminator).
     str = (char *)calloc(length + 1, sizeof(char));
     strcpy(str, s.str);
     // Allocate and copy the failure function.
     f = (int *)calloc(length, sizeof(int));
-    for (int i = 0; i < length; i++) {
+    for (int i = 0; i < length; i++) 
+    {
         f[i] = s.f[i];
     }
 }
 
 // Destructor: free allocated memory.
-String::~String() {
+String::~String() 
+{
     free(str);
     free(f);
 }
@@ -68,36 +76,43 @@ String::~String() {
 // =====================================
 
 // Concatenation: returns a new String that is the concatenation of this string and t.
-String String::Concat(String t) {
+String String::Concat(String t) 
+{
     // New length is sum of both lengths.
     int newLength = this->length + t.Length();
     // Allocate a temporary buffer to hold the concatenated characters (plus null terminator).
     char* buffer = (char*)calloc(newLength + 1, sizeof(char));
     // Copy current string.
-    for (int i = 0; i < this->length; i++) {
+
+    for (int i = 0; i < this->length; i++) 
+    {
         buffer[i] = this->str[i];
     }
+
     // Append string t.
-    for (int i = 0; i < t.Length(); i++) {
+    for (int i = 0; i < t.Length(); i++) 
+    {
         buffer[this->length + i] = t.getString()[i];
     }
+
     buffer[newLength] = '\0';
-    
-    // Construct new String from the buffer.
-    String result(buffer);
+    String result(buffer);  // Construct new String from the buffer.
     free(buffer);
+
     return result;
 }
 
 // Substr: returns a new String that is a substring starting at index i with length j.
-String String::Substr(int i, int j) {
+String String::Substr(int i, int j) 
+{
     // Check for valid range.
     if (i < 0 || i >= length || i + j > length)
         throw "Substr: Index out of range";
     
     // Allocate buffer for the substring (plus null terminator).
     char* buffer = (char*)calloc(j + 1, sizeof(char));
-    for (int k = 0; k < j; k++) {
+    for (int k = 0; k < j; k++) 
+    {
         buffer[k] = str[i + k];
     }
     buffer[j] = '\0';
@@ -105,11 +120,13 @@ String String::Substr(int i, int j) {
     // Create a new String using the substring.
     String sub(buffer);
     free(buffer);
+
     return sub;
 }
 
 // Delete: removes len characters starting from index start and returns the new String.
-String String::Delete(int start, int lenToDelete) {
+String String::Delete(int start, int lenToDelete) 
+{
     if (start < 0 || start >= length || start + lenToDelete > length)
         throw "Delete: Index out of range";
     
@@ -118,30 +135,34 @@ String String::Delete(int start, int lenToDelete) {
     char* buffer = (char*)calloc(newLength + 1, sizeof(char));
     
     // Copy characters before the deletion.
-    for (int i = 0; i < start; i++) {
+    for (int i = 0; i < start; i++) 
+    {
         buffer[i] = str[i];
     }
     // Copy characters after the deletion.
-    for (int i = start + lenToDelete; i < length; i++) {
+    for (int i = start + lenToDelete; i < length; i++) 
+    {
         buffer[i - lenToDelete] = str[i];
     }
+
     buffer[newLength] = '\0';
-    
     String result(buffer);
     free(buffer);
+
     return result;
 }
 
 // CharDelete: removes all occurrences of character c from the string and returns a new String.
-String String::CharDelete(char c) {
+String String::CharDelete(char c) 
+{
     // Allocate a temporary buffer with maximum possible length (same as original).
     char* buffer = (char*)calloc(length + 1, sizeof(char));
     int newIndex = 0;
-    for (int i = 0; i < length; i++) {
-        if (str[i] != c) {
+
+    for (int i = 0; i < length; i++)
+        if (str[i] != c)
             buffer[newIndex++] = str[i];
-        }
-    }
+
     buffer[newIndex] = '\0';
     
     String result(buffer);
@@ -150,12 +171,13 @@ String String::CharDelete(char c) {
 }
 
 // Reverse: returns a new String that is the reverse of the current string.
-String String::Reverse() {
+String String::Reverse() 
+{
     // Allocate a buffer for the reversed string.
     char* buffer = (char*)calloc(length + 1, sizeof(char));
-    for (int i = 0; i < length; i++) {
+    for (int i = 0; i < length; i++)
         buffer[i] = str[length - 1 - i];
-    }
+    
     buffer[length] = '\0';
     
     String result(buffer);
@@ -175,9 +197,9 @@ String String::Reverse() {
 void String::FailureFunction() 
 {
     int lenP = Length();       // current string length
-    if (f != nullptr) {        // free any existing failure function array
+    if (f != nullptr)          // free any existing failure function array
         free(f);
-    }
+    
     // Allocate memory for f array of the same length.
     f = (int*)calloc(lenP, sizeof(int));
     if (lenP == 0)
@@ -185,6 +207,7 @@ void String::FailureFunction()
     
     // The first position is defined as -1 (or sometimes 0; here we choose -1).
     f[0] = -1;
+
     // For each subsequent character, compute the failure function.
     for (int j = 1; j < lenP; j++) 
     {
@@ -268,25 +291,32 @@ int String::FastFind(String pat)
 // =====================================
 
 // Overloaded operator! : returns true if the string is empty.
-bool operator!(String t) {
+bool operator!(String t) 
+{
     return (t.Length() == 0);
 }
 
 // Subscript operator: returns the ith character.
-char String::operator[](int index) const {
+char String::operator[](int index) const 
+{
     if (index < 0 || index >= length)
         throw "Index out of range";
+    
     return str[index];
 }
 
-String & String::operator=(const String &other) {
-    if (this != &other) {
+String & String::operator=(const String &other) 
+{
+    if (this != &other) 
+    {
         // Free any previously allocated memory.
-        if (str) {
+        if (str) 
+        {
             free(str);
             str = nullptr;
         }
-        if (f) {
+        if (f) 
+        {
             free(f);
             f = nullptr;
         }
@@ -297,21 +327,25 @@ String & String::operator=(const String &other) {
         // Allocate new memory for the string.
         // Note: If you want to ensure a null terminator, you might allocate (length+1) characters.
         str = (char *)calloc(length, sizeof(char));
-        if (str == nullptr && length > 0) {
+        if (str == nullptr && length > 0) 
+        {
             throw std::bad_alloc();
         }
         // Copy the characters.
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < length; i++) 
+        {
             str[i] = other.str[i];
         }
 
         // Allocate new memory for the failure function array.
         f = (int *)calloc(length, sizeof(int));
-        if (f == nullptr && length > 0) {
+        if (f == nullptr && length > 0) 
+        {
             throw std::bad_alloc();
         }
         // Copy the failure function values.
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < length; i++) 
+        {
             f[i] = other.f[i];
         }
     }
@@ -319,14 +353,17 @@ String & String::operator=(const String &other) {
 }
 
 // Equality operator: compares two strings.
-bool operator==(String t1, String t2) {
+bool operator==(String t1, String t2) 
+{
     if (t1.Length() != t2.Length())
         return false;
+    
     return (strncmp(t1.getString(), t2.getString(), t1.Length()) == 0);
 }
 
 // Inequality operator.
-bool operator!=(String t1, String t2) {
+bool operator!=(String t1, String t2) 
+{
     return !(t1 == t2);
 }
 
@@ -335,21 +372,29 @@ bool operator!=(String t1, String t2) {
 // =====================================
 
 // Overloaded stream operators.
-std::ostream & operator<<(std::ostream &out, const String &s) {
+std::ostream & operator<<(std::ostream &out, const String &s) 
+{
     out << s.getString();
     return out;
 }
 
-std::istream & operator>>(std::istream &in, String &s) {
+std::istream & operator>>(std::istream &in, String &s) 
+{
     std::string temp;
     in >> temp;
+
     // Free old data.
-    if (s.str) free(s.str);
+    if (s.str) 
+        free(s.str);
+
     s.length = temp.size();
     s.str = (char*)calloc(s.length, sizeof(char));
-    for (int i = 0; i < s.length; i++) {
+
+    for (int i = 0; i < s.length; i++) 
+    {
         s.str[i] = temp[i];
     }
     s.FailureFunction();
+
     return in;
 }

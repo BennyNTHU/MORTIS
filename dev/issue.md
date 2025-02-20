@@ -1,7 +1,7 @@
 # Issues
 
 1. 綜合考慮
-   - `MortisInvariant`放入`LinkedPolynomial`與`LinkedSparseMatrix`
+   - `MortisInvariant`放入`LinkedPolynomial`與`LinkedSparseMatrix` <!--留給之後的版本-->
    - 文檔改為中英文皆有
 2.  `LinkedList`
     - `Get()`函式改為多載`[]`
@@ -36,13 +36,7 @@
     - 新增`<<`的一個多載：可接受類似`GeneralArray`的輸入
     - 新增矩陣範數函式
     - 刪除`printMatrix()`函式
-8.  `Bag`
-    - 新增多載`!=`
-    - 新增多載`=`
-    - 新增多載`==`
-    - 新增`Union`函式，但在其衍生型別須禁止使用
-    - 新增`Unify()`用來消除重複元素
-9.  `Dictionary`
+8.  `Dictionary`
     - 放入`MortisInvariant`
-10. `Graph`
+9.  `Graph`
     - 新增`IsEulerian()`函式

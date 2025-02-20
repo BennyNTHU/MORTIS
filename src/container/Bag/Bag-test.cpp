@@ -12,9 +12,11 @@
 //
 // This test also demonstrates that a Bag can store various data types using std::variant.
 // Compile with C++17:
-//   g++ -std=c++17 Bag.cpp Bag-test.cpp ../../array/GeneralArray/GeneralArray.cpp\
-   ../../array/Polynomial/Polynomial.cpp ../../array/SparseMatrix/SparseMatrix.cpp\
-   ../../array/String/String.cpp -o test
+//   g++ -std=c++17 Bag.cpp Bag-test.cpp\
+    ../../array/GeneralArray/GeneralArray.cpp\
+    ../../array/Polynomial/Polynomial.cpp\
+    ../../array/SparseMatrix/SparseMatrix.cpp\
+    ../../array/String/String.cpp -o test
 
 #include <iostream>
 #include "Bag.hpp"
@@ -38,8 +40,7 @@ int main()
     poly.NewTerm(2, 3); // 3x^2
 
     // String
-    char init1[] = "Yeah Tiger";
-    String str(init1, 100);
+    String str = "Yeah Tiger";
 
     GeneralArray<MIXED_TYPE> arrInt(1, {5}, 0);
     arrInt = {1, 2, 3, 4, 5};
@@ -58,7 +59,7 @@ int main()
     b.Push(pi);                          // SparseMatrix
     b.Push('c');                        // char
     b.Push(pi);                         // double
-    b.Push("Hello");                    // const char* (converted to std::string)
+    b.Push(std::string("Hello"));       // const char* (converted to std::string)
     b.Push(A);
     b.Push(poly);
     b.Push(str);
@@ -73,7 +74,7 @@ int main()
     // Test Multiplicity and isBelong.
     cout << "\nTesting Multiplicity and isBelong:" << endl;
     cout << "  Multiplicity of 10: " << b.Multiplicity(10) << endl;
-    cout << "  Multiplicity of 'c': " << b.Multiplicity('c') << endl;
+    cout << "  Multiplicity of 3.14159: " << b.Multiplicity(pi) << endl;
     cout << "  Multiplicity of \"Hello\": " << b.Multiplicity(std::string("Hello")) << endl;
     cout << "  Does 20 belong? " << (b.isBelong(20) ? "Yes" : "No") << endl;
     cout << "  Does 'c' belong? " << (b.isBelong('c') ? "Yes" : "No") << endl;
@@ -110,11 +111,11 @@ int main()
     b2.Push(A);
     b2.Push('c');
     b2.Push(pi);
-    b2.Push("Hello");
+    b2.Push(std::string("Hello"));
 
     cout << "\nBag 1 contents: " << b << endl;
     cout << "Bag 2 contents: " << b2 << endl;
-    /*
+    
     // Test equality
     cout << "Are b and b2 equal? " << (b == b2 ? "Yes" : "No") << endl;
     cout << "Are b and b2 different? " << (b != b2 ? "Yes" : "No") << endl;
@@ -124,11 +125,13 @@ int main()
     cout << "\nBag 2 after pushing 100: " << b2 << endl;
     cout << "Are b and b2 still equal? " << (b == b2 ? "Yes" : "No") << endl;
 
-    // Create an empty bag and test equality
-    Bag<MORTISInvariant> emptyBag(5);
-    cout << "\nEmpty Bag: " << emptyBag << endl;
-    cout << "Is b equal to emptyBag? " << (b == emptyBag ? "Yes" : "No") << endl;
-    */
+    // Test assign, Union and Unify
+    Bag<MORTISInvariant> b3;
+    b3 = b2.Union(b);
+    cout << "b3 = Union of b1 and b2: " << b3 << endl;
+    b3.Unify();
+    cout << "Unify b3: " << b3 << endl; 
+    
     cout << "\n=== End of Bag Test Program ===" << endl;
 
     return 0;
