@@ -76,6 +76,8 @@ class GeneralArray
         const T& operator[](int index) const;                       // Overloaded subscript operator for const access.
         bool operator==(const GeneralArray<T>& other) const;        // true if same dimensions and all elements equal
         bool operator!=(const GeneralArray<T>& other) const;        // false if same dimensions and all elements equal
+
+        // Input/Output operands
         template <class U> friend istream& operator>>(istream& in, GeneralArray<U>& arr);           // input from stream. not supported for std::variant
         template <class U> friend ostream& operator<<(ostream& out, const GeneralArray<U>& arr);    // output the array content to stream.
 };

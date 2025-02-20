@@ -2,9 +2,11 @@
 #include <sstream>                         // For string stream processing
 using namespace std;
 
-//-----------------------------------------
+// =======================================================
+// Helper function
+// =======================================================
+
 // Helper function: convert multi-dimensional index to linear index (row-major order)
-//-----------------------------------------
 template <class T>
 int GeneralArray<T>::computeLinearIndex(const Index& idx) const 
 {
@@ -22,9 +24,9 @@ int GeneralArray<T>::computeLinearIndex(const Index& idx) const
     return linear;
 }
 
-//-----------------------------------------
-// Constructor: allocate memory and initialize array with initValue
-//-----------------------------------------
+// =======================================================
+// Constructors and Destructor
+// =======================================================
 
 template <class T>
 GeneralArray<T>::GeneralArray(): dimension(0), totalSize(0), data(nullptr) {}
@@ -66,9 +68,9 @@ GeneralArray<T>::~GeneralArray()    // Destructor: free allocated memory
     delete[] data;
 }
 
-//-----------------------------------------
+// =======================================================
 // Properties
-//-----------------------------------------
+// =======================================================
 
 // Length() function: return total number of elements in the array
 template <class T>
@@ -77,9 +79,9 @@ int GeneralArray<T>::Length() const
     return totalSize;
 }
 
-//-----------------------------------------
+// =======================================================
 // Getters
-//-----------------------------------------
+// =======================================================
 
 template <class T>
 T GeneralArray<T>::Retrieve(const Index& idx) const // Retrieve() function: return the element at the given multi-dimensional index 
@@ -88,9 +90,10 @@ T GeneralArray<T>::Retrieve(const Index& idx) const // Retrieve() function: retu
     return data[linearIndex];
 }
 
-//-----------------------------------------
+
+// =======================================================
 // Manipulations
-//-----------------------------------------
+// =======================================================
 
 // Initialize() function: set all elements to default value T{}
 template <class T>
@@ -180,9 +183,9 @@ void GeneralArray<T>::Push_back(const T& value)
         dims[0] = totalSize;
 }
 
-//-----------------------------------------
+// =======================================================
 // Operator overloading
-//-----------------------------------------
+// =======================================================
 
 template <class T>
 GeneralArray<T>& GeneralArray<T>::operator=(const GeneralArray<T>& other)   // Assignment operator: deep copy assignment 
@@ -247,6 +250,10 @@ bool GeneralArray<T>::operator!=(const GeneralArray<T>& other) const
 {
     return !(*this==other);
 }
+
+// =======================================================
+// Input/Output operands
+// =======================================================
 
 // Overloaded input operator >> to allow input from stream.
 // For types that are std::variant, input operator is not supported.
@@ -329,9 +336,7 @@ istream& operator>>(istream& in, GeneralArray<T>& arr)
     }
 }
 
-//-----------------------------------------
-// 輔助函式 printVal 用來輸出元素，若元素為 variant，則使用 std::visit
-//-----------------------------------------
+// helper functions
 template<typename U>
 void printVal(std::ostream &out, const U &value) 
 {
@@ -383,7 +388,10 @@ ostream& operator<<(ostream& out, const GeneralArray<T>& arr)   // Overloaded ou
     return out;
 }
 
-// 顯式實例化 GeneralArray 模板，針對 ga-test.cpp 中使用到的型別：
+// =======================================================
+// Explicit instantiations
+// =======================================================
+
 template class GeneralArray<int>;
 template class GeneralArray<double>;
 template class GeneralArray<char>;

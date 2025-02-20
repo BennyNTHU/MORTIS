@@ -314,7 +314,7 @@ void ChangeSize1D(T*& a, const int oldSize, const int newSize)
 }
 
 // =========================================
-// Explicit instantiations to prevent linker errors
+// Explicit instantiations
 // =========================================
 
 template class Bag<int>;
