@@ -13,7 +13,7 @@
         - `BinaryTree.md`
         - `BinaryTreeNode.md`
         - `BloomFilter.md`
-        - `ChainIteraion.md`
+        - `ChainIterator.md`
         - `CircularDoubleList.md`
         - `CircularList.md`
         - `CirQue.md`
@@ -44,7 +44,7 @@
         - `BinaryTree.md`
         - `BinaryTreeNode.md`
         - `BloomFilter.md`
-        - `ChainIteraion.md`
+        - `ChainIterator.md`
         - `CircularDoubleList.md`
         - `CircularList.md`
         - `CirQue.md`

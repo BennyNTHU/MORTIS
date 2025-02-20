@@ -1,100 +1,236 @@
-## Bag 資料結構使用指南
+# `Bag.hpp` 文件說明
 
-### 1. 簡介
-`Bag` 是一個容器類別，它允許儲存各種不同型別的物件，包括：
-- `int`, `char`, `float`, `bool`, `double`, `std::string`
-- `GeneralArray`
-- `Polynomial`
-- `SparseMatrix`
-- `String`
+## 概觀
 
-此容器支援重複的元素，並提供基本的插入、刪除、搜尋等操作。
+`Bag.hpp` 文件定義了一個模板化的 `Bag` 類別，該類別可以儲存各種類型的元素於動態陣列中。此類別包含基本操作功能，如新增、移除及檢查元素，還有進階操作，如聯集及元素重複次數計算。
 
 ---
 
-### 2. 包含的功能
-| 函數 | 描述 |
-|------|------|
-| `Bag(int c)` | 建構函式，建立初始容量為 `c` 的 `Bag` |
-| `~Bag()` | 解構函式，釋放記憶體 |
-| `int Size() const` | 返回 `Bag` 的容量 |
-| `bool IsEmpty() const` | 檢查 `Bag` 是否為空 |
-| `int Element() const` | 返回 `Bag` 目前的元素數量 |
-| `void Push(const MORTISInvariant& x)` | 將元素 `x` 插入 `Bag` |
-| `void Pop()` | 刪除 `Bag` 最後插入的元素 |
-| `template<class U> int Multiplicity(const U& x) const` | 返回 `x` 在 `Bag` 出現的次數 |
-| `template<class U> bool isBelong(const U& x) const` | 檢查 `x` 是否在 `Bag` 內 |
+## 主要元件
+
+### `Bag` 類別
+
+`Bag` 類別表示一個可以動態修改的元素集合。多重集合中的元素存放於陣列中，並支援多種操作來與此集合互動。
+
+#### 成員變數：
+- **`arr`**：指向存放於多重集合中的元素陣列的指標。
+- **`top`**：陣列中最後一個元素的索引。如果多重集合為空，`top` 為 `-1`。
+- **`capacity`**：陣列目前的容量（即多重集合最多可以容納的元素數量，在重新配置之前）。
+- **`size`**：目前多重集合中元素的數量，計算方式為 `top + 1`。
+
+#### 建構子與解構子：
+- **`Bag()`**：預設建構子，初始化為一個空多重集合，沒有任何元素且容量為預設值。
+
+  範例：
+  ```cpp
+  Bag<int> myBag;  // 建立一個空的整數多重集合
+  ```
+
+- **`Bag(int c)`**：根據指定的容量 `c` 初始化一個多重集合。
+
+  範例：
+  ```cpp
+  Bag<int> myBag(10);  // 建立一個容量為 10 的多重集合
+  ```
+
+- **`Bag(const Bag<T>& other)`**：複製建構子，用另一個 `Bag` 的元素來初始化此多重集合。
+
+  範例：
+  ```cpp
+  Bag<int> copyBag = myBag;  // 建立原多重集合的複本
+  ```
+
+- **`~Bag()`**：解構子，清理多重集合所佔用的資源。
+
+#### 取得方法：
+- **`getCapacity()`**：返回多重集合的容量（即它在重新配置之前最多能容納的元素數量）。
+
+  範例：
+  ```cpp
+  int cap = myBag.getCapacity();  // 取得多重集合的容量
+  ```
+
+- **`getTop()`**：返回多重集合中最後一個元素的索引。
+
+  範例：
+  ```cpp
+  int topIndex = myBag.getTop();  // 取得多重集合中最後一個元素的索引
+  ```
+
+- **`getArr()`**：返回指向多重集合中元素陣列的指標。
+
+  範例：
+  ```cpp
+  int* arr = myBag.getArr();  // 取得多重集合中的元素陣列
+  ```
+
+- **`Element()`**：返回多重集合中目前元素的數量。
+
+  範例：
+  ```cpp
+  int numElements = myBag.Element();  // 取得多重集合中的元素數量
+  ```
+
+#### 屬性：
+- **`IsEmpty()`**：如果多重集合為空，返回 `true`，否則返回 `false`。
+
+  範例：
+  ```cpp
+  bool empty = myBag.IsEmpty();  // 檢查多重集合是否為空
+  ```
+
+- **`Multiplicity(const U& x)`**：返回元素 `x` 在多重集合中出現的次數。
+
+  範例：
+  ```cpp
+  int count = myBag.Multiplicity(5);  // 計算 5 在多重集合中出現的次數
+  ```
+
+- **`isBelong(const U& x)`**：如果元素 `x` 存在於多重集合中，返回 `true`，否則返回 `false`。
+
+  範例：
+  ```cpp
+  bool belongs = myBag.isBelong(5);  // 檢查 5 是否存在於多重集合中
+  ```
+
+#### 操作：
+- **`Push(const T& x)`**：將元素 `x` 新增到多重集合中。
+
+  範例：
+  ```cpp
+  myBag.Push(10);  // 將 10 新增到多重集合中
+  ```
+
+- **`Pop()`**：移除多重集合中的最後一個元素。
+
+  範例：
+  ```cpp
+  myBag.Pop();  // 移除多重集合中的最後一個元素
+  ```
+
+- **`Unify()`**：移除多重集合中的重複元素，保留唯一的項目。
+
+  範例：
+  ```cpp
+  myBag.Unify();  // 移除多重集合中的重複元素
+  ```
+
+- **`Union(const Bag<T>& b2)`**：返回一個新 `Bag`，包含 `this` 多重集合和 `b2` 中的所有元素。
+
+  範例：
+  ```cpp
+  Bag<int> bag2;
+  bag2.Push(5);
+  Bag<int> unionBag = myBag.Union(bag2);  // 結合 myBag 和 bag2 的元素
+  ```
+
+#### 運算子重載：
+- **`operator=`**：賦值運算子，將另一個 `Bag` 的元素複製到當前 `Bag`。
+
+  範例：
+  ```cpp
+  myBag = anotherBag;  // 複製 anotherBag 的元素到 myBag
+  ```
+
+- **`operator==`**：比較兩個多重集合是否相等（元素和順序完全相同）。
+
+  範例：
+  ```cpp
+  if (myBag == anotherBag) {
+      // 多重集合相等
+  }
+  ```
+
+- **`operator!=`**：比較兩個多重集合是否不相等。
+
+  範例：
+  ```cpp
+  if (myBag != anotherBag) {
+      // 多重集合不相等
+  }
+  ```
+
+- **`operator<<`**：重載以印出多重集合中的內容。
+
+  範例：
+  ```cpp
+  std::cout << myBag;  // 印出多重集合中的內容
+  ```
 
 ---
 
-### 3. 使用範例
+## 使用範例
+
+以下是示範如何使用 `Bag` 類別的範例：
+
 ```cpp
-#include <iostream>
 #include "Bag.hpp"
-#include "../../array/GeneralArray/GeneralArray.hpp"
-#include "../../array/Polynomial/Polynomial.hpp"
-#include "../../array/SparseMatrix/SparseMatrix.hpp"
-#include "../../array/String/String.hpp"
-
-using namespace std;
+#include <iostream>
 
 int main() {
-    cout << "=== Bag Test Program ===" << endl;
+    // 建立一個整數多重集合
+    Bag<int> myBag(10);
+
+    // 向多重集合中加入元素
+    myBag.Push(10);
+    myBag.Push(20);
+    myBag.Push(30);
+
+    // 印出多重集合中的內容
+    std::cout << "Bag contents: " << myBag << std::endl;
+
+    // 檢查多重集合中是否包含特定元素
+    if (myBag.isBelong(20)) {
+        std::cout << "20 is in the bag!" << std::endl;
+    }
+
+    // 取得多重集合中元素的數量
+    std::cout << "Number of elements: " << myBag.Element() << std::endl;
+
+    // 移除最後一個元素
+    myBag.Pop();
+
+    // 印出移除元素後的多重集合內容
+    std::cout << "After popping an element: " << myBag << std::endl;
+
+    // 建立另一個多重集合並將兩個多重集合進行整合
+    Bag<int> anotherBag;
+    anotherBag.Push(10);
+    anotherBag.Push(30);
+    Bag<int> unifiedBag = myBag.Union(anotherBag);
     
-    // 創建一個 Bag，初始容量為 5
-    Bag b(5);
-
-    // 創建一些不同類型的元素
-    SparseMatrix A(4, 5, 3);
-    double pi = 3.14159;
-
-    // 測試初始狀態
-    cout << "Initial Bag:" << endl;
-    cout << "  IsEmpty? " << (b.IsEmpty() ? "Yes" : "No") << endl;
-    cout << "  Number of elements: " << b.Element() << endl;
-    cout << "  Capacity: " << b.Size() << endl;
-
-    // 插入不同型別的元素
-    b.Push(10);
-    b.Push(A);
-    b.Push('c');
-    b.Push(pi);
-    b.Push("Hello");
-
-    cout << "Bag after inserting elements:" << endl;
-    cout << "  Number of elements: " << b.Element() << endl;
-
-    // 測試 Multiplicity（計算元素出現次數）
-    cout << "Multiplicity of 10: " << b.Multiplicity(10) << endl;
-    cout << "Multiplicity of 'c': " << b.Multiplicity('c') << endl;
-
-    // 測試 isBelong（元素是否存在）
-    cout << "Does 'Hello' exist? " << (b.isBelong(std::string("Hello")) ? "Yes" : "No") << endl;
-    cout << "Does 3.14159 exist? " << (b.isBelong(3.14159) ? "Yes" : "No") << endl;
-
-    // 測試 Pop 操作
-    b.Pop();
-    cout << "Bag after popping an element:" << endl;
-    cout << "  Number of elements: " << b.Element() << endl;
+    // 印出整合後的多重集合
+    std::cout << "Unified bag: " << unifiedBag << std::endl;
 
     return 0;
 }
 ```
 
----
-
-### 4. 編譯方式
-確保 C++17 以上的標準，並使用 g++ 編譯：
-```sh
-g++ -std=c++17 Bag.cpp Bag-test.cpp ../../MORTIS.hpp -o test
-```
-若有額外的類別 (`GeneralArray`, `Polynomial`, `SparseMatrix`, `String`)，請確保它們已正確編譯並包含在編譯指令中。
+### 說明：
+- 此程式碼建立了一個 `Bag` 來儲存整數並執行各種操作，如加入元素（`Push`）、檢查元素是否存在（`isBelong`）以及移除元素（`Pop`）。
+- 範例中示範了如何檢查元素數量，並使用 `Union` 函數來整合兩個多重集合。
 
 ---
 
-### 5. 可能的錯誤與解法
-| 錯誤訊息 | 可能原因 | 解決方案 |
-|----------|----------|----------|
-| `undefined reference to GeneralArray` | 缺少 `GeneralArray.cpp` 於編譯 | 在 g++ 命令中加入 `../../array/GeneralArray/GeneralArray.cpp` |
-| `MORTISInvariant does not name a type` | `MORTIS.hpp` 沒有被正確包含 | 確保 `#include "../../MORTIS.hpp"` 在 `Bag.hpp` 內 |
-| `Segmentation fault` | 使用未初始化的 `Bag` | 確保 `Bag` 建構時指定正確的初始容量 |
+## 可能的錯誤與邊界情形
+
+1. **多重集合溢位**：若元素數量超過多重集合的容量，陣列可能需要重新配置。請確保多重集合在 `Push()` 函數中能正確處理重新配置。
+
+2. **空多重集合操作**：像是 `Pop()` 或檢查元素存在等操作應該優雅地處理空多重集合情形。確保在進行這些操作前檢查多重集合是否為空。
+
+   範例：
+   ```cpp
+   if (!myBag.IsEmpty()) {
+       myBag.Pop();
+   }
+   ```
+
+3. **重複處理與 `Unify`**：`Unify()` 方法會移除重複元素。確保此方法不會誤移除唯一元素，並正確處理所有元素相同的情形。
+
+---
+
+## 相依性
+
+- **C++ 標準函式庫**：此類別使用 `std::variant` 儲存異質元素，並使用 `<iostream>`、`<string>` 及 `<algorithm>` 等其他標準函式庫。
+  
+- **其他包含**：`Bag` 類別包含對其他陣列相關類型（`GeneralArray`、`Polynomial`、`SparseMatrix`、`String`）的引用，這些類型應該正確定義並匯入。

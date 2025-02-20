@@ -1,9 +1,3 @@
-The `BinarySearchTree.hpp` file defines a `BinarySearchTree` (BST) class template, which is a specialized subclass of a `BinaryTree`. The class is designed to store values of type `T` in a binary search tree (BST) structure. It provides methods for searching, inserting, deleting, and manipulating the tree, including joining and splitting BSTs. The class also disables some functions from the `BinaryTree` class that are not applicable to a binary search tree.
-
-Here is the markdown documentation for the `BinarySearchTree.hpp` header file:
-
----
-
 # `BinarySearchTree.hpp` Documentation
 
 ## Overview

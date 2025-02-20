@@ -1,309 +1,185 @@
-# GeneralArray
+# `GeneralArray.hpp` 文件
 
-GeneralArray 類是一個支持多維陣列操作的模板類。它允許您創建一個任意維度的陣列，並提供下列操作：
-- **儲存與讀取元素**  
-- **初始化、反轉與排序**  
-- **透過 initializer_list 進行賦值**  
-- **輸入/輸出操作**
+## 概述
 
-本文檔將詳細介紹各個成員函式的用途與使用方法，並附上相應的範例。
+`GeneralArray.hpp` 定義了一個 `GeneralArray` 類別，該類別支援多維陣列並能處理混合資料型別。此類別利用 `std::variant` 來處理多種型別，包括 `int`、`char`、`float`、`bool`、`double` 和 `std::string`。它提供了多種功能，用於初始化、儲存、檢索、排序和操作多維陣列中的元素。
 
 ---
 
-## 目錄
+## 主要元件
 
-1. [構造函式與基礎操作](#構造函式與基礎操作)
-2. [元素存取](#元素存取)
-3. [陣列操作](#陣列操作)
-    - [排序](#排序)
-    - [反轉](#反轉)
-    - [初始化](#初始化)
-4. [賦值與複製](#賦值與複製)
-5. [輸入與輸出](#輸入與輸出)
-6. [使用範例](#使用範例)
+### 1. `MIXED_TYPE`
+一個 `std::variant` 的型別別名，支援多種資料型別：
+```cpp
+using MIXED_TYPE = std::variant<int, char, float, bool, double, std::string>;
+```
+這使得陣列可以在單一實例中儲存混合型別的資料。
+
+### 2. `RangeList`
+一個 `std::vector<int>` 的型別別名，表示陣列各維度的大小：
+```cpp
+typedef std::vector<int> RangeList;
+```
+
+### 3. `Index`
+一個 `std::vector<int>` 的型別別名，用於表示多維索引：
+```cpp
+typedef std::vector<int> Index;
+```
+
+### 4. `is_variant`
+一個用於檢測某型別是否為 `std::variant` 特化的特徵：
+```cpp
+template<typename T>
+struct is_variant : std::false_type {}; // 主要模板
+
+template<typename... Ts>
+struct is_variant<std::variant<Ts...>> : std::true_type {}; // 針對 std::variant 的特化
+```
 
 ---
 
-## 構造函式與基礎操作
+## `GeneralArray<T>` 類別
 
-### 構造函式
+`GeneralArray` 類別是一個模板類別，用於建立多維陣列。它支援多種操作，例如初始化、元素儲存/檢索、排序等。
 
-```cpp
-// GeneralArray(int j, const RangeList& list, T initValue = T());
-```
+### 建構函式與解構函式
+- **建構函式**: 使用指定的維度初始化 `GeneralArray`。
+- **解構函式**: 釋放所有分配的記憶體。
 
-- **用途**：用於創建一個多維陣列。
-- **參數**：
-  - `j`：維度的個數。例如，一維陣列傳入 1，二維陣列傳入 2。
-  - `list`：一個 `vector<int>`，每個元素表示該維度的大小。例如，對於一個 1D 陣列，可傳入 `{5}` 表示 5 個元素；對於 2D 陣列，可傳入 `{3, 3}` 表示 3 行 3 列。
-  - `initValue`：所有元素的初始值，預設為 T()。
+### 成員函式
 
-### 析構函式
-
-- **用途**：釋放動態分配的記憶體。
-
----
-
-## 元素存取
-
-### Store() 函式
-
-```cpp
-// void Store(const Index& idx, T x);
-```
-
-- **用途**：將指定索引處的元素更新為新值。
-- **參數**：
-  - `idx`：一個 `vector<int>`，代表多維索引。例如，一維陣列可以傳入 `{2}`；二維陣列傳入 `{1, 0}` 表示第 2 行第 1 列。
-  - `x`：要儲存的新值。
-
-### Retrieve() 函式
-
-```cpp
-// T Retrieve(const Index& idx) const;
-```
-
-- **用途**：讀取指定索引處的元素。
-- **參數**：
-  - `idx`：與 Store() 相同，多維索引。
-
----
-
-## 陣列操作
-
-### 排序
-
-```cpp
-// void sort(bool reverse = false, int sortDim = 1);
-```
-
-- **用途**：
-  - 當陣列為一維時：對整個陣列進行排序。參數 `reverse` 為 `true` 時使用升序排序，為 `false` 時使用降序排序。
-  - 當陣列為二維時：根據指定列（`sortDim` 表示第幾列，從 1 開始）對行進行排序。
-- **參數**：
-  - `reverse`：排序順序。預設為 `false`（降序排序），設為 `true` 表示升序排序。
-  - `sortDim`：僅針對 2D 陣列有效，用於指定根據哪一列排序。
-
-### 反轉
-
-```cpp
-// void reverse();
-```
-
-- **用途**：將陣列中的所有元素以扁平（linear）順序反轉。
-
-### 初始化
-
-```cpp
-// void initialize();
-```
-
-- **用途**：將陣列中的所有元素重設為預設值 `T{}`（例如對數字類型重設為 0）。
-
-### 長度
-
-```cpp
-// int length() const;
-```
-
-- **用途**：返回陣列中元素的總數。
-
----
-
-## 賦值與複製
-
-### 複製建構子
-
-- **用途**：根據另一個 GeneralArray 進行深拷貝。
-
-### 深拷貝賦值
-
-```cpp
-// GeneralArray<T>& operator=(const GeneralArray<T>& other);
-```
-
-- **用途**：將另一個 GeneralArray 的所有數據複製到當前對象。
-
-### initializer_list 賦值
-
-```cpp
-// GeneralArray<T>& operator=(std::initializer_list<T> il);
-```
-
-- **用途**：允許透過花括號列表來賦值。例如：
+- **`Initialize()`**: 將陣列中的所有元素初始化為型別 `T` 的預設值。
+  
+  範例：
   ```cpp
-  arr = {1, 2, 3, 4, 5};
+  arr.Initialize();
   ```
-- **注意**：初始化列表的大小必須與陣列中元素數量一致，否則會拋出異常。
 
-### Equality Operator
+- **`Store(const Index& idx, T x)`**: 將值 `x` 儲存在給定的多維索引 `idx` 處。
 
+  範例：
+  ```cpp
+  Index idx = {0, 1, 2};
+  arr.Store(idx, 10);
+  ```
+
+- **`Retrieve(const Index& idx) const`**: 檢索給定多維索引 `idx` 處的元素。
+  
+  範例：
+  ```cpp
+  int value = arr.Retrieve(idx);
+  ```
+
+- **`Length() const`**: 回傳陣列中元素的總數。
+
+  範例：
+  ```cpp
+  int len = arr.Length();
+  ```
+
+- **`Sort(bool reverse = false, int sortDim = 1)`**: 沿指定的維度對陣列進行排序。可選地，可以反轉排序順序。
+
+  範例：
+  ```cpp
+  arr.Sort(true, 1); // 沿第一個維度進行反向排序
+  ```
+
+- **`Reverse()`**: 反轉陣列中元素的順序。
+
+  範例：
+  ```cpp
+  arr.Reverse();
+  ```
+
+- **`Push_back(const T& value)`**: 將元素添加到一維陣列中（僅適用於一維陣列）。
+
+  範例：
+  ```cpp
+  arr.Push_back(5);
+  ```
+
+### 運算子重載
+
+- **`operator=`**: 從另一個 `GeneralArray` 或初始化列表複製內容。
+
+  範例：
+  ```cpp
+  arr = otherArray;  // 複製建構函式
+  arr = {1, 2, 3};   // 使用初始化列表
+  ```
+
+- **`operator[]`**: 通過索引存取元素（非 const 和 const 版本）。
+
+  範例：
+  ```cpp
+  int& element = arr[0];  // 非 const 存取
+  const int& element = arr[0];  // const 存取
+  ```
+
+- **`operator==`**: 檢查兩個 `GeneralArray` 實例是否相等。
+- **`operator!=`**: 檢查兩個 `GeneralArray` 實例是否不相等。
+
+### 輸入/輸出串流運算子
+
+- **`operator>>`**: 從輸入串流中讀取資料到陣列。
+- **`operator<<`**: 將陣列內容輸出到輸出串流。
+
+範例：
 ```cpp
-// bool operator==(const GeneralArray<T>& other) const;
+std::cin >> arr;
+std::cout << arr;
 ```
 
-- **用途**：比較兩個 GeneralArray 是否在維度及元素上均相等。
-
 ---
 
-## 輸入與輸出
-
-### 輸出運算子 (operator<<)
-
-- **用途**：將陣列的內容以易讀的格式輸出到輸出流（例如 `std::cout`）。
-- **格式**：
-  - 一維陣列：以 `[elem1, elem2, ...]` 格式輸出。
-  - 二維陣列：以 `[[row1], [row2], ...]` 格式輸出。
-
-### 輸入運算子 (operator>>)
-
-- **用途**：從輸入流中讀取數據，並填充到陣列中。  
-- **注意**：對於使用 `std::variant` 的型別，不支持輸入運算子，必須使用 `Store()` 來填充數據。
-
----
-
-## 使用範例
-
-以下提供幾個範例展示如何使用 GeneralArray 類：
-
-### 範例 1：一維整數陣列
+## 範例用法
 
 ```cpp
-#include <iostream>
-#include <vector>
-#include "GeneralArray.h"
-using namespace std;
+#include "GeneralArray.hpp"
 
 int main() {
-    // 建立一個 1D 陣列，包含 5 個元素，初始值皆為 0
-    vector<int> dims = {5};
-    GeneralArray<int> arrInt(1, dims, 0);
-
-    // 使用 Store() 設置各索引的值
-    arrInt.Store({0}, 10);
-    arrInt.Store({1}, 20);
-    arrInt.Store({2}, 30);
-    arrInt.Store({3}, 40);
-    arrInt.Store({4}, 50);
-
-    // 輸出陣列內容
-    cout << "Initial int array: " << arrInt << endl;
-    cout << "Element at index [2]: " << arrInt.Retrieve({2}) << endl;
-    cout << "Length of int array: " << arrInt.length() << endl;
-
+    // 建立一個用於整數資料型別的 GeneralArray
+    GeneralArray<int> arr(3); // 三維陣列
+    
+    // 使用預設值初始化陣列
+    arr.Initialize();
+    
+    // 定義用於儲存/檢索元素的索引
+    Index idx = {0, 1, 2}; // 存取位於 [0][1][2] 的元素
+    
+    // 在陣列中儲存一個值
+    arr.Store(idx, 10);
+    
+    // 檢索並印出該值
+    int val = arr.Retrieve(idx);
+    std::cout << "位於索引 [0][1][2] 的值: " << val << std::endl;
+    
+    // 對陣列進行排序（可選維度）
+    arr.Sort(false, 1); // 沿第一個維度進行排序
+    
     // 反轉陣列
-    arrInt.reverse();
-    cout << "After reverse: " << arrInt << endl;
-
-    // 初始化陣列（所有元素重設為 0）
-    arrInt.initialize();
-    cout << "After initialize: " << arrInt << endl;
-
-    // 使用 initializer_list 賦值
-    arrInt = {1, 2, 3, 4, 5};
-    cout << "After initializer_list assignment: " << arrInt << endl;
-
-    return 0;
-}
-```
-
-### 範例 2：一維浮點數陣列與排序
-
-```cpp
-#include <iostream>
-#include <vector>
-#include "GeneralArray.h"
-using namespace std;
-
-int main() {
-    vector<int> dims = {5};
-    GeneralArray<double> arrDouble(1, dims, 0.0);
-
-    // 設定數值
-    arrDouble.Store({0}, 3.14);
-    arrDouble.Store({1}, 2.71);
-    arrDouble.Store({2}, 1.41);
-    arrDouble.Store({3}, 0.577);
-    arrDouble.Store({4}, 1.618);
-
-    cout << "Initial double array: " << arrDouble << endl;
-
-    // 升序排序
-    arrDouble.sort(true);
-    cout << "Sorted ascending: " << arrDouble << endl;
-
-    // 降序排序
-    arrDouble.sort(false);
-    cout << "Sorted descending: " << arrDouble << endl;
-
-    return 0;
-}
-```
-
-### 範例 3：二維整數陣列與輸入操作
-
-```cpp
-#include <iostream>
-#include <sstream>
-#include <vector>
-#include "GeneralArray.h"
-using namespace std;
-
-int main() {
-    vector<int> dims2D = {3, 3};  // 3 行 3 列
-    GeneralArray<int> arr2D(2, dims2D, 0);
-
-    // 模擬輸入：必須符合格式 [[9,8,7],[6,5,4],[3,2,1]]
-    istringstream iss("[[9,8,7],[6,5,4],[3,2,1]]");
-    iss >> arr2D;
-
-    cout << "Input 2D array: " << arr2D << endl;
-
-    // 根據第一列排序（升序與降序示例）
-    arr2D.sort(true, 1);
-    cout << "2D array sorted ascending by first column: " << arr2D << endl;
-
-    arr2D.sort(false, 1);
-    cout << "2D array sorted descending by first column: " << arr2D << endl;
-
-    return 0;
-}
-```
-
-### 範例 4：異質陣列（使用 std::variant）
-
-```cpp
-#include <iostream>
-#include <vector>
-#include <variant>
-#include <string>
-#include "GeneralArray.h"
-using namespace std;
-
-int main() {
-    // 定義支持 int、char 與 string 的 variant 型別
-    using VarType = std::variant<int, char, std::string>;
-
-    vector<int> dimsVar = {3};
-    GeneralArray<VarType> arrVariant(1, dimsVar, VarType{});
-
-    // 透過 Store() 存入不同類型的數值
-    arrVariant.Store({0}, 100);                // int
-    arrVariant.Store({1}, 'Z');                // char
-    arrVariant.Store({2}, std::string("Test"));  // string
-
-    cout << "Heterogeneous array: " << arrVariant << endl;
-
+    arr.Reverse();
+    
+    // 使用串流運算子印出整個陣列
+    std::cout << arr << std::endl;
+    
     return 0;
 }
 ```
 
 ---
 
-## 小結
+## 潛在錯誤與邊界情況
 
-GeneralArray 類提供了靈活的多維陣列操作功能，並且支援基本的元素存取、排序、反轉以及以 initializer_list 進行快速賦值。透過上面的範例，可以直觀地理解如何在不同情境下使用該類進行陣列操作。對於特殊型別（例如 `std::variant`），請注意部分操作（如輸入運算子）不支持，必須使用 Store() 等函式進行資料設置。
-
-以上便是 GeneralArray 類的詳細使用說明與範例。希望這份文檔能幫助你快速上手並充分利用該類的功能。
+1. **索引超出範圍**: 確保索引在陣列維度的有效範圍內。
+2. **不支援的資料型別**: 陣列僅限於 `MIXED_TYPE` 中指定的型別。使用其他型別將導致編譯錯誤。
+3. **對非一維陣列進行排序**: 對非一維陣列進行排序時，需要提供有效的維度以避免錯誤結果。
+4. **記憶體問題**: 確保陣列維度和元素型別與系統可用記憶體相容。
 
 ---
+
+## 相依性
+
+- **C++17 或更高版本**: 需要 `std::variant`。
+- **標準 C++ 函式庫**: `<vector>`、`<iostream>`、`<algorithm>` 等。
