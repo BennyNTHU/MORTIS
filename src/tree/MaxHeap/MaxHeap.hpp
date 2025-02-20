@@ -31,9 +31,9 @@ class MaxHeap: public BinaryTree<T>
         void Pop();
 
         // Helper methods to maintain heap property
+        void rebuildTreeLinks();                // Rebuilds parent-child links in the tree from the array representation.
         virtual void heapify_up(int index);     // Modify the tree structure
         virtual void heapify_down(int index);   // Modify the tree structure
-        void rebuildTreeLinks();                // Rebuilds parent-child links in the tree from the array representation.
         std::vector<BinaryTreeNode<T>*> LevelOrderIterator(); // Iterate in level order. The API provide in BinryTree returns data only
 
         // Disable BinaryTree functions that should not be used in MaxHeap

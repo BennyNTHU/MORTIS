@@ -56,7 +56,7 @@ void MultiGraph::RemoveNode(int node)
     // Rebuild edgelist without any edge incident to 'node'.
     GeneralArray<std::vector<MIXED_TYPE>> newEdgeList;
 
-    for (int i = 0; i < edgelist.length(); i++) 
+    for (int i = 0; i < edgelist.Length(); i++) 
     {
         std::vector<MIXED_TYPE> edge = edgelist[i];
         // Get endpoints using a helper (here we assume that the endpoints are stored as ints).
@@ -65,11 +65,11 @@ void MultiGraph::RemoveNode(int node)
         int v = std::get<int>(edge[1]);
         if (u == node || v == node)
             continue; // skip this edge
-        newEdgeList.push_back(edge);
+        newEdgeList.Push_back(edge);
     }
 
     edgelist = newEdgeList;
-    e = edgelist.length();
+    e = edgelist.Length();
 }
 
 // AddEdge: add an edge from u to v with weight w (w forced to 1 if unweighted).
@@ -93,7 +93,7 @@ void MultiGraph::AddEdge(int u, int v, double w)
         edgeVec.push_back(w);
     
     // Append the edge to the edgelist.
-    edgelist.push_back(edgeVec);
+    edgelist.Push_back(edgeVec);
     e++;
 }
 
@@ -106,7 +106,7 @@ void MultiGraph::RemoveEdge(int u, int v)
     bool removed = false;
     GeneralArray<std::vector<MIXED_TYPE>> newEdgeList;
 
-    for (int i = 0; i < edgelist.length(); i++) 
+    for (int i = 0; i < edgelist.Length(); i++) 
     {
         std::vector<MIXED_TYPE> edge = edgelist[i];
         int a = std::get<int>(edge[0]);
@@ -128,12 +128,12 @@ void MultiGraph::RemoveEdge(int u, int v)
             removed = true;  // remove only one occurrence
             continue;
         }
-        newEdgeList.push_back(edge);
+        newEdgeList.Push_back(edge);
     }
     if (removed) 
     {
         edgelist = newEdgeList;
-        e = edgelist.length();
+        e = edgelist.Length();
     } 
     else 
     {
@@ -176,7 +176,7 @@ bool MultiGraph::isEulerian() const
         // For directed: compute indegree and outdegree.
         std::vector<int> indegree(n, 0), outdegree(n, 0);
 
-        for (int i = 0; i < edgelist.length(); i++) 
+        for (int i = 0; i < edgelist.Length(); i++) 
         {
             std::vector<MIXED_TYPE> edge = edgelist[i];
             int u = std::get<int>(edge[0]);
@@ -217,7 +217,7 @@ int MultiGraph::Degree(int u) const
 
     int deg = 0;
 
-    for (int i = 0; i < edgelist.length(); i++) 
+    for (int i = 0; i < edgelist.Length(); i++) 
     {
         std::vector<MIXED_TYPE> edge = edgelist[i];
         int a = std::get<int>(edge[0]);
@@ -243,7 +243,7 @@ int MultiGraph::EdgeCount(int u, int v) const
 {
     int count = 0;
 
-    for (int i = 0; i < edgelist.length(); i++) 
+    for (int i = 0; i < edgelist.Length(); i++) 
     {
         std::vector<MIXED_TYPE> edge = edgelist[i];
         int a = std::get<int>(edge[0]);
@@ -304,7 +304,7 @@ std::ostream& operator<<(std::ostream& out, const MultiGraph& mg)
     // Print every edge in the edgelist.
     // For weighted graphs, print {u, v, w}; for unweighted, {u, v}.
 
-    for (int i = 0; i < mg.edgelist.length(); i++) 
+    for (int i = 0; i < mg.edgelist.Length(); i++) 
     {
         std::vector<MIXED_TYPE> edge = mg.edgelist[i];
         out << "{";

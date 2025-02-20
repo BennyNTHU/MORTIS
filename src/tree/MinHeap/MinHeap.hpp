@@ -6,15 +6,15 @@
 template <class T>
 class MinHeap : public MaxHeap<T> 
 {
-    public:
-        // Constructor and destructor.
-        MinHeap(const T& rootData);
-        ~MinHeap();
-
     protected:
-        // Override heapify methods for a min-heap.
+        // Override heapify methods
         void heapify_up(int index) override;
         void heapify_down(int index) override;
+
+    public:
+        // Constructor and destructor
+        MinHeap(const T& rootData);
+        ~MinHeap();
 };
 
 #endif

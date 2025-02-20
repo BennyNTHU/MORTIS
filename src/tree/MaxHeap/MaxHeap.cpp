@@ -6,6 +6,39 @@
 #include "../BinaryTreeNode/BinaryTreeNode.hpp"
 
 // ============================================
+// Internal Storage Helper Methods
+// ============================================
+
+template <class T>
+BinaryTreeNode<T>* MaxHeap<T>::getParent(int index) 
+{
+    if (index == 0) 
+        return nullptr;
+    
+    int parentIndex = (index - 1) / 2;
+    return nodes[parentIndex];
+}
+
+template <class T>
+BinaryTreeNode<T>* MaxHeap<T>::GetNodeAtIndex(int index) 
+{
+    if (index < 0 || index >= nodes.size())
+        throw std::out_of_range("Index out of bounds");
+
+    return nodes[index];
+}
+
+// Since we now use the vector to insert nodes in order, the next available parent is just the parent
+// of the next insertion index.
+template <class T>
+BinaryTreeNode<T>* MaxHeap<T>::FindNextAvailableParent() 
+{
+    int n = nodes.size();
+    int parentIndex = (n - 1) / 2;
+    return nodes[parentIndex];
+}
+
+// ============================================
 // Constructor and Destructor
 // ============================================
 
@@ -119,7 +152,6 @@ void MaxHeap<T>::Pop()
     delete oldRoot;
 }
 
-
 // ============================================
 // Helper methods to maintain heap property
 // ============================================
@@ -214,39 +246,6 @@ void MaxHeap<T>::heapify_down(int index)
     }
 }
 
-// ============================================
-// Internal Storage Helper Methods
-// ============================================
-
-template <class T>
-BinaryTreeNode<T>* MaxHeap<T>::GetNodeAtIndex(int index) 
-{
-    if (index < 0 || index >= nodes.size())
-        throw std::out_of_range("Index out of bounds");
-
-    return nodes[index];
-}
-
-template <class T>
-BinaryTreeNode<T>* MaxHeap<T>::getParent(int index) 
-{
-    if (index == 0) 
-        return nullptr;
-    
-    int parentIndex = (index - 1) / 2;
-    return nodes[parentIndex];
-}
-
-// Since we now use the vector to insert nodes in order, the next available parent is just the parent
-// of the next insertion index.
-template <class T>
-BinaryTreeNode<T>* MaxHeap<T>::FindNextAvailableParent() 
-{
-    int n = nodes.size();
-    int parentIndex = (n - 1) / 2;
-    return nodes[parentIndex];
-}
-
 // LevelOrderIterator: returns a vector of node pointers in level order (using the tree structure).
 template <class T>
 std::vector<BinaryTreeNode<T>*> MaxHeap<T>::LevelOrderIterator() 
@@ -274,6 +273,10 @@ std::vector<BinaryTreeNode<T>*> MaxHeap<T>::LevelOrderIterator()
     
     return result;
 }
+
+// ============================================
+// Explicit template instantiation 
+// ============================================
 
 template class MaxHeap<int>;
 template class MaxHeap<char>;

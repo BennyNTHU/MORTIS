@@ -1,5 +1,8 @@
-// g++ -std=c++17 BinaryTree.cpp BinaryTree-test.cpp ../BinaryTreeNode/BinaryTreeNode.cpp\
-    ../../container/Bag/Bag.cpp ../../container/DeQue/DeQue.cpp ../../container/Stack/Stack.cpp\
+// g++ -std=c++17 BinaryTree.cpp BinaryTree-test.cpp\
+    ../BinaryTreeNode/BinaryTreeNode.cpp\
+    ../../container/Bag/Bag.cpp\
+    ../../container/DeQue/DeQue.cpp\
+    ../../container/Stack/Stack.cpp\
     ../../array/GeneralArray/GeneralArray.cpp\
     ../../array/Polynomial/Polynomial.cpp\
     ../../array/SparseMatrix/SparseMatrix.cpp\

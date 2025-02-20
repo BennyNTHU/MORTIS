@@ -2,9 +2,9 @@
 #include <stdexcept>
 #include <functional>
 
-// ------------------------------
-// Constructor and Destructor
-// ------------------------------
+// =================================
+// Consructors and destrctors
+// =================================
 
 template <class T>
 BinarySearchTree<T>::BinarySearchTree(const T& rootData): BinaryTree<T>(rootData) {}
@@ -12,10 +12,11 @@ BinarySearchTree<T>::BinarySearchTree(const T& rootData): BinaryTree<T>(rootData
 template <class T>
 BinarySearchTree<T>::~BinarySearchTree() {}  // Cleanup is handled by the BinaryTree destructor.
 
-// ------------------------------
-// Get: Search for a value in the BST
-// ------------------------------
+// =================================
+// Search
+// =================================
 
+// Get: Search for a value in the BST
 template <class T>
 T* BinarySearchTree<T>::Get(const T& key) const 
 {
@@ -37,10 +38,7 @@ T* BinarySearchTree<T>::Get(const T& key) const
     return nullptr;
 }
 
-// ------------------------------
 // RankGet: Return the element at rank r (0-indexed)
-// ------------------------------
-
 template <class T>
 T BinarySearchTree<T>::RankGet(int r) const 
 {
@@ -53,10 +51,11 @@ T BinarySearchTree<T>::RankGet(int r) const
     return inorder[r];
 }
 
-// ------------------------------
-// Insert: Insert a value into the BST
-// ------------------------------
+// =================================
+// Manipulation
+// =================================
 
+// Insert: Insert a value into the BST
 template <class T>
 void BinarySearchTree<T>::Insert(const T& value) 
 {
@@ -96,10 +95,7 @@ void BinarySearchTree<T>::Insert(const T& value)
    
 }
 
-// ------------------------------
 // Delete: Delete a value from the BST
-// ------------------------------
-
 template <class T>
 void BinarySearchTree<T>::Delete(const T& key) 
 {
@@ -161,10 +157,7 @@ void BinarySearchTree<T>::Delete(const T& key)
     delete current;
 }
 
-// ------------------------------
 // JoinBST: Naively join two BSTs by inserting all elements from bst2 into bst1.
-// ------------------------------
-
 template <class T>
 BinarySearchTree<T> BinarySearchTree<T>::JoinBST(const BinarySearchTree<T>& bst1, const BinarySearchTree<T>& bst2) 
 {
@@ -186,7 +179,6 @@ BinarySearchTree<T> BinarySearchTree<T>::JoinBST(const BinarySearchTree<T>& bst1
 //   - the first BST contains all elements less than key.
 //   - the second BST contains all elements greater than or equal to key.
 // ------------------------------
-
 template <class T>
 std::vector<BinarySearchTree<T>> BinarySearchTree<T>::SplitBST(const BinarySearchTree<T>& bst, const T& key) 
 {
@@ -207,7 +199,10 @@ std::vector<BinarySearchTree<T>> BinarySearchTree<T>::SplitBST(const BinarySearc
     return { leftTree, rightTree };
 }
 
+// =================================
 // Explicit instantiation
+// =================================
+
 template class BinarySearchTree<int>;
 template class BinarySearchTree<bool>;
 template class BinarySearchTree<char>;

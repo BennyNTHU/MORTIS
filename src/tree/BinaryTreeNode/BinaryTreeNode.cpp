@@ -1,8 +1,8 @@
 #include "BinaryTreeNode.hpp"
 
-// --------------------
-// Threaded setters (private)
-// --------------------
+// =================================
+// Private methods to set threaded pointers (Used internally)
+// =================================
 
 // Threaded tree operations (internal)
 template <class T>
@@ -17,9 +17,9 @@ void BinaryTreeNode<T>::setRightThread(BinaryTreeNode<T>* in)
     rightthread = in;
 }
 
-// --------------------
-// Constructors 
-// --------------------
+// =================================
+// Constructors and Destructor
+// =================================
 
 // Default Constructor
 template <class T>
@@ -40,9 +40,9 @@ BinaryTreeNode<T>::BinaryTreeNode(const T& e, BinaryTreeNode<T>* ptr_left, Binar
     }
 }
 
-// --------------------
+// =================================
 // Getters
-// --------------------
+// =================================
 
 template <class T>
 const T& BinaryTreeNode<T>::getData() const 
@@ -81,9 +81,9 @@ BinaryTreeNode<T>* BinaryTreeNode<T>::getParent() const
     return parent;
 }
 
-// --------------------
-// Setters
-// --------------------
+// =================================
+// Setters (Ensure Parent-Child Consistency)
+// =================================
 
 template <class T>
 void BinaryTreeNode<T>::setData(T in) 
@@ -128,15 +128,9 @@ void BinaryTreeNode<T>::setRightChild(BinaryTreeNode<T>* in)
         in->parent = this;
 }
 
-// --------------------
+// =================================
 // Equality test
-// --------------------
-
-template <class T>
-bool BinaryTreeNode<T>::operator!=(const BinaryTreeNode<T>& r) const 
-{
-    return !(this->operator==(r));  // If they are not equal, return true
-}
+// =================================
 
 template <class T>
 bool BinaryTreeNode<T>::operator==(const BinaryTreeNode<T>& r) const 
@@ -147,9 +141,15 @@ bool BinaryTreeNode<T>::operator==(const BinaryTreeNode<T>& r) const
            (this->rightChild == r.rightChild);
 }
 
-// --------------------
+template <class T>
+bool BinaryTreeNode<T>::operator!=(const BinaryTreeNode<T>& r) const 
+{
+    return !(this->operator==(r));  // If they are not equal, return true
+}
+
+// =================================
 // Explicit instantiation
-// --------------------
+// =================================
 
 template class BinaryTreeNode<int>;
 template class BinaryTreeNode<bool>;

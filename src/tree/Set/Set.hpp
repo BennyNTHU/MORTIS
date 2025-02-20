@@ -25,4 +25,7 @@ class Set : public BinarySearchTree<T>
         void Print() const;
 };
 
+// Use the BinarySearchTree<T> functions for insertion/search
+// Since BinarySearchTree's InorderIterator() is non-const, in our const functions we use a const_cast
+
 #endif

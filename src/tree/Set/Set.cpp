@@ -1,17 +1,18 @@
-#include "Set.hpp"
 #include <iostream>
 #include <vector>
 #include <utility>
 
-// Use the BinarySearchTree<T> functions for insertion/search.
-// Since BinarySearchTree's InorderIterator() is non-const, in our const functions we use a const_cast.
+#include "Set.hpp"
+
+// =================================
+// Constructors
+// =================================
 
 template <class T>
 Set<T>::Set() : BinarySearchTree<T>(T()) 
 { 
     this->Clear();
 }
-
 
 template <class T>
 Set<T>::Set(std::initializer_list<T> elements): BinarySearchTree<T>(elements.size() > 0 ? *elements.begin() : T()) 
@@ -24,6 +25,10 @@ Set<T>::Set(std::initializer_list<T> elements): BinarySearchTree<T>(elements.siz
         this->Insert(elem);
     }
 }
+
+// =================================
+// Set operation
+// =================================
 
 template <class T>
 Set<T> Set<T>::Union(const Set<T>& other) const 
@@ -89,6 +94,10 @@ bool Set<T>::Contains(const T& value) const
     return (this->Get(value) != nullptr);
 }
 
+// =================================
+// Print the set to std::cout
+// =================================
+
 template <class T>
 void Set<T>::Print() const 
 {
@@ -102,7 +111,10 @@ void Set<T>::Print() const
     std::cout << "}" << std::endl;
 }
 
+// =================================
 // Explicit template instantiation
+// =================================
+
 template class Set<int>;
 template class Set<bool>;
 template class Set<char>;

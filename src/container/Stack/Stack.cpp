@@ -7,9 +7,6 @@
 // Constructors
 // =======================================
 
-template <class T>
-Stack<T>::Stack() : Bag<T>() {}  // Default constructor calling Bag's default constructor
-
 // Constructor: Initializes the stack with a given capacity using Bag's constructor
 template <class T>
 Stack<T>::Stack(int initial_capacity) : Bag<T>(initial_capacity) {}

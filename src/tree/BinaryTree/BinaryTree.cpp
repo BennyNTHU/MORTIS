@@ -9,9 +9,9 @@
 #include "../../container/DeQue/DeQue.hpp"
 #include "../../container/Stack/Stack.hpp"
 
-// --------------------
+// =================================
 // Helper functions
-// --------------------
+// =================================
 
 // Performs a deep copy of the tree nodes.
 template <class T>
@@ -44,7 +44,6 @@ BinaryTreeNode<T>* BinaryTree<T>::findHelper(BinaryTreeNode<T>* node, const T& v
     return found;
 }
 
-
 // Recursively clears nodes. Only genuine children (i.e. not threads) are traversed.
 template <typename T>
 void BinaryTree<T>::clear(BinaryTreeNode<T>* node) 
@@ -58,7 +57,6 @@ void BinaryTree<T>::clear(BinaryTreeNode<T>* node)
     
     delete node;
 }
-
 
 // Update the threads of the binary tree every time the tree is modified
 // i.e. insert/delete a node/subtree, change root
@@ -113,32 +111,9 @@ int BinaryTree<T>::countNodesHelper(BinaryTreeNode<T>* node) const
     return node ? 1 + countNodesHelper(node->getLeftChild()) + countNodesHelper(node->getRightChild()) : 0;
 }
 
-// Computes the height of the tree using memoization.
-template <class T>
-int BinaryTree<T>::Height() 
-{
-    if (!root)
-        return 0;
-
-    std::unordered_map<BinaryTreeNode<T>*, int> memo;
-    std::function<int(BinaryTreeNode<T>*)> computeHeight = [&](BinaryTreeNode<T>* node) -> int 
-    {
-        if (!node)
-            return 0;
-        if (memo.find(node) != memo.end())
-            return memo[node];
-        int leftHeight = computeHeight(node->getLeftChild());
-        int rightHeight = computeHeight(node->getRightChild());
-        memo[node] = 1 + std::max(leftHeight, rightHeight);
-        return memo[node];
-    };
-
-    return computeHeight(root);
-}
-
-// --------------------
-// Constructors 
-// --------------------
+// =================================
+// Constructor
+// =================================
 
 // Default constructor.
 template <class T>
@@ -158,9 +133,9 @@ BinaryTree<T>::BinaryTree(const BinaryTree<T>& bt)
     root = copy_node(bt.root);
 }
 
-// --------------------
-// Destructors
-// --------------------
+// =================================
+// Destructor
+// =================================
 
 // Destructor.
 template <typename T>
@@ -177,9 +152,9 @@ void BinaryTree<T>::Clear()
     root = nullptr;
 }
 
-// --------------------
+// =================================
 // Getters
-// --------------------
+// =================================
 
 // Returns the data stored at the root.
 template <class T>
@@ -226,9 +201,9 @@ BinaryTree<T>* BinaryTree<T>::RightSubtree()
     return nullptr;
 }
 
-// --------------------
+// =================================
 // Setters
-// --------------------
+// =================================
 
 // Sets the tree's root and updates threaded pointers.
 template <typename T>
@@ -238,9 +213,33 @@ void BinaryTree<T>::set_root(BinaryTreeNode<T>* node)
     updateThreads(root);
 }
 
-// --------------------
+// =================================
 // Insertion
-// --------------------
+// =================================
+
+// Inserts a right child for the given node and updates threading.
+template <typename T>
+void BinaryTree<T>::InsertRight(BinaryTreeNode<T>* node, BinaryTreeNode<T>* right) 
+{
+    if (!node || !right)
+        return;
+    
+    // Check if the given node already has a genuine right child.
+    if (node->getRightChild() != nullptr && node->rightthread == nullptr)
+        throw std::runtime_error("InsertRight error: The target node already has a genuine right child.");
+    
+    // Check if the new right node is already part of a tree.
+    if (right->getParent() != nullptr)
+        throw std::runtime_error("InsertRight error: The right node already has a parent.");
+
+    // Insert the new right node using the setter.
+    node->setRightChild(right);
+    
+    // Mark that node now has a genuine right child.
+    node->rightthread = nullptr;
+    
+    updateThreads(root);
+}
 
 // Inserts a left child for the given node and updates threading.
 template <typename T>
@@ -271,30 +270,6 @@ void BinaryTree<T>::InsertLeft(BinaryTreeNode<T>* node, BinaryTreeNode<T>* left)
     
     // Now the node has a genuine left child.
     node->leftthread = nullptr;
-    
-    updateThreads(root);
-}
-
-// Inserts a right child for the given node and updates threading.
-template <typename T>
-void BinaryTree<T>::InsertRight(BinaryTreeNode<T>* node, BinaryTreeNode<T>* right) 
-{
-    if (!node || !right)
-        return;
-    
-    // Check if the given node already has a genuine right child.
-    if (node->getRightChild() != nullptr && node->rightthread == nullptr)
-        throw std::runtime_error("InsertRight error: The target node already has a genuine right child.");
-    
-    // Check if the new right node is already part of a tree.
-    if (right->getParent() != nullptr)
-        throw std::runtime_error("InsertRight error: The right node already has a parent.");
-
-    // Insert the new right node using the setter.
-    node->setRightChild(right);
-    
-    // Mark that node now has a genuine right child.
-    node->rightthread = nullptr;
     
     updateThreads(root);
 }
@@ -351,9 +326,9 @@ void BinaryTree<T>::InsertLeftSubtree(BinaryTreeNode<T>* node, BinaryTree<T>* le
     updateThreads(root);
 }
 
-// --------------------
+// =================================
 // Deletion
-// --------------------
+// =================================
 
 // Delete a subtree (including the node) from the tree.
 // This function removes 'node' from its parent (if any) and then deletes all nodes in that subtree.
@@ -387,9 +362,9 @@ void BinaryTree<T>::delete_subtree(BinaryTreeNode<T>* node)
     updateThreads(root);    // If node is the root, update the tree's root.
 }
 
-// --------------------
+// =================================
 // Properties
-// --------------------
+// =================================
 
 // Returns true if the binary tree is full (every node has either 0 or 2 genuine children).
 template <class T>
@@ -489,9 +464,32 @@ int BinaryTree<T>::CountNodes() const
     return countNodesHelper(root);
 }
 
-// --------------------
+// Computes the height of the tree using memoization.
+template <class T>
+int BinaryTree<T>::Height() 
+{
+    if (!root)
+        return 0;
+
+    std::unordered_map<BinaryTreeNode<T>*, int> memo;
+    std::function<int(BinaryTreeNode<T>*)> computeHeight = [&](BinaryTreeNode<T>* node) -> int 
+    {
+        if (!node)
+            return 0;
+        if (memo.find(node) != memo.end())
+            return memo[node];
+        int leftHeight = computeHeight(node->getLeftChild());
+        int rightHeight = computeHeight(node->getRightChild());
+        memo[node] = 1 + std::max(leftHeight, rightHeight);
+        return memo[node];
+    };
+
+    return computeHeight(root);
+}
+
+// =================================
 // Other functions
-// --------------------
+// =================================
 
 // Searches for a node containing the given value; returns a pointer if found, else nullptr.
 template <class T>
@@ -515,9 +513,9 @@ bool BinaryTree<T>::root_equal(BinaryTreeNode<T>* root1, BinaryTreeNode<T>* root
            root_equal(root1->getRightChild(), root2->getRightChild());
 }
 
-// --------------------
+// =================================
 // operation overload
-// --------------------
+// =================================
 
 template <class T>
 BinaryTree<T>& BinaryTree<T>::operator=(const BinaryTree<T>& other) 
@@ -646,9 +644,9 @@ std::ostream& operator<<(std::ostream& os, const BinaryTree<U>& bt)
     return os;
 }
 
-// --------------------
+// =================================
 // traversals
-// --------------------
+// =================================
 
 template <typename T>
 vector<T> BinaryTree<T>::PreOrderIterator() 
@@ -771,9 +769,9 @@ vector<T> BinaryTree<T>::LevelOrderIterator()
     return result;
 }
 
-// --------------------
-// Explicit Template Instantiation & Friend Operators
-// --------------------
+// =================================
+// Explicit Template Instantiation
+// =================================
 
 template class BinaryTree<int>;
 template class BinaryTree<char>;
