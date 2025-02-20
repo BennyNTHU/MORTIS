@@ -1,262 +1,179 @@
-# MaxHeap Documentation
+# `MaxHeap.hpp` Documentation
 
 ## Overview
 
-`MaxHeap` is a **binary heap** implemented as a **binary tree** where the maximum element is always at the root. It provides efficient insertion, deletion, and retrieval of the maximum element while maintaining the **complete binary tree** structure.
+The `MaxHeap.hpp` file defines a `MaxHeap` class, which is a specialized type of binary tree that maintains the heap property (i.e., the value of each parent node is greater than or equal to the values of its children). This class is derived from the `BinaryTree<T>` class and provides methods for inserting and removing elements, as well as maintaining the heap property through `heapify` operations.
 
-This implementation inherits from `BinaryTree<T>` and uses a **vector-based storage approach** to maintain heap properties.
-
-## Features
-
-- **Insertion (`Push`)**: Inserts a new element while maintaining the heap property.
-- **Deletion (`Pop`)**: Removes the root (maximum element) and restructures the heap.
-- **Retrieval (`Top`)**: Returns the maximum element without removing it.
-- **Heapification (`heapify_up`, `heapify_down`)**: Maintains heap structure after insertions and deletions.
-- **Level Order Traversal**: Retrieves elements in level order.
+The `MaxHeap` is implemented using a vector to store nodes in level-order, and it uses binary tree nodes (`BinaryTreeNode<T>`) to manage the structure.
 
 ---
 
-## 1. **Class Definition**
-```cpp
-template <class T>
-class MaxHeap: public BinaryTree<T> {
-private:
-    std::vector<BinaryTreeNode<T>*> nodes;  // Stores tree nodes in heap order
+## Key Components
 
-public:
-    // Constructors and Destructor
-    MaxHeap(const T& rootData);   // Constructor with root data
-    ~MaxHeap();                   // Destructor
+### `MaxHeap` Class
 
-    // Heap Operations
-    void Push(const T& value);     // Insert a value
-    void Pop();                    // Remove max element
-    const T& Top() const;          // Get the max element
-    bool IsEmpty() const;          // Check if empty
+The `MaxHeap` class extends the `BinaryTree<T>` class and provides additional methods and functionality specific to max-heaps, such as maintaining the heap property when adding or removing elements.
 
-    // Internal Heap Management
-    void heapify_up(int index);
-    void heapify_down(int index);
-    void rebuildTreeLinks();       // Rebuilds tree pointers from the array representation
-};
-```
+#### Member Variables:
+- **`nodes`**: A vector that stores the nodes of the heap in level-order (i.e., the root is at index 0, and children are stored in subsequent indices).
+  
+#### Internal Storage Helper Methods:
+- **`getParent(int index)`**: Returns the parent node of the node at the specified index in the heap.
+  
+- **`GetNodeAtIndex(int index)`**: Returns the node at the specified index in the heap.
+  
+- **`FindNextAvailableParent()`**: Finds and returns the next available parent node where a new child can be inserted.
 
 ---
 
-## 2. **Constructor and Destructor**
+### Constructors & Destructor
 
-### **Constructor**
-```cpp
-template <class T>
-MaxHeap<T>::MaxHeap(const T& rootData) : BinaryTree<T>(rootData) {
-    nodes.push_back(this->getRoot()); // Initialize with root node
-}
-```
-📌 **Explanation**: Initializes the heap with a **single root node**.
+- **`MaxHeap(const T& rootData)`**: Constructor that initializes a max-heap with the specified root data. It creates the root node and initializes the `nodes` vector.
 
-### **Destructor**
-```cpp
-template <class T>
-MaxHeap<T>::~MaxHeap() {
-    // The BinaryTree destructor will clean up all nodes.
-}
-```
-📌 **Explanation**: The destructor relies on the `BinaryTree<T>` destructor to clean up memory.
+  Example:
+  ```cpp
+  MaxHeap<int> heap(10);  // Creates a max-heap with root data 10
+  ```
+
+- **`~MaxHeap()`**: Destructor that cleans up the heap and deallocates memory used by the nodes.
+
+  Example:
+  ```cpp
+  // Automatically cleans up the heap when it goes out of scope
+  ```
 
 ---
 
-## 3. **Heap Operations**
+### Push & Pop Methods
 
-### **Push (Insertion)**
-```cpp
-template <class T>
-void MaxHeap<T>::Push(const T& value) {
-    BinaryTreeNode<T>* newNode = new BinaryTreeNode<T>(value);
-    int n = nodes.size();
+- **`void Push(const T& value)`**: Inserts a new value into the heap while maintaining the heap property. The value is added at the next available position, and the `heapify_up` method is called to ensure the max-heap property is maintained.
 
-    if (this->IsEmpty()) {
-        this->set_root(newNode);
-    } else {
-        int parentIndex = (n - 1) / 2;
-        BinaryTreeNode<T>* parentNode = nodes[parentIndex];
-        if (parentNode->getLeftChild() == nullptr) {
-            parentNode->setLeftChild(newNode);
-        } else {
-            parentNode->setRightChild(newNode);
-        }
-        newNode->setParent(parentNode);
-    }
+  Example:
+  ```cpp
+  heap.Push(15);  // Push the value 15 into the max-heap
+  ```
 
-    nodes.push_back(newNode);
-    heapify_up(nodes.size() - 1);
-}
-```
-📌 **Explanation**:
-1. Creates a **new node**.
-2. Inserts it at the **next available position** (complete binary tree).
-3. Updates **parent-child relationships**.
-4. Calls **heapify_up** to maintain heap properties.
+- **`void Pop()`**: Removes the maximum element (the root) from the heap. The last element in the heap is moved to the root position, and the `heapify_down` method is called to restore the heap property.
+
+  Example:
+  ```cpp
+  heap.Pop();  // Remove the maximum element (root) from the heap
+  ```
 
 ---
 
-### **Pop (Remove Max Element)**
-```cpp
-template <class T>
-void MaxHeap<T>::Pop() {
-    if (this->IsEmpty()) {
-        std::cout << "Heap is empty!" << std::endl;
-        return;
-    }
+### Helper Methods to Maintain Heap Property
 
-    BinaryTreeNode<T>* oldRoot = this->getRoot();
-    int n = nodes.size();
+- **`void rebuildTreeLinks()`**: Rebuilds the parent-child links in the tree from the array representation. This ensures that the heap structure is correctly maintained after modifications.
 
-    if (n == 1) {
-        this->set_root(nullptr);
-        delete oldRoot;
-        nodes.clear();
-        return;
-    }
+  Example:
+  ```cpp
+  heap.rebuildTreeLinks();  // Rebuild the tree links after modifications
+  ```
 
-    BinaryTreeNode<T>* lastNode = nodes.back();
-    nodes.pop_back();
-    nodes[0] = lastNode;
+- **`void heapify_up(int index)`**: A method that restores the heap property by moving the node at the specified `index` upwards until the heap property is satisfied (i.e., the parent is greater than the child).
 
-    BinaryTreeNode<T>* parentOfLast = lastNode->getParent();
-    if (parentOfLast) {
-        if (parentOfLast->getLeftChild() == lastNode)
-            parentOfLast->setLeftChild(nullptr);
-        else
-            parentOfLast->setRightChild(nullptr);
-    }
-    lastNode->setParent(nullptr);
+  Example:
+  ```cpp
+  heap.heapify_up(3);  // Restore the heap property for the node at index 3
+  ```
 
-    lastNode->setLeftChild(oldRoot->getLeftChild());
-    if (lastNode->getLeftChild() && lastNode->getLeftChild() != lastNode)
-        lastNode->getLeftChild()->setParent(lastNode);
+- **`void heapify_down(int index)`**: A method that restores the heap property by moving the node at the specified `index` downwards until the heap property is satisfied (i.e., the parent is greater than its children).
 
-    lastNode->setRightChild(oldRoot->getRightChild());
-    if (lastNode->getRightChild() && lastNode->getRightChild() != lastNode)
-        lastNode->getRightChild()->setParent(lastNode);
-
-    this->set_root(lastNode);
-    rebuildTreeLinks();
-    heapify_down(0);
-    delete oldRoot;
-}
-```
-📌 **Explanation**:
-1. Stores the **current root** (max element).
-2. Replaces it with the **last node**.
-3. Updates **parent-child links**.
-4. Calls **heapify_down** to maintain heap properties.
+  Example:
+  ```cpp
+  heap.heapify_down(0);  // Restore the heap property for the root node
+  ```
 
 ---
 
-### **Top (Retrieve Max Element)**
-```cpp
-template <class T>
-const T& MaxHeap<T>::Top() const {
-    return this->getRoot()->getData();
-}
-```
-📌 **Explanation**: Returns the **root node’s data**, which is always the maximum.
+### Level-Order Traversal
+
+- **`std::vector<BinaryTreeNode<T>*> LevelOrderIterator()`**: Returns a vector of nodes in level-order, which is a breadth-first traversal of the tree. This method provides the nodes as `BinaryTreeNode<T>*` pointers.
+
+  Example:
+  ```cpp
+  auto levelOrderNodes = heap.LevelOrderIterator();  // Get the nodes in level-order
+  ```
 
 ---
 
-### **IsEmpty**
-```cpp
-template <class T>
-bool MaxHeap<T>::IsEmpty() const {
-    return nodes.empty();
-}
-```
-📌 **Explanation**: Checks if the heap has no elements.
+### Disabled `BinaryTree` Functions
+
+The `MaxHeap` class disables certain functions from the `BinaryTree` class that are not applicable to heaps. These methods are deleted to prevent misuse.
+
+- **`void InsertRight(BinaryTreeNode<T>* node, BinaryTreeNode<T>* right) = delete;`**
+- **`void InsertLeft(BinaryTreeNode<T>* node, BinaryTreeNode<T>* left) = delete;`**
+- **`void InsertRightSubtree(BinaryTreeNode<T>* node, BinaryTree<T>* right) = delete;`**
+- **`void InsertLeftSubtree(BinaryTreeNode<T>* node, BinaryTree<T>* left) = delete;`**
+
+These methods are not used in heaps because the insertion of nodes in a heap is handled differently to maintain the heap property.
 
 ---
 
-## 4. **Heap Property Maintenance**
+## Example Usage
 
-### **Heapify Up**
+Here’s an example demonstrating how to use the `MaxHeap` class:
+
 ```cpp
-template <class T>
-void MaxHeap<T>::heapify_up(int index) {
-    while (index > 0) {
-        int parentIndex = (index - 1) / 2;
-        if (nodes[index]->getData() > nodes[parentIndex]->getData()) {
-            std::swap(nodes[index], nodes[parentIndex]);
-            rebuildTreeLinks();
-            index = parentIndex;
-        } else {
-            break;
-        }
-    }
-}
-```
-📌 **Explanation**:
-- Moves the inserted node **upward** if it is greater than its parent.
-
----
-
-### **Heapify Down**
-```cpp
-template <class T>
-void MaxHeap<T>::heapify_down(int index) {
-    int n = nodes.size();
-    while (true) {
-        int leftIndex = 2 * index + 1;
-        int rightIndex = 2 * index + 2;
-        int largest = index;
-
-        if (leftIndex < n && nodes[leftIndex]->getData() > nodes[largest]->getData())
-            largest = leftIndex;
-        if (rightIndex < n && nodes[rightIndex]->getData() > nodes[largest]->getData())
-            largest = rightIndex;
-
-        if (largest != index) {
-            std::swap(nodes[index], nodes[largest]);
-            rebuildTreeLinks();
-            index = largest;
-        } else {
-            break;
-        }
-    }
-}
-```
-📌 **Explanation**:
-- Moves the root **downward** if it is smaller than a child.
-
----
-
-## 5. **Example Usage**
-```cpp
-#include <iostream>
 #include "MaxHeap.hpp"
+#include <iostream>
 
 int main() {
-    MaxHeap<int> heap(10);  // Initialize with root 10
+    // Create a max-heap with an initial value of 10
+    MaxHeap<int> heap(10);
 
-    heap.Push(20);
+    // Push elements into the heap
     heap.Push(15);
-    heap.Push(30);
-    heap.Push(25);
+    heap.Push(20);
+    heap.Push(5);
 
-    std::cout << "Max element: " << heap.Top() << std::endl; // 30
+    // Display the elements in level-order
+    auto levelOrderNodes = heap.LevelOrderIterator();
+    for (auto node : levelOrderNodes) {
+        std::cout << node->getData() << " ";  // Print each node's data
+    }
+    std::cout << std::endl;
 
+    // Pop the maximum element (the root)
     heap.Pop();
-    std::cout << "After Pop, Max element: " << heap.Top() << std::endl; // 25
+
+    // Display the elements after popping the root
+    levelOrderNodes = heap.LevelOrderIterator();
+    for (auto node : levelOrderNodes) {
+        std::cout << node->getData() << " ";  // Print each node's data after pop
+    }
+    std::cout << std::endl;
 
     return 0;
 }
 ```
 
+### Explanation:
+- The code demonstrates creating a `MaxHeap` with an initial root value of 10.
+- Elements are inserted into the heap using the `Push` method, and the heap is printed in level-order using the `LevelOrderIterator` method.
+- The maximum element (the root) is removed using the `Pop` method, and the heap is printed again to show the updated structure.
+
 ---
 
-## Summary
+## Potential Errors & Edge Cases
 
-| Function         | Description |
-|-----------------|-------------|
-| `Push(value)`   | Inserts an element and maintains heap properties. |
-| `Pop()`         | Removes the max element and restructures the heap. |
-| `Top()`         | Returns the max element without removing it. |
-| `IsEmpty()`     | Checks if the heap is empty. |
+1. **Heap Underflow**: Calling `Pop()` on an empty heap could result in undefined behavior. Ensure that the heap is not empty before attempting to remove an element. Consider adding a check for emptiness:
+
+   Example:
+   ```cpp
+   if (!heap.IsEmpty()) {
+       heap.Pop();
+   }
+   ```
+
+2. **Heap Property Violations**: After modifying the heap (inserting or removing elements), ensure that the `heapify_up` and `heapify_down` methods are properly called to restore the heap property.
+
+3. **Full Heap**: While the class doesn't explicitly handle resizing, it assumes that the heap can grow as needed. If the heap has a fixed size or you wish to limit its growth, implement logic to prevent adding elements once the heap is full.
+
+---
+
+## Dependencies
+
+- **`BinaryTree.hpp`**: The `MaxHeap` class inherits from the `BinaryTree<T>` class, so ensure that the `BinaryTree` class is properly defined and includes basic tree operations like adding and removing nodes.
+- **`BinaryTreeNode.hpp`**: This file relies on `BinaryTreeNode<T>` to represent individual nodes in the heap. Ensure that the `BinaryTreeNode<T>` class is correctly defined for managing node data and pointers.

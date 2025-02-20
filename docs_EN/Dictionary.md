@@ -1,287 +1,223 @@
-# **Dictionary API Documentation**
+# `Dictionary.hpp` Documentation
 
-## **Overview**
-The `Dictionary<K, V>` class is a **key-value storage** container similar to a **hash map** or **associative array**. It supports **basic operations** such as **insertion, deletion, lookup, mapping, and reduction** while maintaining a **fixed capacity**.
+## Overview
 
-This class supports **various data types** for keys and values:
-- `int`
-- `char`
-- `float`
-- `bool`
-- `double`
-- `std::string`
-- `GeneralArray<MIXED_TYPE>`
-- `Polynomial`
-- `SparseMatrix`
-- `String`
-
-## **Table of Contents**
-- [Dictionary API Documentation](#dictionary-api-documentation)
-  - [Overview](#overview)
-  - [Class Declaration](#class-declaration)
-  - [Constructors & Destructor](#constructors--destructor)
-  - [Properties](#properties)
-  - [Manipulation Functions](#manipulation-functions)
-  - [Operator Overloads](#operator-overloads)
-  - [Example Usage](#example-usage)
-  - [Complete Example](#complete-example)
+The `Dictionary.hpp` file defines a templated `Dictionary` class, which implements a key-value store. It allows users to store, retrieve, and manipulate key-value pairs, and includes several useful methods for dictionary operations such as insertion, removal, and searching. The dictionary also supports various operations on the values associated with keys, such as applying transformations and merging values.
 
 ---
 
-## **Class Declaration**
+## Key Components
+
+### `KeyValuePair` Structure
+
+The `KeyValuePair` struct represents a single key-value pair in the dictionary. It contains:
+- **`key`**: The key in the key-value pair.
+- **`value`**: The value associated with the key.
+
 ```cpp
-template <typename K, typename V>
-class Dictionary
+template <class K, class V>
+struct KeyValuePair
 {
-private:
-    int capacity;               // Maximum number of elements
-    int size;                   // Current number of elements
-    KeyValuePair<K, V>* arr;    // Array of key-value pairs
-
-public:
-    // Constructors & Destructor
-    Dictionary(int c);
-    Dictionary(const Dictionary<K, V>& dict);
-    ~Dictionary();
-
-    // Properties
-    int Capacity() const;
-    bool IsEmpty() const;
-    int Size() const;
-    bool isBelong(const K& key) const;
-
-    // Manipulation
-    void Insert(const KeyValuePair<K, V>& pair);
-    void Remove(const K& key);
-    vector<V> Map(const K& key) const;
-    void reduce(std::function<V(const V&, const V&)> reducer);
-
-    // Operators
-    Dictionary<K, V>& operator=(const Dictionary<K, V>& dict);
-    V& operator[](const K& key);
-    bool operator==(const Dictionary<K, V>& dict) const;
-    bool operator!=(const Dictionary<K, V>& dict) const;
-    template <typename U, typename W>
-    friend std::ostream& operator<<(std::ostream& os, const Dictionary<U, W>& dict);
+    K key;   // The key
+    V value; // The value associated with the key
 };
 ```
 
----
+### `Dictionary` Class
 
-## **Constructors & Destructor**
+The `Dictionary` class stores a collection of `KeyValuePair` objects and provides methods for interacting with them. The keys and values can be of any types specified by the template parameters `K` and `V`.
 
-### **Dictionary(int c)**
-Creates a new dictionary with a given **capacity**.
-```cpp
-Dictionary<int, std::string> dict(10); // Create a dictionary with capacity 10
-```
+#### Member Variables:
+- **`capacity`**: The maximum number of key-value pairs the dictionary can hold before resizing.
+- **`size`**: The number of key-value pairs currently stored in the dictionary.
+- **`arr`**: An array that stores the key-value pairs.
 
-### **Dictionary(const Dictionary<K, V>& dict)**
-Creates a **deep copy** of an existing dictionary.
+#### Constructors & Destructor:
+- **`Dictionary(int c)`**: Initializes the dictionary with the specified capacity `c`.
 
-```cpp
-Dictionary<std::string, int> dict1(5);
-Dictionary<std::string, int> dict2 = dict1; // Copy constructor
-```
+  Example:
+  ```cpp
+  Dictionary<int, std::string> dict(10);  // Create a dictionary with a capacity of 10
+  ```
 
-### **~Dictionary()**
-Destroys the dictionary and deallocates memory.
+- **`Dictionary(const Dictionary<K, V>& dict)`**: Copy constructor that initializes the dictionary by copying the contents of another dictionary.
 
----
+  Example:
+  ```cpp
+  Dictionary<int, std::string> dictCopy = dict;  // Create a copy of the dictionary
+  ```
 
-## **Properties**
+- **`~Dictionary()`**: Destructor that frees the resources used by the dictionary.
 
-### **int Capacity() const**
-Returns the maximum number of elements the dictionary can hold.
+#### Properties:
+- **`Capacity()`**: Returns the capacity of the dictionary.
 
-```cpp
-cout << "Capacity: " << dict.Capacity() << endl;
-```
+  Example:
+  ```cpp
+  int cap = dict.Capacity();  // Get the capacity of the dictionary
+  ```
 
-### **bool IsEmpty() const**
-Checks if the dictionary is empty.
+- **`IsEmpty()`**: Returns `true` if the dictionary is empty, otherwise `false`.
 
-```cpp
-if (dict.IsEmpty()) {
-    cout << "Dictionary is empty!" << endl;
-}
-```
+  Example:
+  ```cpp
+  bool isEmpty = dict.IsEmpty();  // Check if the dictionary is empty
+  ```
 
-### **int Size() const**
-Returns the current number of elements.
+- **`Size()`**: Returns the number of elements currently stored in the dictionary.
 
-```cpp
-cout << "Size: " << dict.Size() << endl;
-```
+  Example:
+  ```cpp
+  int size = dict.Size();  // Get the number of key-value pairs in the dictionary
+  ```
 
-### **bool isBelong(const K& key) const**
-Checks if a key exists in the dictionary.
+- **`isBelong(const K& key)`**: Returns `true` if the specified key is present in the dictionary, otherwise `false`.
 
-```cpp
-if (dict.isBelong("apple")) {
-    cout << "Apple is in the dictionary!" << endl;
-}
-```
+  Example:
+  ```cpp
+  bool exists = dict.isBelong(5);  // Check if key 5 is in the dictionary
+  ```
 
----
+#### Manipulation Functions:
+- **`Insert(const KeyValuePair<K, V>& pair)`**: Inserts a key-value pair into the dictionary.
 
-## **Manipulation Functions**
+  Example:
+  ```cpp
+  KeyValuePair<int, std::string> pair = {1, "apple"};
+  dict.Insert(pair);  // Insert the key-value pair into the dictionary
+  ```
 
-### **void Insert(const KeyValuePair<K, V>& pair)**
-Inserts a **key-value pair** into the dictionary.
+- **`Remove(const K& key)`**: Removes the key-value pair with the specified key from the dictionary.
 
-```cpp
-Dictionary<std::string, int> dict(5);
-dict.Insert({"apple", 3});
-dict.Insert({"banana", 2});
-```
+  Example:
+  ```cpp
+  dict.Remove(5);  // Remove the key-value pair with key 5
+  ```
 
-### **void Remove(const K& key)**
-Removes **all values** associated with a key.
+- **`Map(const K& key)`**: Returns a vector of values associated with the given key. This function can handle multiple values for the same key.
 
-```cpp
-dict.Remove("apple");
-```
+  Example:
+  ```cpp
+  auto values = dict.Map(1);  // Get all values associated with key 1
+  ```
 
-### **vector<V> Map(const K& key) const**
-Returns **all values** associated with a key.
+- **`reduce(std::function<V(const V&, const V&)> reducer)`**: Applies a reduction function to combine values in the dictionary. The reducer function takes two values of type `V` and returns a new value.
 
-```cpp
-vector<int> values = dict.Map("banana");
-for (int v : values) {
-    cout << v << " ";
-}
-```
+  Example:
+  ```cpp
+  dict.reduce([](const std::string& v1, const std::string& v2) {
+      return v1 + " " + v2;  // Combine string values by concatenation
+  });
+  ```
 
-### **void reduce(std::function<V(const V&, const V&)> reducer)**
-Merges values with the **same key** using a **user-defined function**.
+#### Operator Overloads:
+- **`operator=`**: Assignment operator for copying the contents of another dictionary.
 
-```cpp
-Dictionary<std::string, int> dict(5);
-dict.Insert({"apple", 3});
-dict.Insert({"apple", 5});
-dict.reduce([](int a, int b) { return a + b; }); // Combine duplicate keys by summing values
-```
+  Example:
+  ```cpp
+  dict = anotherDict;  // Copy the contents of anotherDict to dict
+  ```
 
----
+- **`operator[]`**: Accessor for the value associated with a given key. If the key is not found, it may throw an exception or return a default value, depending on the implementation.
 
-## **Operator Overloads**
+  Example:
+  ```cpp
+  std::string value = dict[5];  // Access the value associated with key 5
+  ```
 
-### **Dictionary<K, V>& operator=(const Dictionary<K, V>& dict)**
-Assigns one dictionary to another.
+- **`operator==`**: Checks if two dictionaries are equal (i.e., contain the same key-value pairs).
 
-```cpp
-Dictionary<std::string, int> dict1(5);
-Dictionary<std::string, int> dict2 = dict1; // Assignment
-```
+  Example:
+  ```cpp
+  if (dict == anotherDict) {
+      // Dictionaries are equal
+  }
+  ```
 
-### **V& operator[](const K& key)**
-Retrieves a value associated with a key.
+- **`operator!=`**: Checks if two dictionaries are not equal.
 
-```cpp
-cout << "Value: " << dict["apple"] << endl;
-```
+  Example:
+  ```cpp
+  if (dict != anotherDict) {
+      // Dictionaries are not equal
+  }
+  ```
 
-### **bool operator==(const Dictionary<K, V>& dict) const**
-Checks if two dictionaries are equal.
+- **`operator<<`**: Overloads the stream insertion (`<<`) operator to print the contents of the dictionary.
 
-```cpp
-if (dict1 == dict2) {
-    cout << "Dictionaries are equal!" << endl;
-}
-```
-
-### **bool operator!=(const Dictionary<K, V>& dict) const**
-Checks if two dictionaries are **not equal**.
-
-```cpp
-if (dict1 != dict2) {
-    cout << "Dictionaries are different!" << endl;
-}
-```
-
-### **friend ostream& operator<<(ostream& os, const Dictionary<K, V>& dict)**
-Prints the dictionary.
-
-```cpp
-cout << dict << endl;
-```
+  Example:
+  ```cpp
+  std::cout << dict;  // Prints the dictionary contents
+  ```
 
 ---
 
-## **Example Usage**
+## Example Usage
 
-### **Basic Operations**
-```cpp
-#include "Dictionary.hpp"
+Here’s an example demonstrating how to use the `Dictionary` class:
 
-int main() {
-    Dictionary<std::string, int> dict(10);
-
-    // Insert elements
-    dict.Insert({"apple", 3});
-    dict.Insert({"banana", 2});
-    dict.Insert({"apple", 5});
-
-    // Check properties
-    cout << "Size: " << dict.Size() << endl;
-    cout << "Is empty? " << (dict.IsEmpty() ? "Yes" : "No") << endl;
-
-    // Remove an element
-    dict.Remove("banana");
-
-    // Map operation
-    vector<int> appleValues = dict.Map("apple");
-    cout << "Values for 'apple': ";
-    for (int v : appleValues) cout << v << " ";
-    cout << endl;
-
-    // Reduce operation
-    dict.reduce([](int a, int b) { return a + b; });
-    cout << "After reduction: " << dict << endl;
-
-    return 0;
-}
-```
-
----
-
-## **Complete Example**
 ```cpp
 #include "Dictionary.hpp"
 #include <iostream>
 
 int main() {
-    Dictionary<std::string, double> dict(10);
+    // Create a dictionary with integer keys and string values
+    Dictionary<int, std::string> dict(10);
 
-    // Insert key-value pairs
-    dict.Insert({"Apple", 2.5});
-    dict.Insert({"Banana", 1.2});
-    dict.Insert({"Apple", 3.5});
-    dict.Insert({"Orange", 1.8});
-    
+    // Insert key-value pairs into the dictionary
+    dict.Insert({1, "apple"});
+    dict.Insert({2, "banana"});
+    dict.Insert({3, "cherry"});
+
     // Print the dictionary
-    cout << "Initial Dictionary: " << dict << endl;
+    std::cout << "Dictionary contents: " << dict << std::endl;
 
-    // Check for key existence
-    cout << "Does 'Apple' exist? " << (dict.isBelong("Apple") ? "Yes" : "No") << endl;
+    // Get the size of the dictionary
+    std::cout << "Size of dictionary: " << dict.Size() << std::endl;
 
-    // Reduce values with a summing function
-    dict.reduce([](double a, double b) { return a + b; });
+    // Check if a key exists in the dictionary
+    std::cout << "Does key 2 exist? " << (dict.isBelong(2) ? "Yes" : "No") << std::endl;
 
-    cout << "After Reduction: " << dict << endl;
+    // Access a value using the key
+    std::cout << "Value for key 2: " << dict[2] << std::endl;
 
-    // Remove an entry
-    dict.Remove("Banana");
+    // Remove a key-value pair
+    dict.Remove(2);
+    std::cout << "After removing key 2: " << dict << std::endl;
 
-    // Final state
-    cout << "Final Dictionary: " << dict << endl;
+    // Apply a reduce function (e.g., concatenate string values)
+    dict.reduce([](const std::string& v1, const std::string& v2) {
+        return v1 + " " + v2;
+    });
+
+    // Print the modified dictionary
+    std::cout << "After reduce operation: " << dict << std::endl;
 
     return 0;
 }
 ```
 
+### Explanation:
+- The code creates a `Dictionary` of integers as keys and strings as values.
+- Key-value pairs are inserted using the `Insert()` method, and the dictionary is printed using the `operator<<`.
+- The program checks the size of the dictionary and checks for the presence of a specific key.
+- The `Remove()` function is used to remove a key-value pair, and a reduction operation is applied using the `reduce()` method to combine string values.
+
 ---
 
-## **Conclusion**
-The **Dictionary<K, V>** class is a **lightweight key-value store** that provides **basic dictionary functionalities**. It supports **custom types**, **mapping**, **reductions**, and **operator overloads**, making it versatile for various applications.
+## Potential Errors & Edge Cases
+
+1. **Key Not Found in `operator[]`**: If you attempt to access a key that does not exist, make sure to handle the case properly. Some implementations might throw an exception, while others may return a default value.
+
+2. **Capacity Exceeded**: When inserting items into the dictionary, ensure that the dictionary resizes properly if the number of elements exceeds its initial capacity.
+
+3. **Multiple Values for Same Key**: The `Map()` function may return multiple values for the same key. Ensure that the dictionary design handles this case if necessary.
+
+4. **Memory Management**: Ensure proper memory handling, especially when copying dictionaries or handling dynamic memory for key-value pairs.
+
+---
+
+## Dependencies
+
+- **C++ Standard Library**: This class uses `std::variant` for storing mixed types and `std::function` for the `reduce()` operation. Ensure you are using a C++17 or higher compiler for `std::variant` and `std::function`.
+- **Other Includes**: This class includes `GeneralArray`, `Polynomial`, `SparseMatrix`, and `String` types, which should be properly defined and included.

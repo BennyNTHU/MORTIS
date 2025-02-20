@@ -1,270 +1,133 @@
-# HashTable Documentation
+# HashTable.hpp Documentation
 
 ## Overview
 
-The **HashTable** class is a templated hash table implementation that supports separate chaining to handle collisions. It uses a **Doubly Linked List** to store elements that hash to the same index.
+The `HashTable.hpp` header file defines a template class `HashTable` that implements a hash table data structure. A hash table is a collection of key-value pairs where keys are mapped to indices in an array using a hash function. This implementation uses separate chaining (via `DoublyLinkedList`) to handle collisions, meaning that multiple keys that hash to the same index are stored in a linked list at that index.
 
-This hash table supports storing the following types **separately**:
-- `int`
-- `char`
-- `std::string` (C++ built-in string type)
+The `HashTable` class supports insertion, search, and removal of keys, and it can handle multiple data types.
 
----
+## Class: `HashTable<T>`
 
-## Table of Contents
-- [HashTable Documentation](#hashtable-documentation)
-  - [Overview](#overview)
-  - [Table of Contents](#table-of-contents)
-  - [Class Definition](#class-definition)
-  - [Constructor](#constructor)
-    - [`HashTable(size_t size)`](#hashtablesize_t-size)
-  - [Destructor](#destructor)
-    - [`~HashTable()`](#hashtable)
-  - [Public Methods](#public-methods)
-    - [`void insert(const T& key)`](#void-insertconst-t-key)
-    - [`bool search(const T& key) const`](#bool-searchconst-t-key-const)
-    - [`bool remove(const T& key)`](#bool-removeconst-t-key)
-    - [`void display() const`](#void-display-const)
-  - [Example Usage](#example-usage)
-  - [Conclusion](#conclusion)
+### Description
+The `HashTable<T>` class is a template class that represents a hash table. It uses a vector of `DoublyLinkedList<T>` to store the keys, and a hash function to map keys to indices in the vector.
 
----
+### Template Parameters
+- `T`: The type of keys stored in the hash table.
 
-## Class Definition
+### Constructors and Destructor
 
-```cpp
-template <typename T>
-class HashTable {
-public:
-    explicit HashTable(size_t size);
-    ~HashTable();
+#### `explicit HashTable(size_t size)`
+- **Description**: Constructor. Initializes a hash table with a specified capacity.
+- **Parameters**:
+  - `size`: The capacity of the hash table (number of buckets).
+- **Usage**:
+  ```cpp
+  HashTable<int> hashTable(10);  // Creates a hash table with 10 buckets
+  ```
 
-    void insert(const T& key);
-    bool search(const T& key) const;
-    bool remove(const T& key);
-    void display() const;
+#### `~HashTable()`
+- **Description**: Destructor. Cleans up the hash table by deleting all elements.
+- **Usage**: Automatically called when the object goes out of scope.
 
-private:
-    size_t hashFunction(const T& key) const;
-    size_t capacity;
-    std::vector<DoublyLinkedList<T>> table;
-};
-```
+### Methods
 
----
+#### `void insert(const T& key)`
+- **Description**: Inserts a key into the hash table.
+- **Parameters**:
+  - `key`: The key to insert.
+- **Usage**:
+  ```cpp
+  HashTable<int> hashTable(10);
+  hashTable.insert(42);  // Inserts the key 42 into the hash table
+  ```
 
-## Constructor
+#### `bool search(const T& key) const`
+- **Description**: Searches for a key in the hash table.
+- **Parameters**:
+  - `key`: The key to search for.
+- **Return Value**: `true` if the key is found, `false` otherwise.
+- **Usage**:
+  ```cpp
+  HashTable<int> hashTable(10);
+  hashTable.insert(42);
+  bool found = hashTable.search(42);  // found is true
+  ```
 
-### `HashTable(size_t size)`
-**Description:**  
-Creates a hash table with the given number of buckets.
+#### `bool remove(const T& key)`
+- **Description**: Removes a key from the hash table.
+- **Parameters**:
+  - `key`: The key to remove.
+- **Return Value**: `true` if the key was found and removed, `false` otherwise.
+- **Usage**:
+  ```cpp
+  HashTable<int> hashTable(10);
+  hashTable.insert(42);
+  bool removed = hashTable.remove(42);  // removed is true
+  ```
 
-**Parameters:**
-- `size_t size` – The number of buckets in the hash table.
+#### `void display() const`
+- **Description**: Displays the contents of the hash table.
+- **Usage**:
+  ```cpp
+  HashTable<int> hashTable(10);
+  hashTable.insert(42);
+  hashTable.display();  // Prints the contents of the hash table
+  ```
 
-**Example:**
-```cpp
-HashTable<int> intTable(10);  // Creates an integer hash table with 10 buckets.
-```
+### Private Methods
 
----
-
-## Destructor
-
-### `~HashTable()`
-**Description:**  
-Destroys the hash table and frees up memory.
-
-**Example:**
-```cpp
-{
-    HashTable<char> charTable(10);
-} // Automatically destroyed when it goes out of scope.
-```
-
----
-
-## Public Methods
-
-### `void insert(const T& key)`
-**Description:**  
-Inserts a new key into the hash table. If the key already exists, it is **not** inserted again.
-
-**Parameters:**
-- `const T& key` – The key to be inserted.
-
-**Example:**
-```cpp
-HashTable<int> table(5);
-table.insert(42);
-table.insert(21);
-table.insert(42); // Duplicate, will not be inserted again.
-```
-
----
-
-### `bool search(const T& key) const`
-**Description:**  
-Searches for a key in the hash table.
-
-**Parameters:**
-- `const T& key` – The key to be searched.
-
-**Returns:**
-- `true` – If the key exists in the table.
-- `false` – If the key does not exist.
-
-**Example:**
-```cpp
-HashTable<std::string> strTable(5);
-strTable.insert("apple");
-
-if (strTable.search("apple")) {
-    std::cout << "Found apple!" << std::endl;
-} else {
-    std::cout << "Apple not found." << std::endl;
-}
-```
-
----
-
-### `bool remove(const T& key)`
-**Description:**  
-Removes a key from the hash table if it exists.
-
-**Parameters:**
-- `const T& key` – The key to be removed.
-
-**Returns:**
-- `true` – If the key was found and removed.
-- `false` – If the key was not found.
-
-**Example:**
-```cpp
-HashTable<char> charTable(5);
-charTable.insert('A');
-charTable.insert('B');
-
-charTable.remove('A');  // Removes 'A'
-charTable.remove('X');  // Returns false, since 'X' doesn't exist
-```
-
----
-
-### `void display() const`
-**Description:**  
-Displays the contents of the hash table.
-
-**Example:**
-```cpp
-HashTable<int> table(5);
-table.insert(12);
-table.insert(7);
-table.insert(42);
-
-table.display();  
-```
-
-**Possible Output:**
-```
-Bucket 0: nullptr
-Bucket 1: 7 -> nullptr
-Bucket 2: 12 -> nullptr
-Bucket 3: nullptr
-Bucket 4: 42 -> nullptr
-```
-
----
+#### `size_t hashFunction(const T& key) const`
+- **Description**: The hash function used to map keys to indices in the hash table.
+- **Parameters**:
+  - `key`: The key to hash.
+- **Return Value**: The index in the hash table where the key should be stored.
+- **Usage**: This method is used internally by the `insert`, `search`, and `remove` methods.
 
 ## Example Usage
 
-Here is a full example that demonstrates the usage of the **HashTable** class with different data types:
-
 ```cpp
-#include <iostream>
 #include "HashTable.hpp"
+#include <iostream>
 
 int main() {
-    // Integer Hash Table
-    HashTable<int> intTable(10);
-    intTable.insert(10);
-    intTable.insert(20);
-    intTable.insert(30);
-    std::cout << "Integer Hash Table:" << std::endl;
-    intTable.display();
+    // Create a hash table with 10 buckets
+    HashTable<int> hashTable(10);
 
-    // Char Hash Table
-    HashTable<char> charTable(5);
-    charTable.insert('A');
-    charTable.insert('B');
-    charTable.insert('C');
-    std::cout << "\nChar Hash Table:" << std::endl;
-    charTable.display();
+    // Insert some keys
+    hashTable.insert(42);
+    hashTable.insert(15);
+    hashTable.insert(7);
+    hashTable.insert(23);
 
-    // String Hash Table
-    HashTable<std::string> strTable(7);
-    strTable.insert("hello");
-    strTable.insert("world");
-    strTable.insert("hash");
-    std::cout << "\nString Hash Table:" << std::endl;
-    strTable.display();
+    // Search for a key
+    bool found = hashTable.search(15);
+    std::cout << "Key 15 found: " << std::boolalpha << found << std::endl;
 
-    // Searching
-    std::cout << "\nSearching for 'hello' in String Hash Table: " 
-              << (strTable.search("hello") ? "Found" : "Not Found") << std::endl;
+    // Remove a key
+    bool removed = hashTable.remove(7);
+    std::cout << "Key 7 removed: " << std::boolalpha << removed << std::endl;
 
-    // Removing
-    strTable.remove("hello");
-    std::cout << "\nAfter removing 'hello':" << std::endl;
-    strTable.display();
+    // Display the hash table
+    hashTable.display();
 
     return 0;
 }
 ```
 
-**Expected Output:**
-```
-Integer Hash Table:
-Bucket 0: nullptr
-Bucket 1: 10 -> nullptr
-Bucket 2: 20 -> nullptr
-Bucket 3: 30 -> nullptr
-...
+## Potential Errors and Edge Cases
 
-Char Hash Table:
-Bucket 0: nullptr
-Bucket 1: A -> nullptr
-Bucket 2: B -> nullptr
-Bucket 3: C -> nullptr
-...
+1. **Hash Collisions**: The hash table uses separate chaining to handle collisions, but excessive collisions can degrade performance. Ensure that the hash function distributes keys evenly across the buckets.
+2. **Invalid Key Types**: The hash function must be compatible with the key type `T`. If `T` is a custom type, ensure that a suitable hash function is implemented.
+3. **Empty Hash Table**: Searching or removing keys from an empty hash table will return `false`. Ensure that the hash table is not empty before performing these operations.
+4. **Memory Management**: When dynamically allocating keys, ensure proper cleanup to avoid memory leaks.
 
-String Hash Table:
-Bucket 0: nullptr
-Bucket 1: hash -> nullptr
-Bucket 2: world -> nullptr
-Bucket 3: hello -> nullptr
-...
+## Dependencies
 
-Searching for 'hello' in String Hash Table: Found
+- **DoublyLinkedList.hpp**: The `HashTable` class uses `DoublyLinkedList` to handle collisions. Ensure that this file is included and properly configured in your project.
+- **DLIterator.hpp**: The `HashTable` class uses `DLIterator` for iterating over the linked lists. Ensure that this file is included and properly configured.
+- **DoubleNode.hpp**: The `HashTable` class uses `DoubleNode` for the nodes in the linked lists. Ensure that this file is included and properly configured.
+- **Standard Library**: The header file includes `<iostream>` and `<vector>`, which are part of the C++ Standard Library. Ensure that your environment is configured to use the standard library.
 
-After removing 'hello':
-Bucket 0: nullptr
-Bucket 1: hash -> nullptr
-Bucket 2: world -> nullptr
-Bucket 3: nullptr
-...
-```
+## Summary
 
----
-
-## Conclusion
-
-This documentation provides a detailed guide on how to use the `HashTable` class, including its:
-- **Constructor**
-- **Insert** function
-- **Search** function
-- **Remove** function
-- **Display** function
-- **Example usage** of different data types
-
-By following the examples, users can efficiently store and manage their data using the **HashTable** class.
+The `HashTable.hpp` file provides a flexible implementation of a hash table data structure, supporting insertion, search, and removal of keys. By following the examples and guidelines provided, you can effectively use this class to build and manipulate hash tables in your projects.

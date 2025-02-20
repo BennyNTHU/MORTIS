@@ -1,482 +1,297 @@
-# MultiGraph API Documentation
+# MultiGraph.hpp Documentation
 
-The `MultiGraph` class is a graph data structure that supports multiple edges between the same pair of vertices. In other words, the graph allows parallel edges. This is useful in scenarios where there are multiple connections (with potentially different weights or properties) between the same nodes. The graph can be either directed or undirected and either weighted or unweighted. In unweighted mode, any weight provided is forced to 1.
+## Overview
 
-## Table of Contents
+The `MultiGraph.hpp` header file defines a `MultiGraph` class that represents a multigraph data structure. A multigraph is a graph that can have multiple edges between the same pair of nodes. The `MultiGraph` class supports both weighted and unweighted edges, as well as directed and undirected graphs. Each node is represented by an integer, and edges are stored as triples `{u, v, w}`, where `u` is the source node, `v` is the destination node, and `w` is the edge weight (defaulting to 1 for unweighted graphs).
 
-1. [Overview](#overview)
-2. [Graph Properties](#graph-properties)
-3. [Constructors and Destructor](#constructors-and-destructor)
-4. [Basic Operations](#basic-operations)
-5. [Graph Search Algorithms](#graph-search-algorithms)
-6. [Spanning Tree and Connectivity](#spanning-tree-and-connectivity)
-7. [Shortest Paths Algorithms](#shortest-paths-algorithms)
-8. [Adjacency Matrix Generation](#adjacency-matrix-generation)
-9. [Example Code](#example-code)
-10. [Additional Notes](#additional-notes)
+## Class: `MultiGraph`
 
----
+### Description
+The `MultiGraph` class represents a multigraph with nodes and edges. It provides methods to add/remove nodes and edges, query properties of the graph, and perform operations like checking if the graph is Eulerian.
 
-## 1. Overview
+### Key Features
+- **Weighted/Unweighted**: Supports both weighted and unweighted edges.
+- **Directed/Undirected**: Can operate as either a directed or undirected graph.
+- **Multiple Edges**: Allows multiple edges between the same pair of nodes.
 
-The `MultiGraph` class provides an implementation for graphs that allow multiple edges (parallel edges) between nodes. In addition to the conventional properties of graphs, this class maintains:
-- A vector of node identifiers.
-- An edge list where each edge is represented by a triple `{u, v, w}`.  
-  When the graph is unweighted, the weight (`w`) is automatically set to 1.
-- An adjacency list that stores neighbors for each vertex.
-- Attributes indicating whether the graph is weighted and/or directed.
+### Constructors and Destructor
 
----
-
-## 2. Graph Properties
-
-The key private members of `MultiGraph` are:
-
-- **int n:**  
-  The number of vertices in the graph.
-
-- **int e:**  
-  The number of edges (including parallel edges).
-
-- **std::vector<int> nodeVector:**  
-  A list of node identifiers. Nodes are typically represented as integers.
-
-- **std::vector<std::vector<int>*> edgeVector:**  
-  A list where each edge is represented as a vector of three integers: `{u, v, w}`.  
-  For an unweighted graph, the weight (`w`) is set to 1.
-
-- **DoublyLinkedList<DoublyLinkedList<int>> adjacencyList:**  
-  An adjacency list structure storing the neighbors for each vertex.  
-  Each inner list contains the node IDs of vertices that are adjacent (or connected via an edge) to the corresponding node.
-
-- **bool isWeighted:**  
-  Indicates whether the graph supports weighted edges. If false, all edges have a weight of 1.
-
-- **bool isDirected:**  
-  Indicates whether the graph is directed. In an undirected graph, an edge `{u, v, w}` is treated as identical to `{v, u, w}`.
-
----
-
-## 3. Constructors and Destructor
-
-### Default Constructor
-
-```cpp
-/**
- * @brief Creates an empty MultiGraph.
- *
- * By default, the graph is unweighted and undirected.
- */
-MultiGraph();
-```
-
-### Constructor with Number of Nodes
-
-```cpp
-/**
- * @brief Initializes the MultiGraph with a specified number of nodes.
- *
- * The nodes are labeled from 0 to numNodes - 1.
- *
- * @param numNodes Number of nodes.
- * @param weighted True if the graph should be weighted (default false).
- * @param directed True if the graph should be directed (default false).
- */
-MultiGraph(int numNodes, bool weighted = false, bool directed = false);
-```
-
-### Constructor from a Vector of Node Identifiers
-
-```cpp
-/**
- * @brief Constructs a MultiGraph from a vector of node identifiers.
- *
- * @param nodes A vector containing the node IDs.
- * @param weighted True if the graph should be weighted (default false).
- * @param directed True if the graph should be directed (default false).
- */
-MultiGraph(const std::vector<int>& nodes, bool weighted = false, bool directed = false);
-```
-
-### Destructor
-
-```cpp
-/**
- * @brief Destructor.
- *
- * Frees all dynamically allocated memory associated with the MultiGraph.
- */
-~MultiGraph();
-```
-
----
-
-## 4. Basic Operations
-
-### Accessor Functions
-
-- **Number of Nodes**
-
+#### `MultiGraph()`
+- **Description**: Default constructor. Creates an empty unweighted and undirected multigraph.
+- **Usage**:
   ```cpp
-  /**
-   * @brief Returns the number of nodes in the graph.
-   * @return The total number of nodes.
-   */
-  int NumberOfNodes() const;
+  MultiGraph graph;
   ```
 
-- **Number of Edges**
-
+#### `MultiGraph(int numNodes, bool weighted = false, bool directed = false)`
+- **Description**: Constructor. Initializes a multigraph with a specified number of nodes.
+- **Parameters**:
+  - `numNodes`: The number of nodes in the graph.
+  - `weighted`: If `true`, the graph is weighted (default is `false`).
+  - `directed`: If `true`, the graph is directed (default is `false`).
+- **Usage**:
   ```cpp
-  /**
-   * @brief Returns the number of edges in the graph.
-   * @return The total number of edges.
-   */
-  int NumberOfEdges() const;
+  MultiGraph graph(5, true, false);  // Creates a weighted, undirected graph with 5 nodes
   ```
 
-- **Degree of a Node**
-
+#### `MultiGraph(const std::vector<int>& nodes, bool weighted = false, bool directed = false)`
+- **Description**: Constructor. Initializes a multigraph from a vector of node identifiers.
+- **Parameters**:
+  - `nodes`: A vector of node identifiers.
+  - `weighted`: If `true`, the graph is weighted (default is `false`).
+  - `directed`: If `true`, the graph is directed (default is `false`).
+- **Usage**:
   ```cpp
-  /**
-   * @brief Returns the degree of a given node.
-   * @param u The node identifier.
-   * @return The degree of node u.
-   */
-  int Degree(int u) const;
+  std::vector<int> nodes = {1, 2, 3, 4, 5};
+  MultiGraph graph(nodes, true, false);  // Creates a weighted, undirected graph with the given nodes
   ```
 
-- **Edge Existence**
+#### `~MultiGraph()`
+- **Description**: Destructor. Cleans up the multigraph by deleting all nodes and edges.
+- **Usage**: Automatically called when the object goes out of scope.
 
+### Modification Methods
+
+#### `void AddNode(int node)`
+- **Description**: Adds a new node to the multigraph.
+- **Parameters**:
+  - `node`: The identifier of the node to add.
+- **Usage**:
   ```cpp
-  /**
-   * @brief Checks whether an edge exists between two nodes.
-   * @param u The source node.
-   * @param v The destination node.
-   * @return True if an edge exists, false otherwise.
-   */
-  bool ExistsEdge(int u, int v) const;
+  MultiGraph graph;
+  graph.AddNode(1);  // Adds node 1 to the graph
   ```
 
-### Modification Operations
-
-- **Add Node**
-
+#### `void RemoveNode(int node)`
+- **Description**: Removes a node and all its incident edges from the multigraph.
+- **Parameters**:
+  - `node`: The identifier of the node to remove.
+- **Usage**:
   ```cpp
-  /**
-   * @brief Adds a new node to the graph.
-   *
-   * The new node will be assigned an identifier equal to the current number of nodes.
-   */
-  void AddNode();
+  MultiGraph graph;
+  graph.AddNode(1);
+  graph.RemoveNode(1);  // Removes node 1 and all its edges
   ```
 
-- **Remove Node**
-
+#### `void AddEdge(int u, int v, double w = 1)`
+- **Description**: Adds an edge to the multigraph. If the graph is unweighted, the weight is forced to 1.
+- **Parameters**:
+  - `u`: The source node.
+  - `v`: The destination node.
+  - `w`: The weight of the edge (default is 1).
+- **Usage**:
   ```cpp
-  /**
-   * @brief Removes a node and all its associated edges from the graph.
-   * @param u The node identifier to remove.
-   */
-  void RemoveNode(int u);
+  MultiGraph graph;
+  graph.AddNode(1);
+  graph.AddNode(2);
+  graph.AddEdge(1, 2, 3.5);  // Adds an edge from node 1 to node 2 with weight 3.5
   ```
 
-- **Add Edge**
-
+#### `void RemoveEdge(int u, int v)`
+- **Description**: Removes an edge from the multigraph.
+- **Parameters**:
+  - `u`: The source node.
+  - `v`: The destination node.
+- **Usage**:
   ```cpp
-  /**
-   * @brief Adds an edge to the graph.
-   *
-   * The edge is represented as a vector of three integers: {u, v, w}.  
-   * For unweighted graphs, w is forced to 1.
-   *
-   * @param edge A vector containing the edge data: {u, v, w}.
-   */
-  void AddEdge(const std::vector<int>& edge);
+  MultiGraph graph;
+  graph.AddNode(1);
+  graph.AddNode(2);
+  graph.AddEdge(1, 2, 3.5);
+  graph.RemoveEdge(1, 2);  // Removes the edge from node 1 to node 2
   ```
 
-- **Remove Edge**
+### Global Properties
 
+#### `bool IsEmpty() const`
+- **Description**: Checks if the multigraph is empty (i.e., has no nodes).
+- **Return Value**: `true` if the graph is empty, `false` otherwise.
+- **Usage**:
   ```cpp
-  /**
-   * @brief Removes an edge from the graph.
-   * @param u The source node.
-   * @param v The destination node.
-   */
-  void RemoveEdge(int u, int v);
+  MultiGraph graph;
+  bool empty = graph.IsEmpty();  // empty is true
   ```
 
----
+#### `bool isEulerian() const`
+- **Description**: Checks if the multigraph is Eulerian (i.e., has an Eulerian circuit).
+- **Return Value**: `true` if the graph is Eulerian, `false` otherwise.
+- **Usage**:
+  ```cpp
+  MultiGraph graph;
+  graph.AddNode(1);
+  graph.AddNode(2);
+  graph.AddEdge(1, 2);
+  bool eulerian = graph.isEulerian();  // eulerian is false (no Eulerian circuit)
+  ```
 
-## 5. Graph Search Algorithms
+#### `int NumberOfNodes() const`
+- **Description**: Returns the total number of nodes in the multigraph.
+- **Return Value**: The number of nodes as an integer.
+- **Usage**:
+  ```cpp
+  MultiGraph graph;
+  graph.AddNode(1);
+  graph.AddNode(2);
+  int numNodes = graph.NumberOfNodes();  // numNodes is 2
+  ```
 
-### Breadth-First Search (BFS)
+#### `int NumberOfEdges() const`
+- **Description**: Returns the total number of edges in the multigraph.
+- **Return Value**: The number of edges as an integer.
+- **Usage**:
+  ```cpp
+  MultiGraph graph;
+  graph.AddNode(1);
+  graph.AddNode(2);
+  graph.AddEdge(1, 2);
+  int numEdges = graph.NumberOfEdges();  // numEdges is 1
+  ```
+
+### Local Properties
+
+#### `int Degree(int u) const`
+- **Description**: Returns the degree of a node (number of edges incident to it).
+- **Parameters**:
+  - `u`: The node identifier.
+- **Return Value**: The degree of the node as an integer.
+- **Usage**:
+  ```cpp
+  MultiGraph graph;
+  graph.AddNode(1);
+  graph.AddNode(2);
+  graph.AddEdge(1, 2);
+  int degree = graph.Degree(1);  // degree is 1
+  ```
+
+#### `int EdgeCount(int u, int v) const`
+- **Description**: Returns the number of edges between two nodes.
+- **Parameters**:
+  - `u`: The source node.
+  - `v`: The destination node.
+- **Return Value**: The number of edges between `u` and `v` as an integer.
+- **Usage**:
+  ```cpp
+  MultiGraph graph;
+  graph.AddNode(1);
+  graph.AddNode(2);
+  graph.AddEdge(1, 2);
+  graph.AddEdge(1, 2);
+  int edgeCount = graph.EdgeCount(1, 2);  // edgeCount is 2
+  ```
+
+### Operator Overloads
+
+#### `MultiGraph& operator=(const MultiGraph& other)`
+- **Description**: Assignment operator. Performs a deep copy of another multigraph.
+- **Parameters**:
+  - `other`: The `MultiGraph` to copy from.
+- **Return Value**: A reference to the current multigraph.
+- **Usage**:
+  ```cpp
+  MultiGraph graph1;
+  graph1.AddNode(1);
+  MultiGraph graph2;
+  graph2 = graph1;  // graph2 is now a copy of graph1
+  ```
+
+#### `bool operator==(const MultiGraph& other) const`
+- **Description**: Equality operator. Checks if two multigraphs have the same structure and edge weights.
+- **Parameters**:
+  - `other`: The `MultiGraph` to compare with.
+- **Return Value**: `true` if the multigraphs are equal, `false` otherwise.
+- **Usage**:
+  ```cpp
+  MultiGraph graph1;
+  graph1.AddNode(1);
+  MultiGraph graph2;
+  graph2.AddNode(1);
+  bool equal = (graph1 == graph2);  // equal is true
+  ```
+
+#### `bool operator!=(const MultiGraph& other) const`
+- **Description**: Inequality operator. Checks if two multigraphs are not identical.
+- **Parameters**:
+  - `other`: The `MultiGraph` to compare with.
+- **Return Value**: `true` if the multigraphs are not equal, `false` otherwise.
+- **Usage**:
+  ```cpp
+  MultiGraph graph1;
+  graph1.AddNode(1);
+  MultiGraph graph2;
+  graph2.AddNode(2);
+  bool notEqual = (graph1 != graph2);  // notEqual is true
+  ```
+
+#### `friend std::ostream& operator<<(std::ostream& out, const MultiGraph& multigraph)`
+- **Description**: Overloaded `<<` operator for printing the multigraph as a list of edge triplets `{u, v, w}`.
+- **Parameters**:
+  - `out`: The output stream.
+  - `multigraph`: The `MultiGraph` to print.
+- **Return Value**: The output stream.
+- **Usage**:
+  ```cpp
+  MultiGraph graph;
+  graph.AddNode(1);
+  graph.AddNode(2);
+  graph.AddEdge(1, 2, 3.5);
+  std::cout << graph;  // Prints the multigraph as edge triplets
+  ```
+
+#### `friend std::istream& operator>>(std::istream& in, MultiGraph& multigraph)`
+- **Description**: Overloaded `>>` operator for reading the multigraph in the form of edge triplets `{u, v, w}`.
+- **Parameters**:
+  - `in`: The input stream.
+  - `multigraph`: The `MultiGraph` to read into.
+- **Return Value**: The input stream.
+- **Usage**:
+  ```cpp
+  MultiGraph graph;
+  std::cin >> graph;  // Reads the multigraph from input
+  ```
+
+## Example Usage
 
 ```cpp
-/**
- * @brief Performs a breadth-first search (BFS) starting from a given node.
- *
- * @param start The starting node identifier.
- * @return A vector containing the node identifiers in the order they were visited.
- */
-std::vector<int> BFS(int start) const;
-```
-
-### Depth-First Search (DFS)
-
-```cpp
-/**
- * @brief Performs a depth-first search (DFS) starting from a given node.
- *
- * @param start The starting node identifier.
- * @return A vector containing the node identifiers in the order they were visited.
- */
-std::vector<int> DFS(int start) const;
-```
-
-*Note: The class may also provide iterator classes for BFS and DFS traversals.*
-
----
-
-## 6. Spanning Tree and Connectivity
-
-### Spanning Tree
-
-```cpp
-/**
- * @brief Computes a spanning tree of the graph using a chosen algorithm.
- *
- * @return A new MultiGraph object representing the spanning tree.
- */
-MultiGraph<T> SpanningTree() const;
-```
-
-### Connected Components
-
-```cpp
-/**
- * @brief Computes the connected components of the graph.
- *
- * @return A vector of MultiGraph objects, each representing a connected component.
- */
-std::vector<MultiGraph<T>> Components() const;
-```
-
-### Biconnected Components
-
-```cpp
-/**
- * @brief Computes the biconnected components of the graph.
- *
- * @return A vector of vectors, where each inner vector contains node identifiers
- *         that form one biconnected component.
- */
-std::vector<std::vector<int>> Biconnected() const;
-```
-
----
-
-## 7. Shortest Paths Algorithms
-
-### Dijkstra's Algorithm
-
-```cpp
-/**
- * @brief Computes the shortest paths from a source node using Dijkstra's algorithm.
- *
- * @param source The source node identifier.
- * @return A vector where the i-th element represents the shortest distance from the source to node i.
- */
-std::vector<int> Dijkstra(int source) const;
-```
-
-### Bellman-Ford Algorithm
-
-```cpp
-/**
- * @brief Computes the shortest paths from a source node using the Bellman-Ford algorithm.
- *
- * @param source The source node identifier.
- * @return A vector where the i-th element represents the shortest distance from the source to node i.
- */
-std::vector<int> BellmanFord(int source) const;
-```
-
-### Floyd's Algorithm
-
-```cpp
-/**
- * @brief Computes the shortest paths between all pairs of nodes using Floyd's algorithm.
- *
- * @return A 2D vector (matrix) where the element at (i, j) is the shortest distance from node i to node j.
- */
-std::vector<std::vector<int>> Floyd() const;
-```
-
----
-
-## 8. Adjacency Matrix Generation
-
-### Using SparseMatrix
-
-```cpp
-/**
- * @brief Generates the adjacency matrix using the SparseMatrix data structure.
- *
- * @return A SparseMatrix object representing the graph.
- */
-SparseMatrix<T> AdjMatSparse() const;
-```
-
-### Using LinkedSparseMatrix
-
-```cpp
-/**
- * @brief Generates the adjacency matrix using the LinkedSparseMatrix data structure.
- *
- * @return A LinkedSparseMatrix object representing the graph.
- */
-LinkedSparseMatrix<T> AdjMatLinked() const;
-```
-
----
-
-## 9. Example Code
-
-### Example 1: Creating a Graph and Running BFS/DFS
-
-```cpp
-#include <iostream>
 #include "MultiGraph.hpp"
-
-using namespace std;
+#include <iostream>
 
 int main() {
-    // Create a MultiGraph with 5 nodes (0 to 4), unweighted and undirected.
-    MultiGraph<int> g(5);
-    
-    // Add edges (for unweighted graphs, the weight is always 1).
-    g.AddEdge({0, 1, 1});
-    g.AddEdge({0, 2, 1});
-    g.AddEdge({1, 3, 1});
-    g.AddEdge({2, 3, 1});
-    g.AddEdge({3, 4, 1});
-    g.AddEdge({0, 1, 1}); // Adding a parallel edge between 0 and 1.
-    
-    // Perform BFS starting from node 0.
-    vector<int> bfsPath = g.BFS(0);
-    cout << "BFS Path from node 0: ";
-    for (int node : bfsPath)
-        cout << node << " ";
-    cout << endl;
-    
-    // Perform DFS starting from node 0.
-    vector<int> dfsPath = g.DFS(0);
-    cout << "DFS Path from node 0: ";
-    for (int node : dfsPath)
-        cout << node << " ";
-    cout << endl;
-    
+    // Create a weighted, undirected multigraph
+    MultiGraph graph(3, true, false);
+
+    // Add edges
+    graph.AddEdge(1, 2, 3.5);
+    graph.AddEdge(2, 3, 2.0);
+    graph.AddEdge(1, 3, 1.5);
+
+    // Print the graph
+    std::cout << "Graph: " << graph << std::endl;
+
+    // Check properties
+    std::cout << "Number of nodes: " << graph.NumberOfNodes() << std::endl;
+    std::cout << "Number of edges: " << graph.NumberOfEdges() << std::endl;
+    std::cout << "Degree of node 1: " << graph.Degree(1) << std::endl;
+    std::cout << "Edge count between 1 and 2: " << graph.EdgeCount(1, 2) << std::endl;
+
+    // Remove an edge
+    graph.RemoveEdge(1, 2);
+    std::cout << "After removing edge (1, 2): " << graph << std::endl;
+
     return 0;
 }
 ```
 
-### Example 2: Spanning Tree and Biconnected Components
+## Potential Errors and Edge Cases
 
-```cpp
-#include <iostream>
-#include "MultiGraph.hpp"
+1. **Invalid Node Identifiers**: When adding or removing nodes/edges, ensure that the node identifiers are valid (i.e., they exist in the graph). Invalid identifiers may lead to runtime errors.
+2. **Duplicate Nodes/Edges**: Adding duplicate nodes or edges may not always result in an error, but it could lead to unexpected behavior. Ensure that nodes/edges are unique unless duplicates are intended.
+3. **Memory Management**: When dynamically allocating nodes and edges, ensure proper cleanup to avoid memory leaks.
 
-using namespace std;
+## Dependencies
 
-int main() {
-    // Create a weighted, undirected MultiGraph with 6 nodes.
-    MultiGraph<int> g(6, true, false);
-    
-    // Add weighted edges.
-    g.AddEdge({0, 1, 5});
-    g.AddEdge({0, 2, 3});
-    g.AddEdge({1, 2, 2});
-    g.AddEdge({1, 3, 6});
-    g.AddEdge({2, 3, 7});
-    g.AddEdge({2, 4, 4});
-    g.AddEdge({3, 4, 2});
-    g.AddEdge({3, 5, 1});
-    g.AddEdge({4, 5, 3});
-    
-    // Compute spanning tree.
-    MultiGraph<int> spanningTree = g.SpanningTree();
-    cout << "Spanning Tree:" << endl;
-    cout << spanningTree << endl;
-    
-    // Compute biconnected components.
-    vector<vector<int>> bicomponents = g.Biconnected();
-    cout << "Biconnected Components:" << endl;
-    for (const auto& comp : bicomponents) {
-        cout << "{ ";
-        for (int node : comp)
-            cout << node << " ";
-        cout << "}" << endl;
-    }
-    
-    return 0;
-}
-```
+- **GeneralArray.hpp**: The `MultiGraph` class uses `GeneralArray` to store the edge list. Ensure that this file is included and properly configured in your project.
+- **Standard Library**: The header file includes `<vector>` and `<variant>`, which are part of the C++ Standard Library. Ensure that your environment is configured to use the standard library.
 
-### Example 3: Shortest Paths
+## Summary
 
-```cpp
-#include <iostream>
-#include "MultiGraph.hpp"
-
-using namespace std;
-
-int main() {
-    // Create a weighted, directed MultiGraph with 5 nodes.
-    MultiGraph<int> g(5, true, true);
-    
-    // Add directed, weighted edges.
-    g.AddEdge({0, 1, 2});
-    g.AddEdge({0, 2, 4});
-    g.AddEdge({1, 2, 1});
-    g.AddEdge({1, 3, 7});
-    g.AddEdge({2, 4, 3});
-    g.AddEdge({3, 4, 1});
-    
-    // Compute shortest paths from node 0 using Dijkstra's algorithm.
-    vector<int> distances = g.Dijkstra(0);
-    cout << "Shortest distances from node 0 (Dijkstra): ";
-    for (int d : distances)
-        cout << d << " ";
-    cout << endl;
-    
-    // Compute all pairs shortest paths using Floyd's algorithm.
-    vector<vector<int>> allPairs = g.Floyd();
-    cout << "All-pairs shortest paths (Floyd): " << endl;
-    for (const auto& row : allPairs) {
-        for (int d : row)
-            cout << d << "\t";
-        cout << endl;
-    }
-    
-    return 0;
-}
-```
-
----
-
-## 10. Additional Notes
-
-- **Iterators:**  
-  The BFS and DFS functions return a vector of node identifiers indicating the order in which nodes are visited. Advanced users may create custom iterators if needed.
-
-- **Edge Cases:**  
-  The API functions throw exceptions (e.g., `std::out_of_range` or `std::runtime_error`) when inputs are invalid. Make sure to handle these exceptions using try-catch blocks in your code.
-
-- **Adjacency List:**  
-  The adjacency list is implemented using a doubly linked list of doubly linked lists. This allows efficient insertion and deletion of edges and can be used to quickly traverse neighbors of a given vertex.
-
-- **Graph Attributes:**  
-  The `isWeighted` and `isDirected` attributes determine how edges are interpreted:
-  - **Weighted:** When true, edge weights are used; when false, all edge weights are 1.
-  - **Directed:** When true, an edge `{u, v, w}` is different from `{v, u, w}`; when false, they are treated as identical.
+The `MultiGraph.hpp` file provides a flexible implementation of a multigraph data structure, supporting both weighted and unweighted edges, as well as directed and undirected graphs. By following the examples and guidelines provided, you can effectively use this class to build and manipulate multigraphs in your projects.

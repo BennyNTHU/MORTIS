@@ -1,234 +1,177 @@
-# **DeQue Documentation**
+# `DeQue.hpp` Documentation
 
-## **Introduction**
-`DeQue` (Double-Ended Queue) is a container class that inherits from `Bag`, allowing insertion and deletion operations at both the front and the back.  
-Unlike `Bag`, which only allows insertion and deletion at the back, `DeQue` supports operations at both ends.
+## Overview
 
----
-
-## **Class Definition**
-```cpp
-class DeQue : public Bag {
-public:
-    // Constructor: Initializes DeQue with an initial capacity
-    explicit DeQue(int initial_capacity = 10);
-
-    // Inserts an element at the front
-    void PushFront(const MORTISInvariant& x);
-
-    // Inserts an element at the back (inherited from Bag)
-    void PushBack(const MORTISInvariant& x);
-
-    // Deletes an element from the front
-    void PopFront();
-
-    // Deletes an element from the back (inherited from Bag)
-    void PopBack();
-
-    // Returns the front element
-    MORTISInvariant Front() const;
-
-    // Returns the back element
-    MORTISInvariant Back() const;
-
-    // Checks if the DeQue is empty
-    bool IsEmpty() const;
-
-    // Prints all elements in the DeQue
-    void PrintBag() const;
-};
-```
+The `DeQue.hpp` header file defines the `DeQue` class template, which represents a double-ended queue. It inherits from the `Bag<T>` class, allowing elements to be added or removed from both the front and back. The `DeQue` class provides various operations such as insertion, removal, and access to the front and back elements of the deque. It is designed to handle various types of data using `std::variant`.
 
 ---
 
-## **Function Details**
-### **1. `DeQue(int initial_capacity)`**
-**Description**:  
-Initializes the `DeQue` with a specified capacity.
+## Key Components
 
-**Example**:
-```cpp
-DeQue dq(10); // Creates a DeQue with a capacity of 10
-```
+### `DeQue` Class
 
----
+The `DeQue` class implements the double-ended queue (deque) data structure. It allows for efficient addition and removal of elements from both ends of the queue.
 
-### **2. `void PushFront(const MORTISInvariant& x)`**
-**Description**:  
-Inserts an element at the **front** of the `DeQue`.
+#### Member Variables:
+- **`front`**: The index of the front element in the deque.
+- **`rear`**: The index of the last element in the deque.
+- **`size`**: The number of elements in the deque.
 
-**Example**:
-```cpp
-dq.PushFront(100);
-dq.PushFront('A');
-```
+#### Constructors & Destructor:
+- **`DeQue(int initial_capacity = 10)`**: Constructor that initializes the deque with a specified initial capacity (default is 10). It sets up the deque with an empty state (front = -1, rear = -1, size = 0).
 
----
+  Example:
+  ```cpp
+  DeQue<int> deque(10);  // Creates a deque for integers with capacity 10
+  ```
 
-### **3. `void PushBack(const MORTISInvariant& x)`**
-**Description**:  
-Inserts an element at the **back** of the `DeQue`. (Inherited from `Bag`'s `Push`)
+- **`~DeQue()`**: Destructor that cleans up the resources used by the deque.
 
-**Example**:
-```cpp
-dq.PushBack(3.14);
-dq.PushBack("Hello");
-```
+#### DeQue Operations:
+- **`PushFront(const T& x)`**: Adds an element `x` to the front of the deque. If the deque is full, it may resize or overwrite the oldest elements.
 
----
+  Example:
+  ```cpp
+  deque.PushFront(5);  // Add 5 to the front of the deque
+  ```
 
-### **4. `void PopFront()`**
-**Description**:  
-Deletes an element from the **front** of the `DeQue`.
+- **`PushBack(const T& x)`**: Adds an element `x` to the back of the deque. If the deque is full, it may resize or overwrite the oldest elements.
 
-**Example**:
-```cpp
-dq.PopFront();
-```
+  Example:
+  ```cpp
+  deque.PushBack(10);  // Add 10 to the back of the deque
+  ```
 
----
+- **`PopFront()`**: Removes the element at the front of the deque. If the deque is empty, this operation should be handled safely.
 
-### **5. `void PopBack()`**
-**Description**:  
-Deletes an element from the **back** of the `DeQue`. (Inherited from `Bag`'s `Pop`)
+  Example:
+  ```cpp
+  deque.PopFront();  // Removes the front element of the deque
+  ```
 
-**Example**:
-```cpp
-dq.PopBack();
-```
+- **`PopBack()`**: Removes the element at the back of the deque. If the deque is empty, this operation should be handled safely.
 
----
+  Example:
+  ```cpp
+  deque.PopBack();  // Removes the back element of the deque
+  ```
 
-### **6. `MORTISInvariant Front() const`**
-**Description**:  
-Returns the element at the **front** of the `DeQue`.
+#### Getters:
+- **`getFront()`**: Returns the index of the front element in the deque.
 
-**Example**:
-```cpp
-std::visit([](auto&& arg) { std::cout << arg << std::endl; }, dq.Front());
-```
+  Example:
+  ```cpp
+  int frontIndex = deque.getFront();  // Get the index of the front element
+  ```
 
----
+- **`getRear()`**: Returns the index of the back element in the deque.
 
-### **7. `MORTISInvariant Back() const`**
-**Description**:  
-Returns the element at the **back** of the `DeQue`.
+  Example:
+  ```cpp
+  int rearIndex = deque.getRear();  // Get the index of the back element
+  ```
 
-**Example**:
-```cpp
-std::visit([](auto&& arg) { std::cout << arg << std::endl; }, dq.Back());
-```
+- **`Front()`**: Returns the front element in the deque without removing it.
 
----
+  Example:
+  ```cpp
+  int frontElement = deque.Front();  // Get the front element (does not remove it)
+  ```
 
-### **8. `bool IsEmpty() const`**
-**Description**:  
-Checks if the `DeQue` is empty.
+- **`Back()`**: Returns the back element in the deque without removing it.
 
-**Example**:
-```cpp
-if (dq.IsEmpty()) {
-    std::cout << "DeQue is empty" << std::endl;
-}
-```
+  Example:
+  ```cpp
+  int backElement = deque.Back();  // Get the back element (does not remove it)
+  ```
 
----
+#### Properties:
+- **`IsEmpty()`**: Returns `true` if the deque is empty, otherwise `false`.
 
-### **9. `void PrintBag() const`**
-**Description**:  
-Prints all elements in the `DeQue`, with each element on a new line. (Inherited from `Bag`)
+  Example:
+  ```cpp
+  bool empty = deque.IsEmpty();  // Check if the deque is empty
+  ```
 
-**Example**:
-```cpp
-dq.PrintBag();
-```
+#### Operator Overloads:
+- **`operator<<`**: Overloads the stream insertion (`<<`) operator to print the elements of the deque in a readable format.
+
+  Example:
+  ```cpp
+  std::cout << deque;  // Prints the elements of the deque
+  ```
 
 ---
 
-## **Complete Example**
+## Example Usage
+
+Here’s an example demonstrating how to use the `DeQue` class:
+
 ```cpp
-#include <iostream>
 #include "DeQue.hpp"
-#include "../../array/GeneralArray/GeneralArray.hpp"
-#include "../../array/Polynomial/Polynomial.hpp"
-#include "../../array/SparseMatrix/SparseMatrix.hpp"
-#include "../../array/String/String.hpp"
+#include <iostream>
 
 int main() {
-    std::cout << "=== DeQue Test Program ===\n";
-    
-    // Initialize DeQue
-    DeQue dq(10);
-    
-    // Insert basic types
-    dq.PushFront(10);
-    dq.PushBack('A');
-    dq.PushBack(3.14f);
-    dq.PushBack(true);
-    dq.PushBack(2.718);
-    
-    std::cout << "After inserting basic types:\n";
-    dq.PrintBag();
-    
-    // Insert std::string
-    dq.PushBack(std::string("Hello, DeQue!"));
+    // Create a DeQue for integers with a capacity of 5
+    DeQue<int> deque(5);
 
-    // Insert GeneralArray<MIXED_TYPE>
-    GeneralArray<MIXED_TYPE> ga(1, {3}, MIXED_TYPE{});
-    ga.Store({0}, 100);
-    ga.Store({1}, std::string("Test"));
-    ga.Store({2}, 'Z');
-    dq.PushBack(ga);
+    // Add elements to the front and back of the deque
+    deque.PushFront(10);  // DeQue: 10
+    deque.PushBack(20);   // DeQue: 10, 20
+    deque.PushFront(5);   // DeQue: 5, 10, 20
 
-    // Insert Polynomial
-    Polynomial poly;
-    poly.NewTerm(2, 3); // 3x^2
-    poly.NewTerm(0, 1); // +1
-    dq.PushBack(poly);
-    
-    // Insert SparseMatrix
-    SparseMatrix sm(3, 3, 2);
-    sm.StoreNum(0, 0, 5);
-    sm.StoreNum(1, 1, -2);
-    dq.PushBack(sm);
-    
-    // Insert String
-    char init1[] = "Custom String Object";
-    String str(init1, 100);
-    dq.PushBack(str);
+    // Print the deque
+    std::cout << "DeQue after insertions: " << deque << std::endl;
 
-    std::cout << "\nDeQue contents after inserting all types:\n";
-    dq.PrintBag();
+    // Get the front and back elements
+    std::cout << "Front: " << deque.Front() << std::endl;  // Front: 5
+    std::cout << "Back: " << deque.Back() << std::endl;    // Back: 20
 
-    // Test Front & Back
-    std::cout << "\nFront element: ";
-    std::visit([](auto&& arg) { std::cout << arg << std::endl; }, dq.Front());
+    // Remove the front element
+    deque.PopFront();  // DeQue: 10, 20
 
-    std::cout << "Back element: ";
-    std::visit([](auto&& arg) { std::cout << arg << std::endl; }, dq.Back());
+    // Print the deque after removing the front element
+    std::cout << "DeQue after PopFront: " << deque << std::endl;
 
-    // Test PopFront & PopBack
-    dq.PopFront();
-    dq.PopBack();
-    
-    std::cout << "\nDeQue after popping front and back:\n";
-    dq.PrintBag();
+    // Remove the back element
+    deque.PopBack();  // DeQue: 10
 
-    std::cout << "\nTest completed successfully!\n";
+    // Print the deque after removing the back element
+    std::cout << "DeQue after PopBack: " << deque << std::endl;
+
+    // Check if the deque is empty
+    std::cout << "Is the deque empty? " << (deque.IsEmpty() ? "Yes" : "No") << std::endl;
 
     return 0;
 }
 ```
 
----
-
-## **Conclusion**
-1. `DeQue` allows insertion and deletion at both the front and the back, inheriting the functionality of `Bag`.
-2. Internally, it uses `std::variant` to support multiple types, including:
-   - `int`, `char`, `float`, `bool`, `double`, `std::string`
-   - `GeneralArray<MIXED_TYPE>`, `Polynomial`, `SparseMatrix`, `String`
-3. The test program covers all functions, ensuring proper functionality.
-
-This design makes `DeQue` a powerful and flexible double-ended queue (Deque) data structure! 🚀
+### Explanation:
+- The code demonstrates how to use the `DeQue` class to insert and remove elements from both the front and back of the deque.
+- It uses the `PushFront()` and `PushBack()` methods to add elements, and `PopFront()` and `PopBack()` to remove elements.
+- The `Front()` and `Back()` methods are used to access the front and back elements of the deque, respectively, without removing them.
+- The program checks if the deque is empty using the `IsEmpty()` method.
 
 ---
+
+## Potential Errors & Edge Cases
+
+1. **Full DeQue**: If the deque reaches its capacity and an attempt is made to insert more elements, ensure that the deque resizes properly or handles the overflow as expected.
+
+2. **Empty DeQue Operations**: When performing operations like `PopFront()` or `PopBack()` on an empty deque, ensure that these operations are handled gracefully. This could involve returning a default value, throwing an exception, or simply not performing any operation if the deque is empty.
+
+   Example:
+   ```cpp
+   if (!deque.IsEmpty()) {
+       deque.PopFront();
+   }
+   ```
+
+3. **Indexing Errors**: Make sure that the `front`, `rear`, and `size` variables are updated correctly after each operation to ensure the deque maintains the correct state.
+
+---
+
+## Dependencies
+
+- **`Bag.hpp`**: The `DeQue` class inherits from the `Bag<T>` class, so ensure that the `Bag<T>` class is correctly defined and includes methods for handling dynamic array operations.
+- **C++ Standard Library**: The class uses `std::variant` for storing elements of various types, as well as `std::ostream` for printing the deque.

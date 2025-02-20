@@ -1,224 +1,160 @@
-# Set Class API Documentation
+# `Set.hpp` Documentation
 
-The `Set` class is implemented as a specialization of a Binary Search Tree (BST) and supports typical set operations. It is defined in terms of the underlying BinarySearchTree and BinaryTree classes. All elements are maintained in sorted order, and in‐order traversal returns the elements in increasing order.
+## Overview
 
-> **Note:** In our implementation the class uses the inherited methods from `BinarySearchTree` and `BinaryTree` (such as `InorderIterator()`, `Insert()`, `Get()`, and `Clear()`). For const functions that require traversal (which is implemented in non‑const methods), we use `const_cast` (with due care).
+The `Set.hpp` file defines a `Set` class template that represents a set of unique elements, implemented using a binary search tree (BST). The class provides several set operations like union, intersection, difference, and subset checking, along with a method to check for membership. It supports initialization using an initializer list and provides methods for printing the set.
 
----
-
-## Constructors
-
-### `Set()`
-Creates an empty set.
-
-**Example:**
-```cpp
-Set<int> s;  // Creates an empty set of integers.
-```
-
-### `Set(std::initializer_list<T> elements)`
-Creates a set containing the elements in the initializer list. (Duplicate elements are not stored multiple times.)
-
-**Example:**
-```cpp
-Set<int> s = {10, 20, 30, 40, 50};
-```
+The `Set` class is a specialized form of the `BinarySearchTree` that ensures all elements are unique, leveraging the BST's efficient search and insertion methods.
 
 ---
 
-## Member Functions
+## Key Components
 
-### `void Insert(const T& value)`
-Inserts a value into the set. The underlying BST is used to keep the data sorted.
+### `Set` Class
 
-**Usage Example:**
-```cpp
-Set<int> s;
-s.Insert(15);
-s.Insert(10);
-s.Insert(20);
-```
+The `Set` class is a derived class from the `BinarySearchTree` class and provides additional functionality specific to sets.
 
-### `T* Get(const T& value) const`
-Searches for the given value. If found, returns a pointer to a copy of the value; otherwise, returns `nullptr`.
-
-**Usage Example:**
-```cpp
-Set<int> s = {15, 10, 20};
-int* found = s.Get(10);
-if (found) {
-    std::cout << "Found: " << *found << std::endl;
-    delete found;
-} else {
-    std::cout << "Not found." << std::endl;
-}
-```
-
-### `Set<T> Union(const Set<T>& other) const`
-Returns a new set that is the union of this set and another.  
-*Example:* If A = {1, 2, 3} and B = {3, 4, 5}, then A ∪ B = {1, 2, 3, 4, 5}.
-
-**Usage Example:**
-```cpp
-Set<int> A = {1, 2, 3};
-Set<int> B = {3, 4, 5};
-Set<int> unionSet = A.Union(B);
-unionSet.Print();  // Expected output: { 1 2 3 4 5 }
-```
-
-### `Set<T> Intersection(const Set<T>& other) const`
-Returns a new set that is the intersection of this set and another.  
-*Example:* If A = {1, 2, 3} and B = {2, 3, 4}, then A ∩ B = {2, 3}.
-
-**Usage Example:**
-```cpp
-Set<int> A = {1, 2, 3};
-Set<int> B = {2, 3, 4};
-Set<int> intersectSet = A.Intersection(B);
-intersectSet.Print();  // Expected output: { 2 3 }
-```
-
-### `Set<T> Difference(const Set<T>& other) const`
-Returns a new set that is the difference between this set and another (elements in this set that are not in the other).  
-*Example:* If A = {1, 2, 3, 4} and B = {3, 4, 5}, then A – B = {1, 2}.
-
-**Usage Example:**
-```cpp
-Set<int> A = {1, 2, 3, 4};
-Set<int> B = {3, 4, 5};
-Set<int> diffSet = A.Difference(B);
-diffSet.Print();  // Expected output: { 1 2 }
-```
-
-### `bool IsSubsetOf(const Set<T>& other) const`
-Returns `true` if every element of this set is contained in the other set, `false` otherwise.
-
-**Usage Example:**
-```cpp
-Set<int> A = {1, 2};
-Set<int> B = {1, 2, 3};
-std::cout << (A.IsSubsetOf(B) ? "A is a subset of B" : "A is not a subset of B") << std::endl;
-```
-
-### `bool Contains(const T& value) const`
-Returns `true` if the set contains the specified value.
-
-**Usage Example:**
-```cpp
-Set<int> s = {10, 20, 30};
-std::cout << (s.Contains(20) ? "Set contains 20" : "Set does not contain 20") << std::endl;
-```
-
-### `void Print() const`
-Prints the elements of the set in sorted order (using in‑order traversal).
-
-**Usage Example:**
-```cpp
-Set<int> s = {30, 10, 20};
-s.Print();  // Expected output: { 10 20 30 }
-```
-
-### `std::vector<T> InorderIterator()`
-Returns a vector containing the in‑order traversal of the set’s elements.
-
-**Usage Example:**
-```cpp
-Set<int> s = {3, 1, 2};
-std::vector<int> inorder = s.InorderIterator();
-for (int val : inorder) {
-    std::cout << val << " ";
-}
-std::cout << std::endl;  // Expected output: 1 2 3
-```
+#### Member Variables:
+- **Inherited from `BinarySearchTree<T>`**: The `Set` class inherits all member variables from the `BinarySearchTree`, which includes the root node and tree structure. The underlying structure is a binary search tree where each node contains an element of type `T`.
 
 ---
 
-## Example Program
+### Constructors
 
-Below is a complete example program that demonstrates the use of the Set APIs:
+- **`Set()`**: Default constructor that creates an empty set. The set uses a default value of type `T()` as the initial value.
+
+  Example:
+  ```cpp
+  Set<int> mySet;  // Creates an empty set of integers
+  ```
+
+- **`Set(std::initializer_list<T> elements)`**: Constructor that initializes the set with a list of elements provided in the initializer list.
+
+  Example:
+  ```cpp
+  Set<int> mySet = {1, 2, 3};  // Creates a set with elements 1, 2, and 3
+  ```
+
+---
+
+### Set Operations
+
+- **`Set<T> Union(const Set<T>& other) const`**: Returns a new set that is the union of this set and another set `other`. The union includes all elements that are in either set.
+
+  Example:
+  ```cpp
+  Set<int> set1 = {1, 2, 3};
+  Set<int> set2 = {3, 4, 5};
+  Set<int> result = set1.Union(set2);  // Result: {1, 2, 3, 4, 5}
+  ```
+
+- **`Set<T> Intersection(const Set<T>& other) const`**: Returns a new set that is the intersection of this set and another set `other`. The intersection contains only elements that are present in both sets.
+
+  Example:
+  ```cpp
+  Set<int> set1 = {1, 2, 3};
+  Set<int> set2 = {2, 3, 4};
+  Set<int> result = set1.Intersection(set2);  // Result: {2, 3}
+  ```
+
+- **`Set<T> Difference(const Set<T>& other) const`**: Returns a new set that is the difference of this set and another set `other`. The difference contains elements that are in this set but not in `other`.
+
+  Example:
+  ```cpp
+  Set<int> set1 = {1, 2, 3};
+  Set<int> set2 = {2, 3, 4};
+  Set<int> result = set1.Difference(set2);  // Result: {1}
+  ```
+
+- **`bool IsSubsetOf(const Set<T>& other) const`**: Returns `true` if every element in this set is also in the set `other`. Otherwise, it returns `false`.
+
+  Example:
+  ```cpp
+  Set<int> set1 = {1, 2};
+  Set<int> set2 = {1, 2, 3};
+  bool result = set1.IsSubsetOf(set2);  // Result: true
+  ```
+
+- **`bool Contains(const T& value) const`**: Returns `true` if the set contains the element `value`, otherwise returns `false`.
+
+  Example:
+  ```cpp
+  Set<int> set = {1, 2, 3};
+  bool result = set.Contains(2);  // Result: true
+  ```
+
+---
+
+### Printing Method
+
+- **`void Print() const`**: Prints the elements of the set to `std::cout`. The elements are printed in ascending order due to the in-order traversal of the BST.
+
+  Example:
+  ```cpp
+  Set<int> set = {3, 1, 2};
+  set.Print();  // Output: 1 2 3
+  ```
+
+---
+
+## Example Usage
+
+Here’s an example demonstrating how to use the `Set` class:
 
 ```cpp
+#include "Set.hpp"
 #include <iostream>
-#include "Set.hpp"  // Make sure to include the Set header file
-
-using namespace std;
 
 int main() {
-    cout << "=== Set Test Program ===" << endl << endl;
-    
-    // Create two sets using initializer lists.
-    Set<int> setA = {1, 2, 3, 4, 5};
-    Set<int> setB = {4, 5, 6, 7, 8};
-    
-    cout << "Set A: ";
-    setA.Print();
-    cout << "Set B: ";
-    setB.Print();
-    
-    // Test union
-    Set<int> unionSet = setA.Union(setB);
-    cout << "Union of A and B: ";
-    unionSet.Print();
-    
-    // Test intersection
-    Set<int> intersectSet = setA.Intersection(setB);
-    cout << "Intersection of A and B: ";
-    intersectSet.Print();
-    
-    // Test difference (A - B)
-    Set<int> diffSet = setA.Difference(setB);
-    cout << "Difference (A - B): ";
-    diffSet.Print();
-    
-    // Test subset operation
-    Set<int> subset = {2, 3};
-    cout << "Subset: ";
-    subset.Print();
-    cout << "Is subset a subset of A? " << (subset.IsSubsetOf(setA) ? "Yes" : "No") << endl;
-    
-    // Test Contains
-    cout << "Does A contain 3? " << (setA.Contains(3) ? "Yes" : "No") << endl;
-    cout << "Does B contain 3? " << (setB.Contains(3) ? "Yes" : "No") << endl;
-    
-    // Test InorderIterator
-    std::vector<int> inorder = setA.InorderIterator();
-    cout << "In-order traversal of Set A: ";
-    for (int val : inorder) {
-        cout << val << " ";
-    }
-    cout << endl;
-    
+    // Create sets using initializer lists
+    Set<int> set1 = {1, 2, 3};
+    Set<int> set2 = {2, 3, 4};
+
+    // Union of two sets
+    Set<int> unionSet = set1.Union(set2);
+    std::cout << "Union: ";
+    unionSet.Print();  // Output: 1 2 3 4
+
+    // Intersection of two sets
+    Set<int> intersectionSet = set1.Intersection(set2);
+    std::cout << "Intersection: ";
+    intersectionSet.Print();  // Output: 2 3
+
+    // Difference of two sets
+    Set<int> differenceSet = set1.Difference(set2);
+    std::cout << "Difference: ";
+    differenceSet.Print();  // Output: 1
+
+    // Check if set1 is a subset of set2
+    bool isSubset = set1.IsSubsetOf(set2);
+    std::cout << "Is set1 a subset of set2? " << (isSubset ? "Yes" : "No") << std::endl;
+
+    // Check if a set contains a specific element
+    bool contains = set1.Contains(2);
+    std::cout << "Does set1 contain 2? " << (contains ? "Yes" : "No") << std::endl;
+
     return 0;
 }
 ```
 
-**Expected Output:**
-
-```
-=== Set Test Program ===
-
-Set A: { 1 2 3 4 5 }
-Set B: { 4 5 6 7 8 }
-Union of A and B: { 1 2 3 4 5 6 7 8 }
-Intersection of A and B: { 4 5 }
-Difference (A - B): { 1 2 3 }
-Subset: { 2 3 }
-Is subset a subset of A? Yes
-Does A contain 3? Yes
-Does B contain 3? No
-In-order traversal of Set A: 1 2 3 4 5
-```
+### Explanation:
+- The code creates two sets, `set1` and `set2`, using initializer lists.
+- It demonstrates how to compute the union, intersection, and difference of sets.
+- The `Print()` method is used to display the elements of each resulting set.
+- The program checks if `set1` is a subset of `set2` and if `set1` contains the value `2`.
 
 ---
 
-## Additional Notes
+## Potential Errors & Edge Cases
 
-- **Complexity:** Since the underlying data structure is a binary search tree, the average complexity for insertion, search, and deletion is O(log n) (although worst-case can be O(n) if the tree becomes unbalanced).
-- **Const-correctness:** In some member functions (e.g., those using `InorderIterator()`), you may notice the use of `const_cast` to call non‑const functions. This is a workaround because the base class function is not declared as const. If possible, consider refactoring the base class to provide a const version of the traversal methods.
-- **Threaded Pointers:** The underlying BinaryTree class uses threading (pointers for in‑order predecessor/successor). Users of the Set API do not need to worry about these details.
+1. **Empty Sets**: Operations like union, intersection, and difference on empty sets should be handled properly. For example, the union of an empty set with any set is the non-empty set, and the intersection of any set with an empty set is an empty set.
+
+2. **Handling Duplicates**: The `Set` class ensures that elements are unique. If duplicate elements are inserted, only one instance will remain in the set, as the `BinarySearchTree` ensures uniqueness during insertion.
+
+3. **Invalid Set Operations**: Make sure that methods like `IsSubsetOf()` and `Contains()` are used with valid sets. For example, calling `IsSubsetOf()` with a set that is not fully initialized may lead to undefined behavior.
 
 ---
 
-## Conclusion
+## Dependencies
 
-The `Set` class provides a convenient interface for performing set operations (union, intersection, difference, subset checking, etc.) while maintaining sorted order via a binary search tree. Use the API as shown in the example program to manage your data sets efficiently.
+- **`BinarySearchTree.hpp`**: The `Set` class inherits from the `BinarySearchTree<T>` class. Make sure the `BinarySearchTree` class is correctly implemented, including the required methods for insertion, traversal, and deletion of nodes.

@@ -1,209 +1,217 @@
-## Documentation for `BinaryTreeNode` APIs
+# `BinaryTreeNode.hpp` Documentation
 
-### Overview
-`BinaryTreeNode` is the core building block for creating a threaded binary tree. It represents each node in the tree and includes both standard binary tree child pointers (`leftChild`, `rightChild`) as well as thread pointers (`leftthread`, `rightthread`) used in threaded binary trees. It supports typical binary tree operations along with some additional features specific to threaded binary trees.
+## Overview
 
-This document provides detailed explanations and examples for using the `BinaryTreeNode` class.
+The `BinaryTreeNode.hpp` header file defines a `BinaryTreeNode` class template for representing a node in a binary tree. The class stores data of type `T` and provides various methods for managing tree structure, such as accessing and modifying children and parent pointers, as well as equality comparisons.
 
-### Header File (`BinaryTreeNode.hpp`)
+---
 
-```cpp
-template <class T>
-class BinaryTreeNode {
-public:
-    T data;                     // Data stored in the node
-    BinaryTreeNode<T>* leftChild;   // Left child pointer
-    BinaryTreeNode<T>* rightChild;  // Right child pointer
-    BinaryTreeNode<T>* leftthread;  // Left thread pointer for threaded binary tree
-    BinaryTreeNode<T>* rightthread; // Right thread pointer for threaded binary tree
-    BinaryTreeNode<T>* parent;      // Parent pointer
+## Key Components
 
-    // Constructors
-    BinaryTreeNode(const T& e); // Default constructor
-    BinaryTreeNode(const T& e, BinaryTreeNode<T>* ptr_left, BinaryTreeNode<T>* ptr_right); // Constructor with data and optional children
+### `BinaryTreeNode` Class
 
-    // Getters
-    const T& getData() const;
-    BinaryTreeNode<T>* getLeftChild();
-    BinaryTreeNode<T>* getRightChild();
-    BinaryTreeNode<T>* getLeftThread() const;
-    BinaryTreeNode<T>* getRightThread() const;
-    BinaryTreeNode<T>* getParent() const;
+The `BinaryTreeNode` class represents a node in a binary tree, storing data and pointers to the node's left and right children, parent, and threaded pointers. Threaded pointers are used in threaded binary trees to represent null child pointers.
 
-    // Setters
-    void setData(T in);
-    void setParent(BinaryTreeNode<T>* in);
-    void setLeftChild(BinaryTreeNode<T>* in);
-    void setRightChild(BinaryTreeNode<T>* in);
-    void setLeftThread(BinaryTreeNode<T>* in);
-    void setRightThread(BinaryTreeNode<T>* in);
+#### Member Variables:
+- **`data`**: The data stored in the node, of type `T`.
+- **`leftChild`**: Pointer to the left child node.
+- **`rightChild`**: Pointer to the right child node.
+- **`parent`**: Pointer to the parent node.
+- **`leftthread`**: Pointer used in threaded binary trees, typically pointing to the in-order predecessor.
+- **`rightthread`**: Pointer used in threaded binary trees, typically pointing to the in-order successor.
 
-    // Equality comparison
-    bool operator==(const BinaryTreeNode<T>& r) const;
-    bool operator!=(const BinaryTreeNode<T>& r) const;
-};
-```
+---
 
-### `BinaryTreeNode` Functions
+### Constructors & Destructor
 
-#### 1. Constructors
-- **Default Constructor**: Initializes a node with the given data, and both child pointers (`leftChild`, `rightChild`) set to `nullptr`.
-    ```cpp
-    BinaryTreeNode<T>::BinaryTreeNode(const T& e)
-        : BinaryTreeNode(e, nullptr, nullptr) {}
-    ```
+- **`BinaryTreeNode(const T& e)`**: Constructor that initializes a node with data `e`. The left and right child pointers, as well as parent and threaded pointers, are set to `nullptr`.
 
-- **Constructor with Data and Optional Child Pointers**: Initializes a node with the given data, left and right child pointers. If the children are provided, the parent pointers are also updated.
-    ```cpp
-    BinaryTreeNode<T>::BinaryTreeNode(const T& e, BinaryTreeNode<T>* ptr_left, BinaryTreeNode<T>* ptr_right)
-        : data(e), leftChild(ptr_left), rightChild(ptr_right), parent(nullptr), leftthread(nullptr), rightthread(nullptr) {
-        if (ptr_left) {
-            ptr_left->parent = this;
-        }
-        if (ptr_right) {
-            ptr_right->parent = this;
-        }
-    }
-    ```
+  Example:
+  ```cpp
+  BinaryTreeNode<int> node(10);  // Create a node with data 10
+  ```
 
-#### 2. Getters
-These methods allow access to the data and child nodes of the current `BinaryTreeNode`.
+- **`BinaryTreeNode(const T& e, BinaryTreeNode<T>* ptr_left, BinaryTreeNode<T>* ptr_right)`**: Constructor that initializes a node with data `e` and sets the left and right children to the specified pointers `ptr_left` and `ptr_right`.
 
-- **getData**: Returns the data stored in the node.
-    ```cpp
-    const T& BinaryTreeNode<T>::getData() const { return data; }
-    ```
+  Example:
+  ```cpp
+  BinaryTreeNode<int> node(10, leftNode, rightNode);  // Create a node with left and right children
+  ```
 
-- **getLeftChild**: Returns the left child pointer of the node.
-    ```cpp
-    BinaryTreeNode<T>* BinaryTreeNode<T>::getLeftChild() { return leftChild; }
-    ```
+---
 
-- **getRightChild**: Returns the right child pointer of the node.
-    ```cpp
-    BinaryTreeNode<T>* BinaryTreeNode<T>::getRightChild() { return rightChild; }
-    ```
+### Getter Methods
 
-- **getLeftThread**: Returns the left thread pointer of the node (for threaded binary trees).
-    ```cpp
-    BinaryTreeNode<T>* BinaryTreeNode<T>::getLeftThread() const { return leftthread; }
-    ```
+- **`const T& getData() const`**: Returns the data stored in the node.
 
-- **getRightThread**: Returns the right thread pointer of the node (for threaded binary trees).
-    ```cpp
-    BinaryTreeNode<T>* BinaryTreeNode<T>::getRightThread() const { return rightthread; }
-    ```
+  Example:
+  ```cpp
+  int data = node.getData();  // Get the data from the node
+  ```
 
-- **getParent**: Returns the parent pointer of the node.
-    ```cpp
-    BinaryTreeNode<T>* BinaryTreeNode<T>::getParent() const { return parent; }
-    ```
+- **`BinaryTreeNode<T>* getRightChild()`**: Returns a pointer to the right child node.
 
-#### 3. Setters
-These methods allow modification of the node's data, children, and thread pointers.
+  Example:
+  ```cpp
+  BinaryTreeNode<int>* right = node.getRightChild();  // Get the right child of the node
+  ```
 
-- **setData**: Sets the data stored in the node.
-    ```cpp
-    void BinaryTreeNode<T>::setData(T in) { data = in; }
-    ```
+- **`BinaryTreeNode<T>* getLeftChild()`**: Returns a pointer to the left child node.
 
-- **setParent**: Sets the parent pointer of the node.
-    ```cpp
-    void BinaryTreeNode<T>::setParent(BinaryTreeNode<T>* in) { parent = in; }
-    ```
+  Example:
+  ```cpp
+  BinaryTreeNode<int>* left = node.getLeftChild();  // Get the left child of the node
+  ```
 
-- **setLeftChild**: Sets the left child pointer of the node, and updates the parent's pointer accordingly.
-    ```cpp
-    void BinaryTreeNode<T>::setLeftChild(BinaryTreeNode<T>* in) {
-        if (leftChild == in) return;
-        if (leftChild && leftChild->parent == this) leftChild->parent = nullptr;
-        leftChild = in;
-        if (in) in->parent = this;
-    }
-    ```
+- **`BinaryTreeNode<T>* getRightThread() const`**: Returns the threaded pointer for the right child (if used in a threaded binary tree).
 
-- **setRightChild**: Sets the right child pointer of the node, and updates the parent's pointer accordingly.
-    ```cpp
-    void BinaryTreeNode<T>::setRightChild(BinaryTreeNode<T>* in) {
-        if (rightChild == in) return;
-        if (rightChild && rightChild->parent == this) rightChild->parent = nullptr;
-        rightChild = in;
-        if (in) in->parent = this;
-    }
-    ```
+  Example:
+  ```cpp
+  BinaryTreeNode<int>* rightThread = node.getRightThread();  // Get the right thread pointer
+  ```
 
-- **setLeftThread**: Sets the left thread pointer.
-    ```cpp
-    void BinaryTreeNode<T>::setLeftThread(BinaryTreeNode<T>* in) { leftthread = in; }
-    ```
+- **`BinaryTreeNode<T>* getLeftThread() const`**: Returns the threaded pointer for the left child (if used in a threaded binary tree).
 
-- **setRightThread**: Sets the right thread pointer.
-    ```cpp
-    void BinaryTreeNode<T>::setRightThread(BinaryTreeNode<T>* in) { rightthread = in; }
-    ```
+  Example:
+  ```cpp
+  BinaryTreeNode<int>* leftThread = node.getLeftThread();  // Get the left thread pointer
+  ```
 
-#### 4. Equality Comparison
-These methods allow comparing two nodes to see if they are the same based on their data and child pointers.
+- **`BinaryTreeNode<T>* getParent() const`**: Returns a pointer to the parent node.
 
-- **operator==**: Compares the data, left child, and right child of two nodes.
-    ```cpp
-    bool BinaryTreeNode<T>::operator==(const BinaryTreeNode<T>& r) const {
-        return (this->data == r.data) &&
-               (this->leftChild == r.leftChild) &&
-               (this->rightChild == r.rightChild);
-    }
-    ```
+  Example:
+  ```cpp
+  BinaryTreeNode<int>* parent = node.getParent();  // Get the parent of the node
+  ```
 
-- **operator!=**: Returns the negation of `operator==`.
-    ```cpp
-    bool BinaryTreeNode<T>::operator!=(const BinaryTreeNode<T>& r) const {
-        return !(this->operator==(r));
-    }
-    ```
+---
 
-### Example Usage
+### Setter Methods
 
-#### Example 1: Creating a Binary Tree Node and Accessing Data
+- **`void setData(T in)`**: Sets the data of the node to `in`.
+
+  Example:
+  ```cpp
+  node.setData(20);  // Set the data of the node to 20
+  ```
+
+- **`void setParent(BinaryTreeNode<T>* in)`**: Sets the parent of the node to `in`.
+
+  Example:
+  ```cpp
+  node.setParent(parentNode);  // Set the parent of the node
+  ```
+
+- **`void setLeftChild(BinaryTreeNode<T>* in)`**: Sets the left child of the node to `in`.
+
+  Example:
+  ```cpp
+  node.setLeftChild(leftNode);  // Set the left child of the node
+  ```
+
+- **`void setRightChild(BinaryTreeNode<T>* in)`**: Sets the right child of the node to `in`.
+
+  Example:
+  ```cpp
+  node.setRightChild(rightNode);  // Set the right child of the node
+  ```
+
+---
+
+### Threaded Pointer Methods
+
+- **`void setLeftThread(BinaryTreeNode<T>* in)`**: Sets the left threaded pointer to `in`.
+
+  Example:
+  ```cpp
+  node.setLeftThread(leftThreadNode);  // Set the left threaded pointer
+  ```
+
+- **`void setRightThread(BinaryTreeNode<T>* in)`**: Sets the right threaded pointer to `in`.
+
+  Example:
+  ```cpp
+  node.setRightThread(rightThreadNode);  // Set the right threaded pointer
+  ```
+
+---
+
+### Equality Methods
+
+- **`bool operator==(const BinaryTreeNode<T>& r) const`**: Compares the current node to another node `r` for equality based on data.
+
+  Example:
+  ```cpp
+  bool areEqual = node == anotherNode;  // Check if two nodes are equal
+  ```
+
+- **`bool operator!=(const BinaryTreeNode<T>& r) const`**: Compares the current node to another node `r` for inequality.
+
+  Example:
+  ```cpp
+  bool areNotEqual = node != anotherNode;  // Check if two nodes are not equal
+  ```
+
+---
+
+## Example Usage
+
+Here’s an example demonstrating how to use the `BinaryTreeNode` class:
 
 ```cpp
+#include "BinaryTreeNode.hpp"
+#include <iostream>
+
 int main() {
-    // Create a BinaryTreeNode with data 10
+    // Create a node with data 10
     BinaryTreeNode<int> node(10);
 
-    // Accessing the node's data
-    std::cout << "Node Data: " << node.getData() << std::endl; // Output: Node Data: 10
+    // Set left and right children
+    BinaryTreeNode<int> leftNode(5);
+    BinaryTreeNode<int> rightNode(15);
 
-    // Setting and accessing left and right children
-    BinaryTreeNode<int> leftChild(5);
-    BinaryTreeNode<int> rightChild(15);
+    node.setLeftChild(&leftNode);  // Set left child
+    node.setRightChild(&rightNode);  // Set right child
 
-    node.setLeftChild(&leftChild);
-    node.setRightChild(&rightChild);
+    // Get and print the data of the node
+    std::cout << "Node data: " << node.getData() << std::endl;
 
-    std::cout << "Left Child Data: " << node.getLeftChild()->getData() << std::endl;  // Output: Left Child Data: 5
-    std::cout << "Right Child Data: " << node.getRightChild()->getData() << std::endl; // Output: Right Child Data: 15
+    // Get the left and right children and print their data
+    std::cout << "Left child data: " << node.getLeftChild()->getData() << std::endl;
+    std::cout << "Right child data: " << node.getRightChild()->getData() << std::endl;
+
+    // Set parent for left child and print the parent's data
+    leftNode.setParent(&node);
+    std::cout << "Parent of left child: " << leftNode.getParent()->getData() << std::endl;
+
+    return 0;
 }
 ```
 
-#### Example 2: Using Equality Operators
+### Explanation:
+- The code creates a `BinaryTreeNode` with data `10` and sets its left and right children.
+- It demonstrates how to access the data, set the parent, and manipulate the left and right children using setter and getter methods.
 
-```cpp
-int main() {
-    BinaryTreeNode<int> node1(10);
-    BinaryTreeNode<int> node2(10);
-    BinaryTreeNode<int> node3(20);
+---
 
-    // Check if two nodes have the same data and children
-    if (node1 == node2) {
-        std::cout << "node1 is equal to node2" << std::endl; // Output: node1 is equal to node2
-    }
+## Potential Errors & Edge Cases
 
-    if (node1 != node3) {
-        std::cout << "node1 is not equal to node3" << std::endl; // Output: node1 is not equal to node3
-    }
-}
-```
+1. **Null Pointers**: When accessing children, parents, or threaded pointers, ensure that the pointers are not `nullptr` before dereferencing. If necessary, check for `nullptr` and handle the case accordingly.
 
-### Conclusion
+   Example:
+   ```cpp
+   if (node.getLeftChild() != nullptr) {
+       std::cout << "Left child data: " << node.getLeftChild()->getData() << std::endl;
+   }
+   ```
 
-The `BinaryTreeNode` class is designed to represent nodes in a binary tree with additional thread pointers for threaded binary trees. It provides fundamental operations for managing node data, setting child nodes, and checking equality between nodes. This class can be easily extended for use in more complex tree structures.
+2. **Threaded Pointer Misuse**: When using threaded binary trees, ensure that threaded pointers are set correctly, as incorrect handling can lead to undefined behavior.
+
+3. **Equality Comparison**: The equality operators (`==`, `!=`) only compare the node's data. If your application requires a more thorough comparison (e.g., checking children or threaded pointers), modify the equality operator accordingly.
+
+---
+
+## Dependencies
+
+- **C++ Standard Library**: This file uses basic C++ library features like `iostream` for printing and `std::nullptr_t` for handling null pointers.
+- **`BinaryTree.hpp`**: This file assumes that the `BinaryTree` class is defined and includes functionality for managing the tree structure, such as traversals or root management.

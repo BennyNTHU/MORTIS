@@ -1,248 +1,398 @@
-# BinaryTree API Documentation
+# BinaryTree.hpp Documentation
 
 ## Overview
 
-The `BinaryTree` class is a generic class that implements a threaded binary tree. This data structure supports a variety of operations such as insertion, deletion, traversal, and checking properties like completeness, balance, and fullness. It uses threads to make traversal more efficient.
+The `BinaryTree.hpp` header file defines a template class `BinaryTree` that implements a binary tree data structure. A binary tree is a hierarchical data structure where each node has at most two children, referred to as the left child and the right child. This implementation provides methods for tree manipulation, traversal, and querying properties such as height, balance, and completeness.
 
-The following sections document the available methods for interacting with the `BinaryTree` and provide example usage.
+## Class: `BinaryTree<T>`
 
----
+### Description
+The `BinaryTree<T>` class is a template class that represents a binary tree. It provides methods for inserting, deleting, and traversing nodes, as well as querying properties of the tree.
 
-## `BinaryTree` Class Methods
+### Template Parameters
+- `T`: The type of data stored in the nodes of the tree.
 
-### Constructors
+### Constructors and Destructor
 
-1. **Default Constructor:**
-   ```cpp
-   BinaryTree<T>::BinaryTree();
-   ```
-   - Creates an empty binary tree.
+#### `BinaryTree()`
+- **Description**: Default constructor. Initializes an empty binary tree.
+- **Usage**:
+  ```cpp
+  BinaryTree<int> tree;
+  ```
 
-2. **Parameterized Constructor:**
-   ```cpp
-   BinaryTree<T>::BinaryTree(const T& rootData);
-   ```
-   - Initializes the binary tree with a root node containing `rootData`.
+#### `BinaryTree(const T& rootData)`
+- **Description**: Constructor. Initializes a binary tree with a root node containing the specified data.
+- **Parameters**:
+  - `rootData`: The data to store in the root node.
+- **Usage**:
+  ```cpp
+  BinaryTree<int> tree(10);  // Creates a binary tree with root node containing 10
+  ```
 
-3. **Copy Constructor:**
-   ```cpp
-   BinaryTree<T>::BinaryTree(const BinaryTree<T>& bt);
-   ```
-   - Creates a deep copy of the binary tree.
+#### `BinaryTree(const BinaryTree<T>& bt)`
+- **Description**: Copy constructor. Initializes a new binary tree by copying another binary tree.
+- **Parameters**:
+  - `bt`: The `BinaryTree` object to copy from.
+- **Usage**:
+  ```cpp
+  BinaryTree<int> tree1(10);
+  BinaryTree<int> tree2(tree1);  // tree2 is a copy of tree1
+  ```
 
-### Destructor
+#### `~BinaryTree()`
+- **Description**: Destructor. Cleans up the binary tree by deleting all nodes.
+- **Usage**: Automatically called when the object goes out of scope.
 
-1. **Destructor:**
-   ```cpp
-   BinaryTree<T>::~BinaryTree();
-   ```
-   - Deletes all nodes in the tree and frees memory.
+### Methods
+
+#### `void Clear()`
+- **Description**: Clears the tree (deletes all nodes) and resets the root pointer.
+- **Usage**:
+  ```cpp
+  BinaryTree<int> tree(10);
+  tree.Clear();  // The tree is now empty
+  ```
 
 ### Getters
 
-1. **Root Data:**
-   ```cpp
-   T BinaryTree<T>::RootData();
-   ```
-   - Returns the data stored at the root of the tree. Throws an exception if the tree is empty.
+#### `T RootData()`
+- **Description**: Returns the data in the root node of the tree.
+- **Return Value**: The data of type `T` stored in the root node.
+- **Usage**:
+  ```cpp
+  BinaryTree<int> tree(10);
+  int rootData = tree.RootData();  // rootData is 10
+  ```
 
-2. **Get Root Node:**
-   ```cpp
-   BinaryTreeNode<T>* BinaryTree<T>::getRoot() const;
-   ```
-   - Returns the root node of the tree.
+#### `BinaryTreeNode<T>* getRoot() const`
+- **Description**: Returns a pointer to the root node of the tree.
+- **Return Value**: A pointer to the root `BinaryTreeNode<T>`.
+- **Usage**:
+  ```cpp
+  BinaryTree<int> tree(10);
+  BinaryTreeNode<int>* root = tree.getRoot();  // root points to the root node
+  ```
 
-3. **Left Subtree:**
-   ```cpp
-   BinaryTree<T>* BinaryTree<T>::LeftSubtree();
-   ```
-   - Returns a new `BinaryTree` object representing the left subtree of the tree.
+#### `BinaryTree<T>* LeftSubtree()`
+- **Description**: Returns the left subtree of the tree.
+- **Return Value**: A pointer to the left subtree as a `BinaryTree<T>` object.
+- **Usage**:
+  ```cpp
+  BinaryTree<int> tree(10);
+  tree.InsertLeft(tree.getRoot(), new BinaryTreeNode<int>(5));
+  BinaryTree<int>* leftSubtree = tree.LeftSubtree();  // leftSubtree points to the left subtree
+  ```
 
-4. **Right Subtree:**
-   ```cpp
-   BinaryTree<T>* BinaryTree<T>::RightSubtree();
-   ```
-   - Returns a new `BinaryTree` object representing the right subtree of the tree.
+#### `BinaryTree<T>* RightSubtree()`
+- **Description**: Returns the right subtree of the tree.
+- **Return Value**: A pointer to the right subtree as a `BinaryTree<T>` object.
+- **Usage**:
+  ```cpp
+  BinaryTree<int> tree(10);
+  tree.InsertRight(tree.getRoot(), new BinaryTreeNode<int>(15));
+  BinaryTree<int>* rightSubtree = tree.RightSubtree();  // rightSubtree points to the right subtree
+  ```
 
 ### Setters
 
-1. **Set Root:**
-   ```cpp
-   void BinaryTree<T>::set_root(BinaryTreeNode<T>* node);
-   ```
-   - Sets the root of the tree and updates the tree's threads accordingly.
+#### `void set_root(BinaryTreeNode<T>* node)`
+- **Description**: Sets the root node of the tree and updates the threading.
+- **Parameters**:
+  - `node`: A pointer to the `BinaryTreeNode<T>` to set as the root.
+- **Usage**:
+  ```cpp
+  BinaryTree<int> tree;
+  tree.set_root(new BinaryTreeNode<int>(10));  // Sets the root node to contain 10
+  ```
 
-2. **Insert Left Child:**
-   ```cpp
-   void BinaryTree<T>::InsertLeft(BinaryTreeNode<T>* node, BinaryTreeNode<T>* left);
-   ```
-   - Inserts a left child for the given node and updates threading.
+### Insertion Methods
 
-3. **Insert Right Child:**
-   ```cpp
-   void BinaryTree<T>::InsertRight(BinaryTreeNode<T>* node, BinaryTreeNode<T>* right);
-   ```
-   - Inserts a right child for the given node and updates threading.
+#### `void InsertRight(BinaryTreeNode<T>* node, BinaryTreeNode<T>* right)`
+- **Description**: Inserts a right child for the given node.
+- **Parameters**:
+  - `node`: A pointer to the node to which the right child will be added.
+  - `right`: A pointer to the `BinaryTreeNode<T>` to insert as the right child.
+- **Usage**:
+  ```cpp
+  BinaryTree<int> tree(10);
+  tree.InsertRight(tree.getRoot(), new BinaryTreeNode<int>(15));  // Inserts 15 as the right child of the root
+  ```
 
-### Traversals
+#### `void InsertLeft(BinaryTreeNode<T>* node, BinaryTreeNode<T>* left)`
+- **Description**: Inserts a left child for the given node.
+- **Parameters**:
+  - `node`: A pointer to the node to which the left child will be added.
+  - `left`: A pointer to the `BinaryTreeNode<T>` to insert as the left child.
+- **Usage**:
+  ```cpp
+  BinaryTree<int> tree(10);
+  tree.InsertLeft(tree.getRoot(), new BinaryTreeNode<int>(5));  // Inserts 5 as the left child of the root
+  ```
 
-1. **In-Order Traversal:**
-   ```cpp
-   vector<T> BinaryTree<T>::InorderIterator();
-   ```
-   - Returns a vector of nodes in in-order sequence (left, root, right).
+#### `void InsertRightSubtree(BinaryTreeNode<T>* node, BinaryTree<T>* right)`
+- **Description**: Inserts a right subtree for the given node.
+- **Parameters**:
+  - `node`: A pointer to the node to which the right subtree will be added.
+  - `right`: A pointer to the `BinaryTree<T>` to insert as the right subtree.
+- **Usage**:
+  ```cpp
+  BinaryTree<int> tree(10);
+  BinaryTree<int> rightSubtree(15);
+  tree.InsertRightSubtree(tree.getRoot(), &rightSubtree);  // Inserts the right subtree
+  ```
 
-2. **Pre-Order Traversal:**
-   ```cpp
-   vector<T> BinaryTree<T>::PreOrderIterator();
-   ```
-   - Returns a vector of nodes in pre-order sequence (root, left, right).
+#### `void InsertLeftSubtree(BinaryTreeNode<T>* node, BinaryTree<T>* left)`
+- **Description**: Inserts a left subtree for the given node.
+- **Parameters**:
+  - `node`: A pointer to the node to which the left subtree will be added.
+  - `left`: A pointer to the `BinaryTree<T>` to insert as the left subtree.
+- **Usage**:
+  ```cpp
+  BinaryTree<int> tree(10);
+  BinaryTree<int> leftSubtree(5);
+  tree.InsertLeftSubtree(tree.getRoot(), &leftSubtree);  // Inserts the left subtree
+  ```
 
-3. **Post-Order Traversal:**
-   ```cpp
-   vector<T> BinaryTree<T>::PostOrderIterator();
-   ```
-   - Returns a vector of nodes in post-order sequence (left, right, root).
+### Deletion Methods
 
-4. **Level-Order Traversal:**
-   ```cpp
-   vector<T> BinaryTree<T>::LevelOrderIterator();
-   ```
-   - Returns a vector of nodes in level-order sequence.
-
-### Node Count and Size
-
-1. **Count Nodes:**
-   ```cpp
-   int BinaryTree<T>::CountNodes() const;
-   ```
-   - Returns the total number of nodes in the tree.
+#### `void delete_subtree(BinaryTreeNode<T>* node)`
+- **Description**: Deletes a subtree (including the given node).
+- **Parameters**:
+  - `node`: A pointer to the root of the subtree to delete.
+- **Usage**:
+  ```cpp
+  BinaryTree<int> tree(10);
+  tree.InsertLeft(tree.getRoot(), new BinaryTreeNode<int>(5));
+  tree.delete_subtree(tree.getRoot()->left);  // Deletes the left subtree
+  ```
 
 ### Properties
 
-1. **Is Empty:**
-   ```cpp
-   bool BinaryTree<T>::IsEmpty() const;
-   ```
-   - Returns true if the tree is empty, false otherwise.
+#### `bool isFull()`
+- **Description**: Checks if the binary tree is full (every node has either 0 or 2 children).
+- **Return Value**: `true` if the tree is full, `false` otherwise.
+- **Usage**:
+  ```cpp
+  BinaryTree<int> tree(10);
+  tree.InsertLeft(tree.getRoot(), new BinaryTreeNode<int>(5));
+  bool full = tree.isFull();  // full is false (root has only one child)
+  ```
 
-2. **Is Full:**
-   ```cpp
-   bool BinaryTree<T>::isFull();
-   ```
-   - Returns true if every node has either 0 or 2 children (a full binary tree).
+#### `bool IsEmpty() const`
+- **Description**: Checks if the binary tree is empty.
+- **Return Value**: `true` if the tree is empty, `false` otherwise.
+- **Usage**:
+  ```cpp
+  BinaryTree<int> tree;
+  bool empty = tree.IsEmpty();  // empty is true
+  ```
 
-3. **Is Balanced:**
-   ```cpp
-   bool BinaryTree<T>::isBalanced();
-   ```
-   - Returns true if the tree is balanced (the heights of the left and right subtrees of any node differ by no more than 1).
+#### `bool isBalanced()`
+- **Description**: Checks if the binary tree is balanced (the heights of the two subtrees of every node differ by at most 1).
+- **Return Value**: `true` if the tree is balanced, `false` otherwise.
+- **Usage**:
+  ```cpp
+  BinaryTree<int> tree(10);
+  tree.InsertLeft(tree.getRoot(), new BinaryTreeNode<int>(5));
+  bool balanced = tree.isBalanced();  // balanced is true
+  ```
 
-4. **Is Complete:**
-   ```cpp
-   bool BinaryTree<T>::isComplete();
-   ```
-   - Returns true if the tree is complete (all levels are fully filled except possibly the last, which is filled from left to right).
+#### `bool isComplete()`
+- **Description**: Checks if the binary tree is complete (all levels are fully filled except possibly the last level, which is filled from left to right).
+- **Return Value**: `true` if the tree is complete, `false` otherwise.
+- **Usage**:
+  ```cpp
+  BinaryTree<int> tree(10);
+  tree.InsertLeft(tree.getRoot(), new BinaryTreeNode<int>(5));
+  bool complete = tree.isComplete();  // complete is true
+  ```
 
-### Insertion
+#### `int CountNodes() const`
+- **Description**: Counts the number of nodes in the binary tree.
+- **Return Value**: The number of nodes as an integer.
+- **Usage**:
+  ```cpp
+  BinaryTree<int> tree(10);
+  tree.InsertLeft(tree.getRoot(), new BinaryTreeNode<int>(5));
+  int nodeCount = tree.CountNodes();  // nodeCount is 2
+  ```
 
-1. **Insert Left Subtree:**
-   ```cpp
-   void BinaryTree<T>::InsertLeftSubtree(BinaryTreeNode<T>* node, BinaryTree<T>* leftSubtree);
-   ```
-   - Inserts the left subtree of `leftSubtree` as the left child of `node`.
+#### `int Height()`
+- **Description**: Returns the height of the binary tree (the number of edges on the longest path from the root to a leaf).
+- **Return Value**: The height of the tree as an integer.
+- **Usage**:
+  ```cpp
+  BinaryTree<int> tree(10);
+  tree.InsertLeft(tree.getRoot(), new BinaryTreeNode<int>(5));
+  int height = tree.Height();  // height is 1
+  ```
 
-2. **Insert Right Subtree:**
-   ```cpp
-   void BinaryTree<T>::InsertRightSubtree(BinaryTreeNode<T>* node, BinaryTree<T>* rightSubtree);
-   ```
-   - Inserts the right subtree of `rightSubtree` as the right child of `node`.
+### Other Functions
 
-### Deletion
+#### `BinaryTreeNode<T>* Find(const T& value) const`
+- **Description**: Searches for a node containing the given value.
+- **Parameters**:
+  - `value`: The value to search for.
+- **Return Value**: A pointer to the `BinaryTreeNode<T>` if found, `nullptr` otherwise.
+- **Usage**:
+  ```cpp
+  BinaryTree<int> tree(10);
+  tree.InsertLeft(tree.getRoot(), new BinaryTreeNode<int>(5));
+  BinaryTreeNode<int>* node = tree.Find(5);  // node points to the node containing 5
+  ```
 
-1. **Delete Subtree:**
-   ```cpp
-   void BinaryTree<T>::delete_subtree(BinaryTreeNode<T>* node);
-   ```
-   - Deletes the subtree rooted at `node`.
+#### `bool root_equal(BinaryTreeNode<T>* root1, BinaryTreeNode<T>* root2)`
+- **Description**: Checks if two binary trees have the same root.
+- **Parameters**:
+  - `root1`: A pointer to the root of the first tree.
+  - `root2`: A pointer to the root of the second tree.
+- **Return Value**: `true` if the roots are equal, `false` otherwise.
+- **Usage**:
+  ```cpp
+  BinaryTree<int> tree1(10);
+  BinaryTree<int> tree2(10);
+  bool equal = tree1.root_equal(tree1.getRoot(), tree2.getRoot());  // equal is true
+  ```
 
-### Equality
+### Operator Overloads
 
-1. **Equality Comparison:**
-   ```cpp
-   bool BinaryTree<T>::operator==(const BinaryTree<T>& bt);
-   ```
-   - Returns true if the two trees are equal (same structure and data).
+#### `BinaryTree<T>& operator=(const BinaryTree<T>& other)`
+- **Description**: Assignment operator. Performs a deep copy of another binary tree.
+- **Parameters**:
+  - `other`: The `BinaryTree` to copy from.
+- **Return Value**: A reference to the current binary tree.
+- **Usage**:
+  ```cpp
+  BinaryTree<int> tree1(10);
+  BinaryTree<int> tree2;
+  tree2 = tree1;  // tree2 is now a copy of tree1
+  ```
 
-2. **Inequality Comparison:**
-   ```cpp
-   bool BinaryTree<T>::operator!=(const BinaryTree<T>& bt);
-   ```
-   - Returns true if the two trees are not equal.
+#### `bool operator==(const BinaryTree<T>& bt)`
+- **Description**: Equality operator. Checks if two binary trees are equal.
+- **Parameters**:
+  - `bt`: The `BinaryTree` to compare with.
+- **Return Value**: `true` if the trees are equal, `false` otherwise.
+- **Usage**:
+  ```cpp
+  BinaryTree<int> tree1(10);
+  BinaryTree<int> tree2(10);
+  bool equal = (tree1 == tree2);  // equal is true
+  ```
 
----
+#### `bool operator!=(const BinaryTree& bt)`
+- **Description**: Inequality operator. Checks if two binary trees are not equal.
+- **Parameters**:
+  - `bt`: The `BinaryTree` to compare with.
+- **Return Value**: `true` if the trees are not equal, `false` otherwise.
+- **Usage**:
+  ```cpp
+  BinaryTree<int> tree1(10);
+  BinaryTree<int> tree2(15);
+  bool notEqual = (tree1 != tree2);  // notEqual is true
+  ```
+
+#### `template <typename U> friend ostream& operator<<(ostream& os, const BinaryTree<U>& bt)`
+- **Description**: Overloaded `<<` operator for printing the binary tree.
+- **Parameters**:
+  - `os`: The output stream.
+  - `bt`: The `BinaryTree` to print.
+- **Return Value**: The output stream.
+- **Usage**:
+  ```cpp
+  BinaryTree<int> tree(10);
+  tree.InsertLeft(tree.getRoot(), new BinaryTreeNode<int>(5));
+  std::cout << tree;  // Prints the binary tree
+  ```
+
+### Traversal Methods
+
+#### `vector<T> PreOrderIterator()`
+- **Description**: Returns an array of the pre-order traversal of the binary tree.
+- **Return Value**: A `vector<T>` containing the elements in pre-order.
+- **Usage**:
+  ```cpp
+  BinaryTree<int> tree(10);
+  tree.InsertLeft(tree.getRoot(), new BinaryTreeNode<int>(5));
+  vector<int> preOrder = tree.PreOrderIterator();  // preOrder contains {10, 5}
+  ```
+
+#### `vector<T> PostOrderIterator()`
+- **Description**: Returns an array of the post-order traversal of the binary tree.
+- **Return Value**: A `vector<T>` containing the elements in post-order.
+- **Usage**:
+  ```cpp
+  BinaryTree<int> tree(10);
+  tree.InsertLeft(tree.getRoot(), new BinaryTreeNode<int>(5));
+  vector<int> postOrder = tree.PostOrderIterator();  // postOrder contains {5, 10}
+  ```
+
+#### `vector<T> InorderIterator()`
+- **Description**: Returns an array of the in-order traversal of the binary tree.
+- **Return Value**: A `vector<T>` containing the elements in in-order.
+- **Usage**:
+  ```cpp
+  BinaryTree<int> tree(10);
+  tree.InsertLeft(tree.getRoot(), new BinaryTreeNode<int>(5));
+  vector<int> inOrder = tree.InorderIterator();  // inOrder contains {5, 10}
+  ```
+
+#### `vector<T> LevelOrderIterator()`
+- **Description**: Returns an array of the level-order traversal of the binary tree.
+- **Return Value**: A `vector<T>` containing the elements in level-order.
+- **Usage**:
+  ```cpp
+  BinaryTree<int> tree(10);
+  tree.InsertLeft(tree.getRoot(), new BinaryTreeNode<int>(5));
+  vector<int> levelOrder = tree.LevelOrderIterator();  // levelOrder contains {10, 5}
+  ```
 
 ## Example Usage
 
-### Creating a Binary Tree
-
 ```cpp
-BinaryTree<int> tree(10);  // Create a binary tree with root data 10.
-```
+#include "BinaryTree.hpp"
+#include <iostream>
 
-### Inserting Nodes
+int main() {
+    // Create a binary tree with root node containing 10
+    BinaryTree<int> tree(10);
 
-```cpp
-BinaryTreeNode<int>* node1 = new BinaryTreeNode<int>(5);
-BinaryTreeNode<int>* node2 = new BinaryTreeNode<int>(15);
+    // Insert left and right children
+    tree.InsertLeft(tree.getRoot(), new BinaryTreeNode<int>(5));
+    tree.InsertRight(tree.getRoot(), new BinaryTreeNode<int>(15));
 
-tree.InsertLeft(tree.getRoot(), node1);
-tree.InsertRight(tree.getRoot(), node2);
-```
+    // Print the tree
+    std::cout << "Tree: " << tree << std::endl;
 
-### Traversing the Tree
+    // Check properties
+    std::cout << "Is full: " << std::boolalpha << tree.isFull() << std::endl;
+    std::cout << "Is balanced: " << std::boolalpha << tree.isBalanced() << std::endl;
+    std::cout << "Height: " << tree.Height() << std::endl;
 
-```cpp
-// In-order traversal
-vector<int> inorder = tree.InorderIterator();
-for (int val : inorder) {
-    std::cout << val << " ";
-}
-// Output: 5 10 15
+    // Traverse the tree
+    vector<int> preOrder = tree.PreOrderIterator();
+    std::cout << "Pre-order traversal: ";
+    for (int val : preOrder) {
+        std::cout << val << " ";
+    }
+    std::cout << std::endl;
 
-// Pre-order traversal
-vector<int> preorder = tree.PreOrderIterator();
-for (int val : preorder) {
-    std::cout << val << " ";
-}
-// Output: 10 5 15
-```
-
-### Checking Tree Properties
-
-```cpp
-if (tree.isBalanced()) {
-    std::cout << "The tree is balanced.\n";
-}
-
-if (tree.isFull()) {
-    std::cout << "The tree is full.\n";
-}
-
-if (tree.isComplete()) {
-    std::cout << "The tree is complete.\n";
+    return 0;
 }
 ```
 
-### Removing Nodes
+## Potential Errors and Edge Cases
 
-```cpp
-BinaryTree<int>* leftSubtree = tree.LeftSubtree();
-tree.delete_subtree(leftSubtree->getRoot());
-```
+1. **Null Pointers**: When inserting or deleting nodes, ensure that the node pointers are valid (not `nullptr`). Invalid pointers may lead to runtime errors.
+2. **Memory Management**: When dynamically allocating nodes, ensure proper cleanup to avoid memory leaks.
+3. **Empty Tree**: Performing operations like `RootData()` or `Height()` on an empty tree may result in undefined behavior. Ensure the tree is not empty before performing these operations.
 
----
+## Dependencies
 
-## Conclusion
+- **BinaryTreeNode.hpp**: The `BinaryTree` class uses `BinaryTreeNode` to represent nodes in the tree. Ensure that this file is included and properly configured in your project.
+- **Standard Library**: The header file includes `<iostream>` and `<vector>`, which are part of the C++ Standard Library. Ensure that your environment is configured to use the standard library.
 
-The `BinaryTree` class provides a robust and versatile set of operations for managing threaded binary trees, allowing for efficient insertions, deletions, traversals, and various property checks. This documentation serves as a detailed guide to using these functions effectively with examples.
+## Summary
+
+The `BinaryTree.hpp` file provides a flexible implementation of a binary tree data structure, supporting insertion, deletion, traversal, and property queries. By following the examples and guidelines provided, you can effectively use this class to build and manipulate binary trees in your projects.

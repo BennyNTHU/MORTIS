@@ -1,249 +1,170 @@
-### **CirQue Documentation**
-#### **Circular Queue (CirQue) - A Circular Double-Ended Queue Implementation**
----
-#### **Introduction**
-CirQue is an implementation of a circular queue that extends the functionality of a double-ended queue (DeQue), which in turn inherits from the Bag class. This structure allows efficient insertion and deletion from both ends while ensuring optimal memory usage.
+# `CirQue.hpp` Documentation
 
-CirQue supports multiple data types, including:
-- Primitive types: `int, char, float, bool, double, std::string`
-- Complex data structures: `GeneralArray<MIXED_TYPE>, Polynomial, SparseMatrix, String`
+## Overview
 
-This document provides a guide on how to use the CirQue class.
+The `CirQue.hpp` file defines a `CirQue` class template that represents a circular queue, which is a type of data structure where the first element follows the last element. This class allows for insertion and removal of elements from both the front and back of the queue, while maintaining the circular nature of the structure. The queue supports various operations, such as checking its size, checking if it's empty, and accessing its front and back elements.
 
 ---
 
-## **1. Class Interface**
-```cpp
-class CirQue : public DeQue {
-public:
-    // Constructor
-    CirQue(int capacity);
+## Key Components
 
-    // Insert elements at the front and back
-    void PushFront(const MORTISInvariant& x);
-    void PushBack(const MORTISInvariant& x);
+### `CirQue` Class
 
-    // Remove elements from the front and back
-    void PopFront();
-    void PopBack();
+The `CirQue` class represents a circular queue that inherits from the `DeQue` class. It uses a `std::variant` to store elements of mixed types, such as integers, floating-point numbers, strings, and even more complex types like `GeneralArray`, `Polynomial`, `SparseMatrix`, and `String`.
 
-    // Retrieve elements from the front and back
-    MORTISInvariant Front() const;
-    MORTISInvariant Back() const;
+#### Member Variables:
+- **`front`**: The index of the first valid element in the queue.
+- **`rear`**: The index of the last valid element in the queue.
+- **`count`**: The current size of the queue (i.e., the number of elements in the queue).
 
-    // Utility functions
-    bool IsEmpty() const;
-    int Size() const;
+#### Constructors & Destructor:
+- **`CirQue(int capacity = 10)`**: Initializes the circular queue with a given capacity (default is 10). It sets up the queue with an empty state (front = -1, rear = -1, and count = 0).
+  
+  Example:
+  ```cpp
+  CirQue<int> queue(10);  // Creates a circular queue with capacity 10 for integers
+  ```
 
-    // Print all elements
-    void PrintBag() const;
-};
-```
+- **`~CirQue()`**: Destructor that cleans up any dynamically allocated memory used by the queue.
 
----
+#### Manipulation Functions:
+- **`PushFront(const T& x)`**: Inserts an element `x` at the front of the queue. If the queue is full, it may overwrite the oldest elements.
+  
+  Example:
+  ```cpp
+  queue.PushFront(5);  // Insert 5 at the front of the queue
+  ```
 
-## **2. Usage Guide**
-### **2.1 Initializing a CirQue**
-To create a CirQue instance, specify the maximum capacity:
-```cpp
-CirQue queue(10);
-```
-This creates a circular queue with space for up to 10 elements.
+- **`PushBack(const T& x)`**: Inserts an element `x` at the back of the queue. If the queue is full, it may overwrite the oldest elements.
+  
+  Example:
+  ```cpp
+  queue.PushBack(10);  // Insert 10 at the back of the queue
+  ```
 
----
+- **`PopFront()`**: Removes the element at the front of the queue.
 
-### **2.2 Inserting Elements**
-Use `PushFront` and `PushBack` to insert elements:
-```cpp
-queue.PushBack(42);
-queue.PushBack('A');
-queue.PushBack(3.14);
-queue.PushFront("Hello");
-```
-This inserts elements at the front and back.
+  Example:
+  ```cpp
+  queue.PopFront();  // Removes the front element from the queue
+  ```
 
----
+- **`PopBack()`**: Removes the element at the back of the queue.
 
-### **2.3 Removing Elements**
-To remove elements, use `PopFront` and `PopBack`:
-```cpp
-queue.PopFront();
-queue.PopBack();
-```
-These functions remove elements from the respective ends.
+  Example:
+  ```cpp
+  queue.PopBack();  // Removes the back element from the queue
+  ```
 
----
+#### Getter Functions:
+- **`Front()`**: Returns the front element of the queue without removing it.
+  
+  Example:
+  ```cpp
+  int frontElement = queue.Front();  // Get the front element (does not remove it)
+  ```
 
-### **2.4 Retrieving Front & Back Elements**
-To check the elements at the front and back without removing them:
-```cpp
-std::cout << "Front: ";
-std::visit([](auto&& arg) { std::cout << arg << std::endl; }, queue.Front());
+- **`Back()`**: Returns the back element of the queue without removing it.
+  
+  Example:
+  ```cpp
+  int backElement = queue.Back();  // Get the back element (does not remove it)
+  ```
 
-std::cout << "Back: ";
-std::visit([](auto&& arg) { std::cout << arg << std::endl; }, queue.Back());
-```
+#### Properties:
+- **`IsEmpty()`**: Returns `true` if the queue is empty, otherwise `false`.
 
----
+  Example:
+  ```cpp
+  bool empty = queue.IsEmpty();  // Check if the queue is empty
+  ```
 
-### **2.5 Checking Size & Empty Status**
-Use the following functions to check if the queue is empty and get its size:
-```cpp
-if (queue.IsEmpty()) {
-    std::cout << "Queue is empty!" << std::endl;
-} else {
-    std::cout << "Queue size: " << queue.Size() << std::endl;
-}
-```
+- **`Size()`**: Returns the number of elements in the queue (i.e., the current size).
 
----
+  Example:
+  ```cpp
+  int size = queue.Size();  // Get the current size of the queue
+  ```
 
-### **2.6 Printing All Elements**
-To print all elements in the queue:
-```cpp
-queue.PrintBag();
-```
-This will print each element on a new line.
+#### Operator Overloads:
+- **`operator<<`**: Overloads the stream insertion (`<<`) operator to print the elements of the queue in a readable format.
+  
+  Example:
+  ```cpp
+  std::cout << queue;  // Prints the elements of the queue
+  ```
 
 ---
 
-## **3. Complete Example**
-Below is a comprehensive test case that demonstrates all functionalities of CirQue.
+## Example Usage
+
+Here’s an example demonstrating how to use the `CirQue` class:
+
 ```cpp
 #include "CirQue.hpp"
 #include <iostream>
 
-using namespace std;
-
 int main() {
-    CirQue queue(15);
+    // Create a circular queue for integers with a capacity of 5
+    CirQue<int> queue(5);
 
-    cout << "=== CirQue Test ===" << endl;
+    // Insert elements at the front and back of the queue
+    queue.PushBack(10);    // Queue: 10
+    queue.PushFront(20);   // Queue: 20, 10
 
-    // Insert primitive types
-    queue.PushBack(42);
-    queue.PushBack('A');
-    queue.PushBack(3.14);
-    queue.PushBack(true);
-    queue.PushBack("Hello");
+    // Print the queue
+    std::cout << "Queue after insertions: " << queue << std::endl;
 
-    cout << "Queue after inserting basic types:" << endl;
-    queue.PrintBag();
+    // Get the front and back elements
+    std::cout << "Front: " << queue.Front() << std::endl;  // Front: 20
+    std::cout << "Back: " << queue.Back() << std::endl;    // Back: 10
 
-    // Remove elements
-    queue.PopFront();
-    queue.PopBack();
-    cout << "Queue after removing front and back elements:" << endl;
-    queue.PrintBag();
+    // Remove the front element
+    queue.PopFront();  // Queue: 10
 
-    // Insert std::string
-    queue.PushBack(std::string("Hello, CirQue!"));
+    // Print the queue after removing the front element
+    std::cout << "Queue after PopFront: " << queue << std::endl;
 
-    // Insert GeneralArray<MIXED_TYPE>
-    GeneralArray<MIXED_TYPE> ga(1, {3}, MIXED_TYPE{});
-    ga.Store({0}, 100);
-    ga.Store({1}, std::string("Test"));
-    ga.Store({2}, 'Z');
-    queue.PushBack(ga);
+    // Remove the back element
+    queue.PopBack();  // Queue: (empty)
 
-    // Insert Polynomial
-    Polynomial poly;
-    poly.NewTerm(2, 3); // 3x^2
-    poly.NewTerm(0, 1); // +1
-    queue.PushBack(poly);
-    
-    // Insert SparseMatrix
-    SparseMatrix sm(3, 3, 2);
-    sm.StoreNum(0, 0, 5);
-    sm.StoreNum(1, 1, -2);
-    queue.PushBack(sm);
-    
-    // Insert String
-    char init1[] = "Yeah Tiger";
-    String str(init1, 100);
-    queue.PushBack(str);
+    // Print the queue after removing the back element
+    std::cout << "Queue after PopBack: " << queue << std::endl;
 
-    cout << "\nDeQue contents after inserting all types:\n";
-    queue.PrintBag();
-
-    // Test Front & Back
-    cout << "\nFront element: ";
-    std::visit([](auto&& arg) { std::cout << arg << std::endl; }, queue.Front());
-
-    cout << "Back element: ";
-    std::visit([](auto&& arg) { std::cout << arg << std::endl; }, queue.Back());
-
-    // Test PopFront & PopBack
-    queue.PopFront();
-    queue.PopBack();
-    
-    cout << "\nDeQue after popping front and back:\n";
-    queue.PrintBag();
-
-    cout << "\nTest completed successfully!\n";
+    // Check if the queue is empty
+    std::cout << "Is the queue empty? " << (queue.IsEmpty() ? "Yes" : "No") << std::endl;
 
     return 0;
 }
 ```
 
----
-
-## **4. Compilation**
-Compile the test program using:
-```sh
-g++ -std=c++17 CirQue.cpp CirQue-test.cpp ../../array/GeneralArray/GeneralArray.cpp \
-    ../../array/Polynomial/Polynomial.cpp ../../array/SparseMatrix/SparseMatrix.cpp \
-    ../../array/String/String.cpp ../DeQue/DeQue.cpp ../Bag/Bag.cpp -o test
-```
+### Explanation:
+- The code creates a circular queue of integers with a capacity of 5.
+- Elements are inserted both at the front and back, and the queue is printed after each operation.
+- The `Front()` and `Back()` methods are used to retrieve the front and back elements.
+- Elements are then removed from both the front and back of the queue, and the queue's state is printed after each operation.
+- The `IsEmpty()` method is used to check if the queue is empty after the operations.
 
 ---
 
-## **5. Expected Output**
-```
-=== CirQue Test ===
-Queue after inserting basic types:
-42
-A
-3.14
-1
-Hello
+## Potential Errors & Edge Cases
 
-Queue after removing front and back elements:
-A
-3.14
-1
+1. **Full Queue**: When the queue is full and an attempt is made to insert a new element, it may overwrite existing elements depending on how the circular queue is implemented. Be mindful of this behavior when performing insertions in a full queue.
 
-DeQue contents after inserting all types:
-A
-3.14
-1
-Hello, CirQue!
-GeneralArray data...
-Polynomial data...
-SparseMatrix data...
-String data...
+2. **Empty Queue Operations**: Ensure that operations like `PopFront()` and `PopBack()` handle cases where the queue is empty. Calling these operations on an empty queue should not result in undefined behavior.
 
-Front element: A
-Back element: String data...
+   Example:
+   ```cpp
+   if (!queue.IsEmpty()) {
+       queue.PopFront();
+   }
+   ```
 
-DeQue after popping front and back:
-3.14
-1
-Hello, CirQue!
-GeneralArray data...
-Polynomial data...
-SparseMatrix data...
-
-Test completed successfully!
-```
+3. **Indexing Errors**: Ensure that the `front`, `rear`, and `count` variables are properly updated after each insertion and removal operation to maintain the correct state of the queue.
 
 ---
 
-## **6. Summary**
-- **CirQue** is a circular double-ended queue that allows insertion and removal from both ends.
-- Supports multiple data types, including primitive types and complex data structures.
-- Implements a **ring buffer** to efficiently use memory.
-- Inherits from **DeQue**, which in turn inherits from **Bag**.
-- Includes robust error handling for underflow and overflow situations.
+## Dependencies
 
-This documentation provides everything needed to use CirQue efficiently. 🚀
+- **`DeQue.hpp`**: The `CirQue` class inherits from the `DeQue` class, so ensure that the `DeQue` class is correctly defined and includes methods for handling a double-ended queue (or supports basic queue operations).
+- **C++ Standard Library**: The class uses `std::variant` to store various types of elements and relies on standard C++ libraries such as `<iostream>` for input/output operations.

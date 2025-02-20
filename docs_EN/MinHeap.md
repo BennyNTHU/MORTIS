@@ -1,122 +1,107 @@
-# MinHeap Documentation
+# `MinHeap.hpp` Documentation
 
 ## Overview
-The `MinHeap` class is a data structure that maintains a **binary heap** with the **minimum element at the root**. It extends `MaxHeap`, but swaps the comparison logic so that smaller elements are prioritized.
 
-### Features:
-- Insert elements while maintaining heap order
-- Remove the smallest element (root)
-- Supports rebalancing through heapify operations
-- Implements a **binary tree structure** with heap properties
+The `MinHeap.hpp` file defines a `MinHeap` class template that extends the `MaxHeap` class. It provides functionality for maintaining a min-heap data structure, where each parent node is smaller than or equal to its children. The class overrides the heapify methods to ensure that the min-heap property is maintained during insertion and removal of elements.
 
 ---
 
-## Class Definition
-```cpp
-template <class T>
-class MinHeap : public MaxHeap<T> {
-public:
-    // Constructor
-    MinHeap(const T& rootData);
-    
-    // Destructor
-    ~MinHeap();
+## Key Components
 
-    // Maintain the heap property
-    void heapify_up(int index);
-    void heapify_down(int index);
-};
-```
+### `MinHeap` Class
 
----
+The `MinHeap` class inherits from the `MaxHeap` class and modifies the heapify operations to maintain the min-heap property. The class uses a vector to store the heap elements and supports basic heap operations like insertion, removal, and maintaining the heap structure.
 
-## Constructors and Destructors
+#### Constructors & Destructor
 
-### `MinHeap(const T& rootData)`
-**Description:**  
-Creates a min-heap with a **single root node** containing `rootData`.
+- **`MinHeap(const T& rootData)`**: Constructor that initializes the min-heap with the specified root data. It creates the root node and initializes the heap with the provided value.
 
-**Usage:**
-```cpp
-MinHeap<int> heap(10);  // Creates a min-heap with root value 10
-```
+  Example:
+  ```cpp
+  MinHeap<int> minHeap(10);  // Creates a min-heap with root value 10
+  ```
+
+- **`~MinHeap()`**: Destructor that cleans up the min-heap and deallocates memory used by the nodes.
+
+  Example:
+  ```cpp
+  // Automatically cleans up the min-heap when it goes out of scope
+  ```
 
 ---
 
-### `~MinHeap()`
-**Description:**  
-Destructor for the heap. It **cleans up all allocated nodes**.
+### Heapify Methods
 
-**Usage:**  
-This is automatically called when the object goes out of scope.
+The `MinHeap` class overrides the heapify methods from the `MaxHeap` class to ensure that the heap maintains the min-heap property, where the parent is smaller than its children.
 
----
+- **`void heapify_up(int index)`**: This method ensures the min-heap property by moving the node at the specified `index` upwards until the parent is smaller or equal to the child node. This method is called when inserting a new element into the heap.
 
-## Public Methods
+  Example:
+  ```cpp
+  minHeap.heapify_up(3);  // Restore the min-heap property for the node at index 3
+  ```
 
-### `void heapify_up(int index)`
-**Description:**  
-Moves a node **up** the heap to restore the min-heap property.
+- **`void heapify_down(int index)`**: This method ensures the min-heap property by moving the node at the specified `index` downwards until the min-heap property is satisfied. This method is called when removing the root or rearranging the heap after an operation.
 
-**Usage:**  
-This is automatically called inside `Push()` when inserting a new value.
-
-```cpp
-MinHeap<int> heap(5);
-heap.Push(3); // heapify_up is triggered internally
-heap.Push(7);
-```
+  Example:
+  ```cpp
+  minHeap.heapify_down(0);  // Restore the min-heap property for the root node
+  ```
 
 ---
 
-### `void heapify_down(int index)`
-**Description:**  
-Moves a node **down** the heap to restore the min-heap property.
+### Dependencies
 
-**Usage:**  
-This is automatically called inside `Pop()` when removing the root.
+- **`MaxHeap.hpp`**: The `MinHeap` class inherits from the `MaxHeap` class. Ensure that the `MaxHeap` class is properly implemented and available for the `MinHeap` class to work correctly.
+- **`BinaryTree.hpp`**: The class uses binary tree operations, so the `BinaryTree` class is required for managing the binary structure of the heap.
+
+---
+
+### Example Usage
+
+Here’s an example demonstrating how to use the `MinHeap` class:
 
 ```cpp
-MinHeap<int> heap(5);
-heap.Push(3);
-heap.Push(7);
-heap.Pop(); // heapify_down is triggered internally
-```
-
----
-
-## Example Program
-
-```cpp
-#include <iostream>
 #include "MinHeap.hpp"
+#include <iostream>
 
 int main() {
-    // Create a min-heap with root 15
-    MinHeap<int> heap(15);
-    
-    // Insert elements
-    heap.Push(10);
-    heap.Push(20);
-    heap.Push(5);
-    heap.Push(30);
-    heap.Push(2);
-    
-    // Display the minimum element
-    std::cout << "Minimum: " << heap.Top() << std::endl; // Should print 2
+    // Create a MinHeap with an initial root value of 10
+    MinHeap<int> minHeap(10);
 
-    // Remove the smallest element
-    heap.Pop();
-    std::cout << "New Minimum after Pop: " << heap.Top() << std::endl; // Should print 5
+    // Push elements into the MinHeap
+    minHeap.Push(5);   // Insert 5 into the heap
+    minHeap.Push(20);  // Insert 20 into the heap
+    minHeap.Push(3);   // Insert 3 into the heap
+
+    // Pop the minimum element (root) from the heap
+    minHeap.Pop();  // Removes 3, which is the minimum
+
+    // Print the root element after the pop
+    std::cout << "New root after Pop: " << minHeap.GetRootData() << std::endl;
 
     return 0;
 }
 ```
 
+### Explanation:
+- The code demonstrates creating a `MinHeap` with an initial root value of 10.
+- It inserts several elements into the min-heap using the `Push` method.
+- The root element (the minimum) is removed using the `Pop` method, and the new root is printed to show the heap's state after the pop.
+
 ---
 
-## Summary
-- `MinHeap` extends `MaxHeap`, reversing the comparison logic.
-- **Push()** inserts a value and maintains heap order.
-- **Pop()** removes the smallest value and reorders the heap.
-- **heapify_up()** and **heapify_down()** are internal functions for balancing.
+## Potential Errors & Edge Cases
+
+1. **Heap Underflow**: Calling `Pop()` on an empty heap could result in undefined behavior. Ensure that the heap is not empty before attempting to remove an element. You can add a check for emptiness before calling `Pop()`.
+
+   Example:
+   ```cpp
+   if (!minHeap.IsEmpty()) {
+       minHeap.Pop();
+   }
+   ```
+
+2. **Heap Property Violations**: After inserting or removing elements, ensure that the heapify operations (`heapify_up` and `heapify_down`) are properly called to restore the heap property.
+
+3. **Invalid Indices**: When calling `heapify_up` or `heapify_down`, ensure that the `index` provided is valid and within the bounds of the heap.
