@@ -1,6 +1,6 @@
 // SparseMatrix.cpp
 // Implementation of the SparseMatrix class.
-// Elements are stored using std::variant<int, float> to allow both integers and floats.
+// Elements are stored using std::variant<int, double> to allow both integers and doubles.
 // Arithmetic helper functions ensure that if both operands are integers, the result remains an integer.
 
 #include <iostream>
@@ -13,6 +13,83 @@
 #include <variant>
 #include "SparseMatrix.hpp"
 using namespace std;
+
+// ============================
+// Helper function
+// ============================
+
+// Helper function: add two variant values.
+std::variant<int, double> addValues(const std::variant<int, double>& a, const std::variant<int, double>& b) 
+{
+    if(a.index() == 0 && b.index() == 0)
+        return std::get<int>(a) + std::get<int>(b);
+    else 
+    {
+        double af = std::visit([](auto v){ return static_cast<double>(v); }, a);
+        double bf = std::visit([](auto v){ return static_cast<double>(v); }, b);
+        return af + bf;
+    }
+}
+
+// Helper function: multiply two variant values.
+std::variant<int, double> multiplyValues(const std::variant<int, double>& a, const std::variant<int, double>& b) 
+{
+    if(a.index() == 0 && b.index() == 0)
+        return std::get<int>(a) * std::get<int>(b);
+    else 
+    {
+        double af = std::visit([](auto v){ return static_cast<double>(v); }, a);
+        double bf = std::visit([](auto v){ return static_cast<double>(v); }, b);
+        return af * bf;
+    }
+}
+
+// ============================
+// Constructors and destructor
+// ============================
+
+// Defalut COnstructor
+SparseMatrix::SparseMatrix(): rows(0), cols(0), terms(0), capacity(10)  // default capacity set to 10
+{
+    smArray = new MatrixTerm[capacity];
+}
+
+// Constructor: allocate memory for the given number of nonzero terms.
+SparseMatrix::SparseMatrix(int r, int c, int t) 
+{
+    rows = r;
+    cols = c;
+    terms = 0;
+    capacity = (t > 0 ? t : 10); // ensure a minimum capacity
+    smArray = (MatrixTerm *)calloc(capacity, sizeof(MatrixTerm));
+}
+
+// Copy constructor: deep copy of another SparseMatrix.
+SparseMatrix::SparseMatrix(const SparseMatrix &b) 
+{
+    rows = b.rows;
+    cols = b.cols;
+    terms = b.terms;
+    capacity = b.capacity;
+    smArray = new MatrixTerm[capacity];
+
+    for (int i = 0; i < terms; i++) 
+    {
+        smArray[i].row = b.smArray[i].row;
+        smArray[i].col = b.smArray[i].col;
+        smArray[i].value = b.smArray[i].value;
+    }
+}
+
+// Destructor: free allocated memory.
+SparseMatrix::~SparseMatrix() 
+{
+    delete [] smArray;
+}
+
+// ============================
+// Accessors
+// ============================
 
 int SparseMatrix::get_rows() const 
 {
@@ -29,73 +106,26 @@ int SparseMatrix::get_capacity() const
     return capacity;
 }
 
+// get_terms: Returns the number of nonzero terms.
+int SparseMatrix::get_terms() const 
+{
+    return terms;
+}
+
 MatrixTerm* SparseMatrix::get_smArray() const 
 {
     return smArray;
 }
 
-// Helper function: add two variant values. If both are ints, return int; otherwise, return float.
-std::variant<int, float> addValues(const std::variant<int, float>& a, const std::variant<int, float>& b) 
-{
-    if(a.index() == 0 && b.index() == 0)
-        return std::get<int>(a) + std::get<int>(b);
-    else 
-    {
-        float af = std::visit([](auto v) { return static_cast<float>(v); }, a);
-        float bf = std::visit([](auto v) { return static_cast<float>(v); }, b);
-        return af + bf;
-    }
-}
-
-// Helper function: multiply two variant values.
-std::variant<int, float> multiplyValues(const std::variant<int, float>& a, const std::variant<int, float>& b) 
-{
-    if(a.index() == 0 && b.index() == 0)
-        return std::get<int>(a) * std::get<int>(b);
-    else 
-    {
-        float af = std::visit([](auto v) { return static_cast<float>(v); }, a);
-        float bf = std::visit([](auto v) { return static_cast<float>(v); }, b);
-        return af * bf;
-    }
-}
-
-// Constructor: allocate memory for the given number of nonzero terms.
-SparseMatrix::SparseMatrix(int r, int c, int t) 
-{
-    rows = r;
-    cols = c;
-    terms = t;
-    capacity = terms;
-    smArray = (MatrixTerm *)calloc(capacity, sizeof(MatrixTerm));
-}
-
-// Copy constructor: deep copy of another SparseMatrix.
-SparseMatrix::SparseMatrix(const SparseMatrix &b) 
-{
-    rows = b.rows;
-    cols = b.cols;
-    terms = b.terms;
-    capacity = b.capacity;
-    smArray = (MatrixTerm *)calloc(capacity, sizeof(MatrixTerm));
-    for (int i = 0; i < terms; i++) 
-    {
-        smArray[i].row = b.smArray[i].row;
-        smArray[i].col = b.smArray[i].col;
-        smArray[i].value = b.smArray[i].value;
-    }
-}
-
-// Destructor: free allocated memory.
-SparseMatrix::~SparseMatrix() 
-{
-    free(smArray);
-}
+// ============================
+// // Other functions
+// ============================
 
 // StoreNum: If num is nonzero, add a new term with given row and col.
-void SparseMatrix::StoreNum(const std::variant<int, float>& num, const int r, const int c) 
+void SparseMatrix::StoreNum(const std::variant<int, double>& num, const int r, const int c) 
 {
-    float numVal = std::visit([](auto v) { return static_cast<float>(v); }, num);
+    double numVal = std::visit([](auto v) { return static_cast<double>(v); }, num);
+
     if (fabs(numVal) > 1e-6) 
     {
         if (terms == capacity)
@@ -130,7 +160,7 @@ void SparseMatrix::printMatrix() const
         for (int j = 0; j < cols; j++) 
         {
             bool found = false;
-            std::variant<int, float> cellValue = 0;
+            std::variant<int, double> cellValue = 0;
             for (int k = 0; k < terms; k++) 
             {
                 if (smArray[k].row == i && smArray[k].col == j) 
@@ -151,11 +181,9 @@ void SparseMatrix::printMatrix() const
     }
 }
 
-// get_terms: Returns the number of nonzero terms.
-int SparseMatrix::get_terms() const 
-{
-    return terms;
-}
+// ============================
+// Matrix operation
+// ============================
 
 // FastTranspose: Returns the transpose of this matrix.
 SparseMatrix SparseMatrix::FastTranspose() 
@@ -190,199 +218,213 @@ SparseMatrix SparseMatrix::FastTranspose()
     return b;
 }
 
-// Add: Returns the sum of this matrix and matrix b.
-SparseMatrix SparseMatrix::Add(SparseMatrix b) 
+// Norm: compute and return the Frobenius norm of the matrix.
+double SparseMatrix::Norm() const 
 {
-    if (rows != b.rows || cols != b.cols)
-        throw "Matrices are not the same size!";
-    
-    int same_place = 0;
+    double sum = 0.0;
 
-    for (int i = 0; i < terms; i++)
-        for (int j = 0; j < b.get_terms(); j++)
-            if (smArray[i].row == b.smArray[j].row && smArray[i].col == b.smArray[j].col)
-                same_place++;
-
-    int add_terms = terms + b.get_terms() - same_place;
-    SparseMatrix c(rows, cols, add_terms);
-    int c_index = 0;
-
-    // Combine terms with same position.
-    for (int i = 0; i < terms; i++)
-        for (int j = 0; j < b.get_terms(); j++)
-            if (smArray[i].row == b.smArray[j].row && smArray[i].col == b.smArray[j].col) 
-            {
-                auto newVal = addValues(smArray[i].value, b.smArray[j].get_value());
-                c.smArray[c_index].write_term(smArray[i].row, smArray[i].col, newVal);
-                c_index++;
-            }
-
-    // Add remaining terms from this matrix.
     for (int i = 0; i < terms; i++) 
     {
-        int count = 0;
-        for (int j = 0; j < b.get_terms(); j++) 
-        {
-            if (!(smArray[i].row == b.smArray[j].row && smArray[i].col == b.smArray[j].col))
-                count++;
-        }
-        if (count == b.get_terms())
-            c.smArray[c_index++].write_term(smArray[i].row, smArray[i].col, smArray[i].value);
+        double val = std::visit([](auto v){ return static_cast<double>(v); }, smArray[i].value);
+        sum += val * val;
     }
 
-    // Add remaining terms from matrix b.
-    for (int i = 0; i < b.get_terms(); i++) 
-    {
-        int count = 0;
-        for (int j = 0; j < terms; j++) 
-        {
-            if (!(b.smArray[i].row == smArray[j].row && b.smArray[i].col == smArray[j].col))
-                count++;
-        }
-        if (count == terms)
-            c.smArray[c_index++].write_term(b.smArray[i].get_row(), b.smArray[i].get_col(), b.smArray[i].get_value());
-    }
-    return c;
+    return std::sqrt(sum);
 }
 
-// Multiply: Returns the product of this matrix and matrix b.
-SparseMatrix SparseMatrix::Multiply(SparseMatrix b) 
+// ============================
+// Operator overloads for arithmetic:
+// ============================
+
+// Addition operator.
+SparseMatrix SparseMatrix::operator+(const SparseMatrix& b) const 
 {
-    if (cols != b.rows)
-        throw "Incompatible matrices for multiplication";
-    
-    SparseMatrix bXpose = b.FastTranspose();
-    SparseMatrix d(rows, b.cols, 0); // Result matrix, initially with 0 terms.
-    int currRowIndex = 0, currRowBegin = 0;
-    int currRowA = smArray[0].row;
-    
-    // Add dummy term for boundary conditions.
-    if (terms == capacity)
-        ChangeSize1D(terms + 1);
-    smArray[terms].row = rows;
-    
-    if (bXpose.terms == bXpose.capacity)
-        bXpose.ChangeSize1D(bXpose.terms + 1);
-    
-    bXpose.smArray[b.get_terms()].row = b.cols;
-    bXpose.smArray[b.get_terms()].col = -1;
-    
-    std::variant<int, float> num = 0; // Initialize num as integer 0.
-    
-    while (currRowIndex < terms) 
+    assert(rows == b.rows && cols == b.cols);
+    // Create a result matrix with an upper-bound on number of terms.
+
+    SparseMatrix result(rows, cols, terms + b.terms);
+    int index = 0;
+
+    // For each position, add terms from both matrices
+    for (int i = 0; i < rows; i++) 
     {
-        int currColB = bXpose.smArray[0].row;
-        int currColIndex = 0;
-        while (currColIndex <= b.get_terms()) 
+        for (int j = 0; j < cols; j++) 
         {
-            if (smArray[currRowIndex].row != currRowA) 
+            std::variant<int, double> sum = 0;
+            
+            for (int k = 0; k < terms; k++) // Sum terms from this matrix.
             {
-                d.StoreNum(num, currRowA, currColB);
-                num = 0;
-                currRowIndex = currRowBegin;
-                while (currColIndex <= b.get_terms() && bXpose.smArray[currColIndex].row == currColB)
-                    currColIndex++;
-                
-                if (currColIndex <= b.get_terms())
-                    currColB = bXpose.smArray[currColIndex].row;
-            } 
-            else if (bXpose.smArray[currColIndex].row != currColB) 
+                if (smArray[k].row == i && smArray[k].col == j)
+                    sum = addValues(sum, smArray[k].value);
+            }
+            
+            for (int k = 0; k < b.terms; k++)   // Sum terms from matrix b.
             {
-                d.StoreNum(num, currRowA, currColB);
-                num = 0;
-                currRowIndex = currRowBegin;
-                currColB = bXpose.smArray[currColIndex].row;
-            } 
-            else 
+                if (b.smArray[k].row == i && b.smArray[k].col == j)
+                    sum = addValues(sum, b.smArray[k].value);
+            }
+
+            double sVal = std::visit([](auto v){ return static_cast<double>(v); }, sum);
+
+            if (fabs(sVal) > 1e-6) 
             {
-                if (smArray[currRowIndex].col < bXpose.smArray[currColIndex].col)
-                    currRowIndex++;
-                else if (smArray[currRowIndex].col == bXpose.smArray[currColIndex].col) 
-                {
-                    auto prod = multiplyValues(smArray[currRowIndex].value, bXpose.smArray[currColIndex].value);
-                    num = addValues(num, prod);
-                    currRowIndex++;
-                    currColIndex++;
-                } 
-                else
-                    currColIndex++;
+                result.smArray[index].row = i;
+                result.smArray[index].col = j;
+                result.smArray[index].value = sum;
+                index++;
             }
         }
-
-        while (currRowIndex < terms && smArray[currRowIndex].row == currRowA)
-            currRowIndex++;
-        
-        currRowBegin = currRowIndex;
-
-        if (currRowIndex < terms)
-            currRowA = smArray[currRowIndex].row;
     }
-    return d;
+    result.terms = index;
+
+    return result;
 }
 
-// Multiply with exponent: placeholder function, not implemented.
-SparseMatrix SparseMatrix::Multiply(SparseMatrix b, int n) 
+// Subtraction operator.
+SparseMatrix SparseMatrix::operator-(const SparseMatrix& b) const 
 {
-    return *this;
+    assert(rows == b.rows && cols == b.cols);
+    SparseMatrix negB = b * std::variant<int, double>(-1);   
+
+    return (*this) + negB;  // Multiply b by -1 and then add.
 }
 
-// Public method to set a term at a given index.
-void SparseMatrix::setTerm(int index, int r, int c, const std::variant<int, float>& v) 
+// Multiplication operator (matrix multiplication).
+SparseMatrix SparseMatrix::operator*(const SparseMatrix& b) const 
 {
-    if (index < 0 || index >= capacity)
-        throw "Index out of bounds";
-    
-    smArray[index].write_term(r, c, v);
-}
+    assert(cols == b.rows);
+    SparseMatrix result(rows, b.cols);
 
-// Overloaded input operator: Reads each term from input in the format "row col value".
-// The value is read as a string to decide whether to store it as int or float.
-istream& operator>>(istream& in, const SparseMatrix& b) 
-{
-    // Cast away const so we can modify the matrix.
-    SparseMatrix& mat = const_cast<SparseMatrix&>(b);
-    int r, c;
-    string valStr;
-
-    cout << "Enter (row col value) for each term:" << endl;
-
-    for (int i = 0; i < mat.terms; i++) 
+    // A simple algorithm: for every (i,j), compute the dot product of row i of A and column j of B.
+    for (int i = 0; i < rows; i++) 
     {
-        in >> r >> c >> valStr;
+        for (int j = 0; j < b.cols; j++) 
+        {
+            std::variant<int, double> sum = 0;
 
-        if (valStr.find('.') != string::npos) 
-        {
-            float fVal = stof(valStr);
-            mat.smArray[i].write_term(r, c, fVal);
-        } 
-        else 
-        {
-            int iVal = stoi(valStr);
-            mat.smArray[i].write_term(r, c, iVal);
+            for (int k = 0; k < cols; k++) 
+            {
+                std::variant<int, double> aVal = 0;
+                std::variant<int, double> bVal = 0;
+                
+                for (int p = 0; p < terms; p++) // Find A(i,k)
+                {
+                    if (smArray[p].row == i && smArray[p].col == k) 
+                    {
+                        aVal = smArray[p].value;
+                        break;
+                    }
+                }
+                for (int p = 0; p < b.terms; p++)   // Find B(k,j)
+                {
+                    if (b.smArray[p].row == k && b.smArray[p].col == j) 
+                    {
+                        bVal = b.smArray[p].value;
+                        break;
+                    }
+                }
+                sum = addValues(sum, multiplyValues(aVal, bVal));
+            }
+
+            double sVal = std::visit([](auto v){ return static_cast<double>(v); }, sum);
+            if (fabs(sVal) > 1e-6) 
+            {
+                result.StoreNum(sum, i, j);
+            }
         }
     }
-    return in;
+    return result;
 }
 
-// ScalarProduct: Returns a new sparse matrix that is the current matrix multiplied by scalar n.
-SparseMatrix SparseMatrix::ScalarProduct(std::variant<int, float> n) 
+// Matrix-vector multiplication. Here vec is a dense vector of doubles.
+SparseMatrix SparseMatrix::operator*(const std::vector<double>& vec) const 
 {
-    // Create a new matrix with the same dimensions and number of terms.
+    assert(cols == vec.size());
+    SparseMatrix result(rows, 1);
+
+    // For each nonzero term in A, add its contribution to the corresponding row of the result.
+    for (int i = 0; i < terms; i++) 
+    {
+        int r = smArray[i].row;
+        int c = smArray[i].col;
+        double val = std::visit([](auto v){ return static_cast<double>(v); }, smArray[i].value);
+        double prod = val * vec[c];
+        result.StoreNum(prod, r, 0);
+    }
+
+    return result;
+}
+
+// Scalar multiplication.
+SparseMatrix SparseMatrix::operator*(std::variant<int, double> scalar) const 
+{
     SparseMatrix result(rows, cols, terms);
 
     for (int i = 0; i < terms; i++) 
     {
         result.smArray[i].row = smArray[i].row;
         result.smArray[i].col = smArray[i].col;
-        // Multiply the existing value by n using the helper function.
-        result.smArray[i].value = multiplyValues(smArray[i].value, n);
+        result.smArray[i].value = multiplyValues(smArray[i].value, scalar);
     }
 
     return result;
 }
 
+// ============================
+// Other overloads
+// ============================
+
+// Assignment operator.
+SparseMatrix& SparseMatrix::operator=(const SparseMatrix& other) 
+{
+    if (this == &other)
+        return *this;
+
+    delete[] smArray;
+    rows = other.rows;
+    cols = other.cols;
+    terms = other.terms;
+    capacity = other.capacity;
+    smArray = new MatrixTerm[capacity];
+
+    for (int i = 0; i < terms; i++)
+        smArray[i] = other.smArray[i];
+
+    return *this;
+}
+
+// Equality and inequality operators.
+bool SparseMatrix::operator==(const SparseMatrix& other) const 
+{
+    if (rows != other.rows || cols != other.cols || terms != other.terms)
+        return false;
+    
+    for (int i = 0; i < terms; i++) 
+        if (smArray[i] != other.smArray[i])
+            return false;
+    
+    return true;
+}
+
+bool SparseMatrix::operator!=(const SparseMatrix& other) const 
+{
+    return !(*this == other);
+}
+
+// Subscript operator.
+std::variant<int, double> SparseMatrix::operator[](int index) const 
+{
+    assert(index >= 0 && index < terms);
+    return smArray[index].value;
+}
+
+
+// ============================
+// Friend I/O operators.
+// ============================
+
 // Overloaded output operator: Prints each term in the format (row, col, value).
-// The value is printed preserving its type: if it is an integer, it is printed as int; otherwise, as float.
+// The value is printed preserving its type: if it is an integer, it is printed as int; otherwise, as double.
 ostream& operator<<(ostream& out, const SparseMatrix& b) 
 {
     out << "(row, col, value)" << endl;
@@ -397,20 +439,30 @@ ostream& operator<<(ostream& out, const SparseMatrix& b)
     return out;
 }
 
-// Overload the equality operator to compare two SparseMatrix objects.
-bool operator==(const SparseMatrix& a, const SparseMatrix& b)
+// Overloaded input operator: Reads each term from input in the format "row col value".
+// The value is read as a string to decide whether to store it as int or double.
+std::istream& operator>>(std::istream& in, SparseMatrix& mat) 
 {
-    if (a.get_rows() != b.get_rows() || a.get_cols() != b.get_cols() || a.get_terms() != b.get_terms())
-        return false;
-    else 
+    int r, c;
+    std::string token; // read the numeric value as a string
+
+    // Read until the stream fails (e.g. end-of-file)
+    while (in >> r >> c >> token) 
     {
-        for (int i = 0; i < a.get_terms(); i++) 
+        // If the token contains a decimal point, treat it as double.
+        std::variant<int, double> v;
+        if (token.find('.') != std::string::npos) 
         {
-            MatrixTerm* A = a.get_smArray();
-            MatrixTerm* B = b.get_smArray();
-            if (A[i].get_row() != B[i].get_row() || A[i].get_col() != B[i].get_col() || A[i].get_value() != B[i].get_value())
-                return false;
+            double fVal = std::stof(token);
+            v = fVal;
+        } 
+        else 
+        {
+            int iVal = std::stoi(token);
+            v = iVal;
         }
+        mat.StoreNum(v, r, c);
     }
-    return true;
+    return in;
 }
+

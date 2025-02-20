@@ -1,24 +1,22 @@
-// Polynomial.cpp
-// 更新後的多項式資料結構實作，滿足下列要求：
-// 1. 多項式次方為整數，係數可為浮點數或整數。
-// 2. 輸出運算子<<以LaTeX語法輸出，例如：3x^{3} + 2x^{2} + 0.241x + 3.25。
-// 3. 輸入運算子>>從符合LaTeX語法的字串讀取多項式，例如：114x^{514}+4x^3+5x^2+7.25。
-// 4. 補足部分未實作或有錯誤的函式（Sub、Quotient、Remainder、operator==、operator=）。
-// 5. 每一行程式均附上詳細註解。
-
 #include <iostream>
 #include <sstream>
 #include <string>
 #include <algorithm>
+#include <cctype>
+#include <stdexcept>
+#include <vector>
 #include <cstdlib>
 #include <cmath>
-#include <vector>
+
 #include "Polynomial.hpp"
+
 using namespace std;
 
-//-----------------------------
+//===============================
+// Constructors and Destructors
+//===============================
+
 // 多項式預設建構子：建立 p(x)=0
-//-----------------------------
 Polynomial::Polynomial() 
 {
     // 初始化多項式只有一個項，代表常數 0
@@ -29,9 +27,7 @@ Polynomial::Polynomial()
     termArray[0].exp = 0;      // 指數為 0
 }
 
-//-------------------------------------------------
 // 透過指定的 Term 陣列與項數建立多項式
-//-------------------------------------------------
 Polynomial::Polynomial(Term* t, int degree) 
 {
     terms = degree;       // 非零項數目為 degree
@@ -45,9 +41,7 @@ Polynomial::Polynomial(Term* t, int degree)
     free(t);  // 釋放傳入的暫存陣列
 }
 
-//-------------------------------------------------
 // 複製建構子：進行深拷貝
-//-------------------------------------------------
 Polynomial::Polynomial(const Polynomial &poly) 
 {
     capacity = poly.capacity; // 複製容量
@@ -59,16 +53,17 @@ Polynomial::Polynomial(const Polynomial &poly)
     }
 }
 
-//-----------------------------
 // 解構子：釋放記憶體
-//-----------------------------
-Polynomial::~Polynomial() {
+Polynomial::~Polynomial() 
+{
     free(termArray); // 釋放動態分配的記憶體
 }
 
-//-------------------------------------------------
+//===============================
+// Member functions
+//===============================
+
 // Coef(e): 返回多項式中指數為 e 的項之係數；若不存在則返回 0
-//-------------------------------------------------
 float Polynomial::Coef(int e) 
 {
     for (int i = 0; i < terms; i++) 
@@ -79,9 +74,7 @@ float Polynomial::Coef(int e)
     return 0;
 }
 
-//-------------------------------------------------
 // LeadExp(): 返回多項式中最高指數（多項式的次數）
-//-------------------------------------------------
 int Polynomial::LeadExp() 
 {
     int lead = 0;
@@ -93,9 +86,7 @@ int Polynomial::LeadExp()
     return lead;
 }
 
-//-------------------------------------------------
 // Eval(x): 評估多項式在 x 處的值，返回計算結果
-//-------------------------------------------------
 float Polynomial::Eval(float x) 
 {
     double value = 0;
@@ -106,104 +97,241 @@ float Polynomial::Eval(float x)
     return static_cast<float>(value);
 }
 
-//-------------------------------------------------
-// NewTerm(theCoeff, theExp): 在多項式尾端新增一項 (係數, 指數)
-//-------------------------------------------------
+// Add a new term to the polynomial
 void Polynomial::NewTerm(const float theCoeff, const int theExp) 
 {
-    // 若目前項數達到容量上限，則擴充容量
+    // If the current number of terms equals the capacity,
+    // we need to increase the capacity.
     if (terms == capacity) 
     {
-        capacity *= 2; // 容量翻倍
-        Term *temp = new Term[capacity];  // 分配新陣列
+        capacity *= 2; // Double the capacity.
+        Term *temp = new Term[capacity];  // Allocate a new array.
+        // Copy the existing terms into the new array.
         for (int i = 0; i < terms; i++) 
         {
-            temp[i] = termArray[i]; // 複製原有項
+            temp[i] = termArray[i];
         }
-        delete[] termArray; // 釋放舊陣列記憶體
-        termArray = temp;   // 更新指標
+        delete[] termArray; // Free the old array.
+        termArray = temp;   // Update the pointer.
     }
-    // 新增項目到陣列中
+    // Insert the new term at the end.
     termArray[terms].coef = theCoeff;
     termArray[terms].exp = theExp;
-    terms++; // 項數增加
+    terms++; // Increase the count of terms.
 }
 
-//-------------------------------------------------
-// Add(poly): 返回一個新多項式，為 *this 與 poly 的和
-// 假設兩多項式項目依指數由大到小排列
-//-------------------------------------------------
-Polynomial Polynomial::Add(Polynomial poly) 
+// Overloaded NewTerm that accepts a LaTeX-formatted string.
+// Example inputs: "3x^{3}", "-x^{2}", "7.25", "x"
+void Polynomial::NewTerm(const std::string& latexTerm) 
 {
-    Polynomial c;           // 結果多項式
-    int aPos = 0, bPos = 0;   // 兩多項式的索引
-    while ((aPos < terms) && (bPos < poly.terms)) 
+    // Make a copy and remove all spaces.
+    std::string term = latexTerm;
+    term.erase(std::remove_if(term.begin(), term.end(), ::isspace), term.end());
+    if (term.empty()) return; // Nothing to add.
+    
+    float coef = 1.0f;
+    int exp = 0;
+    
+    // Look for the variable 'x'
+    size_t xPos = term.find('x');
+    if (xPos == std::string::npos) 
+    {
+        // No 'x' found, so it's a constant term.
+        try 
+        {
+            coef = std::stof(term);
+        } 
+        catch (const std::exception&) 
+        {
+            throw std::invalid_argument("Invalid constant term in LaTeX string.");
+        }
+        exp = 0;
+    } 
+    else 
+    {
+        // There is an 'x'. The coefficient is the substring before 'x'
+        std::string coefStr = term.substr(0, xPos);
+        if (coefStr.empty()) 
+        {
+            coef = 1.0f;
+        } 
+        else if (coefStr == "-") 
+        {
+            coef = -1.0f;
+        } 
+        else 
+        {
+            try 
+            {
+                coef = std::stof(coefStr);
+            } 
+            catch (const std::exception&) 
+            {
+                throw std::invalid_argument("Invalid coefficient in LaTeX term.");
+            }
+        }
+        // Default exponent is 1 if nothing follows 'x'
+        exp = 1;
+        // Check if there is a caret '^'
+        size_t caretPos = term.find('^', xPos);
+        if (caretPos != std::string::npos) 
+        {
+            // Check if exponent is enclosed in braces
+            if (caretPos + 1 < term.size() && term[caretPos + 1] == '{') 
+            {
+                size_t endBrace = term.find('}', caretPos + 2);
+                if (endBrace == std::string::npos)
+                    throw std::invalid_argument("Missing closing brace in exponent.");
+                std::string expStr = term.substr(caretPos + 2, endBrace - (caretPos + 2));
+                try 
+                {
+                    exp = std::stoi(expStr);
+                } 
+                catch (const std::exception&) 
+                {
+                    throw std::invalid_argument("Invalid exponent in LaTeX term.");
+                }
+            } 
+            else 
+            {
+                // Exponent is not enclosed; read directly until the end.
+                std::string expStr = term.substr(caretPos + 1);
+                try 
+                {
+                    exp = std::stoi(expStr);
+                } 
+                catch (const std::exception&) 
+                {
+                    throw std::invalid_argument("Invalid exponent in LaTeX term.");
+                }
+            }
+        }
+    }
+    // Add the new term using the standard NewTerm(float, int) method.
+    this->NewTerm(coef, exp);
+}
+
+// Implement Differentiate(): returns the derivative polynomial.
+Polynomial Polynomial::Differentiate() const {
+    Polynomial derivative;
+    for (int i = 0; i < terms; i++) {
+        int exp = termArray[i].exp;
+        float coef = termArray[i].coef;
+        if (exp > 0) {
+            derivative.NewTerm(coef * exp, exp - 1);
+        }
+        // If exp == 0, derivative is 0 (skip it).
+    }
+    return derivative;
+}
+
+//===============================
+// Operator overloads
+//===============================
+
+// Replace Add() with operator+
+Polynomial Polynomial::operator+(const Polynomial& poly) const 
+{
+    Polynomial result;
+    int aPos = 0, bPos = 0;
+
+    while (aPos < terms && bPos < poly.terms) 
     {
         if (termArray[aPos].exp == poly.termArray[bPos].exp) 
         {
             float t = termArray[aPos].coef + poly.termArray[bPos].coef;
-            if (t != 0)
-                c.NewTerm(t, termArray[aPos].exp);
+            if (fabs(t) > 1e-6)
+                result.NewTerm(t, termArray[aPos].exp);
             aPos++;
             bPos++;
         }
         else if (termArray[aPos].exp > poly.termArray[bPos].exp) 
         {
-            // *this 的指數較大，直接複製
-            c.NewTerm(termArray[aPos].coef, termArray[aPos].exp);
+            result.NewTerm(termArray[aPos].coef, termArray[aPos].exp);
             aPos++;
         }
         else 
         {
-            // poly 的指數較大，直接複製
-            c.NewTerm(poly.termArray[bPos].coef, poly.termArray[bPos].exp);
+            result.NewTerm(poly.termArray[bPos].coef, poly.termArray[bPos].exp);
             bPos++;
         }
     }
-    // 將剩餘項目加入結果多項式
+
     for (; aPos < terms; aPos++)
-        c.NewTerm(termArray[aPos].coef, termArray[aPos].exp);
+        result.NewTerm(termArray[aPos].coef, termArray[aPos].exp);
     for (; bPos < poly.terms; bPos++)
-        c.NewTerm(poly.termArray[bPos].coef, poly.termArray[bPos].exp);
-    return c;
+        result.NewTerm(poly.termArray[bPos].coef, poly.termArray[bPos].exp);
+    
+    return result;
 }
 
-//-------------------------------------------------
-// Sub(poly): 返回一個新多項式，為 *this 減去 poly
-// 實作方法：將 poly 中所有項係數乘以 -1，再調用 Add()
-//-------------------------------------------------
-Polynomial Polynomial::Sub(Polynomial poly) 
+// Replace Sub() with operator-
+Polynomial Polynomial::operator-(const Polynomial& poly) const 
 {
-    for (int i = 0; i < poly.terms; i++) 
+    // Create a copy of poly and multiply each term by -1.
+    Polynomial negPoly(poly);
+
+    for (int i = 0; i < negPoly.terms; i++) 
     {
-        poly.termArray[i].coef = -poly.termArray[i].coef;
+        negPoly.termArray[i].coef = -negPoly.termArray[i].coef;
     }
-    return this->Add(poly);
+
+    return (*this) + negPoly;
 }
 
-//-------------------------------------------------
-// Mult(poly): 返回一個新多項式，為 *this 與 poly 的乘積
-//-------------------------------------------------
-Polynomial Polynomial::Mult(Polynomial poly) 
+// Replace Mult() with operator*
+Polynomial Polynomial::operator*(const Polynomial& poly) const 
 {
-    Polynomial c;  // 結果多項式
-    // 對 *this 中每一項與 poly 相乘，然後累加
+    Polynomial result;
+
     for (int i = 0; i < terms; i++) 
     {
-        Polynomial buff;    // 暫存乘積
+        Polynomial temp;
         for (int j = 0; j < poly.terms; j++) 
         {
-            buff.NewTerm(termArray[i].coef * poly.termArray[j].coef,
-                           termArray[i].exp + poly.termArray[j].exp);
+            temp.NewTerm(termArray[i].coef * poly.termArray[j].coef,
+                         termArray[i].exp + poly.termArray[j].exp);
         }
-        c = c.Add(buff);  // 累加到結果中
+        result = result + temp;
     }
-    return c;
+
+    return result;
 }
 
-//-------------------------------------------------
+// Overload operator* for multiplying polynomial by a constant.
+Polynomial Polynomial::operator*(float constant) const 
+{
+    Polynomial result(*this);  // copy current polynomial
+
+    for (int i = 0; i < result.terms; i++) 
+    {
+        result.termArray[i].coef *= constant;
+    }
+
+    return result;
+}
+
+// operator== : 檢查兩個多項式是否相等
+bool Polynomial::operator==(const Polynomial &poly) const 
+{
+    if (terms != poly.terms)
+        return false;
+    
+    for (int i = 0; i < terms; i++) 
+    {
+        if (termArray[i].exp != poly.termArray[i].exp ||
+            fabs(termArray[i].coef - poly.termArray[i].coef) > 1e-6)
+            return false;
+    }
+    return true;
+}
+
+// Overload operator!= using operator==
+bool Polynomial::operator!=(const Polynomial& poly) const {
+    return !(*this == poly);
+}
+
 // operator= : 深拷貝賦值運算子
-//-------------------------------------------------
 Polynomial& Polynomial::operator=(const Polynomial &poly) 
 {
     if (this != &poly) 
@@ -220,26 +348,12 @@ Polynomial& Polynomial::operator=(const Polynomial &poly)
     return *this;
 }
 
-//-------------------------------------------------
-// operator== : 檢查兩個多項式是否相等
-//-------------------------------------------------
-bool Polynomial::operator==(const Polynomial &poly) const 
-{
-    if (terms != poly.terms)
-        return false;
-    for (int i = 0; i < terms; i++) 
-    {
-        if (termArray[i].exp != poly.termArray[i].exp ||
-            fabs(termArray[i].coef - poly.termArray[i].coef) > 1e-6)
-            return false;
-    }
-    return true;
-}
+//===============================
+// input/output operators
+//===============================
 
-//-------------------------------------------------
 // operator>> : 輸入運算子，從符合LaTeX語法的字串讀取多項式
 // 輸入格式範例: "114x^{514}+4x^3+5x^2+7.25"
-//-------------------------------------------------
 istream& operator>>(istream& in, Polynomial& poly) 
 {
     // 從輸入流中讀取整行字串

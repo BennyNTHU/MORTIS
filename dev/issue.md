@@ -3,51 +3,30 @@
 1. 綜合考慮
    - `MortisInvariant`放入`LinkedPolynomial`與`LinkedSparseMatrix`
    - 文檔改為中英文皆有
-   - 程式碼編排
-2. `Polynomial`
-   - 加法函式改為多載`+`
-   - 乘法函式改為多載`*`
-   - 新增多載`-`
-   - 新增多載`!=`
-   - 新增微分函式
-3. `SparseMatrix`
-   - 加法函式改為多載`+`
-   - 乘法函式改為多載`*`（包含係數積與矩陣乘法）
-   - 新增`*`的多載：可以乘以一個`vector`物件
-   - 新增多載`[]`
-   - 新增多載`!=`
-   - 新增多載`=`
-   - 新增矩陣範數函式
-   - 新增`<<`的一個多載：可接受類似`GeneralArray`的輸入
-4. `String`
-   - `Concat`函式改為多載`+`
-   - 新增多載`>>`
-   - 新增多載`!=`
-   - 改為直接動態陣列（在宣告同時就決定好記憶體大小，像`C++`內建的String那樣）
-5.  `LinkedList`
+2.  `LinkedList`
     - `Get()`函式改為多載`[]`
     - 新增多載`==`
     - 新增多載`!=`
     - 新增`IsEmpty()`函式
-6.  `CircularList`
+3.  `CircularList`
     - `Get()`改為多載`[]`
     - 新增多載`==`
     - 新增多載`!=`
     - 新增`IsEmpty()`函式
-7.  `DoublyLinkedList`
+4.  `DoublyLinkedList`
     - `Get()`改為多載`[]`
     - 新增多載`==`
     - 新增多載`!=`
     - 新增`IsEmpty()`函式
-8.  `CircularDoubleList`
+5.  `CircularDoubleList`
     - `Get()`改為多載`[]`
     - 新增多載`==`
     - 新增多載`!=`
     - 新增`IsEmpty()`函式
-9.  `LinkedPolynomial`
+6.  `LinkedPolynomial`
     - 新增多載`-`
     - 新增多載`!=`
-10. `LinkedSparseMatrix`
+7.  `LinkedSparseMatrix`
     - 加法函式改為多載`+`
     - 乘法函式改為多載`*`（包含係數積與矩陣乘法）
     - 新增`*`的多載：可以乘以一個`vector`物件
@@ -57,13 +36,13 @@
     - 新增`<<`的一個多載：可接受類似`GeneralArray`的輸入
     - 新增矩陣範數函式
     - 刪除`printMatrix()`函式
-11. `Bag`
+8.  `Bag`
     - 新增多載`!=`
     - 新增多載`=`
     - 新增多載`==`
     - 新增`Union`函式，但在其衍生型別須禁止使用
     - 新增`Unify()`用來消除重複元素
-12. `Dictionary`
+9.  `Dictionary`
     - 放入`MortisInvariant`
-13. `Graph`
+10. `Graph`
     - 新增`IsEulerian()`函式

@@ -1,5 +1,5 @@
 #include "GeneralArray.hpp"                // Include the header for GeneralArray
-#include <sstream>                       // For string stream processing
+#include <sstream>                         // For string stream processing
 using namespace std;
 
 //-----------------------------------------
@@ -70,9 +70,9 @@ GeneralArray<T>::~GeneralArray()    // Destructor: free allocated memory
 // Properties
 //-----------------------------------------
 
-// length() function: return total number of elements in the array
+// Length() function: return total number of elements in the array
 template <class T>
-int GeneralArray<T>::length() const 
+int GeneralArray<T>::Length() const 
 {
     return totalSize;
 }
@@ -92,9 +92,9 @@ T GeneralArray<T>::Retrieve(const Index& idx) const // Retrieve() function: retu
 // Manipulations
 //-----------------------------------------
 
-// initialize() function: set all elements to default value T{}
+// Initialize() function: set all elements to default value T{}
 template <class T>
-void GeneralArray<T>::initialize() 
+void GeneralArray<T>::Initialize() 
 {
     for (int i = 0; i < totalSize; i++)
         data[i] = T{};
@@ -107,11 +107,11 @@ void GeneralArray<T>::Store(const Index& idx, T x)  // Store() function: update 
     data[linearIndex] = x;
 }
 
-// sort() function: sort the array based on given parameters.
+// Sort() function: sort the array based on given parameters.
 // For 1D, sort entire data array; for 2D, sort rows based on element at column (sortDim-1).
 // 'reverse' true means ascending order; false means descending order.
 template <class T>
-void GeneralArray<T>::sort(bool reverse, int sortDim) 
+void GeneralArray<T>::Sort(bool reverse, int sortDim) 
 {
     if (dimension == 1) 
     {
@@ -145,18 +145,18 @@ void GeneralArray<T>::sort(bool reverse, int sortDim)
         delete[] temp;
     } 
     else 
-        throw std::runtime_error("sort() not implemented for arrays with dimension > 2");
+        throw std::runtime_error("Sort() not implemented for arrays with dimension > 2");
 }
 
-// reverse() function: reverse the order of all elements (flat order)
+// Reverse() function: reverse the order of all elements (flat order)
 template <class T>
-void GeneralArray<T>::reverse() 
+void GeneralArray<T>::Reverse() 
 {
     std::reverse(data, data + totalSize);
 }
 
 template <class T>
-void GeneralArray<T>::push_back(const T& value) 
+void GeneralArray<T>::Push_back(const T& value) 
 {
     // Allocate a new array of size totalSize + 1.
     T* newData = new T[totalSize + 1];

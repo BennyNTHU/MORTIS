@@ -23,10 +23,10 @@ int main()
         arrInt.Store({4}, 50);
         cout << "Initial int array: " << arrInt << endl;
         cout << "Element at index [2]: " << arrInt.Retrieve({2}) << endl;
-        cout << "Length: " << arrInt.length() << endl;
-        arrInt.reverse();
+        cout << "Length: " << arrInt.Length() << endl;
+        arrInt.Reverse();
         cout << "After reverse: " << arrInt << endl;
-        arrInt.initialize();
+        arrInt.Initialize();
         cout << "After initialize: " << arrInt << endl;
         arrInt = {1, 2, 3, 4, 5};
         cout << "After initializer_list assignment: " << arrInt << endl;
@@ -44,11 +44,11 @@ int main()
         arrDouble.Store({3}, 0.577);
         arrDouble.Store({4}, 1.618);
         cout << "Initial double array: " << arrDouble << endl;
-        arrDouble.sort(true);
+        arrDouble.Sort(true);
         cout << "Sorted ascending: " << arrDouble << endl;
-        arrDouble.sort(false);
+        arrDouble.Sort(false);
         cout << "Sorted descending: " << arrDouble << endl;
-        arrDouble.reverse();
+        arrDouble.Reverse();
         cout << "After reverse: " << arrDouble << endl;
         arrDouble = {2.71, 3.14, 1.41, 1.73, 0.0};
         cout << "After initializer_list assignment: " << arrDouble << endl;
@@ -71,9 +71,9 @@ int main()
         istringstream iss("[[9,8,7],[6,5,4],[3,2,1]]");
         iss >> arr2D;
         cout << "Input 2D array: " << arr2D << endl;
-        arr2D.sort(true, 1);
+        arr2D.Sort(true, 1);
         cout << "2D array sorted ascending by first column: " << arr2D << endl;
-        arr2D.sort(false, 1);
+        arr2D.Sort(false, 1);
         cout << "2D array sorted descending by first column: " << arr2D << endl;
         
         cout << "\n=== Test 5: Heterogeneous Array (std::variant) ===" << endl;
@@ -88,10 +88,12 @@ int main()
         
         // 額外測試：混合測試，使用 initializer_list 建立 variant 陣列
         GeneralArray<VarType> arrVariant2(1, dimsVar, VarType{});
-        arrVariant2 = {VarType(42), VarType('X'), VarType(std::string("Hello"))};
+        arrVariant2 = {VarType(42), VarType('X'), VarType(std::string("Hello"))};   // should throw exception
         cout << "Variant array from initializer_list: " << arrVariant2 << endl;
         
-    } catch (const std::exception& e) {
+    } 
+    catch (const std::exception& e) 
+    {
         cerr << "Exception: " << e.what() << endl;
     }
     return 0;

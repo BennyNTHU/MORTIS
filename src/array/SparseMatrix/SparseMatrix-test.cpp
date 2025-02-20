@@ -1,108 +1,128 @@
-// SparseMatrix-test.cpp
-// Comprehensive test program for the SparseMatrix data structure.
-// This program tests all functions declared in SparseMatrix.h, including:
-//   - Constructors (regular and copy constructor)
-//   - setTerm() to set nonzero terms
-//   - get_terms() to get the number of nonzero terms
-//   - printMatrix() to print the full (dense) matrix form
-//   - FastTranspose() to compute the transpose
-//   - Add() to add two matrices
-//   - Multiply() to multiply matrices
-//   - ScalarProduct() to multiply the matrix by a scalar
-//   - Overloaded input (>>) and output (<<) operators
-//
-// Compile with C++17:
-//   g++ -std=c++17 SparseMatrix.cpp SparseMatrix-test.cpp -o test
+// SparseMatrixTest.cpp
+// Compile with (for example):
+// g++ -std=c++17 SparseMatrix.cpp SparseMatrix-test.cpp -o test
 
 #include <iostream>
+#include <sstream>
+#include <vector>
+#include <cassert>
+#include <cmath>
 #include "SparseMatrix.hpp"
+
 using namespace std;
 
-int main() 
-{
-    cout << "=== SparseMatrix Test Program ===" << endl;
+int main() {
+    cout << "=== SparseMatrix Test Program ===" << endl << endl;
     
-    // Test 1: Constructor and setTerm()
-    // Create a 4x5 sparse matrix A with 3 nonzero terms.
-    SparseMatrix A(4, 5, 3);
-    // Set nonzero terms using setTerm(index, row, col, value)
-    A.setTerm(0, 0, 1, 5);         // Term: (0,1) = 5 (integer)
-    A.setTerm(1, 2, 3, 3.14f);       // Term: (2,3) = 3.14 (float)
-    A.setTerm(2, 3, 0, -2);          // Term: (3,0) = -2 (integer)
-    cout << "\nMatrix A (nonzero terms):" << endl;
-    cout << A << endl;
+    // --- Test Constructors and StoreNum ---
+    // Create a 4x5 matrix with initially 0 nonzero terms.
+    // We set an initial capacity by passing a positive number for t.
+    SparseMatrix mat(4, 5, 0);
+    // Store some nonzero values:
+    // (0,1) = 3, (1,3) = 4.5, (2,2) = -2, (3,4) = 10.
+    mat.StoreNum(3, 0, 1);
+    mat.StoreNum(4.5, 1, 3);
+    mat.StoreNum(-2, 2, 2);
+    mat.StoreNum(10, 3, 4);
     
-    // Test 2: get_terms() and dense printMatrix()
-    cout << "Number of nonzero terms in A: " << A.get_terms() << endl;
-    cout << "\nDense form of matrix A:" << endl;
-    A.printMatrix();
+    cout << "Matrix mat (dense view):" << endl;
+    mat.printMatrix();
+    cout << "\nMatrix mat (sparse representation):" << endl;
+    cout << mat << endl;
     
-    // Test 3: FastTranspose()
-    SparseMatrix AT = A.FastTranspose();
-    cout << "\nTranspose of matrix A (nonzero terms):" << endl;
-    cout << AT << endl;
-    cout << "Dense form of transpose A:" << endl;
-    AT.printMatrix();
+    // --- Test Input Operator (operator>>) ---
+    // Simulate input using a stringstream.
+    string inputStr = "0 0 1\n0 2 2\n1 1 3.5\n2 3 4\n";
+    istringstream iss(inputStr);
+    SparseMatrix mat2(4, 5, 0);
+    iss >> mat2;
+    cout << "\nMatrix mat2 (constructed from input):" << endl;
+    cout << mat2 << endl;
     
-    // Test 4: Copy constructor
-    SparseMatrix B = A; // Use copy constructor to create B as a copy of A.
-    cout << "\nMatrix B (copy of A):" << endl;
-    cout << B << endl;
+    // --- Test Arithmetic Operators ---
+    // Addition
+    SparseMatrix sum = mat + mat2;
+    cout << "\nSum of mat and mat2:" << endl;
+    cout << sum << endl;
     
-    // Test 5: Add()
-    // Create another matrix C (same dimensions) with 2 nonzero terms.
-    SparseMatrix C(4, 5, 2);
-    C.setTerm(0, 0, 1, 10.5f);       // Term: (0,1) = 10.5 (float)
-    C.setTerm(1, 2, 3, -3);          // Term: (2,3) = -3 (integer)
-    cout << "\nMatrix C:" << endl;
-    cout << C << endl;
-    SparseMatrix Sum = A.Add(C);
-    cout << "\nA + C (nonzero terms):" << endl;
-    cout << Sum << endl;
-    cout << "Dense form of (A + C):" << endl;
-    Sum.printMatrix();
+    // Subtraction
+    SparseMatrix diff = mat - mat2;
+    cout << "\nDifference (mat - mat2):" << endl;
+    cout << diff << endl;
     
-    // Test 6: Multiply()
-    // Create matrix D with dimensions 5x3 and 2 nonzero terms.
-    SparseMatrix D(5, 3, 2);
-    D.setTerm(0, 1, 0, 2);           // Term: (1,0) = 2 (integer)
-    D.setTerm(1, 3, 2, 4.5f);         // Term: (3,2) = 4.5 (float)
-    cout << "\nMatrix D:" << endl;
-    cout << D << endl;
-    // Multiply A (4x5) by D (5x3) to obtain matrix E (4x3).
-    SparseMatrix E = A.Multiply(D);
-    cout << "\nA * D (nonzero terms):" << endl;
-    cout << E << endl;
-    cout << "Dense form of (A * D):" << endl;
-    E.printMatrix();
+    // Multiplication (Matrix * Matrix)
+    // Create two compatible matrices.
+    // Let A be a 2x3 matrix and B be a 3x2 matrix.
+    SparseMatrix A(2, 3, 0);
+    A.StoreNum(1, 0, 0);
+    A.StoreNum(2, 0, 1);
+    A.StoreNum(3, 0, 2);
+    A.StoreNum(4, 1, 0);
+    A.StoreNum(5, 1, 1);
+    A.StoreNum(6, 1, 2);
+    SparseMatrix B(3, 2, 0);
+    B.StoreNum(7, 0, 0);
+    B.StoreNum(8, 0, 1);
+    B.StoreNum(9, 1, 0);
+    B.StoreNum(10, 1, 1);
+    B.StoreNum(11, 2, 0);
+    B.StoreNum(12, 2, 1);
+    SparseMatrix C = A * B;
+    cout << "\nMatrix A:" << endl << A << endl;
+    cout << "Matrix B:" << endl << B << endl;
+    cout << "Product (A * B):" << endl << C << endl;
     
-    // Test 7: ScalarProduct()
-    // Multiply matrix A by an integer scalar 3.
-    SparseMatrix F = A.ScalarProduct(3);
-    cout << "\nScalar product of A with 3:" << endl;
-    cout << F << endl;
-    cout << "Dense form:" << endl;
-    F.printMatrix();
+    // Matrix-vector multiplication
+    vector<double> vec = {1.0, 2.0, 3.0};
+    SparseMatrix vecResult = A * vec;
+    cout << "\nResult of A * vec (as a matrix):" << endl;
+    vecResult.printMatrix();
     
-    // Multiply matrix A by a float scalar 2.5.
-    SparseMatrix G = A.ScalarProduct(2.5f);
-    cout << "\nScalar product of A with 2.5:" << endl;
-    cout << G << endl;
-    cout << "Dense form:" << endl;
-    G.printMatrix();
+    // Scalar multiplication
+    SparseMatrix scalarProd = A * std::variant<int, double>(2);
+    cout << "\nResult of A * 2:" << endl << scalarProd << endl;
     
-    // Test 8: Overloaded input operator (>>)
-    // Create a 3x3 matrix H with 2 nonzero terms.
-    SparseMatrix H(3, 3, 2);
-    cout << "\nEnter 2 terms for matrix H in the format: row col value" << endl;
-    // Example input:
-    // 0 0 7
-    // 1 2 3.5
-    cin >> H;
-    cout << "\nMatrix H (nonzero terms):" << endl;
-    cout << H << endl;
-    cout << "Dense form of matrix H:" << endl;
-    H.printMatrix();
+    // --- Test Assignment, Equality and Subscript Operators ---
+    SparseMatrix D = A; // use copy constructor
+    assert(D == A);
+    cout << "\nAssignment operator test passed: D equals A" << endl;
     
+    // Test subscript operator (access the first nonzero term of A)
+    std::variant<int, double> firstTerm = A[0];
+    cout << "First term of A (via subscript, printed as variant): ";
+    std::visit([](auto v){ cout << v; }, firstTerm);
+    cout << endl;
+    
+    // --- Test Norm and FastTranspose ---
+    double normVal = A.Norm();
+    cout << "\nFrobenius norm of A: " << normVal << endl;
+    
+    SparseMatrix At = A.FastTranspose();
+    cout << "\nTranspose of A:" << endl;
+    cout << At << endl;
+    
+    // --- Test Assignment and Inequality Operators ---
+    SparseMatrix E;
+    E = A;
+    if (E == A)
+        cout << "\nE equals A (assignment operator and equality operator work)." << endl;
+    else
+        cout << "\nError: E does not equal A." << endl;
+    
+    if (E != B)
+        cout << "E and B are not equal (inequality operator works)." << endl;
+    else
+        cout << "Error: E and B are equal (unexpected)." << endl;
+    
+    // --- Test Input/Output Overloads with user input ---
+    // Uncomment the lines below to test interactive input.
+    /*
+    cout << "\nEnter a sparse matrix (each term as: row col value; end with EOF):" << endl;
+    SparseMatrix mat3(3, 3, 0);
+    cin >> mat3;
+    cout << "You entered:" << endl << mat3 << endl;
+    */
+    
+    cout << "\n=== End of SparseMatrix Test Program ===" << endl;
     return 0;
 }

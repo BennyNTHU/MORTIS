@@ -57,17 +57,17 @@ class GeneralArray
         ~GeneralArray();    // Destructor: releases allocated memory
 
         // Properties
-        int length() const; // return the total number of elements in the array
+        int Length() const; // return the total number of elements in the array
 
         // Getters
         T Retrieve(const Index& idx) const;  // Retrieve the element at the given multi-dimensional index
 
         // Manipulations
-        void initialize();  // set all elements to default value T{} (e.g. 0 for numeric types)
+        void Initialize();  // set all elements to default value T{} (e.g. 0 for numeric types)
         void Store(const Index& idx, T x);  // pdate the element at the given multi-dimensional index with value x
-        void sort(bool reverse = false, int sortDim = 1);   // sort the array based on parameters.
-        void reverse(); // 'reverse' true means ascending order; false means descending order (default false).
-        void push_back(const T& value); // For 1D arrays only.
+        void Sort(bool reverse = false, int sortDim = 1);   // sort the array based on parameters.
+        void Reverse(); // 'reverse' true means ascending order; false means descending order (default false).
+        void Push_back(const T& value); // For 1D arrays only.
         
         // Operator overloading
         GeneralArray<T>& operator=(const GeneralArray<T>& other);   // deep copy assignment from another GeneralArray
