@@ -1,19 +1,9 @@
 # Issues
 
 1. 文檔改為中英文皆有
-2.  `LinkedSparseMatrix`
-    - 加法函式改為多載`+`
-    - 乘法函式改為多載`*`（包含係數積與矩陣乘法）
-    - 新增`*`的多載：可以乘以一個`vector`物件
-    - 新增多載`[]`
-    - 新增多載`!=`
-    - 新增多載`=`
-    - 新增`<<`的一個多載：可接受類似`GeneralArray`的輸入
-    - 新增矩陣範數函式
-    - 刪除`printMatrix()`函式
-3.  `Graph`
+2.  `Graph`
     - 新增`IsEulerian()`函式
-4.  未來計畫
+3.  未來計畫
     - `Dictionary`可放入`MortisInvariant`
     - `MortisInvariant`放入`LinkedPolynomial`與`LinkedSparseMatrix`
     - 各種List新增`[]`的多載以及`SubListData()`方法

@@ -1,6 +1,10 @@
-// g++ -std=c++17 LinkedSparseMatrix.cpp LinkedMatrixTerm.cpp LinkedSparseMatrix-test.cpp\
-    ../DLIterator/DLIterator.cpp ../DoubleNode/DoubleNode.cpp\
-    ../Node/Node.cpp ../ChainIterator/ChainIterator.cpp -o test
+// g++ -std=c++17 LinkedSparseMatrix.cpp LinkedSparseMatrix-test.cpp\
+    LinkedMatrixTerm.cpp\
+    ../Node/Node.cpp\
+    ../DoubleNode/DoubleNode.cpp\
+    ../ChainIterator/ChainIterator.cpp\
+    ../DLIterator/DLIterator.cpp\
+    ../DoublyLinkedList/DoublyLinkedList.cpp -o test
 
 #include <iostream>
 #include <sstream>
@@ -34,36 +38,53 @@ int main()
 
     // Test Addition
     std::cout << "Test: Matrix Addition A + B...\n";
-    LinkedSparseMatrix C = A.Add(B);
+    LinkedSparseMatrix C = A + B;  // using the overloaded operator
     std::cout << "Result (C = A + B):\n" << C << "\n\n";
 
-    // Test Transpose
-    std::cout << "Test: Transposing A...\n";
-    LinkedSparseMatrix AT = A.FastTranspose();
-    std::cout << "Transposed A:\n" << AT << "\n\n";
+    // Test Matrix Subtraction
+    std::cout << "Test: Matrix Subtraction A - B...\n";
+    LinkedSparseMatrix F = A - B;  // using the overloaded operator
+    std::cout << "Result (F = A - B):\n" << F << "\n\n";
 
-    // Test Multiplication
-    std::cout << "Test: Matrix Multiplication A * B...\n";
-    try {
-        LinkedSparseMatrix D = A.Multiply(B);
-        std::cout << "Result (D = A * B):\n" << D << "\n\n";
-    } catch (const std::exception& e) {
-        std::cout << "Multiplication error: " << e.what() << "\n\n";
+    // Test Matrix-Vector Multiplication
+    std::cout << "Test: Matrix-Vector Multiplication A * vec...\n";
+    std::vector<double> vec = {1, 2, 3};
+    try 
+    {
+        LinkedSparseMatrix result = A * vec;  // using the overloaded operator
+        std::cout << "Result of A * vec:\n" << result << "\n\n";
+    } 
+    catch (const std::exception& e) 
+    {
+        std::cout << "Matrix-Vector Multiplication error: " << e.what() << "\n\n";
     }
 
     // Test Scalar Multiplication
     std::cout << "Test: Scalar Multiplication A * 2...\n";
-    LinkedSparseMatrix E = A.ScalarProduct(2);
+    LinkedSparseMatrix E = A * 2;  // using the overloaded operator
     std::cout << "Result (E = A * 2):\n" << E << "\n\n";
 
     // Test Input
     std::cout << "Test: Matrix Input...\n";
     std::istringstream input("3 3 3\n0 0 3.5\n1 2 -1\n2 1 4");
-    LinkedSparseMatrix F(3, 3, 3);
-    input >> F;
-    std::cout << "Inputted Matrix F:\n" << F << "\n\n";
+    LinkedSparseMatrix G(3, 3, 3);
+    input >> G;
+    std::cout << "Inputted Matrix G:\n" << G << "\n\n";
+
+    // Test Equality and Inequality
+    std::cout << "Test: Equality and Inequality...\n";
+    bool areEqual = (A == B); // testing equality operator
+    bool areNotEqual = (A != B); // testing inequality operator
+    std::cout << "A == B: " << areEqual << "\n";
+    std::cout << "A != B: " << areNotEqual << "\n\n";
+
+    // Test Norm
+    std::cout << "Test: Norm of A...\n";
+    double norm = A.Norm();  // testing Norm function
+    std::cout << "Frobenius Norm of A: " << norm << "\n\n";
 
     std::cout << "=== All Tests Completed ===\n";
 
     return 0;
 }
+

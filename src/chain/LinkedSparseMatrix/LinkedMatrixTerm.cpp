@@ -1,8 +1,16 @@
 #include "LinkedMatrixTerm.hpp"
 
+// =============================================
+// Consructors and desructors
+// =============================================
+
 LinkedMatrixTerm::LinkedMatrixTerm() : row(0), col(0), value(0) {}
 
 LinkedMatrixTerm::LinkedMatrixTerm(int r, int c, std::variant<int, double> v): row(r), col(c), value(v) {}
+
+// =============================================
+// Getters
+// =============================================
 
 int LinkedMatrixTerm::getRow() const 
 { 
@@ -19,6 +27,10 @@ std::variant<int, double> LinkedMatrixTerm::getValue() const
     return value; 
 }
 
+// =============================================
+// Setters
+// =============================================
+
 void LinkedMatrixTerm::setRow(int r) 
 { 
     row = r; 
@@ -33,6 +45,10 @@ void LinkedMatrixTerm::setValue(std::variant<int, double> v)
 { 
     value = v; 
 }
+
+// =============================================
+// outstreams and instreams overload
+// =============================================
 
 std::ostream& operator<<(std::ostream& out, const LinkedMatrixTerm& term) 
 {

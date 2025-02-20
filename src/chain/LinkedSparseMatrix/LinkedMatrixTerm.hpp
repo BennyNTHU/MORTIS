@@ -32,5 +32,4 @@ class LinkedMatrixTerm
         friend std::istream& operator>>(std::istream& in, LinkedMatrixTerm& term);
 };
 
-
-#endif // LINKEDMATRIXTERM
+#endif 
