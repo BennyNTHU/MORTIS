@@ -19,7 +19,7 @@
 #include "./chain/CircularList/CircularList.hpp"
 #include "./chain/DLIterator/DLIterator.hpp"
 #include "./chain/DoubleNode/DoubleNode.hpp"
-#include "./chain/DoublyLinkedLists/DoublyLinkedLists.hpp"
+#include "./chain/DoublyLinkedList/DoublyLinkedList.hpp"
 #include "./chain/LinkedList/LinkedList.hpp"
 #include "./chain/LinkedPolynomial/LinkedPolynomial.hpp"
 #include "./chain/LinkedSparseMatrix/LinkedSparseMatrix.hpp"
